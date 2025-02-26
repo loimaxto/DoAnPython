@@ -1,0 +1,3 @@
+class HoaDon:
+    # thuộc tính
+    
