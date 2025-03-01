@@ -1,6 +1,6 @@
-from PyQt5.QtWidgets import QMainWindow, QApplication
-from PyQt5 import uic
-import mysql.connector
+from PyQt6.QtWidgets import QMainWindow, QApplication
+from PyQt6 import uic
+
 
 class ChiTietHoaDon(QMainWindow):
     def __init__(self):
@@ -10,4 +10,4 @@ class ChiTietHoaDon(QMainWindow):
 
 app = QApplication([])
 ui = ChiTietHoaDon()
-app.exec_()
+app.exec()
