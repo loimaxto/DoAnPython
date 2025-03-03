@@ -1,8 +1,7 @@
 # gui/login_window.py
 from PyQt6 import QtWidgets, uic
 from PyQt6.QtWidgets import QMessageBox
-
-from ...dao.user_dao import UserDAO
+from dao.user_dao import UserDAO
 from myMain import  MainWindow
 
 
