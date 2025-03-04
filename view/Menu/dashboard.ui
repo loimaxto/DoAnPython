@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1078</width>
-    <height>591</height>
+    <width>1088</width>
+    <height>768</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -68,8 +68,15 @@ background-color: rgb(85, 170, 255);
          <layout class="QHBoxLayout" name="horizontalLayout">
           <item>
            <widget class="QLabel" name="logoLabel">
+            <property name="font">
+             <font>
+              <pointsize>10</pointsize>
+              <weight>75</weight>
+              <bold>true</bold>
+             </font>
+            </property>
             <property name="text">
-             <string>TextLabel</string>
+             <string>Quản lí khách sạn</string>
             </property>
            </widget>
           </item>
@@ -88,81 +95,184 @@ background-color: rgb(85, 170, 255);
           </sizepolicy>
          </property>
          <property name="cursor">
-          <cursorShape>SizeHorCursor</cursorShape>
+          <cursorShape>ArrowCursor</cursorShape>
+         </property>
+         <property name="focusPolicy">
+          <enum>Qt::TabFocus</enum>
          </property>
          <property name="layoutDirection">
           <enum>Qt::LeftToRight</enum>
          </property>
-         <layout class="QVBoxLayout" name="verticalLayout_3">
+         <layout class="QVBoxLayout" name="verticalLayout">
           <property name="leftMargin">
+           <number>0</number>
+          </property>
+          <property name="topMargin">
            <number>0</number>
           </property>
           <property name="rightMargin">
            <number>0</number>
           </property>
+          <property name="bottomMargin">
+           <number>0</number>
+          </property>
           <item>
-           <widget class="QPushButton" name="b2">
+           <widget class="QPushButton" name="datPhongBtn">
             <property name="sizePolicy">
              <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
               <horstretch>0</horstretch>
               <verstretch>0</verstretch>
              </sizepolicy>
             </property>
+            <property name="cursor">
+             <cursorShape>ArrowCursor</cursorShape>
+            </property>
             <property name="focusPolicy">
-             <enum>Qt::StrongFocus</enum>
+             <enum>Qt::TabFocus</enum>
+            </property>
+            <property name="autoFillBackground">
+             <bool>true</bool>
             </property>
             <property name="text">
-             <string>PushButton</string>
+             <string>Đặt phòng</string>
             </property>
            </widget>
           </item>
           <item>
-           <widget class="QPushButton" name="b1">
+           <widget class="QPushButton" name="thongKeBtn">
             <property name="sizePolicy">
-             <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+             <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
               <horstretch>0</horstretch>
               <verstretch>0</verstretch>
              </sizepolicy>
             </property>
+            <property name="cursor">
+             <cursorShape>ArrowCursor</cursorShape>
+            </property>
             <property name="focusPolicy">
-             <enum>Qt::ClickFocus</enum>
+             <enum>Qt::TabFocus</enum>
             </property>
             <property name="text">
-             <string>PushButton</string>
+             <string>Thống kê</string>
             </property>
            </widget>
           </item>
           <item>
-           <widget class="QPushButton" name="pushButton_4">
+           <widget class="QPushButton" name="khachHangBtn">
             <property name="sizePolicy">
              <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
               <horstretch>0</horstretch>
               <verstretch>0</verstretch>
              </sizepolicy>
             </property>
+            <property name="cursor">
+             <cursorShape>ArrowCursor</cursorShape>
+            </property>
             <property name="focusPolicy">
-             <enum>Qt::StrongFocus</enum>
+             <enum>Qt::TabFocus</enum>
             </property>
             <property name="text">
-             <string>PushButton</string>
+             <string>Khách hàng</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QPushButton" name="dichVuBtn">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="cursor">
+             <cursorShape>ArrowCursor</cursorShape>
+            </property>
+            <property name="focusPolicy">
+             <enum>Qt::TabFocus</enum>
+            </property>
+            <property name="text">
+             <string>Dịch vụ</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QPushButton" name="phongGiaBtn">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="cursor">
+             <cursorShape>ArrowCursor</cursorShape>
+            </property>
+            <property name="focusPolicy">
+             <enum>Qt::TabFocus</enum>
+            </property>
+            <property name="text">
+             <string>Phòng và giá</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QPushButton" name="nhanVienBtn">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="cursor">
+             <cursorShape>ArrowCursor</cursorShape>
+            </property>
+            <property name="focusPolicy">
+             <enum>Qt::TabFocus</enum>
+            </property>
+            <property name="text">
+             <string>Nhân viên</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QPushButton" name="taiKhoanBtn">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="cursor">
+             <cursorShape>ArrowCursor</cursorShape>
+            </property>
+            <property name="focusPolicy">
+             <enum>Qt::TabFocus</enum>
+            </property>
+            <property name="text">
+             <string>Tài khoản</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QPushButton" name="checkinBtn">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="cursor">
+             <cursorShape>ArrowCursor</cursorShape>
+            </property>
+            <property name="focusPolicy">
+             <enum>Qt::TabFocus</enum>
+            </property>
+            <property name="text">
+             <string>Checkin</string>
             </property>
            </widget>
           </item>
          </layout>
         </widget>
-       </item>
-       <item>
-        <spacer name="verticalSpacer">
-         <property name="orientation">
-          <enum>Qt::Vertical</enum>
-         </property>
-         <property name="sizeHint" stdset="0">
-          <size>
-           <width>20</width>
-           <height>40</height>
-          </size>
-         </property>
-        </spacer>
        </item>
        <item>
         <widget class="QLabel" name="dangXuatBtn">
@@ -184,9 +294,9 @@ background-color: rgb(85, 170, 255);
             <colorrole role="Button">
              <brush brushstyle="SolidPattern">
               <color alpha="255">
-               <red>255</red>
-               <green>255</green>
-               <blue>127</blue>
+               <red>224</red>
+               <green>252</green>
+               <blue>255</blue>
               </color>
              </brush>
             </colorrole>
@@ -256,8 +366,8 @@ background-color: rgb(85, 170, 255);
             <colorrole role="Base">
              <brush brushstyle="SolidPattern">
               <color alpha="255">
-               <red>255</red>
-               <green>255</green>
+               <red>224</red>
+               <green>252</green>
                <blue>255</blue>
               </color>
              </brush>
@@ -265,9 +375,9 @@ background-color: rgb(85, 170, 255);
             <colorrole role="Window">
              <brush brushstyle="SolidPattern">
               <color alpha="255">
-               <red>255</red>
-               <green>255</green>
-               <blue>127</blue>
+               <red>224</red>
+               <green>252</green>
+               <blue>255</blue>
               </color>
              </brush>
             </colorrole>
@@ -321,9 +431,9 @@ background-color: rgb(85, 170, 255);
             <colorrole role="Button">
              <brush brushstyle="SolidPattern">
               <color alpha="255">
-               <red>255</red>
-               <green>255</green>
-               <blue>127</blue>
+               <red>224</red>
+               <green>252</green>
+               <blue>255</blue>
               </color>
              </brush>
             </colorrole>
@@ -393,8 +503,8 @@ background-color: rgb(85, 170, 255);
             <colorrole role="Base">
              <brush brushstyle="SolidPattern">
               <color alpha="255">
-               <red>255</red>
-               <green>255</green>
+               <red>224</red>
+               <green>252</green>
                <blue>255</blue>
               </color>
              </brush>
@@ -402,9 +512,9 @@ background-color: rgb(85, 170, 255);
             <colorrole role="Window">
              <brush brushstyle="SolidPattern">
               <color alpha="255">
-               <red>255</red>
-               <green>255</green>
-               <blue>127</blue>
+               <red>224</red>
+               <green>252</green>
+               <blue>255</blue>
               </color>
              </brush>
             </colorrole>
@@ -458,9 +568,9 @@ background-color: rgb(85, 170, 255);
             <colorrole role="Button">
              <brush brushstyle="SolidPattern">
               <color alpha="255">
-               <red>255</red>
-               <green>255</green>
-               <blue>127</blue>
+               <red>224</red>
+               <green>252</green>
+               <blue>255</blue>
               </color>
              </brush>
             </colorrole>
@@ -530,18 +640,18 @@ background-color: rgb(85, 170, 255);
             <colorrole role="Base">
              <brush brushstyle="SolidPattern">
               <color alpha="255">
-               <red>255</red>
-               <green>255</green>
-               <blue>127</blue>
+               <red>224</red>
+               <green>252</green>
+               <blue>255</blue>
               </color>
              </brush>
             </colorrole>
             <colorrole role="Window">
              <brush brushstyle="SolidPattern">
               <color alpha="255">
-               <red>255</red>
-               <green>255</green>
-               <blue>127</blue>
+               <red>224</red>
+               <green>252</green>
+               <blue>255</blue>
               </color>
              </brush>
             </colorrole>
@@ -610,8 +720,17 @@ background-color:rgb(224, 252, 255)
     </item>
     <item row="0" column="1">
      <widget class="QStackedWidget" name="stackedWidget">
+      <property name="sizePolicy">
+       <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+        <horstretch>0</horstretch>
+        <verstretch>0</verstretch>
+       </sizepolicy>
+      </property>
+      <property name="focusPolicy">
+       <enum>Qt::NoFocus</enum>
+      </property>
       <property name="currentIndex">
-       <number>0</number>
+       <number>1</number>
       </property>
       <widget class="QWidget" name="page1">
        <widget class="QLabel" name="label">
@@ -627,19 +746,6 @@ background-color:rgb(224, 252, 255)
          <string>TextLabel</string>
         </property>
        </widget>
-       <widget class="QPushButton" name="pushButton">
-        <property name="geometry">
-         <rect>
-          <x>230</x>
-          <y>200</y>
-          <width>93</width>
-          <height>28</height>
-         </rect>
-        </property>
-        <property name="text">
-         <string>PushButton</string>
-        </property>
-       </widget>
       </widget>
       <widget class="QWidget" name="page2">
        <widget class="QLabel" name="label_2">
@@ -652,7 +758,7 @@ background-color:rgb(224, 252, 255)
          </rect>
         </property>
         <property name="text">
-         <string>2</string>
+         <string>fádfadsf</string>
         </property>
        </widget>
       </widget>
