@@ -22,11 +22,11 @@ class MainWindow(QtWidgets.QMainWindow):
         self.stacked_widget.addWidget(self.page1)
         self.stacked_widget.addWidget(self.page2)
 
-        self.homeBtn = self.findChild(QtWidgets.QPushButton, "b1")
+        self.homeBtn = self.findChild(QtWidgets.QPushButton, "datPhongBtn")
         if self.homeBtn:
             self.homeBtn.clicked.connect(lambda: self.switch_page(0))
 
-        self.roomBtn = self.findChild(QtWidgets.QPushButton, "b2")
+        self.roomBtn = self.findChild(QtWidgets.QPushButton, "dichVuBtn")
         if self.roomBtn:
             self.roomBtn.clicked.connect(lambda: self.switch_page(1))
         self.show()  # Show the main window
