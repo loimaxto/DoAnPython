@@ -1,4 +1,4 @@
-from PyQt6.QtWidgets import QMainWindow, QApplication
+from PyQt6.QtWidgets import QMainWindow, QApplication, QMessageBox
 from PyQt6 import uic
 import sqlite3
 
@@ -34,10 +34,23 @@ class Login(QMainWindow):
         pwd = self.password.text()
         print(name, pwd)
 
-        self.nv_id = cursor.execute("select nv_id from user where username=? and password=?", (name, pwd)).fetchone()
-        # print(cursor.fetchone())
-        self.nv_id = self.nv_id[0]
-        print(self.nv_id)
+        try:
+            self.nv_id = cursor.execute("select nv_id from user where username=? and password=?", (name, pwd)).fetchone()
+            # print(cursor.fetchone())
+            self.nv_id = self.nv_id[0]
+            print(self.nv_id)
+        except:
+            print("loi dang nhap")
+            self.show_error()
+    
+    def show_error(self):
+        msg = QMessageBox()
+        msg.setIcon(QMessageBox.Icon.Critical)
+        msg.setWindowTitle("Đăng nhập thất bại")
+        msg.setText("Tên đăng nhập hoặc mật khẩu không chính xác")
+        msg.setInformativeText("Vui lòng đăng nhập lại")
+        # msg.setStandardButtons(QMessageBox.standardButton.Ok)
+        msg.exec()
 
 
     
