@@ -19,27 +19,17 @@
      <x>40</x>
      <y>80</y>
      <width>761</width>
-     <height>311</height>
+     <height>361</height>
     </rect>
    </property>
    <property name="columnCount">
-    <number>3</number>
+    <number>5</number>
    </property>
-   <column>
-    <property name="text">
-     <string>ID</string>
-    </property>
-   </column>
-   <column>
-    <property name="text">
-     <string>Tên dịch vụ</string>
-    </property>
-   </column>
-   <column>
-    <property name="text">
-     <string>Giá</string>
-    </property>
-   </column>
+   <column/>
+   <column/>
+   <column/>
+   <column/>
+   <column/>
   </widget>
   <widget class="QSplitter" name="splitter">
    <property name="geometry">
@@ -133,48 +123,6 @@
      <string>Tìm kiếm</string>
     </property>
    </widget>
-  </widget>
-  <widget class="QWidget" name="layoutWidget">
-   <property name="geometry">
-    <rect>
-     <x>60</x>
-     <y>440</y>
-     <width>641</width>
-     <height>24</height>
-    </rect>
-   </property>
-   <layout class="QGridLayout" name="gridLayout">
-    <item row="0" column="0">
-     <widget class="QLabel" name="label_2">
-      <property name="text">
-       <string>ID</string>
-      </property>
-     </widget>
-    </item>
-    <item row="0" column="1">
-     <widget class="QLineEdit" name="in_id"/>
-    </item>
-    <item row="0" column="2">
-     <widget class="QLabel" name="label_3">
-      <property name="text">
-       <string>Tên</string>
-      </property>
-     </widget>
-    </item>
-    <item row="0" column="3">
-     <widget class="QLineEdit" name="in_ten"/>
-    </item>
-    <item row="0" column="4">
-     <widget class="QLabel" name="label_4">
-      <property name="text">
-       <string>Giá</string>
-      </property>
-     </widget>
-    </item>
-    <item row="0" column="5">
-     <widget class="QLineEdit" name="in_price"/>
-    </item>
-   </layout>
   </widget>
  </widget>
  <resources/>
