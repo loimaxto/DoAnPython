@@ -1,6 +1,6 @@
 from PyQt6 import QtCore, QtGui, QtWidgets
 from PyQt6.QtWidgets import QTableWidgetItem, QMessageBox
-from ql_gia_phong import Ui_Form
+from view.phong_va_giaphong.ql_gia_phong import Ui_Form
 import sqlite3
 
 class gia_phong(Ui_Form):
