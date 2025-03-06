@@ -1,5 +1,5 @@
 from PyQt6 import QtCore, QtGui, QtWidgets
-from PyQt6.QtWidgets import QTableWidgetItem
+from PyQt6.QtWidgets import QTableWidgetItem, QMessageBox
 from ql_dichvu import Ui_Form
 import sqlite3
 
@@ -19,6 +19,12 @@ class ql_dichvu_handle(Ui_Form):
         self.edi_btn.clicked.connect(self.update_item)
         self.del_btn.clicked.connect(self.delete_item)
     
+    def show_err(self):
+        msg = QMessageBox()
+        msg.setIcon(QMessageBox.Icon.Critical)
+        msg.setWindowTitle("Lỗi")
+        msg.setText("Dữ liệu nhập vào không hợp lệ")
+        msg.exec()
     def show_all(self):
         self.cursor.execute("select * from dich_vu")
         data = self.cursor.fetchall()
@@ -40,6 +46,7 @@ class ql_dichvu_handle(Ui_Form):
             self.conn.commit()
         except:
             print("them khong thanh cong")
+            self.show_err()
         self.show_all()
     
     def update_item(self):
@@ -58,6 +65,7 @@ class ql_dichvu_handle(Ui_Form):
         id = self.in_id.text()
         if id=="":
             print("du lieu khong hop le")
+            self.show_err()
             return
         self.cursor.execute("delete from dich_vu where dv_id=?", (id,))
         self.conn.commit()
@@ -67,6 +75,7 @@ class ql_dichvu_handle(Ui_Form):
         id = self.in_sea.text()
         if id=="":
             print("du lieu khong hop le")
+            self.show_err()
             return
         self.cursor.execute("select * from dich_vu where dv_id=?", (id,))
         data = self.cursor.fetchall()
