@@ -1,5 +1,5 @@
 from PyQt6 import QtCore, QtGui, QtWidgets
-from tai_khoan import Ui_Form
+from view.tai_khoan.tai_khoan import Ui_Form
 import sqlite3
 
 class tai_khoan(Ui_Form):

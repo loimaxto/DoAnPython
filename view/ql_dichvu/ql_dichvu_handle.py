@@ -1,6 +1,6 @@
 from PyQt6 import QtCore, QtGui, QtWidgets
 from PyQt6.QtWidgets import QTableWidgetItem, QMessageBox
-from ql_dichvu import Ui_Form
+from view.ql_dichvu.ql_dichvu import Ui_Form
 import sqlite3
 
 class ql_dichvu_handle(Ui_Form):
