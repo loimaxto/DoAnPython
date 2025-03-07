@@ -1,74 +1,112 @@
-# utils/database.py
-import mysql.connector
-import configparser
+import sqlite3
 import os
 
-class Database:
-    _instance = None  # Singleton instance
+class SQLiteDB:
+    """
+    Vi tri cua file .db duoc su dung
+    project/
+    |-- db/
+    |   |-- hotel7-3.db
+    |-- utils/
+    |   |-- database.py
+    |-- ...
+    
+    =========================================
+    doc tiep huong dan su dung trang must_read 
+    """
+    # def __init__(self, db_filename="db/hotel7-3.db") day la vi tri cua file .db
+    
+    def __init__(self, db_filename="db/hotel7-3.db"): #added default filename.
+        """
+        Initializes the database connection.
 
-    def __new__(cls):
-        if cls._instance is None:
-            cls._instance = super().__new__(cls)
-            cls._instance.connection = None  # Initialize connection
-        return cls._instance
+        Args:
+            db_filename (str): The filename of the SQLite database file. Defaults to "my_database.db".
+        """
+        self.db_filename = db_filename
+        self.db_path = os.path.join(os.getcwd(), db_filename) #construct full path
+        self.conn = None
+        self.cursor = None
 
     def connect(self):
-        if self.connection is None: # Check if a connection exists before attempting to create a new one
-            try:
-                config = configparser.ConfigParser()
-                config.read("config.ini")
-
-                self.connection = mysql.connector.connect(
-                    host=config["Database"]["host"],
-                    user=config["Database"]["user"],
-                    password=config["Database"]["password"],
-                    database=config["Database"]["database"]
-                )
-                print("Database connection established.")
-            except mysql.connector.Error as err:
-                print(f"Error connecting to the database: {err}")
-                self.connection = None # Set connection to None to avoid further errors
-        return self.connection
+        """
+        Establishes a connection to the SQLite database.
+        """
+        try:
+            self.conn = sqlite3.connect(self.db_path)
+            self.cursor = self.conn.cursor()
+            return True
+        except sqlite3.Error as e:
+            print(f"Error connecting to database: {e}")
+            return False
 
     def disconnect(self):
-        if self.connection:
-            self.connection.close()
-            self.connection = None # Ensure connection is set to None after closing
-            print("Database connection closed.")
+        """
+        Closes the database connection.
+        """
+        if self.conn:
+            self.cursor.close()
+            self.conn.close()
+            self.conn = None
+            self.cursor = None
 
-    def get_connection(self):
-        if not self.connection:
-            self.connect() # Establish connection if not already connected
-        return self.connection
+    def execute_query(self, query, params=None):
+        """
+        Executes an SQL query.
 
-    def execute_query(self, query, values=None, fetch=False):
-        """Executes a SQL query.  fetch=True for SELECT queries."""
-        connection = self.get_connection() # Get the connection, creating one if necessary
-        cursor = None  # Initialize cursor
+        Args:
+            query (str): The SQL query to execute.
+            params (tuple, optional): Parameters for parameterized queries.
+
+        Returns:
+            list: A list of tuples representing the query results, or None if an error occurs.
+        """
+        if not self.conn:
+            if not self.connect():
+                return None
 
         try:
-            cursor = connection.cursor()
-            if values:
-                cursor.execute(query, values)
+            if params:
+                self.cursor.execute(query, params)
             else:
-                cursor.execute(query)
+                self.cursor.execute(query)
 
-            if fetch:
-                result = cursor.fetchall()
-                return result
+            if query.lower().startswith("select"):
+                results = self.cursor.fetchall()
+                return results
             else:
-                connection.commit()  # Commit changes for non-SELECT queries
+                self.conn.commit()
                 return None
-        except mysql.connector.Error as err:
-            print(f"Error executing query: {err}")
-            if connection:
-                connection.rollback()  # Rollback in case of errors
+
+        except sqlite3.Error as e:
+            print(f"Error executing query: {e}")
             return None
         finally:
-            if cursor:
-                cursor.close()
-            # DO NOT close the connection here. The connection should be closed only when application shuts down
+            if not query.lower().startswith("select"):
+                self.disconnect()
 
-# Example usage (Singleton):
-# db = Database()
-# conn = db.get_connection()
+    def execute_many(self, query, params_list):
+        """
+        Executes an SQL query multiple times with different parameters.
+
+        Args:
+            query (str): The SQL query to execute.
+            params_list (list): A list of tuples, each representing parameters for a query execution.
+
+        Returns:
+            bool: True if all queries were executed successfully, False otherwise.
+        """
+        if not self.conn:
+            if not self.connect():
+                return False
+
+        try:
+            self.cursor.executemany(query, params_list)
+            self.conn.commit()
+            return True
+        except sqlite3.Error as e:
+            print(f"Error executing many queries: {e}")
+            return False
+        finally:
+            self.disconnect()
+
