@@ -37,6 +37,17 @@ class Ui_MainWindow(object):
         self.btn_dichvu.setGeometry(QtCore.QRect(10, 150, 93, 51))
         self.btn_dichvu.setStyleSheet("background-color: rgb(85, 255, 127);")
         self.btn_dichvu.setObjectName("btn_dichvu")
+
+        self.btn_nhanvien = QtWidgets.QPushButton(parent=self.menu_bar)
+        self.btn_nhanvien.setGeometry(QtCore.QRect(10, 210, 93, 51))
+        self.btn_nhanvien.setStyleSheet("background-color: rgb(85, 255, 127);")
+        self.btn_nhanvien.setObjectName("btn_nhanvien")
+
+        self.btn_thongke = QtWidgets.QPushButton(parent=self.menu_bar)
+        self.btn_thongke.setGeometry(QtCore.QRect(10, 270, 93, 51))
+        self.btn_thongke.setStyleSheet("background-color: rgb(85, 255, 127);")
+        self.btn_thongke.setObjectName("btn_thongke")
+
         self.man_hinh = QtWidgets.QStackedWidget(parent=self.centralwidget)
         self.man_hinh.setGeometry(QtCore.QRect(120, 0, 680, 540))
         self.man_hinh.setStyleSheet("")
@@ -53,6 +64,15 @@ class Ui_MainWindow(object):
         self.taikhoan_screen = QtWidgets.QWidget()
         self.taikhoan_screen.setObjectName("taikhoan_screen")
         self.man_hinh.addWidget(self.taikhoan_screen)
+
+        self.nhanvien_screen = QtWidgets.QWidget()
+        self.nhanvien_screen.setObjectName("nhanvien_screen")
+        self.man_hinh.addWidget(self.nhanvien_screen)
+
+        self.thongke_screen = QtWidgets.QWidget()
+        self.thongke_screen.setObjectName("thongke_screen")
+        self.man_hinh.addWidget(self.thongke_screen)
+
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QtWidgets.QMenuBar(parent=MainWindow)
         self.menubar.setGeometry(QtCore.QRect(0, 0, 800, 26))
@@ -73,7 +93,8 @@ class Ui_MainWindow(object):
         self.btn_gia.setText(_translate("MainWindow", "Giá phòng"))
         self.btn_taikhoan.setText(_translate("MainWindow", "Tài khoản"))
         self.btn_dichvu.setText(_translate("MainWindow", "Dịch vụ"))
-
+        self.btn_nhanvien.setText(_translate("MainWindow", "Nhân viên"))
+        self.btn_thongke.setText(_translate("MainWindow", "Thống Kê"))
 
 if __name__ == "__main__":
     import sys

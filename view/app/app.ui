@@ -96,6 +96,38 @@
       <string>Dịch vụ</string>
      </property>
     </widget>
+    <widget class="QPushButton" name="btn_nhanvien">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>210</y>
+       <width>93</width>
+       <height>51</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">background-color: rgb(85, 255, 127);</string>
+     </property>
+     <property name="text">
+      <string>Nhân Viên</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="btn_thongke">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>270</y>
+       <width>93</width>
+       <height>51</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">background-color: rgb(85, 255, 127);</string>
+     </property>
+     <property name="text">
+      <string>Thống Kê</string>
+     </property>
+    </widget>
    </widget>
    <widget class="QStackedWidget" name="man_hinh">
     <property name="geometry">

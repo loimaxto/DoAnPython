@@ -7,7 +7,8 @@ from view.phong_va_giaphong.ql_gia_phong_handle import gia_phong
 from view.ql_dichvu.ql_dichvu_handle import ql_dichvu_handle
 from view.tai_khoan.tai_khoan_handle import tai_khoan
 from view.phong_va_giaphong.ql_phong_handle import ql_phong
-
+from view.qlnhansu.ql_nhan_vien_handle import ql_nhan_vien
+from view.statistics.dash_board_handle import dash_board
 class mainApp(Ui_MainWindow):
     def __init__(self, mainWindow):
 
@@ -19,7 +20,8 @@ class mainApp(Ui_MainWindow):
         self.gia = gia_phong(self.gia_screen)
         self.dichvu = ql_dichvu_handle(self.dichvu_screen)
         self.taikhoan = tai_khoan(self.taikhoan_screen)
-
+        self.nhanvien = ql_nhan_vien(self.nhanvien_screen)
+        self.thongke = dash_board(self.thongke_screen)
 
 
         # sự kiện chuyển trang
@@ -27,6 +29,8 @@ class mainApp(Ui_MainWindow):
         self.btn_gia.clicked.connect(lambda: self.chuyen_trang(2))
         self.btn_dichvu.clicked.connect(lambda: self.chuyen_trang(3))
         self.btn_taikhoan.clicked.connect(lambda: self.chuyen_trang(4))
+        self.btn_nhanvien.clicked.connect(lambda: self.chuyen_trang(5))
+        self.btn_thongke.clicked.connect(lambda: self.chuyen_trang(6))
 
 
 
@@ -39,7 +43,10 @@ class mainApp(Ui_MainWindow):
             self.man_hinh.setCurrentWidget(self.dichvu_screen)
         elif i==4:
             self.man_hinh.setCurrentWidget(self.taikhoan_screen)
-
+        elif i==5:
+            self.man_hinh.setCurrentWidget(self.nhanvien_screen)
+        elif i==6:
+            self.man_hinh.setCurrentWidget(self.thongke_screen)
 
 
 
