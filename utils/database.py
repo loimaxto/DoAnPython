@@ -1,5 +1,5 @@
 import sqlite3
-import os
+import os,re
 
 class SQLiteDB:
     """
@@ -50,17 +50,7 @@ class SQLiteDB:
             self.conn = None
             self.cursor = None
 
-    def execute_query(self, query, params=None):
-        """
-        Executes an SQL query.
-
-        Args:
-            query (str): The SQL query to execute.
-            params (tuple, optional): Parameters for parameterized queries.
-
-        Returns:
-            list: A list of tuples representing the query results, or None if an error occurs.
-        """
+    def execute_query(self, query, params=None, return_last_row=False):
         if not self.conn:
             if not self.connect():
                 return None
@@ -76,7 +66,17 @@ class SQLiteDB:
                 return results
             else:
                 self.conn.commit()
-                return None
+                if return_last_row:
+                    table_name = self.get_table_name(query)
+                    if table_name:
+                        last_row_id = self.cursor.lastrowid
+                        self.cursor.execute(f"SELECT * FROM {table_name} WHERE rowid = ?", (last_row_id,))
+                        return self.cursor.fetchone()
+                    else:
+                        print("Could not extract table name from query")
+                        return None
+                else:
+                    return None
 
         except sqlite3.Error as e:
             print(f"Error executing query: {e}")
@@ -84,7 +84,7 @@ class SQLiteDB:
         finally:
             if not query.lower().startswith("select"):
                 self.disconnect()
-
+                
     def execute_many(self, query, params_list):
         """
         Executes an SQL query multiple times with different parameters.
@@ -110,3 +110,9 @@ class SQLiteDB:
         finally:
             self.disconnect()
 
+    def get_table_name(self, query):
+        match = re.search(r'INSERT INTO (\w+)', query)
+        if match:
+            return match.group(1)
+        else:
+            raise ValueError("Could not extract table name from query")

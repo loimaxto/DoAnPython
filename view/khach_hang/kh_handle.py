@@ -1,13 +1,20 @@
 import sys
+import os
+project_path = os.path.abspath(os.path.join(os.path.dirname(__file__), "../../"))
+sys.path.append(project_path)
+print(project_path)
 import random
 from PyQt6 import QtWidgets, QtCore, QtGui
 from kh_ui import Ui_CustomerManagement  # Assuming you saved the UI as kh_ui.py
 
+
+from dao.khach_hang_dao import KhachHangDAO
 class CustomerManagementWindow(QtWidgets.QWidget, Ui_CustomerManagement):
     def __init__(self):
         super().__init__()
         self.setupUi(self)
-
+        self.customer_dao = KhachHangDAO()
+        
         self.model = QtGui.QStandardItemModel(0, 4)  # rows, columns
         self.model.setHorizontalHeaderLabels(["ID", "Name", "Phone", "Image"])
         self.customerTableView.setModel(self.model)
@@ -26,10 +33,11 @@ class CustomerManagementWindow(QtWidgets.QWidget, Ui_CustomerManagement):
         self.searchButton.clicked.connect(self.search_customers)
 
     def load_fake_data(self, search_term=None):
-        fake_data = self.generate_fake_data()
-
+        customer_data = self.customer_dao.get_all_khach_hang()
+        table_data = [(kh.kh_id, kh.ten, kh.sdt, kh.image) for kh in customer_data]
+        
         self.model.setRowCount(0)
-        for row in fake_data:
+        for row in table_data:
             if search_term:
                 if search_term.lower() not in row[1].lower() and search_term not in row[2]:
                     continue
