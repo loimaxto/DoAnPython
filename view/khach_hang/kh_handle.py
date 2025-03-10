@@ -5,7 +5,7 @@ sys.path.append(project_path)
 print(project_path)
 import random
 from PyQt6 import QtWidgets, QtCore, QtGui
-from kh_ui import Ui_CustomerManagement  # Assuming you saved the UI as kh_ui.py
+from view.khach_hang.kh_ui import Ui_CustomerManagement # Assuming you saved the UI as kh_ui.py
 
 
 from dao.khach_hang_dao import KhachHangDAO
