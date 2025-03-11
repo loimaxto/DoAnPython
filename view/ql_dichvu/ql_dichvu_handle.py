@@ -1,14 +1,23 @@
+import sys
+import os
+project_path = os.path.abspath(os.path.join(os.path.dirname(__file__), "../../")) 
+sys.path.append(project_path)
+print(project_path) #vi tri tu file hien tai toi root !! phai toi root moi dung duoc
 from PyQt6 import QtCore, QtGui, QtWidgets
 from PyQt6.QtWidgets import QTableWidgetItem, QMessageBox
 from view.ql_dichvu.ql_dichvu import Ui_Form
 import sqlite3
+from utils.database import SQLiteDB
+from dao.dich_vu_dao import DichVuDAO
+from dto.dto import DichVuDTO
+"""
+còn tìm kiếm, sửa, xóa đang bị lỗi
+"""
 
 class ql_dichvu_handle(Ui_Form):
     def __init__(self, uiform):
-
+        self.dv_dao = DichVuDAO()
         # kết nối db
-        self.conn = sqlite3.connect("db/qlKhachSan.db")
-        self.cursor = self.conn.cursor()
         self.setupUi(uiform)
 
         self.show_all()
@@ -26,13 +35,13 @@ class ql_dichvu_handle(Ui_Form):
         msg.setText("Dữ liệu nhập vào không hợp lệ")
         msg.exec()
     def show_all(self):
-        self.cursor.execute("select * from dich_vu")
-        data = self.cursor.fetchall()
+        data = self.dv_dao.get_all_DichVu()
         self.dis_pla.setRowCount(0)
         for row_index, row_data in enumerate(data):
             self.dis_pla.insertRow(row_index)
-            for column_index, item_data in enumerate(row_data):
-                self.dis_pla.setItem(row_index, column_index, QTableWidgetItem(str(item_data)))
+            self.dis_pla.setItem(row_index, 0, QTableWidgetItem(str(row_data.dv_id)))
+            self.dis_pla.setItem(row_index, 1, QTableWidgetItem(str(row_data.ten)))
+            self.dis_pla.setItem(row_index, 2, QTableWidgetItem(str(row_data.gia)))
         print(data)
         print("Hien thi")
     
@@ -40,13 +49,9 @@ class ql_dichvu_handle(Ui_Form):
         id = self.in_id.text()
         ten = self.in_ten.text()
         gia = self.in_price.text()
-        try:
-            self.cursor.execute("insert into dich_vu values(?, ?, ?)", (id, ten, gia))
-            print("da them thanh cong")
-            self.conn.commit()
-        except:
-            print("them khong thanh cong")
-            self.show_err()
+        my_dv = DichVuDTO(id, ten, gia)
+        DichVuDAO.insert_dich_vu(my_dv)
+        # print(data)
         self.show_all()
     
     def update_item(self):
@@ -56,10 +61,8 @@ class ql_dichvu_handle(Ui_Form):
         if id=="" or name=="" or gia=="":
             print("du lieu khong hop le")
             return
-        self.cursor.execute("update dich_vu\
-            set ten_dv=?, gia=?\
-                where dv_id=?", (name, gia, id))
-        self.conn.commit()
+        dicVu =  DichVuDTO(id,name,gia)
+        DichVuDAO.update_dich_vu(dicVu)
         self.show_all()
     def delete_item(self):
         id = self.in_id.text()
@@ -67,8 +70,7 @@ class ql_dichvu_handle(Ui_Form):
             print("du lieu khong hop le")
             self.show_err()
             return
-        self.cursor.execute("delete from dich_vu where dv_id=?", (id,))
-        self.conn.commit()
+        self.dv_dao.delete_dich_vu(id)
         print("xoa thanh cong")
         self.show_all()
     def search_item(self):
@@ -77,13 +79,15 @@ class ql_dichvu_handle(Ui_Form):
             print("du lieu khong hop le")
             self.show_err()
             return
-        self.cursor.execute("select * from dich_vu where dv_id=?", (id,))
-        data = self.cursor.fetchall()
+        data = self.dv_dao.search_dich_vu(id)
+        print(data)
         self.dis_pla.setRowCount(0)
         for row_index, row_data in enumerate(data):
             self.dis_pla.insertRow(row_index)
-            for column_index, item_data in enumerate(row_data):
-                self.dis_pla.setItem(row_index, column_index, QTableWidgetItem(str(item_data)))
+            self.dis_pla.setItem(row_index, 0, QTableWidgetItem(str(row_data.dv_id)))
+            self.dis_pla.setItem(row_index, 1, QTableWidgetItem(str(row_data.ten)))
+            self.dis_pla.setItem(row_index,2, QTableWidgetItem(str(row_data.gia)))
+
         print("Tim kiem thanh cong")
 
 

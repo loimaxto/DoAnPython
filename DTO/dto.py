@@ -17,3 +17,15 @@ class UserDTO:
 
     def __repr__(self):
         return f"UserDTO(user_id={self.user_id}, username='{self.username}', role='{self.role}')"
+
+class DichVuDTO:
+    def __init__(self, ten, gia):
+        self.ten = ten
+        self.gia = gia
+    def __init__(self, dv_id=None, ten=None, gia=None):
+        self.dv_id = dv_id
+        self.ten = ten
+        self.gia = gia
+    
+    def __str__(self):
+        return f"DichVuDTO(dv_id={self.dv_id}, ten='{self.ten}', gia={self.gia})"
