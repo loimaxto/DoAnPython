@@ -1,14 +1,19 @@
+import sys
+import os
+project_path = os.path.abspath(os.path.join(os.path.dirname(__file__), "../../")) 
+sys.path.append(project_path)
 from PyQt6 import QtCore, QtGui, QtWidgets
 from PyQt6.QtWidgets import QTableWidgetItem, QMessageBox
 from view.phong_va_giaphong.ql_gia_phong import Ui_Form
 import sqlite3
+
 
 class gia_phong(Ui_Form):
     def __init__(self, Form):
         self.setupUi(Form)
 
         # kết nối db
-        self.conn = sqlite3.connect("db/qlKhachSan.db")
+        self.conn = sqlite3.connect("db/hotel7-3.db")
         self.cursor = self.conn.cursor()
         self.show_all()
 

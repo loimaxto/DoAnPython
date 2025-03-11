@@ -32,14 +32,14 @@ class MainWindow(QtWidgets.QMainWindow,Ui_MainWindow):
         # Create instances of your page widgets
         self.page1 = Page1()
         self.page2 = Page2()
-        self.ql_dichvu = ql_dichvu_handle()
+        # self.ql_dichvu = ql_dichvu_handle()
 
         # Add more page instances
 
         # Add pages to the stacked widget
         self.stacked_widget.addWidget(self.page1)
         self.stacked_widget.addWidget(self.page2)
-        self.stacked_widget.addWidget(self.ql_dichvu)
+        # self.stacked_widget.addWidget()
 
         self.homeBtn = self.findChild(QtWidgets.QPushButton, "datPhongBtn")
         if self.homeBtn:
