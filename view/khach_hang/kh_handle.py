@@ -28,6 +28,8 @@ class CustomerManagementWindow(QtWidgets.QWidget, Ui_CustomerManagement):
         self.customerTableView.verticalHeader().setVisible(False) 
         self.customerTableView.setSelectionMode(QtWidgets.QTableView.SelectionMode.SingleSelection)
         self.customerTableView.setSelectionBehavior(QtWidgets.QTableView.SelectionBehavior.SelectRows)
+        self.customerTableView.selectionModel().selectionChanged.connect(self.row_selected_action)
+
         # Load fake data
         self.load_fake_data()
 
@@ -60,7 +62,7 @@ class CustomerManagementWindow(QtWidgets.QWidget, Ui_CustomerManagement):
                 items.append(item_obj)
             self.model.appendRow(items)
             
-
+       
     def add_customer(self):
         # Add fake customer data
         new_id = self.dao_customer.get_khach_hang_next_id()
@@ -85,16 +87,10 @@ class CustomerManagementWindow(QtWidgets.QWidget, Ui_CustomerManagement):
         QMessageBox.information(self, "Add customer", "Customer added successfully")
         self.clear_fields()
         self.load_fake_data()
-
-    def update_customer(self):
-        self.is_update_state = 1 - self.is_update_state
-        palette = self.btn_confirm_update.palette()
-        if self.is_update_state == 1:
-            self.btn_confirm_update.setVisible(True)
-            palette.setColor(QtGui.QPalette.ColorRole.Button, QtGui.QColor("blue"))
+        
+    def row_selected_action(self):
+        if self.is_update_state:
             selected_indexes = self.customerTableView.selectionModel().selectedIndexes()
-            self.imageButton.setVisible(False)
-            self.label_imagePath.setText("Không sửa ảnh")
             if selected_indexes:
                 row = selected_indexes[0].row()
                 self.nameLineEdit.setText(self.model.item(row, 1).text())
@@ -104,6 +100,16 @@ class CustomerManagementWindow(QtWidgets.QWidget, Ui_CustomerManagement):
                     self.model.item(row, 1).text(),
                     self.model.item(row, 2).text(),
                     self.model.item(row, 3).text())
+    def update_customer(self):
+        self.is_update_state = 1 - self.is_update_state
+        palette = self.btn_confirm_update.palette()
+        if self.is_update_state == 1:
+            self.btn_confirm_update.setVisible(True)
+            palette.setColor(QtGui.QPalette.ColorRole.Button, QtGui.QColor("blue"))
+            selected_indexes = self.customerTableView.selectionModel().selectedIndexes()
+            self.imageButton.setVisible(False)
+            self.label_imagePath.setText("Không sửa ảnh")
+            
                 # self.model.setItem(row, 3, QtGui.QStandardItem(self.imagePathLabel.text()))
         else:
             self.exit_update_state()
