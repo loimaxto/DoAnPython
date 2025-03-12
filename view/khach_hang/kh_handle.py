@@ -100,7 +100,7 @@ class CustomerManagementWindow(QtWidgets.QWidget, Ui_CustomerManagement):
                 self.nameLineEdit.setText(self.model.item(row, 1).text())
                 self.phoneLineEdit.setText(self.model.item(row, 2).text())
                 self.dto_kh = KhachHangDTO(
-                    int(self.model.item(row, 0).text()),
+                    self.model.item(row, 0).text(),
                     self.model.item(row, 1).text(),
                     self.model.item(row, 2).text(),
                     self.model.item(row, 3).text())
@@ -113,8 +113,9 @@ class CustomerManagementWindow(QtWidgets.QWidget, Ui_CustomerManagement):
             QMessageBox.warning(self, "Warning", "No customer selected for update")
             return
 
-        try:
-            print(self.dto_kh)
+        try:   
+            self.dto_kh.ten = self.nameLineEdit.text()
+            self.dto_kh.sdt = self.phoneLineEdit.text()
             self.dao_customer.update_khach_hang(self.dto_kh)
         except Exception as e:
             QMessageBox.critical(self, "Error", f"Failed to update customer: {e}")
