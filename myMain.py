@@ -29,18 +29,6 @@ class MainWindow(QtWidgets.QMainWindow,Ui_MainWindow):
         self.ui.datPhongBtn.clicked.connect(lambda: self.ui.stackedWidget.setCurrentWidget(self.dp_page))
 
 
-        # Create instances of your page widgets
-        self.page1 = Page1()
-        self.page2 = Page2()
-        # self.ql_dichvu = ql_dichvu_handle()
-
-        # Add more page instances
-
-        # Add pages to the stacked widget
-        self.stacked_widget.addWidget(self.page1)
-        self.stacked_widget.addWidget(self.page2)
-        # self.stacked_widget.addWidget()
-
         self.homeBtn = self.findChild(QtWidgets.QPushButton, "datPhongBtn")
         if self.homeBtn:
             self.homeBtn.clicked.connect(lambda: self.switch_page(0))
@@ -51,7 +39,7 @@ class MainWindow(QtWidgets.QMainWindow,Ui_MainWindow):
         self.show()  # Show the main window
 
     def switch_page(self, index):
-        self.stacked_widget.setCurrentIndex(index)
+        self.ui.stackedWidget.setCurrentIndex(index)
         
 if __name__ == "__main__":
     app = QtWidgets.QApplication(sys.argv)
