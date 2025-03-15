@@ -29,3 +29,15 @@ class DichVuDTO:
     
     def __str__(self):
         return f"DichVuDTO(dv_id={self.dv_id}, ten='{self.ten}', gia={self.gia})"
+    
+class NhanVienDTO:
+    def __init__(self, nv_id=None, ten_nv=None, email=None, sdt=None, dia_chi=None, chuc_vu=None):
+        self.nv_id = nv_id
+        self.ten_nv = ten_nv
+        self.email = email
+        self.sdt = sdt
+        self.dia_chi = dia_chi
+        self.chuc_vu = chuc_vu
+
+    def __str__(self):
+        return f"KhachHang(nv_id={self.nv_id}, ten_nv='{self.ten_nv}', email='{self.email}', sdt='{self.sdt}', dia_chi='{self.dia_chi}', chuc_vu='{self.chuc_vu}')"
