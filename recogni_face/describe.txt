@@ -1,0 +1,7 @@
+
+
+pip install opencv-python // install cv2 library turn on and off cam
+pip install opencv-contrib-python// install library that adds some features to cv2
+
+
+
