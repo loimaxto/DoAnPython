@@ -1,12 +1,16 @@
 from PyQt6 import QtCore, QtGui, QtWidgets
 from PyQt6.QtWidgets import QWidget, QMessageBox, QTableWidgetItem
 import sqlite3
+# from ql_phong import Ui_Form
 from view.phong_va_giaphong.ql_phong import Ui_Form
 
 class ql_phong(QtWidgets.QWidget, Ui_Form):
     def __init__(self):
         super().__init__()
         self.setupUi(self)
+
+        # sơ chế giao diện
+        self.dis_pla.horizontalHeader().setSectionResizeMode(QtWidgets.QHeaderView.ResizeMode.Stretch)
 
         # kết nối db
         self.conn = sqlite3.connect("db/hotel7-3.db")
