@@ -4,12 +4,16 @@ from PyQt6.QtWidgets import QWidget, QStackedWidget, QApplication
 from view.Menu.page1 import Page1
 from view.Menu.page2 import Page2
 from view.ql_dichvu import ql_dichvu_handle
-from view.ql_dichvu.ql_dichvu import Ui_Form 
+
 # class MainWindow(QtWidgets.QMainWindow):
 
 from view.khach_hang.kh_handle import CustomerManagementWindow
 from view.DatPhong.handle_dat_phong import DatPhongWindow
 from view.Menu.menu_ui import Ui_MainWindow
+from view.ql_dichvu.ql_dichvu_handle import ql_dichvu_ui
+from view.phong_va_giaphong.ql_gia_phong_handle import gia_phong
+from view.phong_va_giaphong.ql_phong_handle import ql_phong
+from view.tai_khoan.tai_khoan_handle import tai_khoan
 class MainWindow(QtWidgets.QMainWindow,Ui_MainWindow):
     def __init__(self):
         
@@ -20,22 +24,29 @@ class MainWindow(QtWidgets.QMainWindow,Ui_MainWindow):
         # khai báo trang mới
         self.kh_page = CustomerManagementWindow()
         self.dp_page = DatPhongWindow()
-
-        self.dvForm =  QtWidgets.QWidget()
-        self.dv_page_ui = ql_dichvu_handle(self.dvForm)
+        self.dv_page = ql_dichvu_ui()
+        self.giaphong_page = gia_phong()
+        self.phong_page = ql_phong()
+        self.tk_page = tai_khoan()
         
         # thêm trang mới vào menumenu
         self.ui.stackedWidget.addWidget(self.dp_page)
         self.ui.stackedWidget.addWidget(self.kh_page)
-        self.ui.stackedWidget.addWidget(self.dvForm)
-
+        self.ui.stackedWidget.addWidget(self.dv_page)
+        self.ui.stackedWidget.addWidget(self.giaphong_page)
+        # self.ui.stackedWidget.addWidget(self.phong_page)
+        self.ui.stackedWidget.addWidget(self.tk_page)
+        
 
         self.ui.stackedWidget.setCurrentWidget(self.kh_page)
         
         # lập trình chuyển trang
         self.ui.khachHangBtn.clicked.connect(lambda: self.ui.stackedWidget.setCurrentWidget(self.kh_page))
         self.ui.datPhongBtn.clicked.connect(lambda: self.ui.stackedWidget.setCurrentWidget(self.dp_page))
-        self.ui.dichVuBtn.clicked.connect(lambda: self.ui.stackedWidget.setCurrentWidget(self.dvForm))
+        self.ui.dichVuBtn.clicked.connect(lambda: self.ui.stackedWidget.setCurrentWidget(self.dv_page))
+        self.ui.phongGiaBtn.clicked.connect(lambda: self.ui.stackedWidget.setCurrentWidget(self.giaphong_page))
+        # self.ui.phongGiaBtn.clicked.connect(lambda: self.ui.stackedWidget.setCurrentWidget(self.phong_page))
+        self.ui.taiKhoanBtn.clicked.connect(lambda: self.ui.stackedWidget.setCurrentWidget(self.tk_page))
 
         
 if __name__ == "__main__":

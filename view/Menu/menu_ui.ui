@@ -749,7 +749,6 @@ background-color:rgb(224, 252, 255)
      <widget class="QStackedWidget" name="stackedWidget">
       <widget class="QWidget" name="default1"/>
       <widget class="QWidget" name="default2"/>
-      <widget class="QWidget" name="dv_page"/>
      </widget>
     </item>
    </layout>

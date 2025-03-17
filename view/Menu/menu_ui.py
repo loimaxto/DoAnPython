@@ -318,9 +318,6 @@ class Ui_MainWindow(object):
         self.default2 = QtWidgets.QWidget()
         self.default2.setObjectName("default2")
         self.stackedWidget.addWidget(self.default2)
-        self.dv_page = QtWidgets.QWidget()
-        self.dv_page.setObjectName("dv_page")
-        self.stackedWidget.addWidget(self.dv_page)
         self.gridLayout.addWidget(self.stackedWidget, 0, 1, 1, 1)
         MainWindow.setCentralWidget(self.centralwidget)
 

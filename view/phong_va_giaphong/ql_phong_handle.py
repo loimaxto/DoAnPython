@@ -3,9 +3,10 @@ from PyQt6.QtWidgets import QWidget, QMessageBox, QTableWidgetItem
 import sqlite3
 from view.phong_va_giaphong.ql_phong import Ui_Form
 
-class ql_phong(Ui_Form):
-    def __init__(self, Form):
-        self.setupUi(Form)
+class ql_phong(QtWidgets.QWidget, Ui_Form):
+    def __init__(self):
+        super().__init__()
+        self.setupUi(self)
 
         # kết nối db
         self.conn = sqlite3.connect("db/hotel7-3.db")
@@ -98,7 +99,6 @@ class ql_phong(Ui_Form):
 if __name__ == "__main__":
     import sys
     app = QtWidgets.QApplication(sys.argv)
-    Form = QtWidgets.QWidget()
-    ui = ql_phong(Form)
-    Form.show()
+    ui = ql_phong()
+    ui.show()
     sys.exit(app.exec())
