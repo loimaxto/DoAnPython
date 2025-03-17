@@ -51,7 +51,7 @@ class MainWindow(QtWidgets.QMainWindow,Ui_MainWindow):
         self.ui.phongGiaBtn.clicked.connect(lambda: self.ui.stackedWidget.setCurrentWidget(self.giaphong_page))
         # self.ui.phongGiaBtn.clicked.connect(lambda: self.ui.stackedWidget.setCurrentWidget(self.phong_page))
         self.ui.taiKhoanBtn.clicked.connect(lambda: self.ui.stackedWidget.setCurrentWidget(self.tk_page))
-        self.ui.nhanVienBtn.clicked.connect(lambda: self.ui.stackedWidget.setCurrentWidget(self.nv_page))
+            
         
 if __name__ == "__main__":
     app = QtWidgets.QApplication(sys.argv)
