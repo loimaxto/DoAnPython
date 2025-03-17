@@ -1,4 +1,4 @@
-# Form implementation generated from reading ui file 'C:\Code\DoAnPython\view\Menu\menu_ui.ui'
+# Form implementation generated from reading ui file 'view\Menu\menu_ui.ui'
 #
 # Created by: PyQt6 UI code generator 6.8.1
 #
@@ -12,7 +12,7 @@ from PyQt6 import QtCore, QtGui, QtWidgets
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
-        MainWindow.resize(1088, 768)
+        MainWindow.resize(976, 616)
         self.centralwidget = QtWidgets.QWidget(parent=MainWindow)
         self.centralwidget.setLayoutDirection(QtCore.Qt.LayoutDirection.LeftToRight)
         self.centralwidget.setStyleSheet("")
@@ -200,6 +200,9 @@ class Ui_MainWindow(object):
         brush = QtGui.QBrush(QtGui.QColor(0, 0, 0))
         brush.setStyle(QtCore.Qt.BrushStyle.SolidPattern)
         palette.setBrush(QtGui.QPalette.ColorGroup.Active, QtGui.QPalette.ColorRole.ToolTipText, brush)
+        brush = QtGui.QBrush(QtGui.QColor(0, 0, 0, 128))
+        brush.setStyle(QtCore.Qt.BrushStyle.NoBrush)
+        palette.setBrush(QtGui.QPalette.ColorGroup.Active, QtGui.QPalette.ColorRole.PlaceholderText, brush)
         brush = QtGui.QBrush(QtGui.QColor(0, 0, 0))
         brush.setStyle(QtCore.Qt.BrushStyle.SolidPattern)
         palette.setBrush(QtGui.QPalette.ColorGroup.Inactive, QtGui.QPalette.ColorRole.WindowText, brush)
@@ -245,6 +248,9 @@ class Ui_MainWindow(object):
         brush = QtGui.QBrush(QtGui.QColor(0, 0, 0))
         brush.setStyle(QtCore.Qt.BrushStyle.SolidPattern)
         palette.setBrush(QtGui.QPalette.ColorGroup.Inactive, QtGui.QPalette.ColorRole.ToolTipText, brush)
+        brush = QtGui.QBrush(QtGui.QColor(0, 0, 0, 128))
+        brush.setStyle(QtCore.Qt.BrushStyle.NoBrush)
+        palette.setBrush(QtGui.QPalette.ColorGroup.Inactive, QtGui.QPalette.ColorRole.PlaceholderText, brush)
         brush = QtGui.QBrush(QtGui.QColor(127, 127, 63))
         brush.setStyle(QtCore.Qt.BrushStyle.SolidPattern)
         palette.setBrush(QtGui.QPalette.ColorGroup.Disabled, QtGui.QPalette.ColorRole.WindowText, brush)
@@ -290,6 +296,9 @@ class Ui_MainWindow(object):
         brush = QtGui.QBrush(QtGui.QColor(0, 0, 0))
         brush.setStyle(QtCore.Qt.BrushStyle.SolidPattern)
         palette.setBrush(QtGui.QPalette.ColorGroup.Disabled, QtGui.QPalette.ColorRole.ToolTipText, brush)
+        brush = QtGui.QBrush(QtGui.QColor(0, 0, 0, 128))
+        brush.setStyle(QtCore.Qt.BrushStyle.NoBrush)
+        palette.setBrush(QtGui.QPalette.ColorGroup.Disabled, QtGui.QPalette.ColorRole.PlaceholderText, brush)
         self.dangXuatBtn.setPalette(palette)
         font = QtGui.QFont()
         font.setPointSize(10)
@@ -302,30 +311,17 @@ class Ui_MainWindow(object):
         self.verticalLayout_2.addWidget(self.dangXuatBtn)
         self.gridLayout.addWidget(self.leftMenu, 0, 0, 1, 1)
         self.stackedWidget = QtWidgets.QStackedWidget(parent=self.centralwidget)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Policy.Preferred, QtWidgets.QSizePolicy.Policy.Preferred)
-        sizePolicy.setHorizontalStretch(0)
-        sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(self.stackedWidget.sizePolicy().hasHeightForWidth())
-        self.stackedWidget.setSizePolicy(sizePolicy)
-        self.stackedWidget.setFocusPolicy(QtCore.Qt.FocusPolicy.NoFocus)
         self.stackedWidget.setObjectName("stackedWidget")
-        self.page1 = QtWidgets.QWidget()
-        self.page1.setObjectName("page1")
-        self.label = QtWidgets.QLabel(parent=self.page1)
-        self.label.setGeometry(QtCore.QRect(230, 160, 55, 16))
-        self.label.setObjectName("label")
-        self.stackedWidget.addWidget(self.page1)
-        self.page2 = QtWidgets.QWidget()
-        self.page2.setObjectName("page2")
-        self.label_2 = QtWidgets.QLabel(parent=self.page2)
-        self.label_2.setGeometry(QtCore.QRect(170, 80, 55, 16))
-        self.label_2.setObjectName("label_2")
-        self.stackedWidget.addWidget(self.page2)
+        self.default1 = QtWidgets.QWidget()
+        self.default1.setObjectName("default1")
+        self.stackedWidget.addWidget(self.default1)
+        self.default2 = QtWidgets.QWidget()
+        self.default2.setObjectName("default2")
+        self.stackedWidget.addWidget(self.default2)
         self.gridLayout.addWidget(self.stackedWidget, 0, 1, 1, 1)
         MainWindow.setCentralWidget(self.centralwidget)
 
         self.retranslateUi(MainWindow)
-        self.stackedWidget.setCurrentIndex(1)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
     def retranslateUi(self, MainWindow):
@@ -341,5 +337,13 @@ class Ui_MainWindow(object):
         self.taiKhoanBtn.setText(_translate("MainWindow", "Tài khoản"))
         self.checkinBtn.setText(_translate("MainWindow", "Checkin"))
         self.dangXuatBtn.setText(_translate("MainWindow", "Đăng xuất"))
-        self.label.setText(_translate("MainWindow", "TextLabel"))
-        self.label_2.setText(_translate("MainWindow", "fádfadsf"))
+
+
+if __name__ == "__main__":
+    import sys
+    app = QtWidgets.QApplication(sys.argv)
+    MainWindow = QtWidgets.QMainWindow()
+    ui = Ui_MainWindow()
+    ui.setupUi(MainWindow)
+    MainWindow.show()
+    sys.exit(app.exec())

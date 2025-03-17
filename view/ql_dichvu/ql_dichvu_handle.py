@@ -14,11 +14,13 @@ from dto.dto import DichVuDTO
 còn tìm kiếm, sửa, xóa đang bị lỗi
 """
 
-class ql_dichvu_handle(Ui_Form):
-    def __init__(self, uiform):
+class ql_dichvu_ui(QtWidgets.QWidget, Ui_Form):
+    def __init__(self):
+        super().__init__()
+        self.setupUi(self)
         self.dv_dao = DichVuDAO()
         # kết nối db
-        self.setupUi(uiform)
+       
 
         self.show_all()
 
@@ -94,7 +96,6 @@ class ql_dichvu_handle(Ui_Form):
 if __name__ == "__main__":
     import sys
     app = QtWidgets.QApplication(sys.argv)
-    Form = QtWidgets.QWidget()
-    ui = ql_dichvu_handle(Form)
-    Form.show()
+    ui = ql_dichvu_handle()
+    ui.show()
     sys.exit(app.exec())

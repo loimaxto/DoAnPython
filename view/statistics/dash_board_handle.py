@@ -8,7 +8,7 @@ class dash_board(Ui_Form):
         self.setupUi(Form)
 
         # kết nối db
-        self.conn = sqlite3.connect("db/qlKhachSan.db")
+        self.conn = sqlite3.connect("db/hotel7-3.db")
         self.cursor = self.conn.cursor()
         self.show_doanh_thu()
         # self.occupied_rate()

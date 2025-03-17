@@ -8,9 +8,10 @@ from view.phong_va_giaphong.ql_gia_phong import Ui_Form
 import sqlite3
 
 
-class gia_phong(Ui_Form):
-    def __init__(self, Form):
-        self.setupUi(Form)
+class gia_phong(QtWidgets.QWidget, Ui_Form):
+    def __init__(self):
+        super().__init__()
+        self.setupUi(self)
 
         # kết nối db
         self.conn = sqlite3.connect("db/hotel7-3.db")
@@ -107,7 +108,6 @@ class gia_phong(Ui_Form):
 if __name__ == "__main__":
     import sys
     app = QtWidgets.QApplication(sys.argv)
-    Form = QtWidgets.QWidget()
-    ui = gia_phong(Form)
-    Form.show()
+    ui = gia_phong()
+    ui.show()
     sys.exit(app.exec())

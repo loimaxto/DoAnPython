@@ -1,12 +1,11 @@
 from PyQt6 import QtCore, QtGui, QtWidgets
 from PyQt6.QtWidgets import QWidget, QMessageBox, QTableWidgetItem
 import sqlite3
-from view.phong_va_giaphong.ql_phong import Ui_Form
+from view.qlnhansu.ql_nhan_vien import Ui_Form
 
-class ql_phong(QtWidgets.QWidget, Ui_Form):
-    def __init__(self):
-        super().__init__()
-        self.setupUi(self)
+class ql_nhan_vien(Ui_Form):
+    def __init__(self, Form):
+        self.setupUi(Form)
 
         # kết nối db
         self.conn = sqlite3.connect("db/hotel7-3.db")
@@ -21,7 +20,7 @@ class ql_phong(QtWidgets.QWidget, Ui_Form):
         self.sea_btn.clicked.connect(self.search_item)
 
     def show_all(self):
-        self.cursor.execute("select * from phong")
+        self.cursor.execute("select * from nhan_vien")
         data = self.cursor.fetchall()
         self.dis_pla.setRowCount(0)
         for row_index, row_data in enumerate(data):
@@ -33,13 +32,14 @@ class ql_phong(QtWidgets.QWidget, Ui_Form):
         print("Da hien thi")
     def insert_item(self):
         # dữ liệu đầu vào
-        id = self.in_id.text()
-        name = self.in_ten.text()
-        sogiuong = self.in_sg.text()
-        id_gia = self.in_price_id.text()
-
+        id = self.grid_widgets["ID"].text()
+        name = self.grid_widgets["Tên"].text()
+        email = self.grid_widgets["Email"].text()
+        sodienthoai = self.grid_widgets["Số ĐT"].text()
+        diachi = self.grid_widgets["Địa chỉ"].text()
+        chucvu = self.grid_widgets["Chức Vụ"].text()
         try:
-            self.cursor.execute("insert into phong values(?, ?, ?, ?)", (id, name, sogiuong, id_gia))
+            self.cursor.execute("insert into nhan_vien values(? , ?, ?, ?, ?, ?)", (id, name, email, sodienthoai, diachi, chucvu))
             self.conn.commit()
             print("Da them")
         except:
@@ -51,10 +51,10 @@ class ql_phong(QtWidgets.QWidget, Ui_Form):
             msg.exec()
         self.show_all()
     def delete_item(self):
-        id = self.in_id.text()
+        id = self.grid_widgets["ID"].text()
 
         try:
-            self.cursor.execute("delete from phong where id=?", (id,))
+            self.cursor.execute("delete from nhan_vien where id=?", (id,))
             self.conn.commit()
             print("da xoa")
         except:
@@ -66,16 +66,17 @@ class ql_phong(QtWidgets.QWidget, Ui_Form):
             msg.exec()
         self.show_all()
     def update_item(self):
-        id = self.in_id.text()
-        name = self.in_ten.text()
-        sogiuong = self.in_sg.text()
-        id_gia = self.in_price_id.text()
-
+        id = self.grid_widgets["ID"].text()
+        name = self.grid_widgets["Tên"].text()
+        email = self.grid_widgets["Email"].text()
+        sodienthoai = self.grid_widgets["Số ĐT"].text()
+        diachi = self.grid_widgets["Địa chỉ"].text()
+        chucvu = self.grid_widgets["Chức Vụ"].text()
         try:
-            self.cursor.execute("update phong\
-                                set ten_phong=?, so_giuong=?, id_gia=?\
+            self.cursor.execute("update nhan_vien\
+                                set ten_nv=?, email=?, sdt=?, dia_chi=?, chuc_vu=? \
                                 where id=?\
-                                ", (name, sogiuong, id_gia, id))
+                                ", (name, email, sodienthoai, diachi, chucvu , id))
             self.conn.commit()
             print("ok")
         except:
@@ -88,7 +89,7 @@ class ql_phong(QtWidgets.QWidget, Ui_Form):
         self.show_all()
     def search_item(self):
         id = self.in_sea.text()
-        self.cursor.execute("select * from phong where id=?", (id,))
+        self.cursor.execute("select * from nhan_vien where id=?", (id,))
         data = self.cursor.fetchall()
         self.dis_pla.setRowCount(0)
         for row_index, row_data in enumerate(data):
@@ -99,6 +100,7 @@ class ql_phong(QtWidgets.QWidget, Ui_Form):
 if __name__ == "__main__":
     import sys
     app = QtWidgets.QApplication(sys.argv)
-    ui = ql_phong()
-    ui.show()
+    Form = QtWidgets.QWidget()
+    ui = ql_nhan_vien(Form)
+    Form.show()
     sys.exit(app.exec())
