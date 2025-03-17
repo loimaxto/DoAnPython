@@ -58,7 +58,7 @@ class NhanVienDAO:
 
 # Example usage (in a separate main.py or similar):
 if __name__ == "__main__":
-    dao = NhanVienDTO()
+    dao = NhanVienDAO()
     print('ass')
     a= dao.get_nhan_vien_next_id()
     print(a)

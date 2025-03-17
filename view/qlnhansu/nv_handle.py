@@ -75,8 +75,8 @@ class StaffManagementWindow(QtWidgets.QWidget, Ui_StaffManagement):
             return
 
         try:
-            obj_kh = NhanVienDTO(nv_id=new_id, ten_nv=new_name, email=new_email, sdt=new_phone, dia_chi=new_address, chuc_vu=new_position)
-            self.dao_staff.insert_nhan_vien(obj_kh)
+            obj_nv = NhanVienDTO(nv_id=new_id, ten_nv=new_name, email=new_email, sdt=new_phone, dia_chi=new_address, chuc_vu=new_position)
+            self.dao_staff.insert_nhan_vien(obj_nv)
         except Exception as e:
             QMessageBox.critical(self,  "Error", f"Failed to add staff: {e}")
             return
