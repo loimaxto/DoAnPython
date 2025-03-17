@@ -35,7 +35,7 @@ class Login(QMainWindow):
     def __init__(self, ui):
         # kết nối database
         try:
-            self.conn = sqlite3.connect("db/qlKhachSan.db")
+            self.conn = sqlite3.connect("db/hotel7-3.db")
             self.cursor = self.conn.cursor()
             print("OK")
         except:

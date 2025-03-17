@@ -4,7 +4,7 @@ from PyQt6.QtWidgets import QWidget, QStackedWidget, QApplication
 from view.Menu.page1 import Page1
 from view.Menu.page2 import Page2
 from view.ql_dichvu import ql_dichvu_handle
-
+from view.ql_dichvu.ql_dichvu import Ui_Form 
 # class MainWindow(QtWidgets.QMainWindow):
 
 from view.khach_hang.kh_handle import CustomerManagementWindow
@@ -17,29 +17,26 @@ class MainWindow(QtWidgets.QMainWindow,Ui_MainWindow):
         self.ui = Ui_MainWindow()
         self.ui.setupUi(self)
         
+        # khai báo trang mới
         self.kh_page = CustomerManagementWindow()
         self.dp_page = DatPhongWindow()
+
+        self.dvForm =  QtWidgets.QWidget()
+        self.dv_page_ui = ql_dichvu_handle(self.dvForm)
         
+        # thêm trang mới vào menumenu
         self.ui.stackedWidget.addWidget(self.dp_page)
         self.ui.stackedWidget.addWidget(self.kh_page)
-        
+        self.ui.stackedWidget.addWidget(self.dvForm)
+
+
         self.ui.stackedWidget.setCurrentWidget(self.kh_page)
         
+        # lập trình chuyển trang
         self.ui.khachHangBtn.clicked.connect(lambda: self.ui.stackedWidget.setCurrentWidget(self.kh_page))
         self.ui.datPhongBtn.clicked.connect(lambda: self.ui.stackedWidget.setCurrentWidget(self.dp_page))
+        self.ui.dichVuBtn.clicked.connect(lambda: self.ui.stackedWidget.setCurrentWidget(self.dvForm))
 
-
-        self.homeBtn = self.findChild(QtWidgets.QPushButton, "datPhongBtn")
-        if self.homeBtn:
-            self.homeBtn.clicked.connect(lambda: self.switch_page(0))
-
-        self.roomBtn = self.findChild(QtWidgets.QPushButton, "dichVuBtn")
-        if self.roomBtn:
-            self.roomBtn.clicked.connect(lambda: self.switch_page(2))
-        self.show()  # Show the main window
-
-    def switch_page(self, index):
-        self.ui.stackedWidget.setCurrentIndex(index)
         
 if __name__ == "__main__":
     app = QtWidgets.QApplication(sys.argv)
