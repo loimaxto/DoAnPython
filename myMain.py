@@ -10,6 +10,10 @@ from view.ql_dichvu import ql_dichvu_handle
 from view.khach_hang.kh_handle import CustomerManagementWindow
 from view.DatPhong.handle_dat_phong import DatPhongWindow
 from view.Menu.menu_ui import Ui_MainWindow
+from view.ql_dichvu.ql_dichvu_handle import ql_dichvu_ui
+from view.phong_va_giaphong.ql_gia_phong_handle import gia_phong
+from view.phong_va_giaphong.ql_phong_handle import ql_phong
+from view.tai_khoan.tai_khoan_handle import tai_khoan
 class MainWindow(QtWidgets.QMainWindow,Ui_MainWindow):
     def __init__(self):
         
@@ -17,29 +21,33 @@ class MainWindow(QtWidgets.QMainWindow,Ui_MainWindow):
         self.ui = Ui_MainWindow()
         self.ui.setupUi(self)
         
+        # khai báo trang mới
         self.kh_page = CustomerManagementWindow()
         self.dp_page = DatPhongWindow()
+        self.dv_page = ql_dichvu_ui()
+        self.giaphong_page = gia_phong()
+        self.phong_page = ql_phong()
+        self.tk_page = tai_khoan()
         
+        # thêm trang mới vào menumenu
         self.ui.stackedWidget.addWidget(self.dp_page)
         self.ui.stackedWidget.addWidget(self.kh_page)
+        self.ui.stackedWidget.addWidget(self.dv_page)
+        self.ui.stackedWidget.addWidget(self.giaphong_page)
+        # self.ui.stackedWidget.addWidget(self.phong_page)
+        self.ui.stackedWidget.addWidget(self.tk_page)
         
+
         self.ui.stackedWidget.setCurrentWidget(self.kh_page)
         
+        # lập trình chuyển trang
         self.ui.khachHangBtn.clicked.connect(lambda: self.ui.stackedWidget.setCurrentWidget(self.kh_page))
         self.ui.datPhongBtn.clicked.connect(lambda: self.ui.stackedWidget.setCurrentWidget(self.dp_page))
+        self.ui.dichVuBtn.clicked.connect(lambda: self.ui.stackedWidget.setCurrentWidget(self.dv_page))
+        self.ui.phongGiaBtn.clicked.connect(lambda: self.ui.stackedWidget.setCurrentWidget(self.giaphong_page))
+        # self.ui.phongGiaBtn.clicked.connect(lambda: self.ui.stackedWidget.setCurrentWidget(self.phong_page))
+        self.ui.taiKhoanBtn.clicked.connect(lambda: self.ui.stackedWidget.setCurrentWidget(self.tk_page))
 
-
-        self.homeBtn = self.findChild(QtWidgets.QPushButton, "datPhongBtn")
-        if self.homeBtn:
-            self.homeBtn.clicked.connect(lambda: self.switch_page(0))
-
-        self.roomBtn = self.findChild(QtWidgets.QPushButton, "dichVuBtn")
-        if self.roomBtn:
-            self.roomBtn.clicked.connect(lambda: self.switch_page(2))
-        self.show()  # Show the main window
-
-    def switch_page(self, index):
-        self.ui.stackedWidget.setCurrentIndex(index)
         
 if __name__ == "__main__":
     app = QtWidgets.QApplication(sys.argv)
