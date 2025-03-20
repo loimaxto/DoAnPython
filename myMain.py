@@ -45,6 +45,7 @@ class MainWindow(QtWidgets.QMainWindow,Ui_MainWindow):
         self.ui.stackedWidget.setCurrentWidget(self.kh_page)
         
         # lập trình chuyển trang
+        self.ui.nhanVienBtn.clicked.connect(lambda: self.ui.stackedWidget.setCurrentWidget(self.nv_page))
         self.ui.khachHangBtn.clicked.connect(lambda: self.ui.stackedWidget.setCurrentWidget(self.kh_page))
         self.ui.datPhongBtn.clicked.connect(lambda: self.ui.stackedWidget.setCurrentWidget(self.dp_page))
         self.ui.dichVuBtn.clicked.connect(lambda: self.ui.stackedWidget.setCurrentWidget(self.dv_page))
