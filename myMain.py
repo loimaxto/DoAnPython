@@ -4,6 +4,7 @@ from PyQt6.QtWidgets import QWidget, QStackedWidget, QApplication
 from view.Menu.page1 import Page1
 from view.Menu.page2 import Page2
 from view.ql_dichvu import ql_dichvu_handle
+import sqlite3
 
 # class MainWindow(QtWidgets.QMainWindow):
 
@@ -15,7 +16,11 @@ from view.phong_va_giaphong.ql_gia_phong_handle import gia_phong
 # from view.phong_va_giaphong.ql_phong_handle import ql_phong
 from view.tai_khoan.tai_khoan_handle import tai_khoan
 from view.phong_va_giaphong.phong_giaphong_handle import phong_giaphong_ui
+from view.login.dangnhap_handle import dangnhap
+
 class MainWindow(QtWidgets.QMainWindow,Ui_MainWindow):
+    username=""
+    password=""
     def __init__(self):
         
         super().__init__()
@@ -46,9 +51,18 @@ class MainWindow(QtWidgets.QMainWindow,Ui_MainWindow):
         self.ui.phongGiaBtn.clicked.connect(lambda: self.ui.stackedWidget.setCurrentWidget(self.phong_gia_page))
         self.ui.taiKhoanBtn.clicked.connect(lambda: self.ui.stackedWidget.setCurrentWidget(self.tk_page))
 
+        self.show()
+
+        # đăng nhậpnhập
+        tk = dangnhap(self)
+        
+
+
+
+        
+
         
 if __name__ == "__main__":
     app = QtWidgets.QApplication(sys.argv)
-    window = MainWindow()
-    window.show()
+    mainwindow = MainWindow()
     sys.exit(app.exec())

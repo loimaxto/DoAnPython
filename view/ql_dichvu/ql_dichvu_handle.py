@@ -19,8 +19,12 @@ class ql_dichvu_ui(QtWidgets.QWidget, Ui_Form):
         super().__init__()
         self.setupUi(self)
         self.dv_dao = DichVuDAO()
+
+        # sơ chế giao diện
+        self.dis_pla.horizontalHeader().setSectionResizeMode(QtWidgets.QHeaderView.ResizeMode.Stretch)
         # kết nối db
-       
+        self.conn = sqlite3.connect("db/hotel7-3.db")
+        self.cursor = self.conn.cursor()
 
         self.show_all()
 
@@ -51,28 +55,33 @@ class ql_dichvu_ui(QtWidgets.QWidget, Ui_Form):
         id = self.in_id.text()
         ten = self.in_ten.text()
         gia = self.in_price.text()
-        my_dv = DichVuDTO(id, ten, gia)
-        DichVuDAO.insert_dich_vu(my_dv)
-        # print(data)
+        
+        try:
+            self.cursor.execute("insert into dich_vu values(?, ?, ?)", (id, ten, gia))
+            self.conn.commit()
+            print("OK")
+        except:
+            print("no ok")
+            msg = QMessageBox()
+            msg.setIcon(QMessageBox.Icon.Critical)
+            msg.setWindowTitle("Lỗi")
+            msg.setText("Dữ liệu nhập vào không hợp lệ")
+            msg.exec()
         self.show_all()
     
     def update_item(self):
         id = self.in_id.text()
         name = self.in_ten.text()
         gia = self.in_price.text()
-        if id=="" or name=="" or gia=="":
-            print("du lieu khong hop le")
-            return
-        dicVu =  DichVuDTO(id,name,gia)
-        DichVuDAO.update_dich_vu(dicVu)
+        
+        self.cursor.execute("update dich_vu set ten_dv=?, gia=? where dv_id=?", (name, gia, id))
+        self.conn.commit()
+
         self.show_all()
     def delete_item(self):
         id = self.in_id.text()
-        if id=="":
-            print("du lieu khong hop le")
-            self.show_err()
-            return
-        self.dv_dao.delete_dich_vu(id)
+        self.cursor.execute("delete from dich_vu where dv_id=?", (id,))
+        self.conn.commit()
         print("xoa thanh cong")
         self.show_all()
     def search_item(self):
