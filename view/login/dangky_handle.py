@@ -15,10 +15,11 @@ class dangky(QtWidgets.QMainWindow, Ui_MainWindow):
 
     def dk(self):
         # lấy dữ liệu từ form đăng ký
+        id = self.id.text()
         usname = self.username.text()
         pass1 = self.password.text()
         pass2 = self.password2.text()
-        id = self.id_nv.text()
+        id_nv = self.id_nv.text()
         name = self.name.text()
         diachi = self.diachi.text()
         email = self.email.text()
@@ -35,37 +36,26 @@ class dangky(QtWidgets.QMainWindow, Ui_MainWindow):
             msg.setText("Mật khẩu chưa chính xác!\nVui lòng nhập lại mật khẩu")
             msg.exec()
             return
-        # try:
-        #     self.cursor.execute("insert into nhan_vien values(?, ?, ?, ?, ?)", (name, email, sdt, diachi, chucvu))
-        #     self.cursor.execute("insert into user values(?, ?)", (usname, pass1))
-        #     self.conn.commit()
-        #     print("thanh cong")
-        #     msg = QtWidgets.QMessageBox()
-        #     msg.setIcon(QtWidgets.QMessageBox.Icon.Information)
-        #     msg.setWindowTitle("Đăng ký thành công")
-        #     msg.setText("Tài khoản của bạn đã được đăng ký!\n\
-        #                 Vui lòng đăng nhập để sử dụng tài khoản.")
-        #     msg.exec()
-        #     return
-        # except:
-        #     print("du lieu co roi")
-        #     msg = QtWidgets.QMessageBox()
-        #     msg.setIcon(QtWidgets.QMessageBox.Icon.Critical)
-        #     msg.setWindowTitle("Không thể đăng ký")
-        #     msg.setText("Nhân viên này đã có tài khoản")
-        #     msg.exec()
-        #     return
-        self.cursor.execute("insert into nhan_vien values(?, ?, ?, ?, ?, ?)", (id, name, email, sdt, diachi, chucvu))
-        self.cursor.execute("insert into user values(?, ?, ?)", (usname, pass1, id))
-        self.conn.commit()
-        print("thanh cong")
-        msg = QtWidgets.QMessageBox()
-        msg.setIcon(QtWidgets.QMessageBox.Icon.Information)
-        msg.setWindowTitle("Đăng ký thành công")
-        msg.setText("Tài khoản của bạn đã được đăng ký!\n\
-                    Vui lòng đăng nhập để sử dụng tài khoản.")
-        msg.exec()
-        return
+        try:
+            self.cursor.execute("insert into nhan_vien values(?, ?, ?, ?, ?, ?)", (id_nv, name, email, sdt, diachi, chucvu))
+            self.cursor.execute("insert into user values(?, ?, ?, ?)", (id, usname, pass1, id_nv))
+            self.conn.commit()
+            print("thanh cong")
+            msg = QtWidgets.QMessageBox()
+            msg.setIcon(QtWidgets.QMessageBox.Icon.Information)
+            msg.setWindowTitle("Đăng ký thành công")
+            msg.setText("Tài khoản của bạn đã được đăng ký!\n\
+                            Vui lòng đăng nhập để sử dụng tài khoản.")
+            msg.exec()
+        except:
+            print("du lieu co roi")
+            msg = QtWidgets.QMessageBox()
+            msg.setIcon(QtWidgets.QMessageBox.Icon.Critical)
+            msg.setWindowTitle("Không thể đăng ký")
+            msg.setText("Nhân viên này đã có tài khoản")
+            msg.exec()
+            return
+        
 
 
 if __name__ == "__main__":
