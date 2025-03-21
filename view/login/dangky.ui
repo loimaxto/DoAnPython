@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>413</width>
+    <width>505</width>
     <height>269</height>
    </rect>
   </property>
@@ -14,85 +14,99 @@
    <string>MainWindow</string>
   </property>
   <widget class="QWidget" name="centralwidget">
-   <layout class="QFormLayout" name="formLayout">
+   <layout class="QGridLayout" name="gridLayout_3">
     <item row="0" column="0">
      <layout class="QGridLayout" name="gridLayout">
-      <item row="2" column="2">
-       <widget class="QLineEdit" name="password2"/>
-      </item>
-      <item row="0" column="2">
-       <widget class="QLineEdit" name="username"/>
-      </item>
-      <item row="1" column="0" colspan="2">
-       <widget class="QLabel" name="label_8">
-        <property name="text">
-         <string>Mật khẩu</string>
-        </property>
-       </widget>
-      </item>
-      <item row="0" column="0" colspan="2">
+      <item row="0" column="0">
        <widget class="QLabel" name="label_6">
         <property name="text">
          <string>Tên đăng nhập</string>
         </property>
        </widget>
       </item>
-      <item row="1" column="2">
+      <item row="0" column="1">
+       <widget class="QLineEdit" name="username"/>
+      </item>
+      <item row="1" column="0">
+       <widget class="QLabel" name="label_8">
+        <property name="text">
+         <string>Mật khẩu</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="1">
        <widget class="QLineEdit" name="password"/>
       </item>
-      <item row="2" column="0" colspan="2">
+      <item row="2" column="0">
        <widget class="QLabel" name="label_9">
         <property name="text">
          <string>Xác nhận mật khẩu</string>
         </property>
        </widget>
       </item>
+      <item row="2" column="1">
+       <widget class="QLineEdit" name="password2"/>
+      </item>
      </layout>
     </item>
     <item row="1" column="0">
      <layout class="QGridLayout" name="gridLayout_2">
       <item row="0" column="0" colspan="2">
-       <widget class="QLabel" name="label">
+       <widget class="QLabel" name="label_7">
         <property name="text">
-         <string>Tên</string>
+         <string>Mã NV</string>
         </property>
        </widget>
       </item>
       <item row="0" column="2">
-       <widget class="QLineEdit" name="name"/>
+       <widget class="QLineEdit" name="id_nv">
+        <property name="text">
+         <string/>
+        </property>
+       </widget>
       </item>
       <item row="0" column="3">
+       <widget class="QLabel" name="label_2">
+        <property name="text">
+         <string>Email</string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="4">
+       <widget class="QLineEdit" name="email"/>
+      </item>
+      <item row="1" column="3">
        <widget class="QLabel" name="label_4">
         <property name="text">
          <string>Địa chỉ</string>
         </property>
        </widget>
       </item>
-      <item row="0" column="4">
+      <item row="1" column="4">
        <widget class="QLineEdit" name="diachi"/>
       </item>
-      <item row="1" column="3">
+      <item row="2" column="3">
        <widget class="QLabel" name="label_5">
         <property name="text">
          <string>Chức vụ</string>
         </property>
        </widget>
       </item>
-      <item row="1" column="4">
+      <item row="2" column="4">
        <widget class="QLineEdit" name="chucvu"/>
       </item>
       <item row="1" column="2">
-       <widget class="QLineEdit" name="email"/>
+       <widget class="QLineEdit" name="name"/>
+      </item>
+      <item row="1" column="0" colspan="2">
+       <widget class="QLabel" name="label">
+        <property name="text">
+         <string>Tên</string>
+        </property>
+       </widget>
       </item>
       <item row="2" column="2">
        <widget class="QLineEdit" name="sdt"/>
-      </item>
-      <item row="1" column="0" colspan="2">
-       <widget class="QLabel" name="label_2">
-        <property name="text">
-         <string>Email</string>
-        </property>
-       </widget>
       </item>
       <item row="2" column="0" colspan="2">
        <widget class="QLabel" name="label_3">
@@ -104,9 +118,9 @@
      </layout>
     </item>
     <item row="2" column="0">
-     <widget class="QPushButton" name="finishBtn">
+     <widget class="QPushButton" name="dangky_btn">
       <property name="text">
-       <string>Xong</string>
+       <string>Đăng ký</string>
       </property>
      </widget>
     </item>
@@ -117,7 +131,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>413</width>
+     <width>505</width>
      <height>26</height>
     </rect>
    </property>

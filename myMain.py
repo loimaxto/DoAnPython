@@ -19,8 +19,6 @@ from view.phong_va_giaphong.phong_giaphong_handle import phong_giaphong_ui
 from view.login.dangnhap_handle import dangnhap
 
 class MainWindow(QtWidgets.QMainWindow,Ui_MainWindow):
-    username=""
-    password=""
     def __init__(self):
         
         super().__init__()
@@ -50,11 +48,20 @@ class MainWindow(QtWidgets.QMainWindow,Ui_MainWindow):
         self.ui.dichVuBtn.clicked.connect(lambda: self.ui.stackedWidget.setCurrentWidget(self.dv_page))
         self.ui.phongGiaBtn.clicked.connect(lambda: self.ui.stackedWidget.setCurrentWidget(self.phong_gia_page))
         self.ui.taiKhoanBtn.clicked.connect(lambda: self.ui.stackedWidget.setCurrentWidget(self.tk_page))
+        self.ui.dangXuatBtn.clicked.connect(self.DangNhap)
 
-        self.show()
+        # self.show()
+    
 
-        # đăng nhậpnhập
-        tk = dangnhap(self)
+        # đăng nhập
+        self.tk = dangnhap(self)
+    
+    # hàm chuyển cửa sổ
+    def DangNhap(self):
+        self.hide()
+        self.tk.username.setText("")
+        self.tk.password.setText("")
+        self.tk.show()
         
 
 
