@@ -4,7 +4,7 @@ from view.app.app import Ui_MainWindow
 
 from view.login.KLogin import Login
 from view.phong_va_giaphong.ql_gia_phong_handle import gia_phong
-from view.ql_dichvu.ql_dichvu_handle import ql_dichvu_handle
+from view.ql_dichvu.ql_dichvu_handle import ql_dichvu_ui
 from view.tai_khoan.tai_khoan_handle import tai_khoan
 from view.phong_va_giaphong.ql_phong_handle import ql_phong
 from view.qlnhansu.ql_nhan_vien_handle import ql_nhan_vien
