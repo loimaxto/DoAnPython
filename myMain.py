@@ -67,7 +67,7 @@ class MainWindow(QtWidgets.QMainWindow,Ui_MainWindow):
         self.hide()
         self.tk.username.setText("")
         self.tk.password.setText("")
-        self.tk.show()
+        # self.tk.show()
         
 
 

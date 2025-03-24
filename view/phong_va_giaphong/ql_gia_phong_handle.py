@@ -15,6 +15,7 @@ class gia_phong(QtWidgets.QWidget, Ui_Form):
 
         # sơ chế lại sương sương
         self.dis_pla.horizontalHeader().setSectionResizeMode(QtWidgets.QHeaderView.ResizeMode.Stretch)
+        self.dis_pla.verticalHeader().setVisible(False)
 
         # kết nối db
         self.conn = sqlite3.connect("db/hotel7-3.db")
