@@ -1,7 +1,33 @@
+mô hình CNN trong nhận diện khuôn mặt
+xử lí lúc khách đặt phòng:
+    khách hàng khi vào xác nhận đặt phòng sẽ được yêu cầu lấy FaceID 
+    -bắt lấy 30 bức ảnh khuôn mặt của người khách hàng
+        lưu vào folder: recogni_face/dataset/{id_customer} 
+    -từ mỗi người khách hàng sẽ được phân tích (pytorch)
+    đặc điểm riêng nghiệp vụ qua mô hình
+    (
+        trích xuất các đặc trưng của của được đề cập tới
+        Lớp tích chập → Lớp kích hoạt → Lớp gộp
+        Lớp kết nối đầy đủ
+        phân tích dataset
+        đánh giá về phần đã train
+    )
+    vào thư mục: recogni_face/trainner/face_{id_customer}.pth
+    -hệ thống nhận diện khi khách hàng yêu cầu checkin phòng
+    recogni_face/trainner/face_{id_customer}.pth
+    và so sánh từ file đã được train của đúng người khách hàng đó  với khuôn mặt của người khách hàng đang trong
+    web cam theo các đặc trưng được lưu
+    trong quá trình so sánh nếu 2 đặc trưng trùng khớp với nhau trong vòng 5 giây sẽ hệ thống sẽ trả về kết quả true
+    ngược lại sẽ trả về kết quả false
+nhược điểm (Yêu cầu dữ liệu lớn: Cần nhiều dữ liệu để huấn luyện hiệu quả.
+
+Tính toán nặng: Đặc biệt với các mô hình sâu và phức tạp.
+
+Khó giải thích: Các đặc trưng trích xuất thường khó diễn giải.)
 
 
 pip install opencv-python // install cv2 library turn on and off cam
 pip install opencv-contrib-python// install library that adds some features to cv2
-
-
-
+pip install numpy
+pip install torch torchvision torchaudio matplotlib opencv-python
+pip install scikit-learn
