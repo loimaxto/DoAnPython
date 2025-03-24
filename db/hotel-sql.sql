@@ -1,5 +1,5 @@
 --
--- File generated with SQLiteStudio v3.4.17 on Fri Mar 7 15:20:24 2025
+-- File generated with SQLiteStudio v3.4.17 on Mon Mar 24 08:27:39 2025
 --
 -- Text encoding used: System
 --
@@ -37,9 +37,9 @@ CREATE TABLE dat_phong (
     FOREIGN KEY (phong_id) REFERENCES phong (id),
     FOREIGN KEY (kh_id) REFERENCES khach_hang (kh_id)
 );
-INSERT INTO dat_phong (booking_id, ngay_bd, ngay_kt, phi_dat_coc, note, phong_id, tien_luc_dat, kh_id) VALUES (1, '2024-10-26', '2024-10-28', 100000, 'Khách mu?n phòng có view d?p', 101, 300000, 1);
-INSERT INTO dat_phong (booking_id, ngay_bd, ngay_kt, phi_dat_coc, note, phong_id, tien_luc_dat, kh_id) VALUES (2, '2024-11-01', '2024-11-03', 150000, 'Khách c?n thêm g?i', 202, 450000, 2);
-INSERT INTO dat_phong (booking_id, ngay_bd, ngay_kt, phi_dat_coc, note, phong_id, tien_luc_dat, kh_id) VALUES (3, '2024-11-15', '2024-11-16', 200000, 'Phòng VIP cho gia dình', 301, 800000, 3);
+INSERT INTO dat_phong (booking_id, ngay_bd, ngay_kt, phi_dat_coc, note, phong_id, tien_luc_dat, kh_id) VALUES (1, '2024-10-26', '2024-10-28', 100000, 'Khï¿½ch mu?n phï¿½ng cï¿½ view d?p', 101, 300000, 1);
+INSERT INTO dat_phong (booking_id, ngay_bd, ngay_kt, phi_dat_coc, note, phong_id, tien_luc_dat, kh_id) VALUES (2, '2024-11-01', '2024-11-03', 150000, 'Khï¿½ch c?n thï¿½m g?i', 202, 450000, 2);
+INSERT INTO dat_phong (booking_id, ngay_bd, ngay_kt, phi_dat_coc, note, phong_id, tien_luc_dat, kh_id) VALUES (3, '2024-11-15', '2024-11-16', 200000, 'Phï¿½ng VIP cho gia dï¿½nh', 301, 800000, 3);
 
 -- Table: dich_vu
 DROP TABLE IF EXISTS dich_vu;
@@ -52,6 +52,7 @@ INSERT INTO dich_vu (dv_id, ten_dv, gia) VALUES (1, 'Nu?c ng?t', 15000);
 INSERT INTO dich_vu (dv_id, ten_dv, gia) VALUES (2, 'Bia', 25000);
 INSERT INTO dich_vu (dv_id, ten_dv, gia) VALUES (3, 'Snack', 20000);
 INSERT INTO dich_vu (dv_id, ten_dv, gia) VALUES (4, 'Gi?t ?i', 50000);
+INSERT INTO dich_vu (dv_id, ten_dv, gia) VALUES (5, 'abc', 10);
 
 -- Table: gia_phong
 DROP TABLE IF EXISTS gia_phong;
@@ -62,9 +63,9 @@ CREATE TABLE gia_phong (
     gia_ngay INTEGER,
     gia_dem INTEGER
 );
-INSERT INTO gia_phong (gia_id, ten_loai, gia_gio, gia_ngay, gia_dem) VALUES (1, 'Phòng Ðon', 50000, 300000, 400000);
-INSERT INTO gia_phong (gia_id, ten_loai, gia_gio, gia_ngay, gia_dem) VALUES (2, 'Phòng Ðôi', 80000, 450000, 600000);
-INSERT INTO gia_phong (gia_id, ten_loai, gia_gio, gia_ngay, gia_dem) VALUES (3, 'Phòng VIP', 150000, 800000, 1000000);
+INSERT INTO gia_phong (gia_id, ten_loai, gia_gio, gia_ngay, gia_dem) VALUES (1, 'Phï¿½ng ï¿½on', 50000, 300000, 400000);
+INSERT INTO gia_phong (gia_id, ten_loai, gia_gio, gia_ngay, gia_dem) VALUES (2, 'Phï¿½ng ï¿½ï¿½i', 80000, 450000, 600000);
+INSERT INTO gia_phong (gia_id, ten_loai, gia_gio, gia_ngay, gia_dem) VALUES (3, 'Phï¿½ng VIP', 150000, 800000, 1000000);
 
 -- Table: hoa_don
 DROP TABLE IF EXISTS hoa_don;
@@ -83,9 +84,9 @@ INSERT INTO hoa_don (hd_id, tong_tien, thoi_gian, nv_id, thanh_toan_status) VALU
 -- Table: khach_hang
 DROP TABLE IF EXISTS khach_hang;
 CREATE TABLE khach_hang (kh_id INTEGER PRIMARY KEY, ten TEXT, sdt TEXT, image TEXT);
-INSERT INTO khach_hang (kh_id, ten, sdt, image) VALUES (1, 'Nguy?n Van A', '0901234567', NULL);
-INSERT INTO khach_hang (kh_id, ten, sdt, image) VALUES (2, 'Tr?n Th? B', '0912345678', NULL);
-INSERT INTO khach_hang (kh_id, ten, sdt, image) VALUES (3, 'Lê Hoàng C', '0987654321', NULL);
+INSERT INTO khach_hang (kh_id, ten, sdt, image) VALUES (33, 'Doe aa', '123-456-7890', 'john.jpg');
+INSERT INTO khach_hang (kh_id, ten, sdt, image) VALUES (34, 'aaazaaa', '1234', 'None');
+INSERT INTO khach_hang (kh_id, ten, sdt, image) VALUES (36, 'Customer 36', '123-456-4951', NULL);
 
 -- Table: nhan_vien
 DROP TABLE IF EXISTS nhan_vien;
@@ -97,24 +98,18 @@ CREATE TABLE nhan_vien (
     dia_chi TEXT,
     chuc_vu TEXT
 );
-INSERT INTO nhan_vien (nv_id, ten_nv, email, sdt, dia_chi, chuc_vu) VALUES (1, 'Ph?m Th? D', 'phamthi.d@example.com', '0909876543', '123 Ðu?ng X, Qu?n Y, TP.HCM', 'Qu?n lý');
-INSERT INTO nhan_vien (nv_id, ten_nv, email, sdt, dia_chi, chuc_vu) VALUES (2, 'Ð? Van E', 'dovan.e@example.com', '0918765432', '456 Ðu?ng Z, Qu?n T, Hà N?i', 'L? tân');
-INSERT INTO nhan_vien (nv_id, ten_nv, email, sdt, dia_chi, chuc_vu) VALUES (3, 'Hoàng Minh F', 'hoangminh.f@example.com', '0331234567', '789 Ðu?ng A, Qu?n B, Ðà N?ng', 'Nhân Viên');
+INSERT INTO nhan_vien (nv_id, ten_nv, email, sdt, dia_chi, chuc_vu) VALUES (1, 'Ph?m Th? D', 'phamthi.d@example.com', '0909876543', '123 ï¿½u?ng X, Qu?n Y, TP.HCM', 'Qu?n lï¿½');
+INSERT INTO nhan_vien (nv_id, ten_nv, email, sdt, dia_chi, chuc_vu) VALUES (2, 'ï¿½? Van E', 'dovan.e@example.com', '0918765432', '456 ï¿½u?ng Z, Qu?n T, Hï¿½ N?i', 'L? tï¿½n');
+INSERT INTO nhan_vien (nv_id, ten_nv, email, sdt, dia_chi, chuc_vu) VALUES (3, 'Hoï¿½ng Minh F', 'hoangminh.f@example.com', '0331234567', '789 ï¿½u?ng A, Qu?n B, ï¿½ï¿½ N?ng', 'Nhï¿½n Viï¿½n');
 
 -- Table: phong
 DROP TABLE IF EXISTS phong;
-CREATE TABLE phong (
-    id INTEGER PRIMARY KEY,
-    ten_phong TEXT,
-    so_giuong INTEGER,
-    id_gia INTEGER,
-    FOREIGN KEY (id_gia) REFERENCES gia_phong (gia_id)
-);
-INSERT INTO phong (id, ten_phong, so_giuong, id_gia) VALUES (101, 'Phòng 101', 1, 1);
-INSERT INTO phong (id, ten_phong, so_giuong, id_gia) VALUES (102, 'Phòng 102', 2, 2);
-INSERT INTO phong (id, ten_phong, so_giuong, id_gia) VALUES (201, 'Phòng 201', 1, 1);
-INSERT INTO phong (id, ten_phong, so_giuong, id_gia) VALUES (202, 'Phòng 202', 2, 2);
-INSERT INTO phong (id, ten_phong, so_giuong, id_gia) VALUES (301, 'Phòng 301 VIP', 2, 3);
+CREATE TABLE phong (id INTEGER PRIMARY KEY, ten_phong TEXT, so_giuong INTEGER, id_gia INTEGER, tinh_trang_dat_phong INTEGER DEFAULT (0), tinh_trang_su_dung INTEGER DEFAULT NULL, FOREIGN KEY (id_gia) REFERENCES gia_phong (gia_id));
+INSERT INTO phong (id, ten_phong, so_giuong, id_gia, tinh_trang_dat_phong, tinh_trang_su_dung) VALUES (101, 'Phï¿½ng 101', 1, 1, 0, 1);
+INSERT INTO phong (id, ten_phong, so_giuong, id_gia, tinh_trang_dat_phong, tinh_trang_su_dung) VALUES (102, 'Phï¿½ng 102', 2, 2, 0, 1);
+INSERT INTO phong (id, ten_phong, so_giuong, id_gia, tinh_trang_dat_phong, tinh_trang_su_dung) VALUES (201, 'Phï¿½ng 201', 1, 1, 0, 1);
+INSERT INTO phong (id, ten_phong, so_giuong, id_gia, tinh_trang_dat_phong, tinh_trang_su_dung) VALUES (202, 'Phï¿½ng 202', 2, 2, 0, 1);
+INSERT INTO phong (id, ten_phong, so_giuong, id_gia, tinh_trang_dat_phong, tinh_trang_su_dung) VALUES (301, 'Phï¿½ng 301 VIP', 2, 3, 0, 0);
 
 -- Table: user
 DROP TABLE IF EXISTS user;
@@ -128,7 +123,7 @@ CREATE TABLE user (
 INSERT INTO user (user_id, username, password, nv_id) VALUES (1, 'admin', 'password123', NULL);
 INSERT INTO user (user_id, username, password, nv_id) VALUES (2, 'letan1', 'letan456', 2);
 INSERT INTO user (user_id, username, password, nv_id) VALUES (3, 'nhanvien1', 'nv789', 3);
-INSERT INTO user (user_id, username, password, nv_id) VALUES (4, 'a', 'a', NULL);
+INSERT INTO user (user_id, username, password, nv_id) VALUES (4, 'a', 'a', 2);
 
 COMMIT TRANSACTION;
 PRAGMA foreign_keys = on;
