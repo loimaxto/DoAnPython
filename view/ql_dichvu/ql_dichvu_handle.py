@@ -22,6 +22,7 @@ class ql_dichvu_ui(QtWidgets.QWidget, Ui_Form):
 
         # sơ chế giao diện
         self.dis_pla.horizontalHeader().setSectionResizeMode(QtWidgets.QHeaderView.ResizeMode.Stretch)
+        self.dis_pla.verticalHeader().setVisible(False)
         # kết nối db
         self.conn = sqlite3.connect("db/hotel7-3.db")
         self.cursor = self.conn.cursor()

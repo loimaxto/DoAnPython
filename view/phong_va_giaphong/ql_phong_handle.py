@@ -11,6 +11,8 @@ class ql_phong(QtWidgets.QWidget, Ui_Form):
 
         # sơ chế giao diện
         self.dis_pla.horizontalHeader().setSectionResizeMode(QtWidgets.QHeaderView.ResizeMode.Stretch)
+        self.dis_pla.verticalHeader().setVisible(False)
+
 
         # kết nối db
         self.conn = sqlite3.connect("db/hotel7-3.db")
@@ -23,9 +25,14 @@ class ql_phong(QtWidgets.QWidget, Ui_Form):
         self.del_btn.clicked.connect(self.delete_item)
         self.edi_btn.clicked.connect(self.update_item)
         self.sea_btn.clicked.connect(self.search_item)
+        # self.dis_pla.setSelectionMode(QtWidgets.QTableView.SelectionMode.SingleSelection)
+        # self.dis_pla.setSelectionBehavior(QtWidgets.QTableView.SelectionBehavior.SelectRows)
+        # self.dis_pla.selectionModel().selectionChanged.connect(self.select_row)
+
 
     def show_all(self):
-        self.cursor.execute("select * from phong")
+        self.cursor.execute("select id, ten_phong, so_giuong, id_gia, ten_loai, gia_gio, gia_ngay, gia_dem\
+                            from phong join gia_phong on id_gia=gia_id")
         data = self.cursor.fetchall()
         self.dis_pla.setRowCount(0)
         for row_index, row_data in enumerate(data):
@@ -99,6 +106,9 @@ class ql_phong(QtWidgets.QWidget, Ui_Form):
             self.dis_pla.insertRow(row_index)
             for column_index, item_data in enumerate(row_data):
                 self.dis_pla.setItem(row_index, column_index, QTableWidgetItem(str(item_data)))
+    def select_row(self):
+        row = self.dis_pla.selectionModel()
+        print(row)
 
 if __name__ == "__main__":
     import sys
