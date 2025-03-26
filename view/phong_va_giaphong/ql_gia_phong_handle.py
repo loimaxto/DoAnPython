@@ -49,7 +49,8 @@ class gia_phong(QtWidgets.QWidget, Ui_Form):
         dem = self.in_night.text()
 
         try:
-            self.cursor.execute("insert into gia_phong values(?, ?, ?, ?, ?)", (id, name, gio, ngay, dem))
+            self.cursor.execute("insert into gia_phong (ten_loai, gia_gio, gia_ngay, gia_dem) \
+                                values(?, ?, ?, ?)", (name, gio, ngay, dem))
             self.conn.commit()
             print("Da them")
         except:
