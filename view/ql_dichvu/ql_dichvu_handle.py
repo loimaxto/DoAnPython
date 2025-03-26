@@ -23,17 +23,21 @@ class ql_dichvu_ui(QtWidgets.QWidget, Ui_Form):
         # sơ chế giao diện
         self.dis_pla.horizontalHeader().setSectionResizeMode(QtWidgets.QHeaderView.ResizeMode.Stretch)
         self.dis_pla.verticalHeader().setVisible(False)
+        self.dis_pla.setSelectionMode(QtWidgets.QTableView.SelectionMode.SingleSelection)
+        self.dis_pla.setSelectionBehavior(QtWidgets.QTableView.SelectionBehavior.SelectRows)
         # kết nối db
         self.conn = sqlite3.connect("db/hotel7-3.db")
         self.cursor = self.conn.cursor()
 
         self.show_all()
 
+        # sự kiện
         self.sea_btn.clicked.connect(self.search_item)
         self.sho_btn.clicked.connect(self.show_all)
         self.ins_btn.clicked.connect(self.insert_item)
         self.edi_btn.clicked.connect(self.update_item)
         self.del_btn.clicked.connect(self.delete_item)
+        self.dis_pla.selectionModel().selectionChanged.connect(self.hangdangchon)
     
     def show_err(self):
         msg = QMessageBox()
@@ -53,12 +57,12 @@ class ql_dichvu_ui(QtWidgets.QWidget, Ui_Form):
         print("Hien thi")
     
     def insert_item(self):
-        id = self.in_id.text()
+        # id = self.in_id.text()
         ten = self.in_ten.text()
         gia = self.in_price.text()
         
         try:
-            self.cursor.execute("insert into dich_vu values(?, ?, ?)", (id, ten, gia))
+            self.cursor.execute("insert into dich_vu (ten_dv, gia) values(?, ?)", (ten, gia))
             self.conn.commit()
             print("OK")
         except:
@@ -102,6 +106,10 @@ class ql_dichvu_ui(QtWidgets.QWidget, Ui_Form):
 
         print("Tim kiem thanh cong")
 
+    def hangdangchon(self):
+        data = self.dis_pla.currentRow()
+        print(data)
+        return data
 
 if __name__ == "__main__":
     import sys

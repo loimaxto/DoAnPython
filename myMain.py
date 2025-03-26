@@ -56,11 +56,11 @@ class MainWindow(QtWidgets.QMainWindow,Ui_MainWindow):
 
         self.ui.dangXuatBtn.clicked.connect(self.DangNhap)
 
-        # self.show()
+        self.show()
     
 
         # đăng nhập
-        self.tk = dangnhap(self)
+        # self.tk = dangnhap(self)
     
     # hàm chuyển cửa sổ
     def DangNhap(self):

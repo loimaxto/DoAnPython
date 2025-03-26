@@ -51,7 +51,7 @@
    <item row="1" column="0" colspan="4">
     <widget class="QTableWidget" name="dis_pla">
      <property name="columnCount">
-      <number>8</number>
+      <number>9</number>
      </property>
      <column>
       <property name="text">
@@ -66,6 +66,11 @@
      <column>
       <property name="text">
        <string>Số giường</string>
+      </property>
+     </column>
+     <column>
+      <property name="text">
+       <string>Tình trạng</string>
       </property>
      </column>
      <column>
