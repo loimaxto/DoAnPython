@@ -37,7 +37,7 @@ class ql_dichvu_ui(QtWidgets.QWidget, Ui_Form):
         self.ins_btn.clicked.connect(self.insert_item)
         self.edi_btn.clicked.connect(self.update_item)
         self.del_btn.clicked.connect(self.delete_item)
-        self.dis_pla.selectionModel().selectionChanged.connect(self.hangdangchon)
+        self.dis_pla.selectionModel().selectionChanged.connect(self.selec_row)
     
     def show_err(self):
         msg = QMessageBox()
@@ -84,7 +84,7 @@ class ql_dichvu_ui(QtWidgets.QWidget, Ui_Form):
 
         self.show_all()
     def delete_item(self):
-        id = self.in_id.text()
+        id = self.selec_row()
         self.cursor.execute("delete from dich_vu where dv_id=?", (id,))
         self.conn.commit()
         print("xoa thanh cong")
@@ -106,10 +106,13 @@ class ql_dichvu_ui(QtWidgets.QWidget, Ui_Form):
 
         print("Tim kiem thanh cong")
 
-    def hangdangchon(self):
-        data = self.dis_pla.currentRow()
-        print(data)
-        return data
+    def selec_row(self):
+        row = self.dis_pla.currentRow()
+        if row<0:
+            return
+        id = self.dis_pla.item(row, 0).text()
+        print(id)
+        return id
 
 if __name__ == "__main__":
     import sys

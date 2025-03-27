@@ -28,6 +28,7 @@ class gia_phong(QtWidgets.QWidget, Ui_Form):
         self.del_btn.clicked.connect(self.delete_item)
         self.edi_btn.clicked.connect(self.update_item)
         self.sea_btn.clicked.connect(self.search_item)
+        self.dis_pla.itemSelectionChanged.connect(self.select_row)
     
     def show_all(self):
         self.cursor.execute("select * from gia_phong")
@@ -62,7 +63,7 @@ class gia_phong(QtWidgets.QWidget, Ui_Form):
             msg.exec()
         self.show_all()
     def delete_item(self):
-        id = self.in_id.text()
+        id = self.select_row()
 
         try:
             self.cursor.execute("delete from gia_phong where gia_id=?", (id,))
@@ -107,7 +108,13 @@ class gia_phong(QtWidgets.QWidget, Ui_Form):
             self.dis_pla.insertRow(row_index)
             for column_index, item_data in enumerate(row_data):
                 self.dis_pla.setItem(row_index, column_index, QTableWidgetItem(str(item_data)))
-
+    def select_row(self):
+        row = self.dis_pla.currentRow()
+        if row<0:
+            return
+        data = self.dis_pla.item(row, 0).text()
+        print(data)
+        return data    
 
 
 if __name__ == "__main__":
