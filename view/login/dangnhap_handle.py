@@ -2,6 +2,8 @@ from PyQt6 import QtCore, QtGui, QtWidgets
 from view.login.dangnhap import Ui_MainWindow
 # from dangnhap import Ui_MainWindow
 from view.login.dangky_handle import dangky
+from view.tai_khoan.tai_khoan_foradmin_handle import ql_taikhoan
+from view.tai_khoan.tai_khoan_handle import tai_khoan
 import sqlite3
 
 class dangnhap(Ui_MainWindow, QtWidgets.QMainWindow):
@@ -15,10 +17,33 @@ class dangnhap(Ui_MainWindow, QtWidgets.QMainWindow):
         self.cursor = self.conn.cursor()
 
         # điều khiển sự kiện
-        self.login_btn.clicked.connect(lambda: self.xuatInfo(mainwindow))
+        self.login_btn.clicked.connect(lambda: self.chonTK(mainwindow))
         self.newTk_btn.clicked.connect(lambda: self.dk.show())
 
         self.show()
+
+    def chonTK(self, mainwindow):
+        # lấy dữ liệu để xác định loại tài khoản
+        data = self.cursor.execute("select * from user where username=? and password=?", (self.username.text(), self.password.text()))
+        if data==None:
+            msg = QtWidgets.QMessageBox()
+            msg.setWindowTitle("Lỗi đăng nhập")
+            msg.setText("Tên đăng nhập hoặc mật khẩu chưa chính xác!\n\
+                        Vui lòng đăng nhập lại")
+            msg.setIcon(QtWidgets.QMessageBox.Icon.Critical)
+            msg.exec()
+            return            
+        data = data.fetchone()
+        if(data[3]==None):
+            mainwindow.tk_page = ql_taikhoan()
+        else:
+            mainwindow.tk_page = tai_khoan()
+            self.xuatInfo(mainwindow)
+        
+        # thêm màn hình vào main
+        mainwindow.ui.stackedWidget.addWidget(mainwindow.tk_page)
+
+        self.hide()
         
     def xuatInfo(self, mainwindow):
         # lấy dữ liệu từ cửa sổ đăng nhập

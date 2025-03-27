@@ -1,4 +1,4 @@
-from tai_khoan_foradmin import Ui_Form
+from view.tai_khoan.tai_khoan_foradmin import Ui_Form
 from PyQt6 import QtCore, QtGui, QtWidgets
 import sqlite3
 

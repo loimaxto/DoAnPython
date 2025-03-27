@@ -31,7 +31,7 @@ class MainWindow(QtWidgets.QMainWindow,Ui_MainWindow):
         self.nv_page = StaffManagementWindow()
         self.dv_page = ql_dichvu_ui()
         self.phong_gia_page = phong_giaphong_ui()
-        self.tk_page = tai_khoan()
+        self.tk_page = None
         
         # thêm trang mới vào menumenu
         self.ui.stackedWidget.addWidget(self.dp_page)
@@ -41,7 +41,7 @@ class MainWindow(QtWidgets.QMainWindow,Ui_MainWindow):
 
         self.ui.stackedWidget.addWidget(self.dv_page)
         self.ui.stackedWidget.addWidget(self.phong_gia_page)
-        self.ui.stackedWidget.addWidget(self.tk_page)
+        
         
 
         self.ui.stackedWidget.setCurrentWidget(self.kh_page)
@@ -60,7 +60,7 @@ class MainWindow(QtWidgets.QMainWindow,Ui_MainWindow):
     
 
         # đăng nhập
-        # self.tk = dangnhap(self)
+        self.tk = dangnhap(self)
     
     # hàm chuyển cửa sổ
     def DangNhap(self):
