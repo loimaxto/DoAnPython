@@ -9,3 +9,4 @@ __pycache__/
 envs/
 *.db
 data/customer_image/*
+.vscode/settings.json
