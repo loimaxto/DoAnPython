@@ -19,16 +19,25 @@ class ql_dichvu_ui(QtWidgets.QWidget, Ui_Form):
         super().__init__()
         self.setupUi(self)
         self.dv_dao = DichVuDAO()
+
+        # sơ chế giao diện
+        self.dis_pla.horizontalHeader().setSectionResizeMode(QtWidgets.QHeaderView.ResizeMode.Stretch)
+        self.dis_pla.verticalHeader().setVisible(False)
+        self.dis_pla.setSelectionMode(QtWidgets.QTableView.SelectionMode.SingleSelection)
+        self.dis_pla.setSelectionBehavior(QtWidgets.QTableView.SelectionBehavior.SelectRows)
         # kết nối db
-       
+        self.conn = sqlite3.connect("db/hotel7-3.db")
+        self.cursor = self.conn.cursor()
 
         self.show_all()
 
+        # sự kiện
         self.sea_btn.clicked.connect(self.search_item)
         self.sho_btn.clicked.connect(self.show_all)
         self.ins_btn.clicked.connect(self.insert_item)
         self.edi_btn.clicked.connect(self.update_item)
         self.del_btn.clicked.connect(self.delete_item)
+        self.dis_pla.selectionModel().selectionChanged.connect(self.selec_row)
     
     def show_err(self):
         msg = QMessageBox()
@@ -48,31 +57,36 @@ class ql_dichvu_ui(QtWidgets.QWidget, Ui_Form):
         print("Hien thi")
     
     def insert_item(self):
-        id = self.in_id.text()
+        # id = self.in_id.text()
         ten = self.in_ten.text()
         gia = self.in_price.text()
-        my_dv = DichVuDTO(id, ten, gia)
-        DichVuDAO.insert_dich_vu(my_dv)
-        # print(data)
+        
+        try:
+            self.cursor.execute("insert into dich_vu (ten_dv, gia) values(?, ?)", (ten, gia))
+            self.conn.commit()
+            print("OK")
+        except:
+            print("no ok")
+            msg = QMessageBox()
+            msg.setIcon(QMessageBox.Icon.Critical)
+            msg.setWindowTitle("Lỗi")
+            msg.setText("Dữ liệu nhập vào không hợp lệ")
+            msg.exec()
         self.show_all()
     
     def update_item(self):
         id = self.in_id.text()
         name = self.in_ten.text()
         gia = self.in_price.text()
-        if id=="" or name=="" or gia=="":
-            print("du lieu khong hop le")
-            return
-        dicVu =  DichVuDTO(id,name,gia)
-        DichVuDAO.update_dich_vu(dicVu)
+        
+        self.cursor.execute("update dich_vu set ten_dv=?, gia=? where dv_id=?", (name, gia, id))
+        self.conn.commit()
+
         self.show_all()
     def delete_item(self):
-        id = self.in_id.text()
-        if id=="":
-            print("du lieu khong hop le")
-            self.show_err()
-            return
-        self.dv_dao.delete_dich_vu(id)
+        id = self.selec_row()
+        self.cursor.execute("delete from dich_vu where dv_id=?", (id,))
+        self.conn.commit()
         print("xoa thanh cong")
         self.show_all()
     def search_item(self):
@@ -92,6 +106,13 @@ class ql_dichvu_ui(QtWidgets.QWidget, Ui_Form):
 
         print("Tim kiem thanh cong")
 
+    def selec_row(self):
+        row = self.dis_pla.currentRow()
+        if row<0:
+            return
+        id = self.dis_pla.item(row, 0).text()
+        print(id)
+        return id
 
 if __name__ == "__main__":
     import sys
