@@ -41,3 +41,14 @@ class NhanVienDTO:
 
     def __str__(self):
         return f"KhachHang(nv_id={self.nv_id}, ten_nv='{self.ten_nv}', email='{self.email}', sdt='{self.sdt}', dia_chi='{self.dia_chi}', chuc_vu='{self.chuc_vu}')"
+    
+class HoaDonDTO:
+    def __init__(self, hd_id=None, tong_tien=None, thoi_gian=None, nv_id=None, thanh_toan_status=None):
+        self.hd_id = hd_id
+        self.tong_tien = tong_tien
+        self.thoi_gian = thoi_gian
+        self.nv_id = nv_id
+        self.thanh_toan_status = thanh_toan_status
+
+    def __str__(self):
+        return f"HoaDon(hd_id={self.hd_id}, tong_tien='{self.tong_tien}', thoi_gian='{self.thoi_gian}', nv_id='{self.nv_id}', thanh_toan_status='{self.thanh_toan_status}')"
