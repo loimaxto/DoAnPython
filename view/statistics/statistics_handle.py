@@ -19,7 +19,11 @@ class StatisticsMainWindow(QtWidgets.QWidget,Ui_StatisticsMainWindow):
         # self.dv_page = ql_dichvu_ui()
         # self.phong_gia_page = phong_giaphong_ui()
         # self.tk_page = None
+
+
         self.overall_page = OverallStatisticsWindow()
+
+
         # thêm trang mới vào menumenu
         # self.ui.stackedWidget.addWidget(self.dp_page)
         # self.ui.stackedWidget.addWidget(self.kh_page)
@@ -27,8 +31,12 @@ class StatisticsMainWindow(QtWidgets.QWidget,Ui_StatisticsMainWindow):
         # self.ui.stackedWidget.addWidget(self.dv_page)
         # self.ui.stackedWidget.addWidget(self.phong_gia_page)
         # self.ui.stackedWidget.setCurrentWidget(self.kh_page)
+
+
         self.ui.stackedWidget.addWidget(self.overall_page)
         self.ui.stackedWidget.setCurrentWidget(self.overall_page)
+
+
         # lập trình chuyển trang
         # self.ui.nhanVienBtn.clicked.connect(lambda: self.ui.stackedWidget.setCurrentWidget(self.nv_page))
         # self.ui.khachHangBtn.clicked.connect(lambda: self.ui.stackedWidget.setCurrentWidget(self.kh_page))
@@ -36,10 +44,12 @@ class StatisticsMainWindow(QtWidgets.QWidget,Ui_StatisticsMainWindow):
         # self.ui.dichVuBtn.clicked.connect(lambda: self.ui.stackedWidget.setCurrentWidget(self.dv_page))
         # self.ui.phongGiaBtn.clicked.connect(lambda: self.ui.stackedWidget.setCurrentWidget(self.phong_gia_page))
         # self.ui.taiKhoanBtn.clicked.connect(lambda: self.ui.stackedWidget.setCurrentWidget(self.tk_page))
+
         self.ui.TongQuanBtn.clicked.connect(lambda: self.ui.stackedWidget.setCurrentWidget(self.overall_page))
+
         # self.ui.dangXuatBtn.clicked.connect(self.DangNhap)
 
-        # self.show()
+        self.show()
     
 
         # đăng nhập
@@ -52,12 +62,8 @@ class StatisticsMainWindow(QtWidgets.QWidget,Ui_StatisticsMainWindow):
     #     self.tk.password.setText("")
     #     # self.tk.show()
         
-
-
-
-        
 if __name__ == "__main__":
     app = QtWidgets.QApplication(sys.argv)
-    window = StatisticsMainWindow()
-    window.show()
+    mainwindow = StatisticsMainWindow()
+    mainwindow.show()
     sys.exit(app.exec())

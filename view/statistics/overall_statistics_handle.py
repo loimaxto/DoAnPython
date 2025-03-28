@@ -19,12 +19,6 @@ class OverallStatisticsWindow(QtWidgets.QWidget, Ui_OverallStatistic):
         super().__init__()
         self.setupUi(self)
         
-
-        # Load fake data
-        
-
-       
-        # Connect buttons to functions
         
         
           
