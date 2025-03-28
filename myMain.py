@@ -17,6 +17,7 @@ from view.phong_va_giaphong.ql_gia_phong_handle import gia_phong
 from view.tai_khoan.tai_khoan_handle import tai_khoan
 from view.phong_va_giaphong.phong_giaphong_handle import phong_giaphong_ui
 from view.login.dangnhap_handle import dangnhap
+from view.check_in.checkin_handle import Checkin
 
 class MainWindow(QtWidgets.QMainWindow,Ui_MainWindow):
     def __init__(self):
@@ -31,13 +32,14 @@ class MainWindow(QtWidgets.QMainWindow,Ui_MainWindow):
         self.nv_page = StaffManagementWindow()
         self.dv_page = ql_dichvu_ui()
         self.phong_gia_page = phong_giaphong_ui()
+        self.checkin_page = Checkin()
         self.tk_page = None
         
         # thêm trang mới vào menumenu
         self.ui.stackedWidget.addWidget(self.dp_page)
         self.ui.stackedWidget.addWidget(self.kh_page)
         self.ui.stackedWidget.addWidget(self.nv_page)
-
+        self.ui.stackedWidget.addWidget(self.checkin_page)
 
         self.ui.stackedWidget.addWidget(self.dv_page)
         self.ui.stackedWidget.addWidget(self.phong_gia_page)
@@ -53,7 +55,7 @@ class MainWindow(QtWidgets.QMainWindow,Ui_MainWindow):
         self.ui.dichVuBtn.clicked.connect(lambda: self.ui.stackedWidget.setCurrentWidget(self.dv_page))
         self.ui.phongGiaBtn.clicked.connect(lambda: self.ui.stackedWidget.setCurrentWidget(self.phong_gia_page))
         self.ui.taiKhoanBtn.clicked.connect(lambda: self.ui.stackedWidget.setCurrentWidget(self.tk_page))
-
+        self.ui.checkinBtn.clicked.connect(lambda: self.ui.stackedWidget.setCurrentWidget(self.checkin_page))
         self.ui.dangXuatBtn.clicked.connect(self.DangNhap)
 
         self.show()
