@@ -6,14 +6,14 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>680</width>
-    <height>540</height>
+    <width>656</width>
+    <height>452</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Form</string>
   </property>
-  <layout class="QGridLayout" name="gridLayout_2">
+  <layout class="QGridLayout" name="gridLayout">
    <item row="0" column="0">
     <widget class="QLabel" name="label">
      <property name="text">
@@ -22,20 +22,20 @@
     </widget>
    </item>
    <item row="0" column="1">
-    <widget class="QLineEdit" name="lineEdit"/>
+    <widget class="QLineEdit" name="inp_sea"/>
    </item>
    <item row="0" column="2">
-    <widget class="QPushButton" name="findBtn">
+    <widget class="QPushButton" name="sea_btn">
      <property name="text">
-      <string>Tìm kiếm</string>
+      <string>Tìm</string>
      </property>
     </widget>
    </item>
    <item row="1" column="0" colspan="3">
-    <widget class="QTableWidget" name="tableWidget">
+    <widget class="QTableWidget" name="dis_pla">
      <column>
       <property name="text">
-       <string>ID tài khoản</string>
+       <string>ID</string>
       </property>
      </column>
      <column>
@@ -55,7 +55,12 @@
      </column>
      <column>
       <property name="text">
-       <string>Tên nhân viên</string>
+       <string>Họ và tên</string>
+      </property>
+     </column>
+     <column>
+      <property name="text">
+       <string>Email</string>
       </property>
      </column>
      <column>
@@ -76,30 +81,30 @@
     </widget>
    </item>
    <item row="2" column="0" colspan="3">
-    <layout class="QGridLayout" name="gridLayout">
-     <item row="0" column="0">
-      <widget class="QPushButton" name="pushButton_2">
+    <layout class="QHBoxLayout" name="horizontalLayout">
+     <item>
+      <widget class="QPushButton" name="them_btn">
        <property name="text">
         <string>Thêm</string>
        </property>
       </widget>
      </item>
-     <item row="0" column="1">
-      <widget class="QPushButton" name="pushButton_3">
+     <item>
+      <widget class="QPushButton" name="xoa_btn">
        <property name="text">
         <string>Xóa</string>
        </property>
       </widget>
      </item>
-     <item row="0" column="2">
-      <widget class="QPushButton" name="pushButton_4">
+     <item>
+      <widget class="QPushButton" name="sua_btn">
        <property name="text">
         <string>Sửa</string>
        </property>
       </widget>
      </item>
-     <item row="0" column="3">
-      <widget class="QPushButton" name="pushButton_5">
+     <item>
+      <widget class="QPushButton" name="hienthi_btn">
        <property name="text">
         <string>Hiển thị</string>
        </property>

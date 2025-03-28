@@ -25,20 +25,29 @@ class ql_phong(QtWidgets.QWidget, Ui_Form):
         self.del_btn.clicked.connect(self.delete_item)
         self.edi_btn.clicked.connect(self.update_item)
         self.sea_btn.clicked.connect(self.search_item)
-        # self.dis_pla.setSelectionMode(QtWidgets.QTableView.SelectionMode.SingleSelection)
-        # self.dis_pla.setSelectionBehavior(QtWidgets.QTableView.SelectionBehavior.SelectRows)
-        # self.dis_pla.selectionModel().selectionChanged.connect(self.select_row)
+        self.dis_pla.setSelectionMode(QtWidgets.QTableView.SelectionMode.SingleSelection)
+        self.dis_pla.setSelectionBehavior(QtWidgets.QTableView.SelectionBehavior.SelectRows)
+        self.dis_pla.itemSelectionChanged.connect(self.select_row)
 
 
     def show_all(self):
-        self.cursor.execute("select id, ten_phong, so_giuong, id_gia, ten_loai, gia_gio, gia_ngay, gia_dem\
-                            from phong join gia_phong on id_gia=gia_id")
+        self.cursor.execute("select id, ten_phong, so_giuong, tinh_trang_dat_phong, id_gia, ten_loai, gia_gio, gia_ngay, gia_dem\
+                            from phong join gia_phong on id_gia=gia_id\
+                            where tinh_trang_su_dung=1")
         data = self.cursor.fetchall()
         self.dis_pla.setRowCount(0)
         for row_index, row_data in enumerate(data):
             self.dis_pla.insertRow(row_index)
             for column_index, item_data in enumerate(row_data):
                 self.dis_pla.setItem(row_index, column_index, QTableWidgetItem(str(item_data)))
+                if column_index==3:# hiện tình trạng phòng bằng chữ
+                    if item_data==0:
+                        self.dis_pla.setItem(row_index, column_index, QTableWidgetItem("Trống"))
+                        self.dis_pla.item(row_index, column_index).setBackground(QtGui.QColor("lightgreen"))
+                    if item_data==1:
+                        self.dis_pla.setItem(row_index, column_index, QTableWidgetItem("Bận"))
+                        self.dis_pla.item(row_index, column_index).setBackground(QtGui.QColor("orange"))
+
         
         print(data)
         print("Da hien thi")
@@ -49,8 +58,10 @@ class ql_phong(QtWidgets.QWidget, Ui_Form):
         sogiuong = self.in_sg.text()
         id_gia = self.in_price_id.text()
 
+
         try:
-            self.cursor.execute("insert into phong values(?, ?, ?, ?)", (id, name, sogiuong, id_gia))
+            self.cursor.execute("insert into phong (id, ten_phong, so_giuong, id_gia, tinh_trang_dat_phong, tinh_trang_su_dung) \
+                                values(?, ?, ?, ?, ?, ?)", (id, name, sogiuong, id_gia, 0, 1))
             self.conn.commit()
             print("Da them")
         except:
@@ -62,7 +73,7 @@ class ql_phong(QtWidgets.QWidget, Ui_Form):
             msg.exec()
         self.show_all()
     def delete_item(self):
-        id = self.in_id.text()
+        id = self.select_row()
 
         try:
             self.cursor.execute("delete from phong where id=?", (id,))
@@ -107,10 +118,14 @@ class ql_phong(QtWidgets.QWidget, Ui_Form):
             for column_index, item_data in enumerate(row_data):
                 self.dis_pla.setItem(row_index, column_index, QTableWidgetItem(str(item_data)))
     def select_row(self):
-        row = self.dis_pla.selectionModel()
-        print(row)
+        row = self.dis_pla.currentRow()
+        if row<0:
+            return
+        data = self.dis_pla.item(row, 0).text()
+        print(data)
+        return data
 
-if __name__ == "__main__":
+if __name__ == "__main__": 
     import sys
     app = QtWidgets.QApplication(sys.argv)
     ui = ql_phong()
