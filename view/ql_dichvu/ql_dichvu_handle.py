@@ -75,14 +75,45 @@ class ql_dichvu_ui(QtWidgets.QWidget, Ui_Form):
         self.show_all()
     
     def update_item(self):
-        id = self.in_id.text()
+        id = self.selec_row()
+        # kiểm tra dữ liệu
+        if id==None:
+            msg = QtWidgets.QMessageBox()
+            msg.setWindowTitle("Không thể sửa")
+            msg.setText("Bạn chưa chọn dịch vụ muốn sửa\nHãy chọn một dịch vụ và thử lại")
+            msg.setIcon(QtWidgets.QMessageBox.Icon.Warning)
+            msg.exec()
+            return
         name = self.in_ten.text()
         gia = self.in_price.text()
+        if name=="" or gia=="":
+            msg = QtWidgets.QMessageBox()
+            msg.setWindowTitle("Thiếu thông tin")
+            msg.setText("Hãy điền đầy đủ thông tin và thử lại")
+            msg.setIcon(QtWidgets.QMessageBox.Icon.Warning)
+            msg.exec()
+            return
         
-        self.cursor.execute("update dich_vu set ten_dv=?, gia=? where dv_id=?", (name, gia, id))
-        self.conn.commit()
+        
 
-        self.show_all()
+        # update
+        try:
+            self.cursor.execute("update dich_vu set ten_dv=?, gia=? where dv_id=?", (name, gia, id))
+            self.conn.commit()
+            self.show_all()
+            msg = QtWidgets.QMessageBox()
+            msg.setWindowTitle("Thành công")
+            msg.setText("Thông tin dịch vụ đã được cập nhật")
+            msg.setIcon(QtWidgets.QMessageBox.Icon.Information)
+            msg.exec()
+        except:
+            self.cursor.execute("update dich_vu set ten_dv=?, gia=? where dv_id=?", (name, gia, id))
+            self.conn.commit()
+            msg = QtWidgets.QMessageBox()
+            msg.setWindowTitle("Cập nhật không thành công")
+            msg.setText("Không thể cập nhật thông tin dịch vụ")
+            msg.setIcon(QtWidgets.QMessageBox.Icon.Critical)
+            msg.exec()
     def delete_item(self):
         id = self.selec_row()
         self.cursor.execute("delete from dich_vu where dv_id=?", (id,))
