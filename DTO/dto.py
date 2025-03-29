@@ -30,7 +30,6 @@ class DichVuDTO:
     def __str__(self):
         return f"DichVuDTO(dv_id={self.dv_id}, ten='{self.ten}', gia={self.gia})"
     
-<<<<<<< HEAD
 class NhanVienDTO:
     def __init__(self, nv_id=None, ten_nv=None, email=None, sdt=None, dia_chi=None, chuc_vu=None):
         self.nv_id = nv_id
@@ -42,7 +41,6 @@ class NhanVienDTO:
 
     def __str__(self):
         return f"KhachHang(nv_id={self.nv_id}, ten_nv='{self.ten_nv}', email='{self.email}', sdt='{self.sdt}', dia_chi='{self.dia_chi}', chuc_vu='{self.chuc_vu}')"
-=======
 class DatPhongDTO:
     def __init__(self, booking_id=None, ngay_bd=None, ngay_kt=None, phi_dat_coc=None, note=None, phong_id=None, tien_luc_dat=None, kh_id=None):
         self.booking_id = booking_id
@@ -68,4 +66,25 @@ class PhongDTO:
 
     def __repr__(self):
         return f"PhongDTO(id={self.id}, ten_phong='{self.ten_phong}', so_giuong={self.so_giuong}, id_gia={self.id_gia}, tinh_trang_dat_phong={self.tinh_trang_dat_phong}, tinh_trang_su_dung={self.tinh_trang_su_dung})"
->>>>>>> 433cf10 (add custom cell button to table)
+class ChiTietDVDTO:
+    def __init__(self, hd_id=None, dv_id=None, so_luong=None, gia_luc_dat=None, tong=None, ten_dv=None, gia_dv=None):
+        self.hd_id = hd_id
+        self.dv_id = dv_id
+        self.so_luong = so_luong
+        self.gia_luc_dat = gia_luc_dat
+        self.tong = tong
+        self.ten_dv = ten_dv
+        self.gia_dv = gia_dv
+
+    def __repr__(self):
+        return f"ChiTietDichVuDTO(hd_id={self.hd_id}, dv_id={self.dv_id}, so_luong={self.so_luong}, gia_luc_dat={self.gia_luc_dat}, tong={self.tong}, ten_dv={self.ten_dv}, gia_dv={self.gia_dv})"
+class HoaDonDTO:
+    def __init__(self, hd_id=None, tong_tien=None, thoi_gian=None, nv_id=None, thanh_toan_status=None,dat_phong_id=None):
+        self.hd_id = hd_id
+        self.tong_tien = tong_tien
+        self.thoi_gian = thoi_gian
+        self.nv_id = nv_id
+        self.thanh_toan_status = thanh_toan_status
+        self.dat_phong_id = dat_phong_id
+    def __repr__(self):
+        return f"HoaDonDTO(hd_id={self.hd_id}, tong_tien={self.tong_tien}, thoi_gian='{self.thoi_gian}', nv_id={self.nv_id}, thanh_toan_status={self.thanh_toan_status})"

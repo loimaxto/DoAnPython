@@ -4,13 +4,13 @@ project_path = os.path.abspath(os.path.join(os.path.dirname(__file__), "../../")
 sys.path.append(project_path)
 print(project_path)
 from dto.dto import (
-    PhongDTO
+    PhongDTO, DichVuDTO, ChiTietDVDTO,HoaDonDTO
 )
 from PyQt6 import QtWidgets, QtCore, QtGui
 from PyQt6.QtWidgets import (
     QPushButton,QHBoxLayout, QWidget,QSizePolicy,
-    QWidget, QVBoxLayout, QLineEdit,
-    QListWidget, QMessageBox
+    QWidget, QVBoxLayout, QLineEdit,QListWidgetItem,
+    QListWidget, QMessageBox, QLabel,QScrollArea
 )
 from PyQt6.QtCore import pyqtSignal
 
@@ -18,15 +18,29 @@ from view.DatPhong.dat_phong_ui import Ui_DatPhong_UI
 
 from dao.khach_hang_dao import KhachHangDAO
 from dao.phong_dao import PhongDAO
-
-
+from dao.dich_vu_dao import DichVuDAO
+from dao.ct_dv_dao import ChiTietDVDAO
+from dao.hoadon_dao import HoaDonDAO
 class DatPhongWindow(QtWidgets.QWidget, Ui_DatPhong_UI):
     def __init__(self):
         super().__init__()
         self.setupUi(self)
         self.dao_phong = PhongDAO()
         self.dao_customer = KhachHangDAO()
+        self.dao_hoaDon = HoaDonDAO()
+        
+        self.listDvHdWidget = ListDichVuHoaDon(self)
+        self.searchWindowWidget = SearchWindow(self)
+        self.current_hoadon_dto = None
+        self.current_phong_dto = None
 
+        #  widget.setStyleSheet(f"background-color: {color};")       
+        self.bodyW_layout = QVBoxLayout()
+        self.bodyW.setLayout(self.bodyW_layout)
+        self.bodyW_layout.addWidget(self.listDvHdWidget)
+        
+        self.verticalLayout_3.addWidget(self.searchWindowWidget)
+        
         self.model = QtGui.QStandardItemModel(0, 5)  # rows, columns, added one for buttons
         self.model.setHorizontalHeaderLabels(["ID", "Tên phòng", "Loại phòng", "Tình trạng", "Hành động"])
         self.tableView.setModel(self.model)
@@ -46,7 +60,7 @@ class DatPhongWindow(QtWidgets.QWidget, Ui_DatPhong_UI):
         for row in phong_data:
             table_data.append([row[0], row[1], row[2], self.convertStatus(row[3])])
 
-        self.model.setRowCount(0)
+        self.model.setRowCount(0) #remove old data
         for row_index, row in enumerate(table_data):
             items = []
             for item in row:
@@ -55,19 +69,36 @@ class DatPhongWindow(QtWidgets.QWidget, Ui_DatPhong_UI):
                 item_obj.setFlags(item_obj.flags() & ~QtCore.Qt.ItemFlag.ItemIsEditable)
                 items.append(item_obj)
             self.model.appendRow(items + [QtGui.QStandardItem("")]) # Add empty cell for button widget
-            widget = CellButtonWidget(row, row_index, self.tableView)
+            widget = CellButtonWidget(row,self)
             self.tableView.setIndexWidget(self.model.index(row_index, 4), widget) # Set the widget
 
+    def handle_datphong(self, row_data):
+        # print(row_data)
+        # [101, 'Phòng 101', 'Phòng Đơn', 'Đang sử dụng']
+        print("datphong -")
+        print(row_data)
+        self.dao_phong.update_tinh_trang_dat_phong(row_data[0], 1) 
+        self.dao_hoaDon.insert_hoa_don
+        self.load_table_data()
+        print(row_data)
+    def handle_delete(self, row_data):
+        print("delete")
+        self.dao_phong.update_tinh_trang_dat_phong(row_data[0], 0) 
+        self.load_table_data()
+        print(row_data)
+    def handle_view(self, row_data):
+        print("view")
+        print(row_data)
+        
 class CellButtonWidget(QWidget):
     """Custom widget that contains three buttons in a table cell, with row data."""
 
     buttonClicked = pyqtSignal(int, str)  # Signal to emit row and button name
-
-    def __init__(self, row_data, row_index, parent=None):
+    
+    def __init__(self, row_data, parent=None):
         super().__init__(parent)
         self.row_data = row_data
-        self.row_index = row_index
-
+        self.parent_window = parent
         layout = QHBoxLayout(self)
         layout.setContentsMargins(0, 0, 0, 0)
 
@@ -86,83 +117,163 @@ class CellButtonWidget(QWidget):
         layout.addWidget(self.btn_view)
         layout.addWidget(self.btn_delete)
 
-        self.btn_dat_phong.clicked.connect(lambda: self.handle_datphong(row_data))
-        self.btn_delete.clicked.connect(lambda: self.handle_delete(row_data))
-        self.btn_view.clicked.connect(lambda: self.handle_view(row_data))
+        self.btn_dat_phong.clicked.connect(lambda: self.parent_window.handle_datphong(row_data))
+        self.btn_delete.clicked.connect( lambda: self.parent_window.handle_delete(row_data))
+        self.btn_view.clicked.connect( lambda: self.parent_window.handle_view(row_data))
 
         self.setLayout(layout)
-    def handle_datphong(self, row_data):
-        print("dat phong")
-        print(row_data)
-    def handle_delete(self, row_data):
-        print("delete")
-        print(row_data)
-    def handle_view(self, row_data):
-        print("view")
-        print(row_data)
+    
 
 class SearchWindow(QWidget):
-    def __init__(self):
+    def __init__(self,parent=None):
         super().__init__()
-
-        self.setWindowTitle("Search Dịch Vụ")
+        self.dich_vu_dao = DichVuDAO()
+        self.setWindowTitle("Tìm kiếm dịch Vụ")
+        self.popup = None  # Add an instance variable for the popup
 
         layout = QVBoxLayout()
-
+        self.label = QLabel("Nhập từ khóa:")
         self.search_input = QLineEdit()
+        layout.addWidget(self.label)
         layout.addWidget(self.search_input)
 
         self.search_input.returnPressed.connect(self.perform_search)
 
         self.setLayout(layout)
 
-        self.db_connection = sqlite3.connect("dich_vu.db")  # Replace with your database path
-        self.cursor = self.db_connection.cursor()
-
-        # Create dummy data for testing
-        self.cursor.execute("DROP TABLE IF EXISTS dich_vu")
-        self.cursor.execute("""
-            CREATE TABLE dich_vu (
-                dv_id INTEGER PRIMARY KEY,
-                ten_dv TEXT,
-                gia INTEGER
-            )
-        """)
-        self.cursor.executemany("INSERT INTO dich_vu (ten_dv, gia) VALUES (?, ?)",
-                           [("Massage", 150000), ("Sauna", 100000), ("Haircut", 80000), ("Manicure", 50000), ("Pedicure", 60000)])
-        self.db_connection.commit()
-
     def perform_search(self):
         search_term = self.search_input.text()
-        query = "SELECT ten_dv FROM dich_vu WHERE ten_dv LIKE ?"
-        self.cursor.execute(query, ('%' + search_term + '%',))
-        results = self.cursor.fetchall()
+        results = self.dich_vu_dao.search_dich_vu_by_name(search_term)
 
         if results:
             self.show_results_popup(results)
         else:
-            QMessageBox.information(self, "No Results", "No matching dịch vụ found.")
+            QMessageBox.information(self, "", "Khong tìm thấy dịch vụ.")
 
     def show_results_popup(self, results):
-        popup = QWidget()
+        self.popup = QWidget()  # Assign the popup to the instance variable
         popup_layout = QVBoxLayout()
         result_list = QListWidget()
         popup_layout.addWidget(result_list)
-        popup.setLayout(popup_layout)
+        self.popup.setLayout(popup_layout)
 
         for result in results:
-            result_list.addItem(result[0])
+            item =  QListWidgetItem()
+            item.dv_dto = result
+            item.setText(result.ten)
+            result_list.addItem(item)
 
-        result_list.itemClicked.connect(lambda item: self.print_selected_item(item.text()))
-        popup.show()
+        result_list.itemClicked.connect(self.handle_item_click) # Modified here
+        self.popup.show()
 
-    def print_selected_item(self, item_text):
-        print(f"Selected: {item_text}")
+    def handle_item_click(self, item): # Modified here
+        print(item.dv_dto)
+        self.popup.close()
 
-    def closeEvent(self, event):
-        self.db_connection.close()
-        event.accept()
-               
+class ItemDichVuHoaDon(QWidget):
+    def __init__(self, ct_dv_dto = ChiTietDVDTO(), parent=None):
+        super().__init__(parent)
+        self.ct_dv_dto = ct_dv_dto
+        self.name = ct_dv_dto.ten_dv
+        self.quantity = ct_dv_dto.so_luong
+        
+        self.ct_dv_dao = ChiTietDVDAO()
+        
+        #layout declare 
+        main_layout = QHBoxLayout()
+        self.setLayout(main_layout)
+
+        self.name_label = QLabel(self.name)
+        self.name_label.setFixedWidth(150)
+        main_layout.addWidget(self.name_label)
+
+        quantity_layout = QHBoxLayout()
+        main_layout.addLayout(quantity_layout)
+
+        self.decrease_button = QPushButton("-")
+        self.decrease_button.clicked.connect(self.decrease_quantity)
+        self.decrease_button.setFixedWidth(50)
+        quantity_layout.addWidget(self.decrease_button)
+        self.decrease_button.setSizePolicy(QSizePolicy.Policy.Fixed, QSizePolicy.Policy.Fixed)
+
+        self.quantity_input = QLineEdit(str(self.quantity))
+        self.quantity_input.setAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
+        self.quantity_input.setFixedWidth(50)
+        quantity_layout.addWidget(self.quantity_input)
+        self.quantity_input.textChanged.connect(self.quantity_changed)
+        self.quantity_input.setSizePolicy(QSizePolicy.Policy.Fixed, QSizePolicy.Policy.Fixed)
+
+        self.increase_button = QPushButton("+")
+        self.increase_button.clicked.connect(self.increase_quantity)
+        self.increase_button.setFixedWidth(50)
+        quantity_layout.addWidget(self.increase_button)
+        self.increase_button.setSizePolicy(QSizePolicy.Policy.Fixed, QSizePolicy.Policy.Fixed)
+
+    def increase_quantity(self):
+        self.quantity += 1
+        self.quantity_input.setText(str(self.quantity))
+        self.ct_dv_dao.update_chi_tiet_dv(self.ct_dv_dto)
+    def decrease_quantity(self):
+        if self.quantity > 1:
+            self.quantity -= 1
+            self.quantity_input.setText(str(self.quantity))
+            self.ct_dv_dao.update_chi_tiet_dv(self.ct_dv_dto)
+        else:
+            self.ct_dv_dao.delete_chi_tiet_dv(self.ct_dv_dto)
+            
+    def quantity_changed(self, text):
+        try:
+            self.quantity = int(text)
+            if self.quantity < 1:
+                self.quantity = 1
+                self.quantity_input.setText("1")
+        except ValueError:
+            self.quantity_input.setText(str(self.quantity))
+       
+class ListDichVuHoaDon(QWidget):
+    def __init__(self,  parent=None):
+        super().__init__(parent)
+        self.ct_dv_dao = ChiTietDVDAO() 
+        self.hoa_don_dto = HoaDonDTO()
+        #layout declare
+        main_layout = QVBoxLayout()
+        self.setLayout(main_layout)
+
+        self.items_layout = QVBoxLayout()
+        self.scroll_content = QWidget() #add this line.
+        self.scroll_content.setLayout(self.items_layout) #add this line.
+        
+        scroll_area = QScrollArea()
+        scroll_area.setWidget(self.scroll_content)
+        scroll_area.setWidgetResizable(True)
+
+        main_layout.addWidget(scroll_area)
+
+    
+
+    def update_ct_dv(self):
+        self.items = self.ct_dv_dao.get_chi_tiet_dv_by_hd_id(self.hoa_don_dto.hd_id)
+
+        # Clear the layout
+        while self.items_layout.count():
+            item = self.items_layout.takeAt(0)
+            widget = item.widget()
+            if widget is not None:
+                widget.deleteLater()
+
+        # Add items to the layout
+        for ct_dv_dto in self.items:
+            self.items_layout.addWidget(ItemDichVuHoaDon(ct_dv_dto))
+
+    def add_ct_dv(self,ct_dv_dto = ChiTietDVDTO()):
+        # Add a new item to the list
+        self.ct_dv_dao.insert_chi_tiet_dv(ct_dv_dto)
+        self.update_items()
+    def set_hoa_don_dto(self,hoa_don_dto):
+        self.hoa_don_dto = hoa_don_dto
+    def set_phong_dto(self,phong_dto):
+        self.phong_dto = phong_dto
+        
 if __name__ == "__main__":
     app = QtWidgets.QApplication(sys.argv)
     window = DatPhongWindow()

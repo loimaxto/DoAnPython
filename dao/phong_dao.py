@@ -46,15 +46,21 @@ class PhongDAO:
         return insert_row_data[0]  # Return the last inserted ID.
 
     def update_phong(self, phong):
-        query = "UPDATE phong SET ten_phong = ?, so_giuong = ?, id_gia = ?, tinh_trang_dat_phong = ?, tinh_trang_su_dung = ? WHERE id = ?"
-        return self.db.execute_query(query, (phong.ten_phong, phong.so_giuong, phong.id_gia, phong.tinh_trang_dat_phong, phong.tinh_trang_su_dung, phong.id)) is not None
-
+        query = "UPDATE phong SET ten_phong = ?, so_giuong = ?, id_gia = ?, tinh_trang_dat_phong = ?, tinh_trang_su_dung = ?,current_hoadon_id =? WHERE id = ?"
+        return self.db.execute_query(query, (phong.ten_phong, phong.so_giuong, phong.id_gia, phong.tinh_trang_dat_phong, phong.tinh_trang_su_dung,phong.current_hoadon_id, phong.id), ) is not None
+    def update_tinh_trang_su_dung(self, id, tinh_trang_su_dung):
+        query = "UPDATE phong SET tinh_trang_su_dung = ? WHERE id = ?"
+        return self.db.execute_query(query, (tinh_trang_su_dung, id)) 
+    def update_tinh_trang_dat_phong(self, id, tinh_trang_dat_phong):
+        query = "UPDATE phong SET tinh_trang_dat_phong = ? WHERE id = ?"
+        return self.db.execute_query(query, (tinh_trang_dat_phong, id)) 
     def delete_phong(self, id):
         query = "DELETE FROM phong WHERE id = ?"
-        return self.db.execute_query(query, (id,)) is not None
+        return self.db.execute_query(query, (id,)) 
     
 if __name__ == "__main__":
     dao = PhongDAO()
-    print('ass')
-    a= dao.get_phong_next_id()
-    print(a)
+    print("bg")
+    print(dao.get_phong_by_id(201))
+    print(dao.update_tinh_trang_dat_phong(201,1))
+    print(dao.get_phong_by_id(201))
