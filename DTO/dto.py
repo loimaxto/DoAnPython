@@ -52,3 +52,12 @@ class HoaDonDTO:
 
     def __str__(self):
         return f"HoaDon(hd_id={self.hd_id}, tong_tien='{self.tong_tien}', thoi_gian='{self.thoi_gian}', nv_id='{self.nv_id}', thanh_toan_status='{self.thanh_toan_status}')"
+    
+class ThongKeDTO:
+    def __init__(self, date, von ,doanh_thu, loi_nhuan):
+        self.date = date
+        self.von = von
+        self.doanh_thu = doanh_thu
+        self.loi_nhuan = loi_nhuan
+    def __str__(self):
+        return f"ThongKe(date='{self.date}', doanh_thu={self.doanh_thu}, loi_nhuan={self.loi_nhuan})"

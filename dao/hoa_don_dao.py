@@ -91,6 +91,19 @@ class HoaDonDAO:
 
         return 0 
 
+    def get_doanh_thu_8_ngay_gan_nhat(self):
+        query = """
+        SELECT SUM(tong_tien) 
+        FROM hoa_don 
+        WHERE thoi_gian >= date('now', '-7 days') 
+        GROUP BY date(thoi_gian)
+        """
+        result = self.db.execute_query(query)
+        
+        if result:
+            return [int(row[0]) for row in result]
+        else:
+            return []
 
 
 # Example usage (in a separate main.py or similar):

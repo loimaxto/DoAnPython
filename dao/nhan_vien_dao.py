@@ -55,7 +55,13 @@ class NhanVienDAO:
             return [NhanVienDTO(nv_id=row[0], ten_nv=row[1], email=row[2], sdt=row[3], dia_chi=row[4], chuc_vu=row[5]) for row in rows]
         else:
             return []
-
+        
+    def get_number_of_staff(self) -> int:
+        query = "SELECT COUNT(*) FROM nhan_vien"
+        result = self.db.execute_query(query)
+        if result and isinstance(result, list) and len(result) > 0 and len(result[0]) > 0:
+            return result[0][0]
+        return 0
 # Example usage (in a separate main.py or similar):
 if __name__ == "__main__":
     dao = NhanVienDAO()
