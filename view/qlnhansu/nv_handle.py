@@ -15,10 +15,12 @@ from view.qlnhansu.nv_ui import Ui_StaffManagement # Assuming you saved the UI a
 from dto.dto import NhanVienDTO
 from dao.nhan_vien_dao import NhanVienDAO
 class StaffManagementWindow(QtWidgets.QWidget, Ui_StaffManagement):
-    def __init__(self):
+    def __init__(self, mainwindow):
         super().__init__()
         self.setupUi(self)
         self.dao_staff = NhanVienDAO()
+
+        self.par = mainwindow
         
         self.model = QtGui.QStandardItemModel(0, 6)  # rows, columns
         self.model.setHorizontalHeaderLabels(["ID", "Name", "Phone", "Email", "Address", "Position"])
@@ -63,6 +65,10 @@ class StaffManagementWindow(QtWidgets.QWidget, Ui_StaffManagement):
             
        
     def add_staff(self):
+        # giới hạn quyền
+        if self.par.acc == 1:
+            self.par.gioi_han_quyen()
+            return
         # Add fake staff data
         new_id = self.dao_staff.get_nhan_vien_next_id()
         new_name = self.nameLineEdit.text()
@@ -101,6 +107,10 @@ class StaffManagementWindow(QtWidgets.QWidget, Ui_StaffManagement):
                     self.model.item(row, 4).text(),
                     self.model.item(row, 5).text())
     def update_staff(self):
+        # giới hạn quyền
+        if self.par.acc == 1:
+            self.par.gioi_han_quyen()
+            return
         self.is_update_state = 1 - self.is_update_state
         palette = self.btn_confirm_update.palette()
         if self.is_update_state == 1:
@@ -137,6 +147,10 @@ class StaffManagementWindow(QtWidgets.QWidget, Ui_StaffManagement):
         
     
     def delete_staff(self):
+        # giới hạn quyền
+        if self.par.acc == 1:
+            self.par.gioi_han_quyen()
+            return
         selected_indexes = self.staffTableView.selectionModel().selectedIndexes()
         if selected_indexes and selected_indexes[0].row() >= 0:
             deleted_id = self.model.itemFromIndex(selected_indexes[0]).text()

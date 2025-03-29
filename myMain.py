@@ -19,18 +19,22 @@ from view.phong_va_giaphong.phong_giaphong_handle import phong_giaphong_ui
 from view.login.dangnhap_handle import dangnhap
 
 class MainWindow(QtWidgets.QMainWindow,Ui_MainWindow):
+    acc = 0 # acc = 0 nếu chưa login, =1 nếu login tk thường, =2 nếu là admin
     def __init__(self):
         
         super().__init__()
         self.ui = Ui_MainWindow()
         self.ui.setupUi(self)
+
+        # đăng nhập
+        self.tk = dangnhap(self)
         
         # khai báo trang mới
-        self.kh_page = CustomerManagementWindow()
+        self.kh_page = CustomerManagementWindow(self)
         self.dp_page = DatPhongWindow()
-        self.nv_page = StaffManagementWindow()
-        self.dv_page = ql_dichvu_ui()
-        self.phong_gia_page = phong_giaphong_ui()
+        self.nv_page = StaffManagementWindow(self)
+        self.dv_page = ql_dichvu_ui(self)
+        self.phong_gia_page = phong_giaphong_ui(self)
         self.tk_page = None
         
         # thêm trang mới vào menumenu
@@ -56,18 +60,20 @@ class MainWindow(QtWidgets.QMainWindow,Ui_MainWindow):
 
         self.ui.dangXuatBtn.clicked.connect(self.DangNhap)
 
-        self.show()
     
-
-        # đăng nhập
-        self.tk = dangnhap(self)
     
     # hàm chuyển cửa sổ
     def DangNhap(self):
         self.hide()
         self.tk.username.setText("")
         self.tk.password.setText("")
-        # self.tk.show()
+        self.tk.show()
+    def gioi_han_quyen(self):
+        msg = QtWidgets.QMessageBox()
+        msg.setWindowTitle("Giới hạn quyền")
+        msg.setText("Chức năng này chỉ dành cho quản trị viên")
+        msg.setIcon(QtWidgets.QMessageBox.Icon.Information)
+        msg.exec()
         
 
 

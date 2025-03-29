@@ -8,13 +8,13 @@ from view.phong_va_giaphong.ql_phong_handle import ql_phong
 from view.phong_va_giaphong.ql_gia_phong_handle import gia_phong
 
 class phong_giaphong_ui(QWidget, Ui_Form):
-    def __init__(self):
+    def __init__(self, mainwindow):
         super().__init__()
         self.setupUi(self)
         
         # khởi tạo trang con
-        self.phong = ql_phong()
-        self.giaphong = gia_phong()
+        self.phong = ql_phong(mainwindow)
+        self.giaphong = gia_phong(mainwindow)
 
         # thêm trang con vào giao diện
         self.phong_giaphong.addWidget(self.phong)

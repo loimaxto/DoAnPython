@@ -15,10 +15,12 @@ from view.khach_hang.kh_ui import Ui_CustomerManagement # Assuming you saved the
 from dto.dto import KhachHangDTO
 from dao.khach_hang_dao import KhachHangDAO
 class CustomerManagementWindow(QtWidgets.QWidget, Ui_CustomerManagement):
-    def __init__(self):
+    def __init__(self, mainwindow):
         super().__init__()
         self.setupUi(self)
         self.dao_customer = KhachHangDAO()
+
+        self.par = mainwindow
         
         self.model = QtGui.QStandardItemModel(0, 4)  # rows, columns
         self.model.setHorizontalHeaderLabels(["ID", "Name", "Phone", "Image"])
@@ -64,6 +66,10 @@ class CustomerManagementWindow(QtWidgets.QWidget, Ui_CustomerManagement):
             
        
     def add_customer(self):
+        # giới hạn quyền
+        if self.par.acc == 1:
+            self.par.gioi_han_quyen()
+            return
         # Add fake customer data
         new_id = self.dao_customer.get_khach_hang_next_id()
         new_name = self.nameLineEdit.text()
@@ -101,6 +107,10 @@ class CustomerManagementWindow(QtWidgets.QWidget, Ui_CustomerManagement):
                     self.model.item(row, 2).text(),
                     self.model.item(row, 3).text())
     def update_customer(self):
+        # giới hạn quyền
+        if self.par.acc == 1:
+            self.par.gioi_han_quyen()
+            return
         self.is_update_state = 1 - self.is_update_state
         palette = self.btn_confirm_update.palette()
         if self.is_update_state == 1:
@@ -138,6 +148,10 @@ class CustomerManagementWindow(QtWidgets.QWidget, Ui_CustomerManagement):
         
     
     def delete_customer(self):
+        # giới hạn quyền
+        if self.par.acc == 1:
+            self.par.gioi_han_quyen()
+            return
         selected_indexes = self.customerTableView.selectionModel().selectedIndexes()
         if selected_indexes and selected_indexes[0].row() >= 0:
             deleted_id = self.model.itemFromIndex(selected_indexes[0]).text()
