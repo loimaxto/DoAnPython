@@ -59,9 +59,9 @@ class NhanVienDAO:
 # Example usage (in a separate main.py or similar):
 if __name__ == "__main__":
     dao = NhanVienDAO()
-    print('ass')
+    # print('ass')
     # a= dao.get_nhan_vien_next_id()
-    print(a)
+    # print(a)
 """
     # Example insert
     new_customer = NhanVienDTO(ten="Doe a", sdt="123-456-7890", image="john.jpg")

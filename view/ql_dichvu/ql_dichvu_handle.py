@@ -162,6 +162,6 @@ class ql_dichvu_ui(QtWidgets.QWidget, Ui_Form):
 if __name__ == "__main__":
     import sys
     app = QtWidgets.QApplication(sys.argv)
-    ui = ql_dichvu_handle()
-    ui.show()
+    # ui = ql_dichvu_handle()
+    # ui.show()
     sys.exit(app.exec())
