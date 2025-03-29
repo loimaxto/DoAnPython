@@ -88,18 +88,38 @@ class ql_phong(QtWidgets.QWidget, Ui_Form):
             msg.exec()
         self.show_all()
     def update_item(self):
-        id = self.in_id.text()
+        # lấy dữ liệu
+        id = self.select_row()
         name = self.in_ten.text()
         sogiuong = self.in_sg.text()
         id_gia = self.in_price_id.text()
-
+        # kiểm tra dữ liệu
+        if id==None:
+            msg = QMessageBox()
+            msg.setWindowTitle("Chưa chọn phòng")
+            msg.setText("Bạn chưa chọn phòng muốn sửa\nHãy chọn một phòng muốn sửa và thử lại")
+            msg.setIcon(QMessageBox.Icon.Warning)
+            msg.exec()
+            return
+        if name=="" or sogiuong=="" or id_gia=="":
+            msg = QMessageBox()
+            msg.setWindowTitle("Không thể cập nhật thông tin")
+            msg.setText("Thiếu thông tin. Vui lòng kiểm tra lại thông tin và thử lại!")
+            msg.setIcon(QMessageBox.Icon.Warning)
+            msg.exec()
+            return
         try:
             self.cursor.execute("update phong\
                                 set ten_phong=?, so_giuong=?, id_gia=?\
                                 where id=?\
                                 ", (name, sogiuong, id_gia, id))
             self.conn.commit()
-            print("ok")
+            self.show_all()
+            msg = QMessageBox()
+            msg.setWindowTitle("Thành công")
+            msg.setText("Thông tin phòng đã được cập nhật")
+            msg.setIcon(QMessageBox.Icon.Information)
+            msg.exec()
         except:
             print("no ok")
             msg = QMessageBox()
@@ -107,7 +127,7 @@ class ql_phong(QtWidgets.QWidget, Ui_Form):
             msg.setWindowTitle("Lỗi")
             msg.setText("Dữ liệu nhập vào không hợp lệ")
             msg.exec()
-        self.show_all()
+        
     def search_item(self):
         id = self.in_sea.text()
         self.cursor.execute("select * from phong where id=?", (id,))

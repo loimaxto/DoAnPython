@@ -16,6 +16,8 @@ class gia_phong(QtWidgets.QWidget, Ui_Form):
         # sơ chế lại sương sương
         self.dis_pla.horizontalHeader().setSectionResizeMode(QtWidgets.QHeaderView.ResizeMode.Stretch)
         self.dis_pla.verticalHeader().setVisible(False)
+        self.dis_pla.setSelectionMode(QtWidgets.QTableView.SelectionMode.SingleSelection)
+        self.dis_pla.setSelectionBehavior(QtWidgets.QTableView.SelectionBehavior.SelectRows)
 
         # kết nối db
         self.conn = sqlite3.connect("db/hotel7-3.db")
@@ -78,11 +80,25 @@ class gia_phong(QtWidgets.QWidget, Ui_Form):
             msg.exec()
         self.show_all()
     def update_item(self):
-        id = self.in_id.text()
+        id = self.select_row()
         name = self.in_name.text()
         gio = self.in_hour.text()
         ngay = self.in_day.text()
         dem = self.in_night.text()
+        if id==None:
+            msg = QtWidgets.QMessageBox()
+            msg.setWindowTitle("Không thể sửa")
+            msg.setText("Bạn chưa chọn giá phòng muốn sửa\nHãy chọn một giá phòng và thử lại")
+            msg.setIcon(QtWidgets.QMessageBox.Icon.Warning)
+            msg.exec()
+            return
+        if name=="" or gio=="" or ngay=="" or dem=="":
+            msg = QtWidgets.QMessageBox()
+            msg.setWindowTitle("Thiếu thông tin")
+            msg.setText("Hãy điền đầy đủ thông tin và thử lại")
+            msg.setIcon(QtWidgets.QMessageBox.Icon.Warning)
+            msg.exec()
+            return
 
         try:
             self.cursor.execute("update gia_phong\
@@ -90,15 +106,18 @@ class gia_phong(QtWidgets.QWidget, Ui_Form):
                                 where gia_id=?\
                                 ", (name, gio, ngay, dem, id))
             self.conn.commit()
-            print("ok")
+            self.show_all()
+            msg = QtWidgets.QMessageBox()
+            msg.setWindowTitle("Thành công")
+            msg.setText("Thông tin dịch vụ đã được cập nhật")
+            msg.setIcon(QtWidgets.QMessageBox.Icon.Information)
+            msg.exec()
         except:
-            print("no ok")
             msg = QMessageBox()
             msg.setIcon(QMessageBox.Icon.Critical)
             msg.setWindowTitle("Lỗi")
             msg.setText("Dữ liệu nhập vào không hợp lệ")
             msg.exec()
-        self.show_all()
     def search_item(self):
         id = self.in_sea.text()
         self.cursor.execute("select * from gia_phong where gia_id=?", (id,))
