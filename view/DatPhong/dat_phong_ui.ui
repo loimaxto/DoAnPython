@@ -110,58 +110,48 @@
        <verstretch>0</verstretch>
       </sizepolicy>
      </property>
-     <widget class="QLabel" name="label_4">
-      <property name="geometry">
-       <rect>
-        <x>30</x>
-        <y>50</y>
-        <width>55</width>
-        <height>16</height>
-       </rect>
-      </property>
-      <property name="text">
-       <string>Phòng:</string>
-      </property>
-     </widget>
-     <widget class="QLabel" name="label">
-      <property name="geometry">
-       <rect>
-        <x>140</x>
-        <y>50</y>
-        <width>55</width>
-        <height>16</height>
-       </rect>
-      </property>
-      <property name="text">
-       <string>1</string>
-      </property>
-     </widget>
-     <widget class="QLabel" name="label_5">
-      <property name="geometry">
-       <rect>
-        <x>20</x>
-        <y>90</y>
-        <width>91</width>
-        <height>16</height>
-       </rect>
-      </property>
-      <property name="text">
-       <string>Khách hàng</string>
-      </property>
-     </widget>
-     <widget class="QLabel" name="label_6">
-      <property name="geometry">
-       <rect>
-        <x>30</x>
-        <y>140</y>
-        <width>55</width>
-        <height>16</height>
-       </rect>
-      </property>
-      <property name="text">
-       <string>Dịch vụ</string>
-      </property>
-     </widget>
+     <layout class="QVBoxLayout" name="verticalLayout_2">
+      <item>
+       <widget class="QWidget" name="infor" native="true">
+        <widget class="QLabel" name="labelTableName">
+         <property name="geometry">
+          <rect>
+           <x>20</x>
+           <y>30</y>
+           <width>55</width>
+           <height>16</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string>ten ban</string>
+         </property>
+        </widget>
+       </widget>
+      </item>
+      <item>
+       <widget class="QWidget" name="bodyW" native="true"/>
+      </item>
+      <item>
+       <widget class="QWidget" name="paymentW" native="true">
+        <layout class="QHBoxLayout" name="horizontalLayout">
+         <item>
+          <widget class="QPushButton" name="btnCompletePayment">
+           <property name="text">
+            <string>Thanh toán</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QPushButton" name="btnSave">
+           <property name="text">
+            <string>Lưu</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </widget>
+      </item>
+     </layout>
     </widget>
    </item>
   </layout>
