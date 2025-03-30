@@ -13,11 +13,50 @@ class Ui_Form(object):
     def setupUi(self, Form):
         Form.setObjectName("Form")
         Form.resize(680, 540)
+        Form.setStyleSheet("""
+            QWidget {
+                background-color: #f5f5f5;
+                font-family: Arial, sans-serif;
+            }
+            QLabel {
+                color: #333;
+            }
+            QLineEdit {
+                border: 1px solid #ccc;
+                border-radius: 5px;
+                padding: 5px;
+                background-color: #fff;
+            }
+            QPushButton {
+                background-color: #007bff;
+                color: #fff;
+                border: none;
+                border-radius: 5px;
+                padding: 5px 10px;
+            }
+            QPushButton:hover {
+                background-color: #0056b3;
+            }
+            QTableWidget {
+                border: 1px solid #ccc;
+                background-color: #fff;
+            }
+            QHeaderView::section {
+                background-color: #007bff;
+                color: #fff;
+                padding: 5px;
+                border: none;
+            }
+        """)
         self.horizontalLayout_3 = QtWidgets.QHBoxLayout(Form)
+        self.horizontalLayout_3.setContentsMargins(10, 10, 10, 10)
+        self.horizontalLayout_3.setSpacing(10)
         self.horizontalLayout_3.setObjectName("horizontalLayout_3")
         self.verticalLayout = QtWidgets.QVBoxLayout()
+        self.verticalLayout.setSpacing(15)
         self.verticalLayout.setObjectName("verticalLayout")
         self.horizontalLayout = QtWidgets.QHBoxLayout()
+        self.horizontalLayout.setSpacing(10)
         self.horizontalLayout.setObjectName("horizontalLayout")
         self.label = QtWidgets.QLabel(parent=Form)
         font = QtGui.QFont()
@@ -39,6 +78,7 @@ class Ui_Form(object):
         self.horizontalLayout.addWidget(self.sea_btn)
         self.verticalLayout.addLayout(self.horizontalLayout)
         self.formLayout = QtWidgets.QFormLayout()
+        self.formLayout.setHorizontalSpacing(15)
         self.formLayout.setObjectName("formLayout")
         self.label_3 = QtWidgets.QLabel(parent=Form)
         self.label_3.setObjectName("label_3")
@@ -66,6 +106,7 @@ class Ui_Form(object):
         self.formLayout.setWidget(3, QtWidgets.QFormLayout.ItemRole.FieldRole, self.in_night)
         self.verticalLayout.addLayout(self.formLayout)
         self.horizontalLayout_2 = QtWidgets.QHBoxLayout()
+        self.horizontalLayout_2.setSpacing(10)
         self.horizontalLayout_2.setObjectName("horizontalLayout_2")
         self.ins_btn = QtWidgets.QPushButton(parent=Form)
         font = QtGui.QFont()
@@ -96,6 +137,23 @@ class Ui_Form(object):
         self.dis_pla.setColumnCount(5)
         self.dis_pla.setObjectName("dis_pla")
         self.dis_pla.setRowCount(0)
+        self.dis_pla.setStyleSheet("""
+            QTableWidget {
+                gridline-color: #ccc;
+            }
+            QTableWidget::item {
+                padding: 5px;
+            }
+        """)
+        self.dis_pla.horizontalHeader().setStretchLastSection(True)
+        self.dis_pla.horizontalHeader().setDefaultAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
+        self.dis_pla.setAlternatingRowColors(True)
+        self.dis_pla.setStyleSheet("""
+            QTableWidget::item:selected {
+                background-color: #d9edf7;
+                color: #333;
+            }
+        """)
         item = QtWidgets.QTableWidgetItem()
         self.dis_pla.setHorizontalHeaderItem(0, item)
         item = QtWidgets.QTableWidgetItem()
