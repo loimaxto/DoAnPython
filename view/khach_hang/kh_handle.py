@@ -39,7 +39,7 @@ class CustomerManagementWindow(QtWidgets.QWidget, Ui_CustomerManagement):
         self.updateButton.clicked.connect(self.update_customer)
         self.deleteButton.clicked.connect(self.delete_customer)
         self.clearButton.clicked.connect(self.clear_fields)
-        self.imageButton.clicked.connect(self.select_image)
+        #self.imageButton.clicked.connect(self.select_image)
         self.searchButton.clicked.connect(self.search_customers)
         self.btn_confirm_update.clicked.connect(self.update_confirmed)
         self.btn_confirm_update.setVisible(False)

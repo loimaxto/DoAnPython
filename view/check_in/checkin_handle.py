@@ -52,7 +52,8 @@ class Checkin(QtWidgets.QWidget, Ui_Checkin):
             
             # Thiết lập số cột (thêm 1 cột cho radio button)
             self.view_customer.setColumnCount(5)  # 1 radio + 4 cột dữ liệu
-            self.view_customer.setHorizontalHeaderLabels(["Chọn", "ID", "Họ tên", "Số điện thoại", "Image"])
+            self.view_customer.setHorizontalHeaderLabels(["Chọn", "ID", "Họ tên",
+                                                         "Số điện thoại", "Image"])
             self.view_customer.setRowCount(0)
             
             for row_index, row_data in enumerate(data):
