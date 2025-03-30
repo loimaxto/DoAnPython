@@ -56,16 +56,16 @@ class DatPhongDTO:
         return f"DatPhongDTO(booking_id={self.booking_id}, ngay_bd='{self.ngay_bd}', ngay_kt='{self.ngay_kt}', phi_dat_coc={self.phi_dat_coc}, note='{self.note}', phong_id={self.phong_id}, tien_luc_dat={self.tien_luc_dat}, kh_id={self.kh_id})"
 
 class PhongDTO:
-    def __init__(self, id=None, ten_phong=None, so_giuong=None, id_gia=None, tinh_trang_dat_phong=0, tinh_trang_su_dung=None):
+    def __init__(self, id=None, ten_phong=None, so_giuong=None, id_gia=None, tinh_trang_dat_phong=0, tinh_trang_su_dung=None,current_hoadon_id=None):
         self.id = id
         self.ten_phong = ten_phong
         self.so_giuong = so_giuong
         self.id_gia = id_gia
         self.tinh_trang_dat_phong = tinh_trang_dat_phong
         self.tinh_trang_su_dung = tinh_trang_su_dung
-
+        self.current_hoadon_id=current_hoadon_id
     def __repr__(self):
-        return f"PhongDTO(id={self.id}, ten_phong='{self.ten_phong}', so_giuong={self.so_giuong}, id_gia={self.id_gia}, tinh_trang_dat_phong={self.tinh_trang_dat_phong}, tinh_trang_su_dung={self.tinh_trang_su_dung})"
+        return f"PhongDTO(id={self.id}, ten_phong='{self.ten_phong}', so_giuong={self.so_giuong}, id_gia={self.id_gia}, tinh_trang_dat_phong={self.tinh_trang_dat_phong}, tinh_trang_su_dung={self.tinh_trang_su_dung}, hoadon_id={ self.current_hoadon_id})"
 class ChiTietDVDTO:
     def __init__(self, hd_id=None, dv_id=None, so_luong=None, gia_luc_dat=None, tong=None, ten_dv=None, gia_dv=None):
         self.hd_id = hd_id

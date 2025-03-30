@@ -29,8 +29,19 @@ class HoaDonDAO:
 
     def insert_hoa_don(self, hoa_don):
         query = "INSERT INTO hoa_don (tong_tien, thoi_gian, nv_id, thanh_toan_status) VALUES (?, ?, ?, ?)"
-        return self.db.execute_query(query, (hoa_don.tong_tien, hoa_don.thoi_gian, hoa_don.nv_id, hoa_don.thanh_toan_status)) is not None
+        result = self.db.execute_query(query, (hoa_don.tong_tien, hoa_don.thoi_gian, hoa_don.nv_id, hoa_don.thanh_toan_status), return_last_row=True)
 
+        if result:
+            return HoaDonDTO(
+                hd_id=result[0],
+                tong_tien=result[1],
+                thoi_gian=result[2],
+                nv_id=result[3],
+                thanh_toan_status=result[4]
+            )
+        else:
+            return None
+        
     def update_hoa_don(self, hoa_don):
         query = "UPDATE hoa_don SET tong_tien = ?, thoi_gian = ?, nv_id = ?, thanh_toan_status = ? WHERE hd_id = ?"
         return self.db.execute_query(query, (hoa_don.tong_tien, hoa_don.thoi_gian, hoa_don.nv_id, hoa_don.thanh_toan_status, hoa_don.hd_id)) is not None
@@ -60,4 +71,4 @@ if __name__ == "__main__":
     test = HoaDonDTO()
     test.nv_id =1
     
-    print(dv_dao.insert_hoa_don())
+    print(dv_dao.insert_hoa_don(HoaDonDTO(nv_id=1)))

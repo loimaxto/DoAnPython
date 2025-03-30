@@ -53,4 +53,4 @@ class ChiTietDVDAO:
         
 if __name__ == "__main__":
     dv_dao = ChiTietDVDAO()
-    print(dv_dao.get_chi_tiet_dv_by_hd_id(1))
+    print(dv_dao.get_chi_tiet_dv_by_hd_id(26))
