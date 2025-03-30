@@ -201,7 +201,7 @@ class CustomerManagementWindow(QtWidgets.QWidget, Ui_CustomerManagement):
             QMessageBox.warning(self, "Cảnh báo", "Không có ảnh nào được chọn.")
 if __name__ == "__main__":
     app = QtWidgets.QApplication(sys.argv)
-    window = CustomerManagementWindow()
+    window = CustomerManagementWindow(app)
     window.show()
     sys.exit(app.exec())
 

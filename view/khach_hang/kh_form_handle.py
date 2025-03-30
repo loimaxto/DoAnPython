@@ -11,7 +11,7 @@ class kh_form_handle(QWidget,Ui_khform):
     def __init__(self):
         super().__init__()
         self.setupUi(self)
-        self.customer = CustomerManagementWindow()
+        self.customer = CustomerManagementWindow(self)
         
         self.stackedWidget.addWidget(self.customer)
         
