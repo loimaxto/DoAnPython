@@ -28,6 +28,8 @@ class DatPhongWindow(QtWidgets.QWidget, Ui_DatPhong_UI):
         self.dao_phong = PhongDAO()
         self.dao_customer = KhachHangDAO()
         self.dao_hoaDon = HoaDonDAO()
+        self.dao_ct_dv = ChiTietDVDAO()
+        self.nv_id = 1
         
         self.listDvHdWidget = ListDichVuHoaDon(self)
         self.searchWindowWidget = SearchWindow(self)
@@ -71,24 +73,42 @@ class DatPhongWindow(QtWidgets.QWidget, Ui_DatPhong_UI):
             self.model.appendRow(items + [QtGui.QStandardItem("")]) # Add empty cell for button widget
             widget = CellButtonWidget(row,self)
             self.tableView.setIndexWidget(self.model.index(row_index, 4), widget) # Set the widget
-
+        
     def handle_datphong(self, row_data):
         # print(row_data)
         # [101, 'Phòng 101', 'Phòng Đơn', 'Đang sử dụng']
         print("datphong -")
         print(row_data)
-        self.dao_phong.update_tinh_trang_dat_phong(row_data[0], 1) 
-        self.dao_hoaDon.insert_hoa_don
+        self.current_hoadon_dto =  self.dao_hoaDon.insert_hoa_don(HoaDonDTO(nv_id=self.nv_id))
+        print("datphong",self.current_hoadon_dto)
+       
+        #update trang that dat phong va hoa don hien tai
+        self.dao_phong.update_tinh_trang_dat_phong(row_data[0], 1, self.current_hoadon_dto.hd_id) 
+        update_phong_dto = self.dao_phong.get_phong_by_id(row_data[0])
+        print("phong da dat: ",update_phong_dto)
+        update_phong_dto.current_hoadon_id = self.current_hoadon_dto.hd_id
+        
+        self.current_phong_dto = update_phong_dto
+        self.labelTableName.setText(update_phong_dto.ten_phong)
+        
         self.load_table_data()
-        print(row_data)
+        print("dat phong thanh cong",row_data)
+    def resetHoaDon(self):
+        self.current_hoadon_dto = None
+        self.labelTableName.setText("Chưa chọn phòng !")
     def handle_delete(self, row_data):
         print("delete")
-        self.dao_phong.update_tinh_trang_dat_phong(row_data[0], 0) 
+        self.dao_phong.update_tinh_trang_dat_phong(row_data[0], 0,None) 
         self.load_table_data()
-        print(row_data)
+        self.resetHoaDon()
     def handle_view(self, row_data):
-        print("view")
-        print(row_data)
+        self.current_phong_dto = self.dao_phong.get_phong_by_id(row_data[0])
+        self.labelTableName.setText(self.current_phong_dto.ten_phong)
+        
+
+        self.current_hoadon_dto =self.dao_hoaDon.get_hoa_don_by_id(self.current_phong_dto.current_hoadon_id)
+        print(self.current_phong_dto)
+        print(self.current_hoadon_dto)
         
 class CellButtonWidget(QWidget):
     """Custom widget that contains three buttons in a table cell, with row data."""
@@ -168,6 +188,7 @@ class SearchWindow(QWidget):
 
     def handle_item_click(self, item): # Modified here
         print(item.dv_dto)
+        # self.ct
         self.popup.close()
 
 class ItemDichVuHoaDon(QWidget):
