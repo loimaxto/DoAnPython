@@ -16,6 +16,41 @@ class Ui_Checkin(object):
         font = QtGui.QFont()
         font.setPointSize(10)
         Form.setFont(font)
+        Form.setStyleSheet("""
+            QWidget {
+                background-color: #f5f5f5;
+                font-family: Arial, sans-serif;
+            }
+            QLabel {
+                color: #333;
+            }
+            QLineEdit {
+                border: 1px solid #ccc;
+                border-radius: 5px;
+                padding: 5px;
+                background-color: #fff;
+            }
+            QPushButton {
+                background-color: #007bff;
+                color: #fff;
+                border: none;
+                border-radius: 5px;
+                padding: 5px 10px;
+            }
+            QPushButton:hover {
+                background-color: #0056b3;
+            }
+            QTableWidget {
+                border: 1px solid #ccc;
+                background-color: #fff;
+            }
+            QHeaderView::section {
+                background-color: #007bff;
+                color: #fff;
+                padding: 5px;
+                border: none;
+            }
+        """)
         self.verticalLayout_3 = QtWidgets.QVBoxLayout(Form)
         self.verticalLayout_3.setObjectName("verticalLayout_3")
         self.verticalLayout = QtWidgets.QVBoxLayout()

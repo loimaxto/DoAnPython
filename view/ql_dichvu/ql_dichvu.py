@@ -13,83 +13,143 @@ class Ui_Form(object):
     def setupUi(self, Form):
         Form.setObjectName("Form")
         Form.resize(680, 540)
-        self.gridLayout_2 = QtWidgets.QGridLayout(Form)
-        self.gridLayout_2.setObjectName("gridLayout_2")
-        self.splitter_2 = QtWidgets.QSplitter(parent=Form)
-        self.splitter_2.setOrientation(QtCore.Qt.Orientation.Horizontal)
-        self.splitter_2.setObjectName("splitter_2")
-        self.label = QtWidgets.QLabel(parent=self.splitter_2)
+        Form.setStyleSheet("""
+            QWidget {
+                background-color: #f5f5f5;
+                font-family: Arial, sans-serif;
+            }
+            QLabel {
+                color: #333;
+            }
+            QLineEdit {
+                border: 1px solid #ccc;
+                border-radius: 5px;
+                padding: 5px;
+                background-color: #fff;
+            }
+            QPushButton {
+                background-color: #007bff;
+                color: #fff;
+                border: none;
+                border-radius: 5px;
+                padding: 5px 10px;
+            }
+            QPushButton:hover {
+                background-color: #0056b3;
+            }
+            QTableWidget {
+                border: 1px solid #ccc;
+                background-color: #fff;
+            }
+            QHeaderView::section {
+                background-color: #007bff;
+                color: #fff;
+                padding: 5px;
+                border: none;
+            }
+        """)
+        self.horizontalLayout_3 = QtWidgets.QHBoxLayout(Form)
+        self.horizontalLayout_3.setContentsMargins(10, 10, 10, 10)
+        self.horizontalLayout_3.setSpacing(10)
+        self.horizontalLayout_3.setObjectName("horizontalLayout_3")
+        self.verticalLayout = QtWidgets.QVBoxLayout()
+        self.verticalLayout.setSpacing(15)
+        self.verticalLayout.setObjectName("verticalLayout")
+        self.horizontalLayout = QtWidgets.QHBoxLayout()
+        self.horizontalLayout.setSpacing(10)
+        self.horizontalLayout.setObjectName("horizontalLayout")
+        self.label = QtWidgets.QLabel(parent=Form)
         font = QtGui.QFont()
         font.setPointSize(10)
         self.label.setFont(font)
         self.label.setObjectName("label")
-        self.in_sea = QtWidgets.QLineEdit(parent=self.splitter_2)
+        self.horizontalLayout.addWidget(self.label)
+        self.in_sea = QtWidgets.QLineEdit(parent=Form)
         font = QtGui.QFont()
         font.setPointSize(10)
         self.in_sea.setFont(font)
         self.in_sea.setObjectName("in_sea")
-        self.sea_btn = QtWidgets.QPushButton(parent=self.splitter_2)
+        self.horizontalLayout.addWidget(self.in_sea)
+        self.sea_btn = QtWidgets.QPushButton(parent=Form)
         font = QtGui.QFont()
         font.setPointSize(10)
         self.sea_btn.setFont(font)
         self.sea_btn.setObjectName("sea_btn")
-        self.gridLayout_2.addWidget(self.splitter_2, 0, 0, 1, 3)
+        self.horizontalLayout.addWidget(self.sea_btn)
+        self.verticalLayout.addLayout(self.horizontalLayout)
+        self.formLayout = QtWidgets.QFormLayout()
+        self.formLayout.setHorizontalSpacing(15)
+        self.formLayout.setObjectName("formLayout")
+        self.label_3 = QtWidgets.QLabel(parent=Form)
+        self.label_3.setObjectName("label_3")
+        self.formLayout.setWidget(0, QtWidgets.QFormLayout.ItemRole.LabelRole, self.label_3)
+        self.in_ten = QtWidgets.QLineEdit(parent=Form)
+        self.in_ten.setObjectName("in_ten")
+        self.formLayout.setWidget(0, QtWidgets.QFormLayout.ItemRole.FieldRole, self.in_ten)
+        self.label_4 = QtWidgets.QLabel(parent=Form)
+        self.label_4.setObjectName("label_4")
+        self.formLayout.setWidget(1, QtWidgets.QFormLayout.ItemRole.LabelRole, self.label_4)
+        self.in_price = QtWidgets.QLineEdit(parent=Form)
+        self.in_price.setObjectName("in_price")
+        self.formLayout.setWidget(1, QtWidgets.QFormLayout.ItemRole.FieldRole, self.in_price)
+        self.verticalLayout.addLayout(self.formLayout)
+        self.horizontalLayout_2 = QtWidgets.QHBoxLayout()
+        self.horizontalLayout_2.setSpacing(10)
+        self.horizontalLayout_2.setObjectName("horizontalLayout_2")
+        self.ins_btn = QtWidgets.QPushButton(parent=Form)
+        font = QtGui.QFont()
+        font.setPointSize(11)
+        self.ins_btn.setFont(font)
+        self.ins_btn.setObjectName("ins_btn")
+        self.horizontalLayout_2.addWidget(self.ins_btn)
+        self.del_btn = QtWidgets.QPushButton(parent=Form)
+        font = QtGui.QFont()
+        font.setPointSize(11)
+        self.del_btn.setFont(font)
+        self.del_btn.setObjectName("del_btn")
+        self.horizontalLayout_2.addWidget(self.del_btn)
+        self.edi_btn = QtWidgets.QPushButton(parent=Form)
+        font = QtGui.QFont()
+        font.setPointSize(11)
+        self.edi_btn.setFont(font)
+        self.edi_btn.setObjectName("edi_btn")
+        self.horizontalLayout_2.addWidget(self.edi_btn)
+        self.sho_btn = QtWidgets.QPushButton(parent=Form)
+        font = QtGui.QFont()
+        font.setPointSize(11)
+        self.sho_btn.setFont(font)
+        self.sho_btn.setObjectName("sho_btn")
+        self.horizontalLayout_2.addWidget(self.sho_btn)
+        self.verticalLayout.addLayout(self.horizontalLayout_2)
         self.dis_pla = QtWidgets.QTableWidget(parent=Form)
         self.dis_pla.setColumnCount(3)
         self.dis_pla.setObjectName("dis_pla")
         self.dis_pla.setRowCount(0)
+        self.dis_pla.setStyleSheet("""
+            QTableWidget {
+                gridline-color: #ccc;
+            }
+            QTableWidget::item {
+                padding: 5px;
+            }
+        """)
+        self.dis_pla.horizontalHeader().setStretchLastSection(True)
+        self.dis_pla.horizontalHeader().setDefaultAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
+        self.dis_pla.setAlternatingRowColors(True)
+        self.dis_pla.setStyleSheet("""
+            QTableWidget::item:selected {
+                background-color: #d9edf7;
+                color: #333;
+            }
+        """)
         item = QtWidgets.QTableWidgetItem()
         self.dis_pla.setHorizontalHeaderItem(0, item)
         item = QtWidgets.QTableWidgetItem()
         self.dis_pla.setHorizontalHeaderItem(1, item)
         item = QtWidgets.QTableWidgetItem()
         self.dis_pla.setHorizontalHeaderItem(2, item)
-        self.gridLayout_2.addWidget(self.dis_pla, 1, 0, 1, 4)
-        self.gridLayout = QtWidgets.QGridLayout()
-        self.gridLayout.setObjectName("gridLayout")
-        self.label_2 = QtWidgets.QLabel(parent=Form)
-        self.label_2.setObjectName("label_2")
-        self.gridLayout.addWidget(self.label_2, 0, 0, 1, 1)
-        self.in_id = QtWidgets.QLineEdit(parent=Form)
-        self.in_id.setObjectName("in_id")
-        self.gridLayout.addWidget(self.in_id, 0, 1, 1, 1)
-        self.label_3 = QtWidgets.QLabel(parent=Form)
-        self.label_3.setObjectName("label_3")
-        self.gridLayout.addWidget(self.label_3, 0, 2, 1, 1)
-        self.in_ten = QtWidgets.QLineEdit(parent=Form)
-        self.in_ten.setObjectName("in_ten")
-        self.gridLayout.addWidget(self.in_ten, 0, 3, 1, 1)
-        self.label_4 = QtWidgets.QLabel(parent=Form)
-        self.label_4.setObjectName("label_4")
-        self.gridLayout.addWidget(self.label_4, 1, 0, 1, 1)
-        self.in_price = QtWidgets.QLineEdit(parent=Form)
-        self.in_price.setObjectName("in_price")
-        self.gridLayout.addWidget(self.in_price, 1, 1, 1, 1)
-        self.gridLayout_2.addLayout(self.gridLayout, 2, 0, 1, 4)
-        self.ins_btn = QtWidgets.QPushButton(parent=Form)
-        font = QtGui.QFont()
-        font.setPointSize(11)
-        self.ins_btn.setFont(font)
-        self.ins_btn.setObjectName("ins_btn")
-        self.gridLayout_2.addWidget(self.ins_btn, 3, 0, 1, 1)
-        self.del_btn = QtWidgets.QPushButton(parent=Form)
-        font = QtGui.QFont()
-        font.setPointSize(11)
-        self.del_btn.setFont(font)
-        self.del_btn.setObjectName("del_btn")
-        self.gridLayout_2.addWidget(self.del_btn, 3, 1, 1, 1)
-        self.edi_btn = QtWidgets.QPushButton(parent=Form)
-        font = QtGui.QFont()
-        font.setPointSize(11)
-        self.edi_btn.setFont(font)
-        self.edi_btn.setObjectName("edi_btn")
-        self.gridLayout_2.addWidget(self.edi_btn, 3, 2, 1, 1)
-        self.sho_btn = QtWidgets.QPushButton(parent=Form)
-        font = QtGui.QFont()
-        font.setPointSize(11)
-        self.sho_btn.setFont(font)
-        self.sho_btn.setObjectName("sho_btn")
-        self.gridLayout_2.addWidget(self.sho_btn, 3, 3, 1, 1)
+        self.verticalLayout.addWidget(self.dis_pla)
+        self.horizontalLayout_3.addLayout(self.verticalLayout)
 
         self.retranslateUi(Form)
         QtCore.QMetaObject.connectSlotsByName(Form)
@@ -99,19 +159,18 @@ class Ui_Form(object):
         Form.setWindowTitle(_translate("Form", "Form"))
         self.label.setText(_translate("Form", "ID"))
         self.sea_btn.setText(_translate("Form", "Tìm kiếm"))
-        item = self.dis_pla.horizontalHeaderItem(0)
-        item.setText(_translate("Form", "ID"))
-        item = self.dis_pla.horizontalHeaderItem(1)
-        item.setText(_translate("Form", "Tên dịch vụ"))
-        item = self.dis_pla.horizontalHeaderItem(2)
-        item.setText(_translate("Form", "Giá"))
-        self.label_2.setText(_translate("Form", "ID"))
         self.label_3.setText(_translate("Form", "Tên"))
         self.label_4.setText(_translate("Form", "Giá"))
         self.ins_btn.setText(_translate("Form", "Thêm"))
         self.del_btn.setText(_translate("Form", "Xóa"))
         self.edi_btn.setText(_translate("Form", "Sửa"))
         self.sho_btn.setText(_translate("Form", " Hiển thị"))
+        item = self.dis_pla.horizontalHeaderItem(0)
+        item.setText(_translate("Form", "ID"))
+        item = self.dis_pla.horizontalHeaderItem(1)
+        item.setText(_translate("Form", "Tên dịch vụ"))
+        item = self.dis_pla.horizontalHeaderItem(2)
+        item.setText(_translate("Form", "Giá"))
 
 
 if __name__ == "__main__":

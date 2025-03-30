@@ -25,6 +25,8 @@ class ql_taikhoan(Ui_Form, QtWidgets.QWidget):
         self.sea_btn.clicked.connect(self.search_acc)
         self.xoa_btn.clicked.connect(self.delete_acc)
         self.dis_pla.itemSelectionChanged.connect(self.select_row)
+        self.them_btn.clicked.connect(self.addAcc)
+        self.sua_btn.clicked.connect(self.update_acc)
         self.show()
 
     # các hàm sử lý sự kiện
@@ -41,6 +43,10 @@ class ql_taikhoan(Ui_Form, QtWidgets.QWidget):
             self.dis_pla.insertRow(index_row)
             for index_column, item_data in enumerate(row_data):
                 self.dis_pla.setItem(index_row, index_column, QtWidgets.QTableWidgetItem(str(item_data)))
+            # tô màu cho tài khoản admin
+            if self.dis_pla.item(index_row, 3).text() == "None":
+                self.dis_pla.item(index_row, 1).setBackground(QtGui.QColor("gold"))
+                self.dis_pla.item(index_row, 2).setBackground(QtGui.QColor("gold"))
     
     def search_acc(self):
         inp = self.inp_sea.text()
@@ -69,6 +75,57 @@ class ql_taikhoan(Ui_Form, QtWidgets.QWidget):
             msg.setIcon(QtWidgets.QMessageBox.Icon.Critical)
             msg.setWindowTitle("Lỗi")
             msg.exec()
+    def update_acc(self):
+        # lấy dữ liệu
+        username = self.inp_username.text()
+        password = self.inp_password.text()
+        id_nv = self.inp_id_nv.text()
+        if id_nv == "":
+            id_nv="None"
+
+        # kiểm tra dữ liệu
+        if username=="" or password=="":
+            msg = QtWidgets.QMessageBox()
+            msg.setWindowTitle("Thiếu thông tin")
+            msg.setText("Hãy kiểm tra tên đăng nhập, mật khẩu và mã nhân viên.\
+                        \n Đảm bảo điền đúng, đầy đủ và thử lại!")
+            msg.setIcon(QtWidgets.QMessageBox.Icon.Warning)
+            msg.exec()
+            return
+        # update dữ liệu
+        try:
+            # lấy id tài khoản
+            id = self.select_row()
+            if id==None:
+                msg = QtWidgets.QMessageBox()
+                msg.setWindowTitle("Không thể cập nhật")
+                msg.setText("Bạn chưa chọn tài khoản\nHãy chọn một tài khoản và thử lại!")
+                msg.setIcon(QtWidgets.QMessageBox.Icon.Warning)
+                msg.exec()
+                return
+
+
+            self.cur.execute("update user set \
+                             username=?,\
+                             password=?,\
+                             nv_id=?\
+                             where user_id=?",(username, password, id_nv, id))
+            self.conn.commit()
+            self.show_all()
+            msg = QtWidgets.QMessageBox()
+            msg.setWindowTitle("Cập nhật thành công")
+            msg.setText("Thông tin tài khoản đã được cập nhật")
+            msg.setIcon(QtWidgets.QMessageBox.Icon.Information)
+            msg.exec()
+        except:
+            msg = QtWidgets.QMessageBox()
+            msg.setWindowTitle("Không thể cập nhật")
+            msg.setText("Hãy kiểm tra tên đăng nhập, mật khẩu và mã nhân viên.\
+                        \n Đảm bảo điền đúng, đầy đủ và thử lại!")
+            msg.setIcon(QtWidgets.QMessageBox.Icon.Warning)
+            msg.exec()
+            raise
+
 
     def select_row(self):
         row = self.dis_pla.currentRow()
@@ -85,6 +142,41 @@ class ql_taikhoan(Ui_Form, QtWidgets.QWidget):
         chuc_vu = self.dis_pla.item(row, 8).text()
         print(id)
         return id
+    def addAcc(self):
+        # lấy dữ liệu
+        username = self.inp_username.text()
+        password = self.inp_password.text()
+        id_nv = self.inp_id_nv.text()
+        print(username, password, id_nv)
+
+        # kiểm tra dữ liệu
+        if username=="" or password=="":
+            msg = QtWidgets.QMessageBox()
+            msg.setWindowTitle("Thiếu thông tin")
+            msg.setText("Hãy kiểm tra tên đăng nhập, mật khẩu và mã nhân viênviên.\
+                        \n Đảm bảo điền đúng, đầy đủ và thử lại!")
+            msg.setIcon(QtWidgets.QMessageBox.Icon.Warning)
+            msg.exec()
+            return
+
+        # thêm tài khoản
+        try:
+            self.cur.execute("insert into user(username, password, nv_id) values(?, ?, ?)", (username, password, id_nv))
+            self.conn.commit()
+            self.show_all()
+            # thông báo thành công
+            msg = QtWidgets.QMessageBox()
+            msg.setWindowTitle("Thành công")
+            msg.setText("Tài khoản mới đã được thêm vào hệ thống!")
+            msg.setIcon(QtWidgets.QMessageBox.Icon.Information)
+            msg.exec()
+        except Exception as e:
+            # thông báo không thành công
+            msg = QtWidgets.QMessageBox()
+            msg.setWindowTitle("Không thê thêm tài khoản")
+            msg.setText("Vui lòng kiểm tra lại thông tin tài khoản!")
+            msg.setIcon(QtWidgets.QMessageBox.Icon.Critical)
+            msg.exec()
 
 if __name__ == "__main__":
     import sys

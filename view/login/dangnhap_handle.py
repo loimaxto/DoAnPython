@@ -25,6 +25,7 @@ class dangnhap(Ui_MainWindow, QtWidgets.QMainWindow):
     def chonTK(self, mainwindow):
         # lấy dữ liệu để xác định loại tài khoản
         data = self.cursor.execute("select * from user where username=? and password=?", (self.username.text(), self.password.text()))
+        data = data.fetchone()
         if data==None:
             msg = QtWidgets.QMessageBox()
             msg.setWindowTitle("Lỗi đăng nhập")
@@ -32,11 +33,12 @@ class dangnhap(Ui_MainWindow, QtWidgets.QMainWindow):
                         Vui lòng đăng nhập lại")
             msg.setIcon(QtWidgets.QMessageBox.Icon.Critical)
             msg.exec()
-            return            
-        data = data.fetchone()
+            return
         if(data[3]==None):
+            mainwindow.acc = 2
             mainwindow.tk_page = ql_taikhoan()
         else:
+            mainwindow.acc = 1
             mainwindow.tk_page = tai_khoan()
             self.xuatInfo(mainwindow)
         
@@ -44,6 +46,7 @@ class dangnhap(Ui_MainWindow, QtWidgets.QMainWindow):
         mainwindow.ui.stackedWidget.addWidget(mainwindow.tk_page)
 
         self.hide()
+        mainwindow.show()
         
     def xuatInfo(self, mainwindow):
         # lấy dữ liệu từ cửa sổ đăng nhập
@@ -71,7 +74,6 @@ class dangnhap(Ui_MainWindow, QtWidgets.QMainWindow):
         mainwindow.tk_page.nv_diachi.setText(data[8])
         mainwindow.tk_page.nv_chucvu.setText(data[9])
 
-        mainwindow.show()
         self.hide()
 
 
