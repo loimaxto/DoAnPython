@@ -73,10 +73,17 @@ class DatPhongWindow(QtWidgets.QWidget, Ui_DatPhong_UI):
             self.model.appendRow(items + [QtGui.QStandardItem("")]) # Add empty cell for button widget
             widget = CellButtonWidget(row,self)
             self.tableView.setIndexWidget(self.model.index(row_index, 4), widget) # Set the widget
-        
+    def render_dv_hoadon(self):
+        self.listDvHdWidget.update_ct_dv()
+    
+    def resetHoaDon(self):
+        self.current_hoadon_dto = None
+        self.labelTableName.setText("Chưa chọn phòng !")
+    
     def handle_datphong(self, row_data):
         # print(row_data)
         # [101, 'Phòng 101', 'Phòng Đơn', 'Đang sử dụng']
+        
         print("datphong -")
         print(row_data)
         self.current_hoadon_dto =  self.dao_hoaDon.insert_hoa_don(HoaDonDTO(nv_id=self.nv_id))
@@ -93,9 +100,6 @@ class DatPhongWindow(QtWidgets.QWidget, Ui_DatPhong_UI):
         
         self.load_table_data()
         print("dat phong thanh cong",row_data)
-    def resetHoaDon(self):
-        self.current_hoadon_dto = None
-        self.labelTableName.setText("Chưa chọn phòng !")
     def handle_delete(self, row_data):
         print("delete")
         self.dao_phong.update_tinh_trang_dat_phong(row_data[0], 0,None) 
@@ -105,8 +109,8 @@ class DatPhongWindow(QtWidgets.QWidget, Ui_DatPhong_UI):
         self.current_phong_dto = self.dao_phong.get_phong_by_id(row_data[0])
         self.labelTableName.setText(self.current_phong_dto.ten_phong)
         
-
         self.current_hoadon_dto =self.dao_hoaDon.get_hoa_don_by_id(self.current_phong_dto.current_hoadon_id)
+        self.render_dv_hoadon()
         print(self.current_phong_dto)
         print(self.current_hoadon_dto)
         
@@ -118,7 +122,7 @@ class CellButtonWidget(QWidget):
     def __init__(self, row_data, parent=None):
         super().__init__(parent)
         self.row_data = row_data
-        self.parent_window = parent
+        self.datphong_class = parent
         layout = QHBoxLayout(self)
         layout.setContentsMargins(0, 0, 0, 0)
 
@@ -137,20 +141,21 @@ class CellButtonWidget(QWidget):
         layout.addWidget(self.btn_view)
         layout.addWidget(self.btn_delete)
 
-        self.btn_dat_phong.clicked.connect(lambda: self.parent_window.handle_datphong(row_data))
-        self.btn_delete.clicked.connect( lambda: self.parent_window.handle_delete(row_data))
-        self.btn_view.clicked.connect( lambda: self.parent_window.handle_view(row_data))
+        self.btn_dat_phong.clicked.connect(lambda: self.datphong_class.handle_datphong(row_data))
+        self.btn_delete.clicked.connect( lambda: self.datphong_class.handle_delete(row_data))
+        self.btn_view.clicked.connect( lambda: self.datphong_class.handle_view(row_data))
 
         self.setLayout(layout)
     
 
 class SearchWindow(QWidget):
-    def __init__(self,parent=None):
+    def __init__(self,datPhongWindow=None):
         super().__init__()
         self.dich_vu_dao = DichVuDAO()
         self.setWindowTitle("Tìm kiếm dịch Vụ")
         self.popup = None  # Add an instance variable for the popup
-
+        self.DatPhongWindow = datPhongWindow
+        
         layout = QVBoxLayout()
         self.label = QLabel("Nhập từ khóa:")
         self.search_input = QLineEdit()
@@ -182,22 +187,38 @@ class SearchWindow(QWidget):
             item.dv_dto = result
             item.setText(result.ten)
             result_list.addItem(item)
-
+            
+           
         result_list.itemClicked.connect(self.handle_item_click) # Modified here
         self.popup.show()
 
     def handle_item_click(self, item): # Modified here
         print(item.dv_dto)
-        # self.ct
+        picked_dv=self.DatPhongWindow.dao_ct_dv.get_chi_tiet_dv_by_hd_id(self.DatPhongWindow.current_hoadon_dto.hd_id)
+        for ct_dv in picked_dv:
+            if ct_dv.dv_id == item.dv_dto.dv_id:
+                QMessageBox.information(self, "", "Dich vu nay da duoc chon !")
+                return
+        dto_ct_dv = ChiTietDVDTO(
+            hd_id=self.DatPhongWindow.current_hoadon_dto.hd_id,
+            dv_id=item.dv_dto.dv_id,
+            so_luong=1,
+            ten_dv=item.dv_dto.ten,
+            gia_luc_dat=item.dv_dto.gia
+        )
+        print(dto_ct_dv)
+        self.DatPhongWindow.dao_ct_dv.insert_chi_tiet_dv(dto_ct_dv)
+        self.DatPhongWindow.render_dv_hoadon()
         self.popup.close()
 
 class ItemDichVuHoaDon(QWidget):
     def __init__(self, ct_dv_dto = ChiTietDVDTO(), parent=None):
         super().__init__(parent)
+        print("ct dv",ct_dv_dto)
         self.ct_dv_dto = ct_dv_dto
         self.name = ct_dv_dto.ten_dv
         self.quantity = ct_dv_dto.so_luong
-        
+        self.datPhongWindow = parent
         self.ct_dv_dao = ChiTietDVDAO()
         
         #layout declare 
@@ -233,6 +254,7 @@ class ItemDichVuHoaDon(QWidget):
     def increase_quantity(self):
         self.quantity += 1
         self.quantity_input.setText(str(self.quantity))
+        self.ct_dv_dto.so_luong = self.quantity
         self.ct_dv_dao.update_chi_tiet_dv(self.ct_dv_dto)
     def decrease_quantity(self):
         if self.quantity > 1:
@@ -240,7 +262,10 @@ class ItemDichVuHoaDon(QWidget):
             self.quantity_input.setText(str(self.quantity))
             self.ct_dv_dao.update_chi_tiet_dv(self.ct_dv_dto)
         else:
-            self.ct_dv_dao.delete_chi_tiet_dv(self.ct_dv_dto)
+            print(self.ct_dv_dto)
+            self.ct_dv_dao.delete_chi_tiet_dv(self.ct_dv_dto.hd_id, self.ct_dv_dto.dv_id)
+            self.datPhongWindow.render_dv_hoadon()
+            
             
     def quantity_changed(self, text):
         try:
@@ -252,10 +277,12 @@ class ItemDichVuHoaDon(QWidget):
             self.quantity_input.setText(str(self.quantity))
        
 class ListDichVuHoaDon(QWidget):
-    def __init__(self,  parent=None):
-        super().__init__(parent)
+    def __init__(self,parent = None):
+        super().__init__()
+        self.datPhongWindow = parent
         self.ct_dv_dao = ChiTietDVDAO() 
-        self.hoa_don_dto = HoaDonDTO()
+        
+        
         #layout declare
         main_layout = QVBoxLayout()
         self.setLayout(main_layout)
@@ -273,6 +300,7 @@ class ListDichVuHoaDon(QWidget):
     
 
     def update_ct_dv(self):
+        self.hoa_don_dto = self.datPhongWindow.current_hoadon_dto
         self.items = self.ct_dv_dao.get_chi_tiet_dv_by_hd_id(self.hoa_don_dto.hd_id)
 
         # Clear the layout
@@ -284,7 +312,7 @@ class ListDichVuHoaDon(QWidget):
 
         # Add items to the layout
         for ct_dv_dto in self.items:
-            self.items_layout.addWidget(ItemDichVuHoaDon(ct_dv_dto))
+            self.items_layout.addWidget(ItemDichVuHoaDon(ct_dv_dto,self.datPhongWindow))
 
     def add_ct_dv(self,ct_dv_dto = ChiTietDVDTO()):
         # Add a new item to the list
