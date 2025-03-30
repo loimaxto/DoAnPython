@@ -21,7 +21,7 @@
        <item>
         <widget class="QLabel" name="searchLabel">
          <property name="text">
-          <string>Search:</string>
+          <string>Tìm kiếm</string>
          </property>
         </widget>
        </item>
@@ -31,7 +31,7 @@
        <item>
         <widget class="QPushButton" name="searchButton">
          <property name="text">
-          <string>Search</string>
+          <string>Tìm</string>
          </property>
         </widget>
        </item>
@@ -42,7 +42,7 @@
        <item row="0" column="0">
         <widget class="QLabel" name="label_2">
          <property name="text">
-          <string>Name:</string>
+          <string>Họ và tên</string>
          </property>
         </widget>
        </item>
@@ -59,7 +59,7 @@
        <item row="1" column="0">
         <widget class="QLabel" name="label_3">
          <property name="text">
-          <string>Phone:</string>
+          <string>Số điện thoại</string>
          </property>
         </widget>
        </item>
@@ -99,7 +99,7 @@
        <item row="3" column="0">
         <widget class="QLabel" name="label_4">
          <property name="text">
-          <string>Adress:</string>
+          <string>Địa chỉ</string>
          </property>
         </widget>
        </item>
@@ -116,7 +116,7 @@
        <item row="4" column="0">
         <widget class="QLabel" name="Position">
          <property name="text">
-          <string>Position</string>
+          <string>Chức vụ</string>
          </property>
         </widget>
        </item>
@@ -137,28 +137,28 @@
        <item>
         <widget class="QPushButton" name="addButton">
          <property name="text">
-          <string>Add</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QPushButton" name="updateButton">
-         <property name="text">
-          <string>Update</string>
+          <string>Thêm</string>
          </property>
         </widget>
        </item>
        <item>
         <widget class="QPushButton" name="deleteButton">
          <property name="text">
-          <string>Delete</string>
+          <string>Xóa</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="updateButton">
+         <property name="text">
+          <string>Sửa</string>
          </property>
         </widget>
        </item>
        <item>
         <widget class="QPushButton" name="clearButton">
          <property name="text">
-          <string>Clear</string>
+          <string>Làm mới</string>
          </property>
         </widget>
        </item>

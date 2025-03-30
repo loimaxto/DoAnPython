@@ -1,4 +1,4 @@
-# Form implementation generated from reading ui file 'C:\Code\DoAnPython\view\khach_hang\kh_ui.ui'
+# Form implementation generated from reading ui file 'view\khach_hang\kh_ui.ui'
 #
 # Created by: PyQt6 UI code generator 6.8.1
 #
@@ -13,6 +13,41 @@ class Ui_CustomerManagement(object):
     def setupUi(self, CustomerManagement):
         CustomerManagement.setObjectName("CustomerManagement")
         CustomerManagement.resize(992, 384)
+        CustomerManagement.setStyleSheet("""
+            QWidget {
+                background-color: #f5f5f5;
+                font-family: Arial, sans-serif;
+            }
+            QLabel {
+                color: #333;
+            }
+            QLineEdit {
+                border: 1px solid #ccc;
+                border-radius: 5px;
+                padding: 5px;
+                background-color: #fff;
+            }
+            QPushButton {
+                background-color: #007bff;
+                color: #fff;
+                border: none;
+                border-radius: 5px;
+                padding: 5px 10px;
+            }
+            QPushButton:hover {
+                background-color: #0056b3;
+            }
+            QTableView {
+                border: 1px solid #ccc;
+                background-color: #fff;
+            }
+            QHeaderView::section {
+                background-color: #007bff;
+                color: #fff;
+                padding: 5px;
+                border: none;
+            }
+        """)
         self.mainLayout = QtWidgets.QHBoxLayout(CustomerManagement)
         self.mainLayout.setObjectName("mainLayout")
         self.verticalLayout_3 = QtWidgets.QVBoxLayout()
@@ -95,6 +130,18 @@ class Ui_CustomerManagement(object):
         self.customerTableView = QtWidgets.QTableView(parent=CustomerManagement)
         self.customerTableView.setSizeIncrement(QtCore.QSize(1, 0))
         self.customerTableView.setObjectName("customerTableView")
+        self.customerTableView.setStyleSheet("""
+            QTableView {
+                gridline-color: #ccc;
+            }
+            QTableView::item {
+                padding: 5px;
+            }
+            QTableView::item:selected {
+                background-color: #d9edf7;
+                color: #333;
+            }
+        """)
         self.verticalLayout_3.addWidget(self.customerTableView)
         self.mainLayout.addLayout(self.verticalLayout_3)
 
@@ -104,14 +151,24 @@ class Ui_CustomerManagement(object):
     def retranslateUi(self, CustomerManagement):
         _translate = QtCore.QCoreApplication.translate
         CustomerManagement.setWindowTitle(_translate("CustomerManagement", "Customer Management"))
-        self.searchLabel.setText(_translate("CustomerManagement", "Search:"))
-        self.searchButton.setText(_translate("CustomerManagement", "Search"))
-        self.label_2.setText(_translate("CustomerManagement", "Name:"))
-        self.label_3.setText(_translate("CustomerManagement", "Phone:"))
-        self.label_4.setText(_translate("CustomerManagement", "Image Path"))
-        self.imageButton.setText(_translate("CustomerManagement", "Select Image"))
+        self.searchLabel.setText(_translate("CustomerManagement", "Tìm kiếm"))
+        self.searchButton.setText(_translate("CustomerManagement", "Tìm"))
+        self.label_2.setText(_translate("CustomerManagement", "Họ và tên"))
+        self.label_3.setText(_translate("CustomerManagement", "Số điện thoại"))
+        self.label_4.setText(_translate("CustomerManagement", "Đường dẫn"))
+        self.imageButton.setText(_translate("CustomerManagement", "Chọn hình"))
         self.btn_confirm_update.setText(_translate("CustomerManagement", "Xác nhận sửa"))
-        self.addButton.setText(_translate("CustomerManagement", "Add"))
-        self.updateButton.setText(_translate("CustomerManagement", "Update"))
-        self.deleteButton.setText(_translate("CustomerManagement", "Delete"))
-        self.clearButton.setText(_translate("CustomerManagement", "Clear"))
+        self.addButton.setText(_translate("CustomerManagement", "Thêm"))
+        self.updateButton.setText(_translate("CustomerManagement", "Xóa"))
+        self.deleteButton.setText(_translate("CustomerManagement", "Sửa"))
+        self.clearButton.setText(_translate("CustomerManagement", "Làm mới"))
+
+
+if __name__ == "__main__":
+    import sys
+    app = QtWidgets.QApplication(sys.argv)
+    CustomerManagement = QtWidgets.QWidget()
+    ui = Ui_CustomerManagement()
+    ui.setupUi(CustomerManagement)
+    CustomerManagement.show()
+    sys.exit(app.exec())

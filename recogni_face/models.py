@@ -1,134 +1,195 @@
+
+import sys
 import cv2
-import numpy as np
-from PIL import Image
 import os
 import time
-PATH = "recogni_face"
-PATH_IMAGE = "dataset"
-PATH_TRAINER = "trainner"
+import numpy as np
+from PyQt6.QtCore import Qt, QTimer, pyqtSignal
+from PyQt6.QtGui import QImage, QPixmap
+from PyQt6.QtWidgets import (QApplication, QLabel, QWidget, 
+                            QVBoxLayout, QPushButton, QMessageBox)
+from PyQt6 import QtWidgets
+class FaceRecognitionWidget(QWidget):
+    capture_completed = pyqtSignal()  # Signal khi hoàn thành chụp ảnh
+    
+    def __init__(self,id_customer=0, parent=None):
 
-class Train_models:
-    def __init__(self, path_image):
-        self.recognizer = cv2.face.LBPHFaceRecognizer_create()
-        self.detector = cv2.CascadeClassifier(cv2.data.haarcascades + "haarcascade_frontalface_default.xml")
-        self.imagePaths = [os.path.join(path_image, f) for f in os.listdir(path=path_image)]
-        self.faceSample = []
-        self.IDs = []
+        super().__init__(parent)
+        self.count = 0
+        
+        # Thiết lập các thông số đường dẫn
+        self.PATH = "recogni_face"
+        self.PATH_IMAGE = "dataset"
+        self.PATH_TRAINER = "trainner"
+        self.id_customer = id_customer  # ID khách hàng mặc định
+        
+        # Khởi tạo giao diện
+        #self.setup_ui()
+        
+        
+    def setup_ui(self):
+        """Thiết lập giao diện người dùng"""
+        self.back_btn = QPushButton("Quay lại!")
+        self.layout = QVBoxLayout(self)
+        # Label hiển thị hình ảnh từ camera
+        self.image_label = QLabel()
+        self.image_label.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        self.image_label.setMinimumSize(640, 480)
+        self.layout.addWidget(self.image_label)
+        
+        # Nút bắt đầu chụp ảnh
+        self.capture_btn = QPushButton("Bắt Đầu Thu Thập Dữ Liệu")
+        self.capture_btn.clicked.connect(self.start_capture)
+        self.layout.addWidget(self.capture_btn)
+        
+        self.layout.addWidget(self.back_btn)
+        # Label hiển thị trạng thái
+        self.status_label = QLabel("Sẵn sàng")
+        self.status_label.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        self.layout.addWidget(self.status_label)
+        # Khởi tạo camera và các thành phần nhận diện
+        """Khởi động lại camera"""
+        self.camera_active = True
+        self.camera = cv2.VideoCapture(0)
+        
+        self.face_cascade = cv2.CascadeClassifier(
+            cv2.data.haarcascades + "haarcascade_frontalface_default.xml")
+        
+        # Biến trạng thái
+        self.capture_mode = False
+        self.capture_count = 0
+        self.max_capture = 10
+        
+        # Timer để cập nhật hình ảnh từ camera
+        self.timer = QTimer(self)
+        self.timer.timeout.connect(self.update_frame)
+        self.timer.start(30)  # 30ms mỗi frame
+    
+    
+    def update_frame(self):
+        """Cập nhật hình ảnh từ camera"""
+        ret, frame = self.camera.read()
+        if not ret:
+            return
+        
+        frame = cv2.flip(frame, 1)
+        gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
+        
+        if self.capture_mode:
+            self.process_capture_mode(frame, gray)
+        else:
+            self.process_normal_mode(frame, gray)
+        
+        # Hiển thị hình ảnh lên QLabel
+        self.display_image(frame)
+    
+    def process_normal_mode(self, frame, gray):
+        """Xử lý khi ở chế độ bình thường"""
+        faces = self.face_cascade.detectMultiScale(gray, scaleFactor=1.3, minNeighbors=5)
+        for (x, y, w, h) in faces:
+            cv2.rectangle(frame, (x, y), (x+w, y+h), (255, 140, 130), 2)
+        
+    def process_capture_mode(self, frame, gray):
+        """Xử lý khi ở chế độ chụp ảnh"""
+        
+        faces = self.face_cascade.detectMultiScale(gray, scaleFactor=1.3, minNeighbors=5)
+        
+        for (x, y, w, h) in faces:
+            cv2.rectangle(frame, (x-2, y-2), (x+w+2, y+h+2), (0, 255, 0), 2)  # Màu xanh khi đang chụp
+            self.capture_count += 1
+            if self.capture_count%15==0:
+                # Chụp và lưu ảnh khuôn mặt
+                face_img = frame[y:y+h, x:x+w]
+                face_img = cv2.resize(face_img, (100, 100))
+                    
+                # Tạo thư mục nếu chưa tồn tại
+                save_dir = f"{self.PATH}/{self.PATH_IMAGE}/{self.id_customer}"
+                #os.makedirs(save_dir, exist_ok=True)
+                    
+                self.count+=1
+                cv2.imwrite(f"{save_dir}/{self.id_customer}.{self.count}.jpg", face_img)
+                    
+                
+                print(self.count)
+                self.status_label.setText(f"Đang thu thập ảnh!")
+                
+            if self.count>=20:
+                self.stop_capture()
+                self.capture_completed.emit()  # Phát signal khi hoàn thành
+                
+    
+    def display_image(self, frame):
+        """Hiển thị hình ảnh lên QLabel"""
+        rgb_image = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
+        h, w, ch = rgb_image.shape
+        bytes_per_line = ch * w
+        qt_image = QImage(rgb_image.data, w, h, bytes_per_line, QImage.Format.Format_RGB888)
+        
+        # Scale ảnh phù hợp với kích thước label
+        self.image_label.setPixmap(QPixmap.fromImage(qt_image).scaled(
+            self.image_label.width(), 
+            self.image_label.height(),
+            Qt.AspectRatioMode.KeepAspectRatio
+        ))
+    
+    def start_capture(self):
+        """Bắt đầu chế độ chụp ảnh"""
+        self.capture_mode = True
+        self.capture_count = 0
+        self.capture_btn.setEnabled(False)
+        
+        self.status_label.setText("Bắt đầu thu thập dữ liệu...")
+    
+    def stop_capture(self):
+        """Dừng chế độ chụp ảnh"""
+        self.status_label.setText(f"Hoàn thành! Đã chụp {self.count} ảnh")
+        self.count = 0
+        self.capture_mode = False
+        self.capture_btn.setEnabled(True)
+        
+    
+    def set_customer_id(self, customer_id):
+        """Thiết lập ID khách hàng"""
+        os.makedirs(f"recogni_face/dataset/{customer_id}",exist_ok=True)
+        self.id_customer = customer_id
+    
+    def closeEvent(self):
+        if hasattr(self, 'timer') and self.timer.isActive():
+            self.timer.stop()
+        
+        if hasattr(self, 'camera') and self.camera.isOpened():
+            self.camera.release()
+        
+        self.camera_active = False
 
-    def get_Image_Label(self):
-        print("Dữ liệu đang được train!")
-        for imagePath in self.imagePaths:
-            try:
-                PILimage = Image.open(imagePath).convert("L")
-                img_array = np.array(PILimage, "uint8")
-                id = int(os.path.split(imagePath)[-1].split(".")[0])
-                faces = self.detector.detectMultiScale(image=img_array)
-                for (x, y, w, h) in faces:
-                    self.faceSample.append(img_array[y:y + h, x:x + w])
-                    self.IDs.append(id)
-            except Exception as e:
-                print(f"Error processing {imagePath}: {e}")
-        return self.faceSample, self.IDs
 
-    def trainning(self, pathtrain):
-        faces, ids = self.get_Image_Label()
-        self.recognizer.train(faces, np.array(ids))
-        self.recognizer.write(pathtrain)
-        print('Dữ liệu đã được train thành công')
 
-class Recognition_face:
+# Ví dụ sử dụng widget trong cửa sổ chính
+class MainWindow(QWidget):
     def __init__(self):
-        self.face_cascade = cv2.CascadeClassifier(cv2.data.haarcascades + "haarcascade_frontalface_default.xml")
-        self.recognizer = cv2.face.LBPHFaceRecognizer_create()
-
-    def open_cam_recogni(self,id_cus, bordersize=2, bordercolor=(255, 140, 130)):
-        image_cam = cv2.VideoCapture(0)
-        if not image_cam.isOpened():
-            print("Không thể mở camera!")
-            return
-
-        count = 0
-        while True:
-            ok, frame = image_cam.read()
-            if not ok:
-                print("Không thể nhận frame từ camera!")
-                break
-
-            frame = cv2.flip(frame, 1)
-            gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
-            face_locations = self.face_cascade.detectMultiScale(gray, scaleFactor=1.3, minNeighbors=5)
-
-            for (x, y, w, h) in face_locations:
-                cv2.rectangle(frame, (x, y), (x + w, y + h), bordercolor, bordersize)
-                if count >= 30:
-                    face_human = frame[y + bordersize:y + h - bordersize, x + bordersize:x + w - bordersize]
-                    face_human = cv2.resize(face_human, (100, 100))
-                    cv2.imwrite(f"{PATH}/{PATH_IMAGE}/{id_cus}/{id_cus}.{str(int(time.time()))}.jpg", face_human)#{PATH_IMAGE}/{id_cus}/{id_cus}
-                    count = 0
-
-            cv2.imshow("Face Detection", frame)
-            count += 1
-            print(f"Frame count: {count}")
-
-            if cv2.waitKey(1) & 0xFF == ord('q'):
-                break
-
-        image_cam.release()
-        cv2.destroyAllWindows()
-
-    def facial_recognition(self, path_trainner, id_cus,color_RGB=(250, 150, 100), size_rectangle=3):
-        if not os.path.exists(path_trainner):
-            print(f"Trainner file {path_trainner} không tồn tại!")
-            return
-
-        self.recognizer.read(path_trainner)
-        font = cv2.FONT_HERSHEY_SIMPLEX
-        id = 0
-        name = [0,"khoa"]
-        cam = cv2.VideoCapture(0)
-        if not cam.isOpened():
-            print("Không thể mở camera!")
-            return
-
-        while True:
-            ret, img = cam.read()
-            if not ret:
-                print("Không thể nhận frame từ camera!")
-                break
-
-            img = cv2.flip(img, 1)
-            gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
-            faces = self.face_cascade.detectMultiScale(gray, scaleFactor=2, minNeighbors=5)
-
-            for (x, y, w, h) in faces:
-                cv2.rectangle(img, (x, y), (x + w, y + h), color_RGB, size_rectangle)
-                id, confidence = self.recognizer.predict(gray[y:y + h, x:x + w])
-
-                if confidence < 100:
-                    id = name[id]
-                    confidence = f"{round(confidence)}%"
-                else:
-                    id = "khong phai khuon mat cua ban"
-                    confidence = f"{round(100 - confidence)}%"
-
-                cv2.putText(img, str(id), (x + 5, y - 5), font, 1, (255, 255, 255), 2)
-                cv2.putText(img, str(confidence), (x + 5, y + h - 5), font, 1, (0, 0, 255), 1)
-
-            cv2.imshow("Tìm khuôn mặt", img)
-            if cv2.waitKey(1) & 0xFF == ord('q'):
-                break
-
-        cam.release()
-        cv2.destroyAllWindows()
+        super().__init__()
+        
+        self.setWindowTitle("tìm kiếm khuôn mặt")
+        self.setGeometry(100, 100, 800, 600)
+        
+        layout = QVBoxLayout(self)
+        
+        # Thêm widget nhận diện khuôn mặt
+        self.face_widget = FaceRecognitionWidget(5)
+        layout.addWidget(self.face_widget)
+        
+        # Kết nối signal khi hoàn thành chụp ảnh
+        self.face_widget.capture_completed.connect(self.on_capture_completed)
+    
+    def on_capture_completed(self):
+        """Xử lý khi hoàn thành chụp ảnh"""
+        QMessageBox.information(self, "Thông báo", "Đã hoàn thành thu thập dữ liệu khuôn mặt!")
 
 
-# Khởi tạo mô hình
-id_customer = 3
-customer_file = f"id{id_customer}"
-file_image_customer = f"{PATH}/{PATH_IMAGE}/{id_customer}"
-XML_file = f"{PATH}/{PATH_TRAINER}/{customer_file}.xml"
-face_input = Recognition_face()
-face_input.open_cam_recogni(id_customer)
-#convert_to_XML = Train_models(file_image_customer)
-#convert_to_XML.trainning(XML_file)
-#face_input.facial_recognition(XML_file,id_customer)
+if __name__ == "__main__":
+    import sys
+    
+    app = QtWidgets.QApplication(sys.argv)
+    ui = FaceRecognitionWidget(1)
+    ui.show()
+    sys.exit(app.exec())

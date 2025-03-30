@@ -8,7 +8,7 @@ import sqlite3
 
 # class MainWindow(QtWidgets.QMainWindow):
 from view.qlnhansu.nv_handle import StaffManagementWindow
-from view.khach_hang.kh_handle import CustomerManagementWindow
+from view.khach_hang.kh_form_handle import kh_form_handle
 from view.DatPhong.handle_dat_phong import DatPhongWindow
 from view.Menu.menu_ui import Ui_MainWindow
 from view.ql_dichvu.ql_dichvu_handle import ql_dichvu_ui
@@ -18,20 +18,23 @@ from view.tai_khoan.tai_khoan_handle import tai_khoan
 from view.phong_va_giaphong.phong_giaphong_handle import phong_giaphong_ui
 from view.login.dangnhap_handle import dangnhap
 from view.check_in.checkin_handle import Checkin
-
 class MainWindow(QtWidgets.QMainWindow,Ui_MainWindow):
+    acc = 0 # acc = 0 nếu chưa login, =1 nếu login tk thường, =2 nếu là admin
     def __init__(self):
         
         super().__init__()
         self.ui = Ui_MainWindow()
         self.ui.setupUi(self)
+
+        # đăng nhập
+        self.tk = dangnhap(self)
         
         # khai báo trang mới
-        self.kh_page = CustomerManagementWindow()
+        self.kh_page = kh_form_handle()
         self.dp_page = DatPhongWindow()
-        self.nv_page = StaffManagementWindow()
-        self.dv_page = ql_dichvu_ui()
-        self.phong_gia_page = phong_giaphong_ui()
+        self.nv_page = StaffManagementWindow(self)
+        self.dv_page = ql_dichvu_ui(self)
+        self.phong_gia_page = phong_giaphong_ui(self)
         self.checkin_page = Checkin()
         self.tk_page = None
         
@@ -58,18 +61,20 @@ class MainWindow(QtWidgets.QMainWindow,Ui_MainWindow):
         self.ui.checkinBtn.clicked.connect(lambda: self.ui.stackedWidget.setCurrentWidget(self.checkin_page))
         self.ui.dangXuatBtn.clicked.connect(self.DangNhap)
 
-        self.show()
     
-
-        # đăng nhập
-        self.tk = dangnhap(self)
     
     # hàm chuyển cửa sổ
     def DangNhap(self):
         self.hide()
         self.tk.username.setText("")
         self.tk.password.setText("")
-        # self.tk.show()
+        self.tk.show()
+    def gioi_han_quyen(self):
+        msg = QtWidgets.QMessageBox()
+        msg.setWindowTitle("Giới hạn quyền")
+        msg.setText("Chức năng này chỉ dành cho quản trị viên")
+        msg.setIcon(QtWidgets.QMessageBox.Icon.Information)
+        msg.exec()
         
 
 
