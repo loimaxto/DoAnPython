@@ -13,6 +13,41 @@ class Ui_CustomerManagement(object):
     def setupUi(self, CustomerManagement):
         CustomerManagement.setObjectName("CustomerManagement")
         CustomerManagement.resize(992, 384)
+        CustomerManagement.setStyleSheet("""
+            QWidget {
+                background-color: #f5f5f5;
+                font-family: Arial, sans-serif;
+            }
+            QLabel {
+                color: #333;
+            }
+            QLineEdit {
+                border: 1px solid #ccc;
+                border-radius: 5px;
+                padding: 5px;
+                background-color: #fff;
+            }
+            QPushButton {
+                background-color: #007bff;
+                color: #fff;
+                border: none;
+                border-radius: 5px;
+                padding: 5px 10px;
+            }
+            QPushButton:hover {
+                background-color: #0056b3;
+            }
+            QTableView {
+                border: 1px solid #ccc;
+                background-color: #fff;
+            }
+            QHeaderView::section {
+                background-color: #007bff;
+                color: #fff;
+                padding: 5px;
+                border: none;
+            }
+        """)
         self.mainLayout = QtWidgets.QHBoxLayout(CustomerManagement)
         self.mainLayout.setObjectName("mainLayout")
         self.verticalLayout_3 = QtWidgets.QVBoxLayout()
@@ -95,6 +130,18 @@ class Ui_CustomerManagement(object):
         self.customerTableView = QtWidgets.QTableView(parent=CustomerManagement)
         self.customerTableView.setSizeIncrement(QtCore.QSize(1, 0))
         self.customerTableView.setObjectName("customerTableView")
+        self.customerTableView.setStyleSheet("""
+            QTableView {
+                gridline-color: #ccc;
+            }
+            QTableView::item {
+                padding: 5px;
+            }
+            QTableView::item:selected {
+                background-color: #d9edf7;
+                color: #333;
+            }
+        """)
         self.verticalLayout_3.addWidget(self.customerTableView)
         self.mainLayout.addLayout(self.verticalLayout_3)
 

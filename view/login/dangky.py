@@ -13,6 +13,31 @@ class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
         MainWindow.resize(539, 355)
+        MainWindow.setStyleSheet("""
+            QWidget {
+                background-color: #f5f5f5;
+                font-family: Arial, sans-serif;
+            }
+            QLabel {
+                color: #333;
+            }
+            QLineEdit {
+                border: 1px solid #ccc;
+                border-radius: 5px;
+                padding: 5px;
+                background-color: #fff;
+            }
+            QPushButton {
+                background-color: #007bff;
+                color: #fff;
+                border: none;
+                border-radius: 5px;
+                padding: 5px 10px;
+            }
+            QPushButton:hover {
+                background-color: #0056b3;
+            }
+        """)
         self.centralwidget = QtWidgets.QWidget(parent=MainWindow)
         self.centralwidget.setObjectName("centralwidget")
         self.gridLayout_3 = QtWidgets.QGridLayout(self.centralwidget)
