@@ -1,4 +1,4 @@
-# Form implementation generated from reading ui file 'C:\Code\DoAnPython\view\khach_hang\kh_ui.ui'
+# Form implementation generated from reading ui file 'view\khach_hang\kh_ui.ui'
 #
 # Created by: PyQt6 UI code generator 6.8.1
 #
@@ -104,14 +104,24 @@ class Ui_CustomerManagement(object):
     def retranslateUi(self, CustomerManagement):
         _translate = QtCore.QCoreApplication.translate
         CustomerManagement.setWindowTitle(_translate("CustomerManagement", "Customer Management"))
-        self.searchLabel.setText(_translate("CustomerManagement", "Search:"))
-        self.searchButton.setText(_translate("CustomerManagement", "Search"))
-        self.label_2.setText(_translate("CustomerManagement", "Name:"))
-        self.label_3.setText(_translate("CustomerManagement", "Phone:"))
-        self.label_4.setText(_translate("CustomerManagement", "Image Path"))
-        self.imageButton.setText(_translate("CustomerManagement", "Select Image"))
+        self.searchLabel.setText(_translate("CustomerManagement", "Tìm kiếm"))
+        self.searchButton.setText(_translate("CustomerManagement", "Tìm"))
+        self.label_2.setText(_translate("CustomerManagement", "Họ và tên"))
+        self.label_3.setText(_translate("CustomerManagement", "Số điện thoại"))
+        self.label_4.setText(_translate("CustomerManagement", "Đường dẫn"))
+        self.imageButton.setText(_translate("CustomerManagement", "Chọn hình"))
         self.btn_confirm_update.setText(_translate("CustomerManagement", "Xác nhận sửa"))
-        self.addButton.setText(_translate("CustomerManagement", "Add"))
-        self.updateButton.setText(_translate("CustomerManagement", "Update"))
-        self.deleteButton.setText(_translate("CustomerManagement", "Delete"))
-        self.clearButton.setText(_translate("CustomerManagement", "Clear"))
+        self.addButton.setText(_translate("CustomerManagement", "Thêm"))
+        self.updateButton.setText(_translate("CustomerManagement", "Xóa"))
+        self.deleteButton.setText(_translate("CustomerManagement", "Sửa"))
+        self.clearButton.setText(_translate("CustomerManagement", "Làm mới"))
+
+
+if __name__ == "__main__":
+    import sys
+    app = QtWidgets.QApplication(sys.argv)
+    CustomerManagement = QtWidgets.QWidget()
+    ui = Ui_CustomerManagement()
+    ui.setupUi(CustomerManagement)
+    CustomerManagement.show()
+    sys.exit(app.exec())

@@ -13,139 +13,147 @@
   <property name="windowTitle">
    <string>Form</string>
   </property>
-  <layout class="QGridLayout" name="gridLayout_2">
-   <item row="0" column="0">
-    <widget class="QLabel" name="label">
-     <property name="text">
-      <string>ID</string>
-     </property>
-    </widget>
-   </item>
-   <item row="0" column="1">
-    <widget class="QLineEdit" name="inp_sea"/>
-   </item>
-   <item row="0" column="2">
-    <widget class="QPushButton" name="sea_btn">
-     <property name="text">
-      <string>Tìm</string>
-     </property>
-    </widget>
-   </item>
-   <item row="1" column="0" colspan="3">
-    <widget class="QTableWidget" name="dis_pla">
-     <column>
-      <property name="text">
-       <string>ID</string>
-      </property>
-     </column>
-     <column>
-      <property name="text">
-       <string>Tên tài khoản</string>
-      </property>
-     </column>
-     <column>
-      <property name="text">
-       <string>Mật khẩu</string>
-      </property>
-     </column>
-     <column>
-      <property name="text">
-       <string>Mã nhân viên</string>
-      </property>
-     </column>
-     <column>
-      <property name="text">
-       <string>Họ và tên</string>
-      </property>
-     </column>
-     <column>
-      <property name="text">
-       <string>Email</string>
-      </property>
-     </column>
-     <column>
-      <property name="text">
-       <string>Số điện thoại</string>
-      </property>
-     </column>
-     <column>
-      <property name="text">
-       <string>Địa chỉ</string>
-      </property>
-     </column>
-     <column>
-      <property name="text">
-       <string>Chức vụ</string>
-      </property>
-     </column>
-    </widget>
-   </item>
-   <item row="2" column="0" colspan="3">
-    <layout class="QGridLayout" name="gridLayout">
-     <item row="0" column="0">
-      <widget class="QLabel" name="label_2">
-       <property name="text">
-        <string>Tên tài khoản</string>
-       </property>
-      </widget>
-     </item>
-     <item row="0" column="1">
-      <widget class="QLineEdit" name="inp_username"/>
-     </item>
-     <item row="0" column="2">
-      <widget class="QLabel" name="label_3">
-       <property name="text">
-        <string>Mật khẩu</string>
-       </property>
-      </widget>
-     </item>
-     <item row="0" column="3">
-      <widget class="QLineEdit" name="inp_password"/>
-     </item>
-     <item row="0" column="4">
-      <widget class="QLabel" name="label_4">
-       <property name="text">
-        <string>Mã nhân viên</string>
-       </property>
-      </widget>
-     </item>
-     <item row="0" column="5">
-      <widget class="QLineEdit" name="inp_id_nv">
-       <property name="text">
-        <string/>
-       </property>
-      </widget>
-     </item>
-    </layout>
-   </item>
-   <item row="3" column="0" colspan="3">
-    <layout class="QHBoxLayout" name="horizontalLayout">
+  <layout class="QHBoxLayout" name="horizontalLayout_3">
+   <item>
+    <layout class="QVBoxLayout" name="verticalLayout">
      <item>
-      <widget class="QPushButton" name="them_btn">
-       <property name="text">
-        <string>Thêm</string>
-       </property>
-      </widget>
+      <layout class="QHBoxLayout" name="horizontalLayout">
+       <item>
+        <widget class="QLabel" name="label">
+         <property name="text">
+          <string>ID</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLineEdit" name="inp_sea"/>
+       </item>
+       <item>
+        <widget class="QPushButton" name="sea_btn">
+         <property name="text">
+          <string>Tìm</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
      </item>
      <item>
-      <widget class="QPushButton" name="xoa_btn">
-       <property name="text">
-        <string>Xóa</string>
-       </property>
-      </widget>
+      <layout class="QFormLayout" name="formLayout">
+       <item row="0" column="1">
+        <widget class="QLineEdit" name="inp_username"/>
+       </item>
+       <item row="1" column="0">
+        <widget class="QLabel" name="label_3">
+         <property name="text">
+          <string>Mật khẩu</string>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="1">
+        <widget class="QLineEdit" name="inp_password"/>
+       </item>
+       <item row="2" column="0">
+        <widget class="QLabel" name="label_4">
+         <property name="text">
+          <string>Mã nhân viên</string>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="1">
+        <widget class="QLineEdit" name="inp_id_nv">
+         <property name="text">
+          <string/>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="0">
+        <widget class="QLabel" name="label_2">
+         <property name="text">
+          <string>Tên tài khoản</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
      </item>
      <item>
-      <widget class="QPushButton" name="sua_btn">
-       <property name="text">
-        <string>Sửa</string>
-       </property>
-      </widget>
+      <layout class="QHBoxLayout" name="horizontalLayout_2">
+       <item>
+        <widget class="QPushButton" name="them_btn">
+         <property name="text">
+          <string>Thêm</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="xoa_btn">
+         <property name="text">
+          <string>Xóa</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="sua_btn">
+         <property name="text">
+          <string>Sửa</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="hienthi_btn">
+         <property name="text">
+          <string>Hiển thị</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
      </item>
      <item>
-      <widget class="QPushButton" name="hienthi_btn">
-       <property name="text">
-        <string>Hiển thị</string>
-       </property>
+      <widget class="QTableWidget" name="dis_pla">
+       <column>
+        <property name="text">
+         <string>ID</string>
+        </property>
+       </column>
+       <column>
+        <property name="text">
+         <string>Tên tài khoản</string>
+        </property>
+       </column>
+       <column>
+        <property name="text">
+         <string>Mật khẩu</string>
+        </property>
+       </column>
+       <column>
+        <property name="text">
+         <string>Mã nhân viên</string>
+        </property>
+       </column>
+       <column>
+        <property name="text">
+         <string>Họ và tên</string>
+        </property>
+       </column>
+       <column>
+        <property name="text">
+         <string>Email</string>
+        </property>
+       </column>
+       <column>
+        <property name="text">
+         <string>Số điện thoại</string>
+        </property>
+       </column>
+       <column>
+        <property name="text">
+         <string>Địa chỉ</string>
+        </property>
+       </column>
+       <column>
+        <property name="text">
+         <string>Chức vụ</string>
+        </property>
+       </column>
       </widget>
      </item>
     </layout>
