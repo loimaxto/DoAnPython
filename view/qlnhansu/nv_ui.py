@@ -1,4 +1,4 @@
-# Form implementation generated from reading ui file 'C:\Users\thaoh\OneDrive\Desktop\DoAnPython\DoAnPython\view\qlnhansu\nv_ui.ui'
+# Form implementation generated from reading ui file 'view\qlnhansu\nv_ui.ui'
 #
 # Created by: PyQt6 UI code generator 6.8.1
 #
@@ -73,12 +73,12 @@ class Ui_StaffManagement(object):
         self.addButton = QtWidgets.QPushButton(parent=StaffManagement)
         self.addButton.setObjectName("addButton")
         self.horizontalLayout.addWidget(self.addButton)
-        self.updateButton = QtWidgets.QPushButton(parent=StaffManagement)
-        self.updateButton.setObjectName("updateButton")
-        self.horizontalLayout.addWidget(self.updateButton)
         self.deleteButton = QtWidgets.QPushButton(parent=StaffManagement)
         self.deleteButton.setObjectName("deleteButton")
         self.horizontalLayout.addWidget(self.deleteButton)
+        self.updateButton = QtWidgets.QPushButton(parent=StaffManagement)
+        self.updateButton.setObjectName("updateButton")
+        self.horizontalLayout.addWidget(self.updateButton)
         self.clearButton = QtWidgets.QPushButton(parent=StaffManagement)
         self.clearButton.setObjectName("clearButton")
         self.horizontalLayout.addWidget(self.clearButton)
@@ -98,15 +98,25 @@ class Ui_StaffManagement(object):
     def retranslateUi(self, StaffManagement):
         _translate = QtCore.QCoreApplication.translate
         StaffManagement.setWindowTitle(_translate("StaffManagement", "Customer Management"))
-        self.searchLabel.setText(_translate("StaffManagement", "Search:"))
-        self.searchButton.setText(_translate("StaffManagement", "Search"))
-        self.label_2.setText(_translate("StaffManagement", "Name:"))
-        self.label_3.setText(_translate("StaffManagement", "Phone:"))
+        self.searchLabel.setText(_translate("StaffManagement", "Tìm kiếm"))
+        self.searchButton.setText(_translate("StaffManagement", "Tìm"))
+        self.label_2.setText(_translate("StaffManagement", "Họ và tên"))
+        self.label_3.setText(_translate("StaffManagement", "Số điện thoại"))
         self.label_5.setText(_translate("StaffManagement", "Email:"))
-        self.label_4.setText(_translate("StaffManagement", "Adress:"))
-        self.Position.setText(_translate("StaffManagement", "Position"))
-        self.addButton.setText(_translate("StaffManagement", "Add"))
-        self.updateButton.setText(_translate("StaffManagement", "Update"))
-        self.deleteButton.setText(_translate("StaffManagement", "Delete"))
-        self.clearButton.setText(_translate("StaffManagement", "Clear"))
+        self.label_4.setText(_translate("StaffManagement", "Địa chỉ"))
+        self.Position.setText(_translate("StaffManagement", "Chức vụ"))
+        self.addButton.setText(_translate("StaffManagement", "Thêm"))
+        self.deleteButton.setText(_translate("StaffManagement", "Xóa"))
+        self.updateButton.setText(_translate("StaffManagement", "Sửa"))
+        self.clearButton.setText(_translate("StaffManagement", "Làm mới"))
         self.btn_confirm_update.setText(_translate("StaffManagement", "Xác nhận sửa"))
+
+
+if __name__ == "__main__":
+    import sys
+    app = QtWidgets.QApplication(sys.argv)
+    StaffManagement = QtWidgets.QWidget()
+    ui = Ui_StaffManagement()
+    ui.setupUi(StaffManagement)
+    StaffManagement.show()
+    sys.exit(app.exec())
