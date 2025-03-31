@@ -23,17 +23,45 @@ class Ui_StatisticsMainWindow(object):
         spacerItem = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Policy.Expanding, QtWidgets.QSizePolicy.Policy.Minimum)
         self.horizontalLayout.addItem(spacerItem)
         self.TongQuanBtn = QtWidgets.QPushButton(parent=StatisticsMainWindow)
+        font = QtGui.QFont()
+        font.setPointSize(-1)
+        self.TongQuanBtn.setFont(font)
+        self.TongQuanBtn.setStyleSheet("QPushButton {\n"
+"                background-color: #3498db;  /* Blue background */\n"
+"                color: white;  /* White text */\n"
+"                border: none;\n"
+"                padding: 10px 20px;\n"
+"                font-size: 14px;\n"
+"                border-radius: 5px;\n"
+"            }\n"
+"            QPushButton:hover {\n"
+"                background-color: #2980b9; /* Darker blue on hover */\n"
+"            }\n"
+"            QPushButton:pressed {\n"
+"                background-color: #1f618d; /* Even darker blue on press */\n"
+"            }")
         self.TongQuanBtn.setObjectName("TongQuanBtn")
         self.horizontalLayout.addWidget(self.TongQuanBtn)
         self.DoanhThuBtn = QtWidgets.QPushButton(parent=StatisticsMainWindow)
+        font = QtGui.QFont()
+        font.setPointSize(-1)
+        self.DoanhThuBtn.setFont(font)
+        self.DoanhThuBtn.setStyleSheet("QPushButton {\n"
+"                background-color: #3498db;  /* Blue background */\n"
+"                color: white;  /* White text */\n"
+"                border: none;\n"
+"                padding: 10px 20px;\n"
+"                font-size: 14px;\n"
+"                border-radius: 5px;\n"
+"            }\n"
+"            QPushButton:hover {\n"
+"                background-color: #2980b9; /* Darker blue on hover */\n"
+"            }\n"
+"            QPushButton:pressed {\n"
+"                background-color: #1f618d; /* Even darker blue on press */\n"
+"            }")
         self.DoanhThuBtn.setObjectName("DoanhThuBtn")
         self.horizontalLayout.addWidget(self.DoanhThuBtn)
-        self.PhongBtn = QtWidgets.QPushButton(parent=StatisticsMainWindow)
-        self.PhongBtn.setObjectName("PhongBtn")
-        self.horizontalLayout.addWidget(self.PhongBtn)
-        self.MenuBtn = QtWidgets.QPushButton(parent=StatisticsMainWindow)
-        self.MenuBtn.setObjectName("MenuBtn")
-        self.horizontalLayout.addWidget(self.MenuBtn)
         spacerItem1 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Policy.Expanding, QtWidgets.QSizePolicy.Policy.Minimum)
         self.horizontalLayout.addItem(spacerItem1)
         self.verticalLayout.addLayout(self.horizontalLayout)
@@ -49,6 +77,10 @@ class Ui_StatisticsMainWindow(object):
         self.horizontalLayout_2.setObjectName("horizontalLayout_2")
         self.horizontalLayout_3 = QtWidgets.QHBoxLayout()
         self.horizontalLayout_3.setObjectName("horizontalLayout_3")
+        spacerItem2 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Policy.Expanding, QtWidgets.QSizePolicy.Policy.Minimum)
+        self.horizontalLayout_3.addItem(spacerItem2)
+        spacerItem3 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Policy.Expanding, QtWidgets.QSizePolicy.Policy.Minimum)
+        self.horizontalLayout_3.addItem(spacerItem3)
         self.label = QtWidgets.QLabel(parent=self.overViewPage)
         self.label.setMaximumSize(QtCore.QSize(100, 100))
         self.label.setBaseSize(QtCore.QSize(0, 0))
@@ -58,7 +90,7 @@ class Ui_StatisticsMainWindow(object):
         font.setWeight(75)
         self.label.setFont(font)
         self.label.setText("")
-        self.label.setPixmap(QtGui.QPixmap("D:\\DoAnPython\\view\\statistics\\../../image/9369367.png"))
+        self.label.setPixmap(QtGui.QPixmap("D:\\DoAnPython\\view\\statistics\\../../image/6851200.png"))
         self.label.setScaledContents(True)
         self.label.setAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
         self.label.setObjectName("label")
@@ -73,7 +105,7 @@ class Ui_StatisticsMainWindow(object):
         self.occupied_rooms.setFont(font)
         self.occupied_rooms.setAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
         self.occupied_rooms.setObjectName("occupied_rooms")
-        self.verticalLayout_2.addWidget(self.occupied_rooms, 0, QtCore.Qt.AlignmentFlag.AlignLeft)
+        self.verticalLayout_2.addWidget(self.occupied_rooms, 0, QtCore.Qt.AlignmentFlag.AlignHCenter)
         self.label_2 = QtWidgets.QLabel(parent=self.overViewPage)
         font = QtGui.QFont()
         font.setPointSize(11)
@@ -82,15 +114,17 @@ class Ui_StatisticsMainWindow(object):
         self.label_2.setFont(font)
         self.label_2.setAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
         self.label_2.setObjectName("label_2")
-        self.verticalLayout_2.addWidget(self.label_2, 0, QtCore.Qt.AlignmentFlag.AlignLeft)
+        self.verticalLayout_2.addWidget(self.label_2, 0, QtCore.Qt.AlignmentFlag.AlignRight)
         self.horizontalLayout_3.addLayout(self.verticalLayout_2)
         self.horizontalLayout_2.addLayout(self.horizontalLayout_3)
+        spacerItem4 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Policy.Expanding, QtWidgets.QSizePolicy.Policy.Minimum)
+        self.horizontalLayout_2.addItem(spacerItem4)
         self.horizontalLayout_4 = QtWidgets.QHBoxLayout()
         self.horizontalLayout_4.setObjectName("horizontalLayout_4")
         self.label_9 = QtWidgets.QLabel(parent=self.overViewPage)
         self.label_9.setMaximumSize(QtCore.QSize(100, 100))
         self.label_9.setText("")
-        self.label_9.setPixmap(QtGui.QPixmap("D:\\DoAnPython\\view\\statistics\\../../image/private-room.png"))
+        self.label_9.setPixmap(QtGui.QPixmap("D:\\DoAnPython\\view\\statistics\\../../image/5734963.png"))
         self.label_9.setScaledContents(True)
         self.label_9.setAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
         self.label_9.setObjectName("label_9")
@@ -105,7 +139,7 @@ class Ui_StatisticsMainWindow(object):
         self.available_rooms.setFont(font)
         self.available_rooms.setAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
         self.available_rooms.setObjectName("available_rooms")
-        self.verticalLayout_4.addWidget(self.available_rooms, 0, QtCore.Qt.AlignmentFlag.AlignLeft)
+        self.verticalLayout_4.addWidget(self.available_rooms, 0, QtCore.Qt.AlignmentFlag.AlignHCenter)
         self.label_8 = QtWidgets.QLabel(parent=self.overViewPage)
         font = QtGui.QFont()
         font.setPointSize(11)
@@ -117,12 +151,15 @@ class Ui_StatisticsMainWindow(object):
         self.verticalLayout_4.addWidget(self.label_8, 0, QtCore.Qt.AlignmentFlag.AlignLeft)
         self.horizontalLayout_4.addLayout(self.verticalLayout_4)
         self.horizontalLayout_2.addLayout(self.horizontalLayout_4)
+        spacerItem5 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Policy.Expanding, QtWidgets.QSizePolicy.Policy.Minimum)
+        self.horizontalLayout_2.addItem(spacerItem5)
         self.horizontalLayout_5 = QtWidgets.QHBoxLayout()
         self.horizontalLayout_5.setObjectName("horizontalLayout_5")
         self.label_5 = QtWidgets.QLabel(parent=self.overViewPage)
-        self.label_5.setMaximumSize(QtCore.QSize(100, 100))
+        self.label_5.setMinimumSize(QtCore.QSize(100, 100))
+        self.label_5.setMaximumSize(QtCore.QSize(120, 100))
         self.label_5.setText("")
-        self.label_5.setPixmap(QtGui.QPixmap("D:\\DoAnPython\\view\\statistics\\../../image/4233087.png"))
+        self.label_5.setPixmap(QtGui.QPixmap("D:\\DoAnPython\\view\\statistics\\../../image/383-3830000_roadmap-clipart.png"))
         self.label_5.setScaledContents(True)
         self.label_5.setAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
         self.label_5.setObjectName("label_5")
@@ -138,7 +175,7 @@ class Ui_StatisticsMainWindow(object):
         self.staffs.setFont(font)
         self.staffs.setAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
         self.staffs.setObjectName("staffs")
-        self.verticalLayout_3.addWidget(self.staffs, 0, QtCore.Qt.AlignmentFlag.AlignLeft)
+        self.verticalLayout_3.addWidget(self.staffs, 0, QtCore.Qt.AlignmentFlag.AlignHCenter)
         self.label_6 = QtWidgets.QLabel(parent=self.overViewPage)
         self.label_6.setMaximumSize(QtCore.QSize(16777215, 16777215))
         font = QtGui.QFont()
@@ -148,12 +185,14 @@ class Ui_StatisticsMainWindow(object):
         self.label_6.setFont(font)
         self.label_6.setAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
         self.label_6.setObjectName("label_6")
-        self.verticalLayout_3.addWidget(self.label_6, 0, QtCore.Qt.AlignmentFlag.AlignLeft)
+        self.verticalLayout_3.addWidget(self.label_6, 0, QtCore.Qt.AlignmentFlag.AlignHCenter)
         self.horizontalLayout_5.addLayout(self.verticalLayout_3)
+        spacerItem6 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Policy.Expanding, QtWidgets.QSizePolicy.Policy.Minimum)
+        self.horizontalLayout_5.addItem(spacerItem6)
         self.horizontalLayout_2.addLayout(self.horizontalLayout_5)
         self.verticalLayout_5.addLayout(self.horizontalLayout_2)
-        spacerItem2 = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Policy.Minimum, QtWidgets.QSizePolicy.Policy.Expanding)
-        self.verticalLayout_5.addItem(spacerItem2)
+        spacerItem7 = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Policy.Minimum, QtWidgets.QSizePolicy.Policy.Expanding)
+        self.verticalLayout_5.addItem(spacerItem7)
         self.overview_screen = QtWidgets.QVBoxLayout()
         self.overview_screen.setSizeConstraint(QtWidgets.QLayout.SizeConstraint.SetDefaultConstraint)
         self.overview_screen.setContentsMargins(-1, 10, -1, 0)
@@ -177,12 +216,54 @@ class Ui_StatisticsMainWindow(object):
         self.horizontalLayout_6 = QtWidgets.QHBoxLayout()
         self.horizontalLayout_6.setObjectName("horizontalLayout_6")
         self.StaYearBtn = QtWidgets.QPushButton(parent=self.doanhThuPage)
+        self.StaYearBtn.setStyleSheet("QPushButton {\n"
+"                background-color: #3498db;  /* Blue background */\n"
+"                color: white;  /* White text */\n"
+"                border: none;\n"
+"                padding: 10px 20px;\n"
+"                font-size: 14px;\n"
+"                \n"
+"            }\n"
+"            QPushButton:hover {\n"
+"                background-color: #2980b9; /* Darker blue on hover */\n"
+"            }\n"
+"            QPushButton:pressed {\n"
+"                background-color: #1f618d; /* Even darker blue on press */\n"
+"            }")
         self.StaYearBtn.setObjectName("StaYearBtn")
         self.horizontalLayout_6.addWidget(self.StaYearBtn)
         self.StaMonthBtn = QtWidgets.QPushButton(parent=self.doanhThuPage)
+        self.StaMonthBtn.setStyleSheet("QPushButton {\n"
+"                background-color: #3498db;  /* Blue background */\n"
+"                color: white;  /* White text */\n"
+"                border: none;\n"
+"                padding: 10px 20px;\n"
+"                font-size: 14px;\n"
+"               \n"
+"            }\n"
+"            QPushButton:hover {\n"
+"                background-color: #2980b9; /* Darker blue on hover */\n"
+"            }\n"
+"            QPushButton:pressed {\n"
+"                background-color: #1f618d; /* Even darker blue on press */\n"
+"            }")
         self.StaMonthBtn.setObjectName("StaMonthBtn")
         self.horizontalLayout_6.addWidget(self.StaMonthBtn)
         self.StaDayToDayBtn = QtWidgets.QPushButton(parent=self.doanhThuPage)
+        self.StaDayToDayBtn.setStyleSheet("QPushButton {\n"
+"                background-color: #3498db;  /* Blue background */\n"
+"                color: white;  /* White text */\n"
+"                border: none;\n"
+"                padding: 10px 20px;\n"
+"                font-size: 14px;\n"
+"               \n"
+"            }\n"
+"            QPushButton:hover {\n"
+"                background-color: #2980b9; /* Darker blue on hover */\n"
+"            }\n"
+"            QPushButton:pressed {\n"
+"                background-color: #1f618d; /* Even darker blue on press */\n"
+"            }")
         self.StaDayToDayBtn.setObjectName("StaDayToDayBtn")
         self.horizontalLayout_6.addWidget(self.StaDayToDayBtn)
         self.verticalLayout_8.addLayout(self.horizontalLayout_6)
@@ -197,6 +278,8 @@ class Ui_StatisticsMainWindow(object):
         self.verticalLayout_9.setObjectName("verticalLayout_9")
         self.horizontalLayout_7 = QtWidgets.QHBoxLayout()
         self.horizontalLayout_7.setObjectName("horizontalLayout_7")
+        spacerItem8 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Policy.Expanding, QtWidgets.QSizePolicy.Policy.Minimum)
+        self.horizontalLayout_7.addItem(spacerItem8)
         self.label_3 = QtWidgets.QLabel(parent=self.thongKeTheoNamPage)
         self.label_3.setAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
         self.label_3.setObjectName("label_3")
@@ -204,7 +287,14 @@ class Ui_StatisticsMainWindow(object):
         self.startYearTXT = QtWidgets.QLineEdit(parent=self.thongKeTheoNamPage)
         self.startYearTXT.setMinimumSize(QtCore.QSize(0, 0))
         self.startYearTXT.setMaximumSize(QtCore.QSize(100, 16777215))
+        font = QtGui.QFont()
+        font.setPointSize(11)
+        self.startYearTXT.setFont(font)
         self.startYearTXT.setLayoutDirection(QtCore.Qt.LayoutDirection.LeftToRight)
+        self.startYearTXT.setStyleSheet("            QLineEdit:hover {\n"
+"                border: 2px solid #2980b9; /* Darker blue on hover */\n"
+"            }\n"
+"            ")
         self.startYearTXT.setObjectName("startYearTXT")
         self.horizontalLayout_7.addWidget(self.startYearTXT)
         self.label_4 = QtWidgets.QLabel(parent=self.thongKeTheoNamPage)
@@ -213,25 +303,64 @@ class Ui_StatisticsMainWindow(object):
         self.horizontalLayout_7.addWidget(self.label_4)
         self.endYearTXT = QtWidgets.QLineEdit(parent=self.thongKeTheoNamPage)
         self.endYearTXT.setMaximumSize(QtCore.QSize(100, 16777215))
+        font = QtGui.QFont()
+        font.setPointSize(11)
+        self.endYearTXT.setFont(font)
+        self.endYearTXT.setStyleSheet("QLineEdit:hover {\n"
+"                border: 2px solid #2980b9; /* Darker blue on hover */\n"
+"            }")
         self.endYearTXT.setObjectName("endYearTXT")
         self.horizontalLayout_7.addWidget(self.endYearTXT)
         self.statistisBtn = QtWidgets.QPushButton(parent=self.thongKeTheoNamPage)
+        font = QtGui.QFont()
+        font.setPointSize(11)
+        font.setBold(False)
+        font.setWeight(50)
+        self.statistisBtn.setFont(font)
+        self.statistisBtn.setStyleSheet("            QPushButton:hover {\n"
+"                border: 3px solid #2980b9; /* Darker blue on hover */\n"
+"            }\n"
+"            QPushButton:pressed {\n"
+"                border: 3px solid #1f618d; /* Even darker blue on press */\n"
+"            }")
         self.statistisBtn.setObjectName("statistisBtn")
         self.horizontalLayout_7.addWidget(self.statistisBtn)
         self.refreshBtn = QtWidgets.QPushButton(parent=self.thongKeTheoNamPage)
+        font = QtGui.QFont()
+        font.setPointSize(11)
+        self.refreshBtn.setFont(font)
+        self.refreshBtn.setStyleSheet("QPushButton:hover {\n"
+"                border: 3px solid #2980b9; /* Darker blue on hover */\n"
+"            }\n"
+"            QPushButton:pressed {\n"
+"                border: 3px solid #1f618d; /* Even darker blue on press */\n"
+"            }")
         self.refreshBtn.setObjectName("refreshBtn")
         self.horizontalLayout_7.addWidget(self.refreshBtn)
         self.exportExcelBtn = QtWidgets.QPushButton(parent=self.thongKeTheoNamPage)
+        font = QtGui.QFont()
+        font.setPointSize(11)
+        self.exportExcelBtn.setFont(font)
+        self.exportExcelBtn.setStyleSheet("QPushButton:hover {\n"
+"                border: 3px solid #2980b9; /* Darker blue on hover */\n"
+"            }\n"
+"            QPushButton:pressed {\n"
+"                border: 3px solid #1f618d; /* Even darker blue on press */\n"
+"            }")
         self.exportExcelBtn.setObjectName("exportExcelBtn")
         self.horizontalLayout_7.addWidget(self.exportExcelBtn)
+        spacerItem9 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Policy.Expanding, QtWidgets.QSizePolicy.Policy.Minimum)
+        self.horizontalLayout_7.addItem(spacerItem9)
         self.verticalLayout_9.addLayout(self.horizontalLayout_7)
         self.verticalLayout_10.addLayout(self.verticalLayout_9)
-        spacerItem3 = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Policy.Minimum, QtWidgets.QSizePolicy.Policy.Expanding)
-        self.verticalLayout_10.addItem(spacerItem3)
+        spacerItem10 = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Policy.Minimum, QtWidgets.QSizePolicy.Policy.Expanding)
+        self.verticalLayout_10.addItem(spacerItem10)
         self.yearScreenChart = QtWidgets.QVBoxLayout()
         self.yearScreenChart.setObjectName("yearScreenChart")
         self.verticalLayout_10.addLayout(self.yearScreenChart)
         self.tableYearStatisticView = QtWidgets.QTableView(parent=self.thongKeTheoNamPage)
+        self.tableYearStatisticView.setMinimumSize(QtCore.QSize(1077, 250))
+        self.tableYearStatisticView.setMaximumSize(QtCore.QSize(16777215, 250))
         self.tableYearStatisticView.setObjectName("tableYearStatisticView")
         self.verticalLayout_10.addWidget(self.tableYearStatisticView)
         self.stackedWidget_2.addWidget(self.thongKeTheoNamPage)
@@ -254,16 +383,27 @@ class Ui_StatisticsMainWindow(object):
         self.yearOfMonths.setObjectName("yearOfMonths")
         self.horizontalLayout_8.addWidget(self.yearOfMonths)
         self.exportExcelBtn_2 = QtWidgets.QPushButton(parent=self.thongKeTheoTNTTPage)
+        font = QtGui.QFont()
+        font.setPointSize(11)
+        self.exportExcelBtn_2.setFont(font)
+        self.exportExcelBtn_2.setStyleSheet("QPushButton:hover {\n"
+"                border: 3px solid #2980b9; /* Darker blue on hover */\n"
+"            }\n"
+"            QPushButton:pressed {\n"
+"                border: 3px solid #1f618d; /* Even darker blue on press */\n"
+"            }")
         self.exportExcelBtn_2.setObjectName("exportExcelBtn_2")
         self.horizontalLayout_8.addWidget(self.exportExcelBtn_2, 0, QtCore.Qt.AlignmentFlag.AlignLeft)
         self.verticalLayout_11.addLayout(self.horizontalLayout_8)
         self.verticalLayout_12.addLayout(self.verticalLayout_11)
-        spacerItem4 = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Policy.Minimum, QtWidgets.QSizePolicy.Policy.Expanding)
-        self.verticalLayout_12.addItem(spacerItem4)
+        spacerItem11 = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Policy.Minimum, QtWidgets.QSizePolicy.Policy.Expanding)
+        self.verticalLayout_12.addItem(spacerItem11)
         self.monthScreenChart = QtWidgets.QVBoxLayout()
         self.monthScreenChart.setObjectName("monthScreenChart")
         self.verticalLayout_12.addLayout(self.monthScreenChart)
         self.tableMonthStatisticView = QtWidgets.QTableView(parent=self.thongKeTheoTNTTPage)
+        self.tableMonthStatisticView.setMinimumSize(QtCore.QSize(1077, 250))
+        self.tableMonthStatisticView.setMaximumSize(QtCore.QSize(16777215, 250))
         self.tableMonthStatisticView.setObjectName("tableMonthStatisticView")
         self.verticalLayout_12.addWidget(self.tableMonthStatisticView)
         self.stackedWidget_2.addWidget(self.thongKeTheoTNTTPage)
@@ -275,6 +415,8 @@ class Ui_StatisticsMainWindow(object):
         self.verticalLayout_13.setObjectName("verticalLayout_13")
         self.horizontalLayout_9 = QtWidgets.QHBoxLayout()
         self.horizontalLayout_9.setObjectName("horizontalLayout_9")
+        spacerItem12 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Policy.Expanding, QtWidgets.QSizePolicy.Policy.Minimum)
+        self.horizontalLayout_9.addItem(spacerItem12)
         self.label_10 = QtWidgets.QLabel(parent=self.thongKeTheoTTTNPage)
         self.label_10.setAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
         self.label_10.setObjectName("label_10")
@@ -290,14 +432,43 @@ class Ui_StatisticsMainWindow(object):
         self.dateEndTXT.setObjectName("dateEndTXT")
         self.horizontalLayout_9.addWidget(self.dateEndTXT)
         self.statisticDateBtn = QtWidgets.QPushButton(parent=self.thongKeTheoTTTNPage)
+        font = QtGui.QFont()
+        font.setPointSize(11)
+        self.statisticDateBtn.setFont(font)
+        self.statisticDateBtn.setStyleSheet("QPushButton:hover {\n"
+"                border: 3px solid #2980b9; /* Darker blue on hover */\n"
+"            }\n"
+"            QPushButton:pressed {\n"
+"                border: 3px solid #1f618d; /* Even darker blue on press */\n"
+"            }")
         self.statisticDateBtn.setObjectName("statisticDateBtn")
         self.horizontalLayout_9.addWidget(self.statisticDateBtn)
         self.refreshDateBtn = QtWidgets.QPushButton(parent=self.thongKeTheoTTTNPage)
+        font = QtGui.QFont()
+        font.setPointSize(11)
+        self.refreshDateBtn.setFont(font)
+        self.refreshDateBtn.setStyleSheet("QPushButton:hover {\n"
+"                border: 3px solid #2980b9; /* Darker blue on hover */\n"
+"            }\n"
+"            QPushButton:pressed {\n"
+"                border: 3px solid #1f618d; /* Even darker blue on press */\n"
+"            }")
         self.refreshDateBtn.setObjectName("refreshDateBtn")
         self.horizontalLayout_9.addWidget(self.refreshDateBtn)
         self.exportExcelBtn_3 = QtWidgets.QPushButton(parent=self.thongKeTheoTTTNPage)
+        font = QtGui.QFont()
+        font.setPointSize(11)
+        self.exportExcelBtn_3.setFont(font)
+        self.exportExcelBtn_3.setStyleSheet("QPushButton:hover {\n"
+"                border: 3px solid #2980b9; /* Darker blue on hover */\n"
+"            }\n"
+"            QPushButton:pressed {\n"
+"                border: 3px solid #1f618d; /* Even darker blue on press */\n"
+"            }")
         self.exportExcelBtn_3.setObjectName("exportExcelBtn_3")
         self.horizontalLayout_9.addWidget(self.exportExcelBtn_3)
+        spacerItem13 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Policy.Expanding, QtWidgets.QSizePolicy.Policy.Minimum)
+        self.horizontalLayout_9.addItem(spacerItem13)
         self.verticalLayout_13.addLayout(self.horizontalLayout_9)
         self.verticalLayout_14.addLayout(self.verticalLayout_13)
         self.tableDateStatisticView = QtWidgets.QTableView(parent=self.thongKeTheoTTTNPage)
@@ -312,7 +483,8 @@ class Ui_StatisticsMainWindow(object):
         self.verticalLayout.addWidget(self.stackedWidget)
 
         self.retranslateUi(StatisticsMainWindow)
-        self.stackedWidget_2.setCurrentIndex(2)
+        self.stackedWidget.setCurrentIndex(1)
+        self.stackedWidget_2.setCurrentIndex(0)
         QtCore.QMetaObject.connectSlotsByName(StatisticsMainWindow)
 
     def retranslateUi(self, StatisticsMainWindow):
@@ -320,8 +492,6 @@ class Ui_StatisticsMainWindow(object):
         StatisticsMainWindow.setWindowTitle(_translate("StatisticsMainWindow", "Statistics"))
         self.TongQuanBtn.setText(_translate("StatisticsMainWindow", "Tổng Quan"))
         self.DoanhThuBtn.setText(_translate("StatisticsMainWindow", "Doanh Thu"))
-        self.PhongBtn.setText(_translate("StatisticsMainWindow", "Phòng"))
-        self.MenuBtn.setText(_translate("StatisticsMainWindow", "Menu"))
         self.occupied_rooms.setText(_translate("StatisticsMainWindow", "10"))
         self.label_2.setText(_translate("StatisticsMainWindow", "OCCUPIED ROOMS"))
         self.available_rooms.setText(_translate("StatisticsMainWindow", "20"))

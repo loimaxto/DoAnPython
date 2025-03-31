@@ -166,7 +166,6 @@ class StatisticsMainWindow(QtWidgets.QWidget, Ui_StatisticsMainWindow):
     def load_data_table_theo_ngay(self,dateStart=None , dateEnd=None):
         info_data = self.dao_thong_ke.getDoanhThuTuNgayDenNgay(dateStart, dateEnd)
         if not info_data:
-            print("Lỗi: Không có dữ liệu để hiển thị trong bảng.")
             return
 
         table_data = [(item.ngay,locale.currency(item.doanh_thu, grouping=True)) for item in info_data]
@@ -359,7 +358,7 @@ class show_chart(FigureCanvasQTAgg):
 
         # Plot Bars
        
-        rects = self.ax.bar(x, doanh_thu, width, label="Doanh thu", color="purple")
+        rects = self.ax.bar(x, doanh_thu, width, label="Doanh thu", color="#1e90ff")
         
 
         # Add labels on top of bars
@@ -405,7 +404,7 @@ class show_year_chart(FigureCanvasQTAgg):
 
         # Plot Bars
        
-        rects = self.ax.bar(x, doanh_thu, width, label="Doanh thu", color="purple")
+        rects = self.ax.bar(x, doanh_thu, width, label="Doanh thu", color="#1e90ff")
         
 
         # Add labels on top of bars
@@ -447,7 +446,7 @@ class show_month_chart(FigureCanvasQTAgg):
 
         # Plot Bars
        
-        rects = self.ax.bar(x, doanh_thu, width, label="Doanh thu", color="purple")
+        rects = self.ax.bar(x, doanh_thu, width, label="Doanh thu", color="#1e90ff")
         
 
         # Add labels on top of bars

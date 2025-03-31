@@ -62,6 +62,15 @@ class NhanVienDAO:
         if result and isinstance(result, list) and len(result) > 0 and len(result[0]) > 0:
             return result[0][0]
         return 0
+    
+    def check_staff_exists(self, sdt = None , email = None) -> bool:
+        if sdt is None and email is None:
+            return False  # If both are None, no staff can exist with these values.
+        query = "SELECT COUNT(*) FROM nhan_vien WHERE (sdt = ? OR email = ?)"
+        result = self.db.execute_query(query, (sdt if sdt else '', email if email else '',))
+        if result and isinstance(result, list) and len(result) > 0 and len(result[0]) > 0:
+            return result[0][0] > 0
+        return False
 # Example usage (in a separate main.py or similar):
 if __name__ == "__main__":
     dao = NhanVienDAO()

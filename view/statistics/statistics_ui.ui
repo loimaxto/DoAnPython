@@ -36,6 +36,27 @@
      </item>
      <item>
       <widget class="QPushButton" name="TongQuanBtn">
+       <property name="font">
+        <font>
+         <pointsize>-1</pointsize>
+        </font>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">QPushButton {
+                background-color: #3498db;  /* Blue background */
+                color: white;  /* White text */
+                border: none;
+                padding: 10px 20px;
+                font-size: 14px;
+                border-radius: 5px;
+            }
+            QPushButton:hover {
+                background-color: #2980b9; /* Darker blue on hover */
+            }
+            QPushButton:pressed {
+                background-color: #1f618d; /* Even darker blue on press */
+            }</string>
+       </property>
        <property name="text">
         <string>Tổng Quan</string>
        </property>
@@ -43,22 +64,29 @@
      </item>
      <item>
       <widget class="QPushButton" name="DoanhThuBtn">
+       <property name="font">
+        <font>
+         <pointsize>-1</pointsize>
+        </font>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">QPushButton {
+                background-color: #3498db;  /* Blue background */
+                color: white;  /* White text */
+                border: none;
+                padding: 10px 20px;
+                font-size: 14px;
+                border-radius: 5px;
+            }
+            QPushButton:hover {
+                background-color: #2980b9; /* Darker blue on hover */
+            }
+            QPushButton:pressed {
+                background-color: #1f618d; /* Even darker blue on press */
+            }</string>
+       </property>
        <property name="text">
         <string>Doanh Thu</string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QPushButton" name="PhongBtn">
-       <property name="text">
-        <string>Phòng</string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QPushButton" name="MenuBtn">
-       <property name="text">
-        <string>Menu</string>
        </property>
       </widget>
      </item>
@@ -79,6 +107,9 @@
    </item>
    <item>
     <widget class="QStackedWidget" name="stackedWidget">
+     <property name="currentIndex">
+      <number>1</number>
+     </property>
      <widget class="QWidget" name="overViewPage">
       <layout class="QVBoxLayout" name="verticalLayout_6">
        <item>
@@ -87,6 +118,32 @@
           <layout class="QHBoxLayout" name="horizontalLayout_2">
            <item>
             <layout class="QHBoxLayout" name="horizontalLayout_3">
+             <item>
+              <spacer name="horizontalSpacer_5">
+               <property name="orientation">
+                <enum>Qt::Horizontal</enum>
+               </property>
+               <property name="sizeHint" stdset="0">
+                <size>
+                 <width>40</width>
+                 <height>20</height>
+                </size>
+               </property>
+              </spacer>
+             </item>
+             <item>
+              <spacer name="horizontalSpacer_3">
+               <property name="orientation">
+                <enum>Qt::Horizontal</enum>
+               </property>
+               <property name="sizeHint" stdset="0">
+                <size>
+                 <width>40</width>
+                 <height>20</height>
+                </size>
+               </property>
+              </spacer>
+             </item>
              <item>
               <widget class="QLabel" name="label">
                <property name="maximumSize">
@@ -112,7 +169,7 @@
                 <string/>
                </property>
                <property name="pixmap">
-                <pixmap>../../image/9369367.png</pixmap>
+                <pixmap>../../image/6851200.png</pixmap>
                </property>
                <property name="scaledContents">
                 <bool>true</bool>
@@ -124,7 +181,7 @@
              </item>
              <item>
               <layout class="QVBoxLayout" name="verticalLayout_2">
-               <item alignment="Qt::AlignLeft">
+               <item alignment="Qt::AlignHCenter">
                 <widget class="QLabel" name="occupied_rooms">
                  <property name="font">
                   <font>
@@ -141,7 +198,7 @@
                  </property>
                 </widget>
                </item>
-               <item alignment="Qt::AlignLeft">
+               <item alignment="Qt::AlignRight">
                 <widget class="QLabel" name="label_2">
                  <property name="font">
                   <font>
@@ -163,6 +220,19 @@
             </layout>
            </item>
            <item>
+            <spacer name="horizontalSpacer_6">
+             <property name="orientation">
+              <enum>Qt::Horizontal</enum>
+             </property>
+             <property name="sizeHint" stdset="0">
+              <size>
+               <width>40</width>
+               <height>20</height>
+              </size>
+             </property>
+            </spacer>
+           </item>
+           <item>
             <layout class="QHBoxLayout" name="horizontalLayout_4">
              <item>
               <widget class="QLabel" name="label_9">
@@ -176,7 +246,7 @@
                 <string/>
                </property>
                <property name="pixmap">
-                <pixmap>../../image/private-room.png</pixmap>
+                <pixmap>../../image/5734963.png</pixmap>
                </property>
                <property name="scaledContents">
                 <bool>true</bool>
@@ -188,7 +258,7 @@
              </item>
              <item>
               <layout class="QVBoxLayout" name="verticalLayout_4">
-               <item alignment="Qt::AlignLeft">
+               <item alignment="Qt::AlignHCenter">
                 <widget class="QLabel" name="available_rooms">
                  <property name="font">
                   <font>
@@ -227,12 +297,31 @@
             </layout>
            </item>
            <item>
+            <spacer name="horizontalSpacer_7">
+             <property name="orientation">
+              <enum>Qt::Horizontal</enum>
+             </property>
+             <property name="sizeHint" stdset="0">
+              <size>
+               <width>40</width>
+               <height>20</height>
+              </size>
+             </property>
+            </spacer>
+           </item>
+           <item>
             <layout class="QHBoxLayout" name="horizontalLayout_5">
              <item>
               <widget class="QLabel" name="label_5">
-               <property name="maximumSize">
+               <property name="minimumSize">
                 <size>
                  <width>100</width>
+                 <height>100</height>
+                </size>
+               </property>
+               <property name="maximumSize">
+                <size>
+                 <width>120</width>
                  <height>100</height>
                 </size>
                </property>
@@ -240,7 +329,7 @@
                 <string/>
                </property>
                <property name="pixmap">
-                <pixmap>../../image/4233087.png</pixmap>
+                <pixmap>../../image/383-3830000_roadmap-clipart.png</pixmap>
                </property>
                <property name="scaledContents">
                 <bool>true</bool>
@@ -252,7 +341,7 @@
              </item>
              <item>
               <layout class="QVBoxLayout" name="verticalLayout_3">
-               <item alignment="Qt::AlignLeft">
+               <item alignment="Qt::AlignHCenter">
                 <widget class="QLabel" name="staffs">
                  <property name="maximumSize">
                   <size>
@@ -275,7 +364,7 @@
                  </property>
                 </widget>
                </item>
-               <item alignment="Qt::AlignLeft">
+               <item alignment="Qt::AlignHCenter">
                 <widget class="QLabel" name="label_6">
                  <property name="maximumSize">
                   <size>
@@ -299,6 +388,19 @@
                 </widget>
                </item>
               </layout>
+             </item>
+             <item>
+              <spacer name="horizontalSpacer_4">
+               <property name="orientation">
+                <enum>Qt::Horizontal</enum>
+               </property>
+               <property name="sizeHint" stdset="0">
+                <size>
+                 <width>40</width>
+                 <height>20</height>
+                </size>
+               </property>
+              </spacer>
              </item>
             </layout>
            </item>
@@ -367,6 +469,22 @@
           <layout class="QHBoxLayout" name="horizontalLayout_6">
            <item>
             <widget class="QPushButton" name="StaYearBtn">
+             <property name="styleSheet">
+              <string notr="true">QPushButton {
+                background-color: #3498db;  /* Blue background */
+                color: white;  /* White text */
+                border: none;
+                padding: 10px 20px;
+                font-size: 14px;
+                
+            }
+            QPushButton:hover {
+                background-color: #2980b9; /* Darker blue on hover */
+            }
+            QPushButton:pressed {
+                background-color: #1f618d; /* Even darker blue on press */
+            }</string>
+             </property>
              <property name="text">
               <string>Thống Kê Theo Năm</string>
              </property>
@@ -374,6 +492,22 @@
            </item>
            <item>
             <widget class="QPushButton" name="StaMonthBtn">
+             <property name="styleSheet">
+              <string notr="true">QPushButton {
+                background-color: #3498db;  /* Blue background */
+                color: white;  /* White text */
+                border: none;
+                padding: 10px 20px;
+                font-size: 14px;
+               
+            }
+            QPushButton:hover {
+                background-color: #2980b9; /* Darker blue on hover */
+            }
+            QPushButton:pressed {
+                background-color: #1f618d; /* Even darker blue on press */
+            }</string>
+             </property>
              <property name="text">
               <string>Thống Kê Theo Từng Tháng Trong Năm</string>
              </property>
@@ -381,6 +515,22 @@
            </item>
            <item>
             <widget class="QPushButton" name="StaDayToDayBtn">
+             <property name="styleSheet">
+              <string notr="true">QPushButton {
+                background-color: #3498db;  /* Blue background */
+                color: white;  /* White text */
+                border: none;
+                padding: 10px 20px;
+                font-size: 14px;
+               
+            }
+            QPushButton:hover {
+                background-color: #2980b9; /* Darker blue on hover */
+            }
+            QPushButton:pressed {
+                background-color: #1f618d; /* Even darker blue on press */
+            }</string>
+             </property>
              <property name="text">
               <string>Thống Kê Từ Ngày Đến Ngày</string>
              </property>
@@ -393,7 +543,7 @@
        <item>
         <widget class="QStackedWidget" name="stackedWidget_2">
          <property name="currentIndex">
-          <number>2</number>
+          <number>0</number>
          </property>
          <widget class="QWidget" name="thongKeTheoNamPage">
           <layout class="QVBoxLayout" name="verticalLayout_10">
@@ -401,6 +551,19 @@
             <layout class="QVBoxLayout" name="verticalLayout_9">
              <item>
               <layout class="QHBoxLayout" name="horizontalLayout_7">
+               <item>
+                <spacer name="horizontalSpacer_8">
+                 <property name="orientation">
+                  <enum>Qt::Horizontal</enum>
+                 </property>
+                 <property name="sizeHint" stdset="0">
+                  <size>
+                   <width>40</width>
+                   <height>20</height>
+                  </size>
+                 </property>
+                </spacer>
+               </item>
                <item>
                 <widget class="QLabel" name="label_3">
                  <property name="text">
@@ -425,8 +588,19 @@
                    <height>16777215</height>
                   </size>
                  </property>
+                 <property name="font">
+                  <font>
+                   <pointsize>11</pointsize>
+                  </font>
+                 </property>
                  <property name="layoutDirection">
                   <enum>Qt::LeftToRight</enum>
+                 </property>
+                 <property name="styleSheet">
+                  <string notr="true">	        QLineEdit:hover {
+                border: 2px solid #2980b9; /* Darker blue on hover */
+            }
+            </string>
                  </property>
                 </widget>
                </item>
@@ -448,10 +622,35 @@
                    <height>16777215</height>
                   </size>
                  </property>
+                 <property name="font">
+                  <font>
+                   <pointsize>11</pointsize>
+                  </font>
+                 </property>
+                 <property name="styleSheet">
+                  <string notr="true">QLineEdit:hover {
+                border: 2px solid #2980b9; /* Darker blue on hover */
+            }</string>
+                 </property>
                 </widget>
                </item>
                <item>
                 <widget class="QPushButton" name="statistisBtn">
+                 <property name="font">
+                  <font>
+                   <pointsize>11</pointsize>
+                   <weight>50</weight>
+                   <bold>false</bold>
+                  </font>
+                 </property>
+                 <property name="styleSheet">
+                  <string notr="true">            QPushButton:hover {
+                border: 3px solid #2980b9; /* Darker blue on hover */
+            }
+            QPushButton:pressed {
+                border: 3px solid #1f618d; /* Even darker blue on press */
+            }</string>
+                 </property>
                  <property name="text">
                   <string>Thống Kê</string>
                  </property>
@@ -459,6 +658,19 @@
                </item>
                <item>
                 <widget class="QPushButton" name="refreshBtn">
+                 <property name="font">
+                  <font>
+                   <pointsize>11</pointsize>
+                  </font>
+                 </property>
+                 <property name="styleSheet">
+                  <string notr="true">QPushButton:hover {
+                border: 3px solid #2980b9; /* Darker blue on hover */
+            }
+            QPushButton:pressed {
+                border: 3px solid #1f618d; /* Even darker blue on press */
+            }</string>
+                 </property>
                  <property name="text">
                   <string>Làm Mới</string>
                  </property>
@@ -466,10 +678,36 @@
                </item>
                <item>
                 <widget class="QPushButton" name="exportExcelBtn">
+                 <property name="font">
+                  <font>
+                   <pointsize>11</pointsize>
+                  </font>
+                 </property>
+                 <property name="styleSheet">
+                  <string notr="true">QPushButton:hover {
+                border: 3px solid #2980b9; /* Darker blue on hover */
+            }
+            QPushButton:pressed {
+                border: 3px solid #1f618d; /* Even darker blue on press */
+            }</string>
+                 </property>
                  <property name="text">
                   <string>Xuất excel</string>
                  </property>
                 </widget>
+               </item>
+               <item>
+                <spacer name="horizontalSpacer_9">
+                 <property name="orientation">
+                  <enum>Qt::Horizontal</enum>
+                 </property>
+                 <property name="sizeHint" stdset="0">
+                  <size>
+                   <width>40</width>
+                   <height>20</height>
+                  </size>
+                 </property>
+                </spacer>
                </item>
               </layout>
              </item>
@@ -492,7 +730,20 @@
             <layout class="QVBoxLayout" name="yearScreenChart"/>
            </item>
            <item>
-            <widget class="QTableView" name="tableYearStatisticView"/>
+            <widget class="QTableView" name="tableYearStatisticView">
+             <property name="minimumSize">
+              <size>
+               <width>1077</width>
+               <height>250</height>
+              </size>
+             </property>
+             <property name="maximumSize">
+              <size>
+               <width>16777215</width>
+               <height>250</height>
+              </size>
+             </property>
+            </widget>
            </item>
           </layout>
          </widget>
@@ -527,6 +778,19 @@
                </item>
                <item alignment="Qt::AlignLeft">
                 <widget class="QPushButton" name="exportExcelBtn_2">
+                 <property name="font">
+                  <font>
+                   <pointsize>11</pointsize>
+                  </font>
+                 </property>
+                 <property name="styleSheet">
+                  <string notr="true">QPushButton:hover {
+                border: 3px solid #2980b9; /* Darker blue on hover */
+            }
+            QPushButton:pressed {
+                border: 3px solid #1f618d; /* Even darker blue on press */
+            }</string>
+                 </property>
                  <property name="text">
                   <string>Xuất excel</string>
                  </property>
@@ -553,7 +817,20 @@
             <layout class="QVBoxLayout" name="monthScreenChart"/>
            </item>
            <item>
-            <widget class="QTableView" name="tableMonthStatisticView"/>
+            <widget class="QTableView" name="tableMonthStatisticView">
+             <property name="minimumSize">
+              <size>
+               <width>1077</width>
+               <height>250</height>
+              </size>
+             </property>
+             <property name="maximumSize">
+              <size>
+               <width>16777215</width>
+               <height>250</height>
+              </size>
+             </property>
+            </widget>
            </item>
           </layout>
          </widget>
@@ -563,6 +840,19 @@
             <layout class="QVBoxLayout" name="verticalLayout_13">
              <item>
               <layout class="QHBoxLayout" name="horizontalLayout_9">
+               <item>
+                <spacer name="horizontalSpacer_10">
+                 <property name="orientation">
+                  <enum>Qt::Horizontal</enum>
+                 </property>
+                 <property name="sizeHint" stdset="0">
+                  <size>
+                   <width>40</width>
+                   <height>20</height>
+                  </size>
+                 </property>
+                </spacer>
+               </item>
                <item>
                 <widget class="QLabel" name="label_10">
                  <property name="text">
@@ -591,6 +881,19 @@
                </item>
                <item>
                 <widget class="QPushButton" name="statisticDateBtn">
+                 <property name="font">
+                  <font>
+                   <pointsize>11</pointsize>
+                  </font>
+                 </property>
+                 <property name="styleSheet">
+                  <string notr="true">QPushButton:hover {
+                border: 3px solid #2980b9; /* Darker blue on hover */
+            }
+            QPushButton:pressed {
+                border: 3px solid #1f618d; /* Even darker blue on press */
+            }</string>
+                 </property>
                  <property name="text">
                   <string>Thống kê</string>
                  </property>
@@ -598,6 +901,19 @@
                </item>
                <item>
                 <widget class="QPushButton" name="refreshDateBtn">
+                 <property name="font">
+                  <font>
+                   <pointsize>11</pointsize>
+                  </font>
+                 </property>
+                 <property name="styleSheet">
+                  <string notr="true">QPushButton:hover {
+                border: 3px solid #2980b9; /* Darker blue on hover */
+            }
+            QPushButton:pressed {
+                border: 3px solid #1f618d; /* Even darker blue on press */
+            }</string>
+                 </property>
                  <property name="text">
                   <string>Làm mới</string>
                  </property>
@@ -605,10 +921,36 @@
                </item>
                <item>
                 <widget class="QPushButton" name="exportExcelBtn_3">
+                 <property name="font">
+                  <font>
+                   <pointsize>11</pointsize>
+                  </font>
+                 </property>
+                 <property name="styleSheet">
+                  <string notr="true">QPushButton:hover {
+                border: 3px solid #2980b9; /* Darker blue on hover */
+            }
+            QPushButton:pressed {
+                border: 3px solid #1f618d; /* Even darker blue on press */
+            }</string>
+                 </property>
                  <property name="text">
                   <string>Xuất excel</string>
                  </property>
                 </widget>
+               </item>
+               <item>
+                <spacer name="horizontalSpacer_11">
+                 <property name="orientation">
+                  <enum>Qt::Horizontal</enum>
+                 </property>
+                 <property name="sizeHint" stdset="0">
+                  <size>
+                   <width>40</width>
+                   <height>20</height>
+                  </size>
+                 </property>
+                </spacer>
                </item>
               </layout>
              </item>
