@@ -88,3 +88,26 @@ class HoaDonDTO:
         self.dat_phong_id = dat_phong_id
     def __repr__(self):
         return f"HoaDonDTO(hd_id={self.hd_id}, tong_tien={self.tong_tien}, thoi_gian='{self.thoi_gian}', nv_id={self.nv_id}, thanh_toan_status={self.thanh_toan_status})"
+
+# DTO THONG KE
+class ThongKeDoanhThuDTO:
+    def __init__(self, date,doanh_thu):
+        self.date = date
+        self.doanh_thu = doanh_thu
+    def __str__(self):
+        return f"ThongKe(date='{self.date}', doanh_thu={self.doanh_thu})"
+    
+class ThongKeTheoThangDTO:
+    def __init__(self, thang,doanh_thu):
+        self.thang = thang
+        self.doanh_thu = doanh_thu
+    def __str__(self):
+        return f"ThongKe(thang='{self.thang}', doanh_thu={self.doanh_thu})"
+    
+class ThongKeTheoTungNgayTrongThangDTO:
+    def __init__(self, ngay,doanh_thu):
+        self.ngay = ngay
+        self.doanh_thu = doanh_thu
+    def __str__(self):
+        return f"ThongKe(ngay='{self.ngay}', doanh_thu={self.doanh_thu})"
+    
