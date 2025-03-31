@@ -139,6 +139,25 @@ background-color: rgb(85, 170, 255);
            </widget>
           </item>
           <item>
+           <widget class="QPushButton" name="hoadon_btn">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="cursor">
+             <cursorShape>ArrowCursor</cursorShape>
+            </property>
+            <property name="focusPolicy">
+             <enum>Qt::TabFocus</enum>
+            </property>
+            <property name="text">
+             <string>Hóa đơn</string>
+            </property>
+           </widget>
+          </item>
+          <item>
            <widget class="QPushButton" name="thongKeBtn">
             <property name="sizePolicy">
              <sizepolicy hsizetype="Minimum" vsizetype="Preferred">

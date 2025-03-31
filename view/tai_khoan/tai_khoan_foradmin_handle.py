@@ -1,6 +1,7 @@
 from view.tai_khoan.tai_khoan_foradmin import Ui_Form
 from PyQt6 import QtCore, QtGui, QtWidgets
 import sqlite3
+from view.login.quen_pass_handle import quen_pass
 
 class ql_taikhoan(Ui_Form, QtWidgets.QWidget):
     def __init__(self):
@@ -69,6 +70,7 @@ class ql_taikhoan(Ui_Form, QtWidgets.QWidget):
             self.cur.execute("delete from user where user_id=?", (id, ))
             self.conn.commit()
             self.show_all()
+            msg = QtWidgets.QMessageBox(); msg.setWindowTitle("Thành công"); msg.setText("Tài khoản đã được xóa khỏi hệ thống"); msg.setIcon(QtWidgets.QMessageBox.Icon.Information); msg.exec()
         except:
             msg = QtWidgets.QMessageBox()
             msg.setText("Không thể xóa")
@@ -91,6 +93,9 @@ class ql_taikhoan(Ui_Form, QtWidgets.QWidget):
                         \n Đảm bảo điền đúng, đầy đủ và thử lại!")
             msg.setIcon(QtWidgets.QMessageBox.Icon.Warning)
             msg.exec()
+            return
+        if self.checkThamChieu() == False:
+            msg = QtWidgets.QMessageBox(); msg.setWindowTitle("Lỗi"); msg.setText("Mã nhân viên không tồn tại!"); msg.setIcon(QtWidgets.QMessageBox.Icon.Critical); msg.exec()
             return
         # update dữ liệu
         try:
@@ -158,7 +163,9 @@ class ql_taikhoan(Ui_Form, QtWidgets.QWidget):
             msg.setIcon(QtWidgets.QMessageBox.Icon.Warning)
             msg.exec()
             return
-
+        if self.checkThamChieu() == False:
+            msg = QtWidgets.QMessageBox(); msg.setWindowTitle("Lỗi"); msg.setText("Mã nhân viên không tồn tại!"); msg.setIcon(QtWidgets.QMessageBox.Icon.Critical); msg.exec()
+            return
         # thêm tài khoản
         try:
             self.cur.execute("insert into user(username, password, nv_id) values(?, ?, ?)", (username, password, id_nv))
@@ -177,6 +184,16 @@ class ql_taikhoan(Ui_Form, QtWidgets.QWidget):
             msg.setText("Vui lòng kiểm tra lại thông tin tài khoản!")
             msg.setIcon(QtWidgets.QMessageBox.Icon.Critical)
             msg.exec()
+    def checkThamChieu(self):
+        id = self.inp_id_nv.text()
+        if id=="":
+            return True
+        data = self.cur.execute("select nv_id from nhan_vien \
+                                where nv_id=?", (id, ))
+        data = data.fetchone()
+        if data == None:
+            return False
+        return True
 
 if __name__ == "__main__":
     import sys
