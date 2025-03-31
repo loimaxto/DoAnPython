@@ -6,7 +6,7 @@ from modelsCNN import FaceRecognitionCNN
 import torch.nn as nn
 from Load_Data import Prepare_Data
 # Khởi tạo mô hình
-id_customer = 2
+id_customer = 5
 class Train_Models:
     def __init__(self):
         self.load_data = Prepare_Data()
@@ -19,7 +19,7 @@ class Train_Models:
         optimizer = optim.Adam(self.model.parameters(), lr=0.001)
 
             # Huấn luyện mô hình
-        num_epochs = 50
+        num_epochs = 10
         device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
         self.model.to(device)
 

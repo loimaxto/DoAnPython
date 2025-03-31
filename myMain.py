@@ -8,7 +8,7 @@ import sqlite3
 
 # class MainWindow(QtWidgets.QMainWindow):
 from view.qlnhansu.nv_handle import StaffManagementWindow
-from view.khach_hang.kh_handle import CustomerManagementWindow
+from view.khach_hang.kh_form_handle import kh_form_handle
 from view.DatPhong.handle_dat_phong import DatPhongWindow
 from view.Menu.menu_ui import Ui_MainWindow
 from view.ql_dichvu.ql_dichvu_handle import ql_dichvu_ui
@@ -32,7 +32,7 @@ class MainWindow(QtWidgets.QMainWindow,Ui_MainWindow):
         self.tk = dangnhap(self)
         
         # khai báo trang mới
-        self.kh_page = CustomerManagementWindow(self)
+        self.kh_page = kh_form_handle()
         self.dp_page = DatPhongWindow()
         self.nv_page = StaffManagementWindow(self)
         self.dv_page = ql_dichvu_ui(self)
