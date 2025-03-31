@@ -6,7 +6,7 @@ import numpy as np
 import time
 from PIL import Image
 import time
-id_customer = 2
+id_customer = 5
 time_count = 1000
 count = 0
 model_path = f"recogni_face/trainner/face_{id_customer}.pth"
@@ -36,7 +36,8 @@ class Load_Models:
             
             # Chuyển ảnh sang grayscale để phát hiện khuôn mặt
             gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
-            faces = self.face_cascade.detectMultiScale(gray, scaleFactor=1.1, minNeighbors=5, minSize=(30, 30))
+            faces = self.face_cascade.detectMultiScale(gray, scaleFactor=1.3, minNeighbors=5, minSize=(30, 30))
+            count = 0
             
             for (x, y, w, h) in faces:
                 # Trích xuất ảnh khuôn mặt
@@ -92,4 +93,4 @@ class Load_Models:
 
 # Hàm chính
 models = Load_Models(2)
-models.recognize_faces_from_camera(["unknow","thai"])
+models.recognize_faces_from_camera(["unknow","khoa"])

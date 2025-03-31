@@ -15,13 +15,15 @@ from view.khach_hang.kh_ui import Ui_CustomerManagement # Assuming you saved the
 from dto.dto import KhachHangDTO
 from dao.khach_hang_dao import KhachHangDAO
 class CustomerManagementWindow(QtWidgets.QWidget, Ui_CustomerManagement):
-    def __init__(self):
+    def __init__(self, mainwindow):
         super().__init__()
         self.setupUi(self)
         self.dao_customer = KhachHangDAO()
+
+        self.par = mainwindow
         
         self.model = QtGui.QStandardItemModel(0, 4)  # rows, columns
-        self.model.setHorizontalHeaderLabels(["ID", "Name", "Phone", "Image"])
+        self.model.setHorizontalHeaderLabels(["ID", "Họ và tên", "Số điện thoại", "Hình ảnh"])
         self.customerTableView.setModel(self.model)
         # Resize columns
         self.customerTableView.horizontalHeader().setSectionResizeMode(QtWidgets.QHeaderView.ResizeMode.Stretch)
@@ -39,7 +41,7 @@ class CustomerManagementWindow(QtWidgets.QWidget, Ui_CustomerManagement):
         self.updateButton.clicked.connect(self.update_customer)
         self.deleteButton.clicked.connect(self.delete_customer)
         self.clearButton.clicked.connect(self.clear_fields)
-        self.imageButton.clicked.connect(self.select_image)
+        #self.imageButton.clicked.connect(self.select_image)
         self.searchButton.clicked.connect(self.search_customers)
         self.btn_confirm_update.clicked.connect(self.update_confirmed)
         self.btn_confirm_update.setVisible(False)
@@ -64,27 +66,31 @@ class CustomerManagementWindow(QtWidgets.QWidget, Ui_CustomerManagement):
             
        
     def add_customer(self):
+        # giới hạn quyền
+        if self.par.acc == 1:
+            self.par.gioi_han_quyen()
+            return
         # Add fake customer data
         new_id = self.dao_customer.get_khach_hang_next_id()
         new_name = self.nameLineEdit.text()
         new_phone = self.phoneLineEdit.text()
         new_image = self.label_imagePath.text()
         if not new_name or not new_image:
-            QMessageBox.information(self, "Warning", "Please fill in all fields")
+            QMessageBox.information(self, "Cảnh báo", "Vui lòng điền đầy đủ thông tin khách hàng!")
             return
 
         stored_file = self.store_image(new_image, new_id)
         if not stored_file:
-            QMessageBox.critical(self,  "Error", "Failed to store image")
+            QMessageBox.critical(self,  "Lỗi", "Không thể lưu hình ảnh")
             return
 
         try:
             obj_kh = KhachHangDTO(kh_id=None, ten=new_name, sdt=new_phone, image=stored_file)
             self.dao_customer.insert_khach_hang(obj_kh)
         except Exception as e:
-            QMessageBox.critical(self,  "Error", f"Failed to add customer: {e}")
+            QMessageBox.critical(self,  "Lỗi", f"Không thể lưu thông tin khách hàng: {e}")
             return
-        QMessageBox.information(self, "Add customer", "Customer added successfully")
+        QMessageBox.information(self, "Thêm khách hàng", "Thông tin khách hàng đã được lưu thành công!")
         self.clear_fields()
         self.load_fake_data()
         
@@ -101,6 +107,10 @@ class CustomerManagementWindow(QtWidgets.QWidget, Ui_CustomerManagement):
                     self.model.item(row, 2).text(),
                     self.model.item(row, 3).text())
     def update_customer(self):
+        # giới hạn quyền
+        if self.par.acc == 1:
+            self.par.gioi_han_quyen()
+            return
         self.is_update_state = 1 - self.is_update_state
         palette = self.btn_confirm_update.palette()
         if self.is_update_state == 1:
@@ -116,7 +126,7 @@ class CustomerManagementWindow(QtWidgets.QWidget, Ui_CustomerManagement):
                 
     def update_confirmed(self):
         if not self.dto_kh:
-            QMessageBox.warning(self, "Warning", "No customer selected for update")
+            QMessageBox.warning(self, "Cảnh báo", "Hãy chọn một khách hàng để cập nhập thông tin")
             return
 
         try:   
@@ -124,7 +134,7 @@ class CustomerManagementWindow(QtWidgets.QWidget, Ui_CustomerManagement):
             self.dto_kh.sdt = self.phoneLineEdit.text()
             self.dao_customer.update_khach_hang(self.dto_kh)
         except Exception as e:
-            QMessageBox.critical(self, "Error", f"Failed to update customer: {e}")
+            QMessageBox.critical(self, "Lỗi", f"Không thể cập nhật thông tin khách hàng: {e}")
             return
 
         self.exit_update_state()
@@ -138,6 +148,10 @@ class CustomerManagementWindow(QtWidgets.QWidget, Ui_CustomerManagement):
         
     
     def delete_customer(self):
+        # giới hạn quyền
+        if self.par.acc == 1:
+            self.par.gioi_han_quyen()
+            return
         selected_indexes = self.customerTableView.selectionModel().selectedIndexes()
         if selected_indexes and selected_indexes[0].row() >= 0:
             deleted_id = self.model.itemFromIndex(selected_indexes[0]).text()
@@ -147,11 +161,11 @@ class CustomerManagementWindow(QtWidgets.QWidget, Ui_CustomerManagement):
                     self.load_fake_data()
                     QMessageBox.information(self, "Xóa thành công", f"Xóa khách hàng: {self.model.itemFromIndex(selected_indexes[1]).text()}")
                 except Exception as e:
-                    QMessageBox.critical(self,  "Error", f"Failed to delete customer: {e}")
+                    QMessageBox.critical(self,  "Lỗi", f"Không thể xóa khách hàng: {e}")
             else:
-                QMessageBox.critical(self,  "Error", "Failed to delete customer: invalid ID")
+                QMessageBox.critical(self,  "Lỗi", "Không thể xóa khách hàng: ID không hợp lệ")
         else:
-            QMessageBox.information(self, "Warning", "Please select a customer to delete")
+            QMessageBox.information(self, "Cảnh báo", "Hãy chọn một khách hàng trước khi xóa!")
 
     def clear_fields(self):
         self.nameLineEdit.clear()
@@ -182,12 +196,12 @@ class CustomerManagementWindow(QtWidgets.QWidget, Ui_CustomerManagement):
                 self.label_imagePath.clear()
                 return file_name
             except Exception as e:
-                QMessageBox.critical(self,  "Error", f"Failed to store image: {e}")
+                QMessageBox.critical(self,  "Lỗi", f"Không thể lưu ảnh: {e}")
         else:
-            QMessageBox.warning(self, "Warning", "No image selected.")
+            QMessageBox.warning(self, "Cảnh báo", "Không có ảnh nào được chọn.")
 if __name__ == "__main__":
     app = QtWidgets.QApplication(sys.argv)
-    window = CustomerManagementWindow()
+    window = CustomerManagementWindow(app)
     window.show()
     sys.exit(app.exec())
 

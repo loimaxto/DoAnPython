@@ -15,13 +15,15 @@ from view.qlnhansu.nv_ui import Ui_StaffManagement # Assuming you saved the UI a
 from dto.dto import NhanVienDTO
 from dao.nhan_vien_dao import NhanVienDAO
 class StaffManagementWindow(QtWidgets.QWidget, Ui_StaffManagement):
-    def __init__(self):
+    def __init__(self, mainwindow):
         super().__init__()
         self.setupUi(self)
         self.dao_staff = NhanVienDAO()
+
+        self.par = mainwindow
         
         self.model = QtGui.QStandardItemModel(0, 6)  # rows, columns
-        self.model.setHorizontalHeaderLabels(["ID", "Name", "Phone", "Email", "Address", "Position"])
+        self.model.setHorizontalHeaderLabels(["ID", "Họ và tên", "Số điện thoại", "Email", "Địa chỉ", "Chức vụ"])
         self.staffTableView.setModel(self.model)
         # Resize columns
         self.staffTableView.horizontalHeader().setSectionResizeMode(QtWidgets.QHeaderView.ResizeMode.Stretch)
@@ -63,6 +65,10 @@ class StaffManagementWindow(QtWidgets.QWidget, Ui_StaffManagement):
             
        
     def add_staff(self):
+        # giới hạn quyền
+        if self.par.acc == 1:
+            self.par.gioi_han_quyen()
+            return
         # Add fake staff data
         new_id = self.dao_staff.get_nhan_vien_next_id()
         new_name = self.nameLineEdit.text()
@@ -71,16 +77,16 @@ class StaffManagementWindow(QtWidgets.QWidget, Ui_StaffManagement):
         new_position = self.positionLineEdit.text()
         new_email = self.emailLineEdit.text()
         if not new_name:
-            QMessageBox.information(self, "Warning", "Please fill in all fields")
+            QMessageBox.information(self, "Cảnh báo", "Hãy điền đầy đủ thông tin nhân viên!")
             return
 
         try:
             obj_nv = NhanVienDTO(nv_id=new_id, ten_nv=new_name, email=new_email, sdt=new_phone, dia_chi=new_address, chuc_vu=new_position)
             self.dao_staff.insert_nhan_vien(obj_nv)
         except Exception as e:
-            QMessageBox.critical(self,  "Error", f"Failed to add staff: {e}")
+            QMessageBox.critical(self,  "Lỗi", f"Không thể thêm nhân viên: {e}")
             return
-        QMessageBox.information(self, "Add staff", "staff added successfully")
+        QMessageBox.information(self, "Thêm nhân viên", "Thông tin nhân viên đã được lưu thành công!")
         self.clear_fields()
         self.load_fake_data()
         
@@ -101,6 +107,10 @@ class StaffManagementWindow(QtWidgets.QWidget, Ui_StaffManagement):
                     self.model.item(row, 4).text(),
                     self.model.item(row, 5).text())
     def update_staff(self):
+        # giới hạn quyền
+        if self.par.acc == 1:
+            self.par.gioi_han_quyen()
+            return
         self.is_update_state = 1 - self.is_update_state
         palette = self.btn_confirm_update.palette()
         if self.is_update_state == 1:
@@ -114,7 +124,7 @@ class StaffManagementWindow(QtWidgets.QWidget, Ui_StaffManagement):
                 
     def update_confirmed(self):
         if not self.dto_nv:
-            QMessageBox.warning(self, "Warning", "No staff selected for update")
+            QMessageBox.warning(self, "Cảnh báo", "Hãy chọn nhân viên để cập nhật thông tin!")
             return
 
         try:   
@@ -125,7 +135,7 @@ class StaffManagementWindow(QtWidgets.QWidget, Ui_StaffManagement):
             self.dto_nv.dia_chi = self.adressLineEdit.text()
             self.dao_staff.update_nhan_vien(self.dto_nv)
         except Exception as e:
-            QMessageBox.critical(self, "Error", f"Failed to update staff: {e}")
+            QMessageBox.critical(self, "Lỗi", f"Không thể cập nhật thông tin nhân viên: {e}")
             return
 
         self.exit_update_state()
@@ -137,6 +147,10 @@ class StaffManagementWindow(QtWidgets.QWidget, Ui_StaffManagement):
         
     
     def delete_staff(self):
+        # giới hạn quyền
+        if self.par.acc == 1:
+            self.par.gioi_han_quyen()
+            return
         selected_indexes = self.staffTableView.selectionModel().selectedIndexes()
         if selected_indexes and selected_indexes[0].row() >= 0:
             deleted_id = self.model.itemFromIndex(selected_indexes[0]).text()
@@ -146,11 +160,11 @@ class StaffManagementWindow(QtWidgets.QWidget, Ui_StaffManagement):
                     self.load_fake_data()
                     QMessageBox.information(self, "Xóa thành công", f"Xóa nhân viên: {self.model.itemFromIndex(selected_indexes[1]).text()}")
                 except Exception as e:
-                    QMessageBox.critical(self,  "Error", f"Failed to delete staff: {e}")
+                    QMessageBox.critical(self,  "Lỗi", f"Không thể xóa nhân viên: {e}")
             else:
-                QMessageBox.critical(self,  "Error", "Failed to delete staff: invalid ID")
+                QMessageBox.critical(self,  "Lỗi", "Không thể xóa nhân viên: ID không hợp lệ!")
         else:
-            QMessageBox.information(self, "Warning", "Please select a staff to delete")
+            QMessageBox.information(self, "Cảnh báo", "Hãy chọn một nhân viên trước khi xóa!")
 
     def clear_fields(self):
         self.nameLineEdit.clear()

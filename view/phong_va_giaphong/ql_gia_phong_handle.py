@@ -9,9 +9,11 @@ import sqlite3
 
 
 class gia_phong(QtWidgets.QWidget, Ui_Form):
-    def __init__(self):
+    def __init__(self, mainwindow):
         super().__init__()
         self.setupUi(self)
+
+        self.par = mainwindow
 
         # sơ chế lại sương sương
         self.dis_pla.horizontalHeader().setSectionResizeMode(QtWidgets.QHeaderView.ResizeMode.Stretch)
@@ -44,6 +46,10 @@ class gia_phong(QtWidgets.QWidget, Ui_Form):
         print(data)
         print("Da hien thi")
     def insert_item(self):
+        # giới hạn quyền
+        if self.par.acc == 1:
+            self.par.gioi_han_quyen()
+            return
         # dữ liệu đầu vào
         id = self.in_id.text()
         name = self.in_name.text()
@@ -65,6 +71,10 @@ class gia_phong(QtWidgets.QWidget, Ui_Form):
             msg.exec()
         self.show_all()
     def delete_item(self):
+        # giới hạn quyền
+        if self.par.acc == 1:
+            self.par.gioi_han_quyen()
+            return
         id = self.select_row()
 
         try:
@@ -80,6 +90,10 @@ class gia_phong(QtWidgets.QWidget, Ui_Form):
             msg.exec()
         self.show_all()
     def update_item(self):
+        # giới hạn quyền
+        if self.par.acc == 1:
+            self.par.gioi_han_quyen()
+            return
         id = self.select_row()
         name = self.in_name.text()
         gio = self.in_hour.text()

@@ -50,7 +50,15 @@ class DichVuDAO:
             return [DichVuDTO(dv_id=row[0], ten=row[1], gia=row[2]) for row in rows]
         else:
             return []
+    def search_dich_vu_by_name (self, search_term):
+        query = "SELECT * FROM dich_vu WHERE ten_dv LIKE ?" # Modify the query
+        rows = self.db.execute_query(query, ('%' + search_term + '%', )) # Modify the argument
+        if rows:
+            return [DichVuDTO(dv_id=row[0], ten=row[1], gia=row[2]) for row in rows]
+        else:
+            return []
         
-        def cong(a,b):
-           return a+ b 
-        print(cong(1,2))
+if __name__ == "__main__":
+    dv_dao = DichVuDAO()
+    print(dv_dao.get_dich_vu_by_id(1))
+    print(dv_dao.search_dich_vu_by_name("a")[0])

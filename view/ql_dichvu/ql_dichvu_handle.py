@@ -15,10 +15,12 @@ còn tìm kiếm, sửa, xóa đang bị lỗi
 """
 
 class ql_dichvu_ui(QtWidgets.QWidget, Ui_Form):
-    def __init__(self):
+    def __init__(self, mainwindow):
         super().__init__()
         self.setupUi(self)
         self.dv_dao = DichVuDAO()
+
+        self.par = mainwindow
 
         # sơ chế giao diện
         self.dis_pla.horizontalHeader().setSectionResizeMode(QtWidgets.QHeaderView.ResizeMode.Stretch)
@@ -57,6 +59,10 @@ class ql_dichvu_ui(QtWidgets.QWidget, Ui_Form):
         print("Hien thi")
     
     def insert_item(self):
+        # giới hạn quyền
+        if self.par.acc == 1:
+            self.par.gioi_han_quyen()
+            return
         # id = self.in_id.text()
         ten = self.in_ten.text()
         gia = self.in_price.text()
@@ -75,6 +81,10 @@ class ql_dichvu_ui(QtWidgets.QWidget, Ui_Form):
         self.show_all()
     
     def update_item(self):
+        # giới hạn quyền
+        if self.par.acc == 1:
+            self.par.gioi_han_quyen()
+            return
         id = self.selec_row()
         # kiểm tra dữ liệu
         if id==None:
@@ -115,6 +125,10 @@ class ql_dichvu_ui(QtWidgets.QWidget, Ui_Form):
             msg.setIcon(QtWidgets.QMessageBox.Icon.Critical)
             msg.exec()
     def delete_item(self):
+        # giới hạn quyền
+        if self.par.acc == 1:
+            self.par.gioi_han_quyen()
+            return
         id = self.selec_row()
         self.cursor.execute("delete from dich_vu where dv_id=?", (id,))
         self.conn.commit()
@@ -148,6 +162,6 @@ class ql_dichvu_ui(QtWidgets.QWidget, Ui_Form):
 if __name__ == "__main__":
     import sys
     app = QtWidgets.QApplication(sys.argv)
-    ui = ql_dichvu_handle()
-    ui.show()
+    # ui = ql_dichvu_handle()
+    # ui.show()
     sys.exit(app.exec())
