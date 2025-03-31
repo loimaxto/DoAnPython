@@ -12,32 +12,7 @@ from PyQt6 import QtCore, QtGui, QtWidgets
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
-        MainWindow.resize(249, 153)
-        MainWindow.setStyleSheet("""
-            QWidget {
-                background-color: #f5f5f5;
-                font-family: Arial, sans-serif;
-            }
-            QLabel {
-                color: #333;
-            }
-            QLineEdit {
-                border: 1px solid #ccc;
-                border-radius: 5px;
-                padding: 5px;
-                background-color: #fff;
-            }
-            QPushButton {
-                background-color: #007bff;
-                color: #fff;
-                border: none;
-                border-radius: 5px;
-                padding: 5px 10px;
-            }
-            QPushButton:hover {
-                background-color: #0056b3;
-            }
-        """)
+        MainWindow.resize(335, 230)
         self.centralwidget = QtWidgets.QWidget(parent=MainWindow)
         self.centralwidget.setObjectName("centralwidget")
         self.gridLayout = QtWidgets.QGridLayout(self.centralwidget)
@@ -57,12 +32,21 @@ class Ui_MainWindow(object):
         self.login_btn = QtWidgets.QPushButton(parent=self.centralwidget)
         self.login_btn.setObjectName("login_btn")
         self.gridLayout.addWidget(self.login_btn, 2, 0, 1, 2)
+        self.forget_btn = QtWidgets.QPushButton(parent=self.centralwidget)
+        font = QtGui.QFont()
+        font.setKerning(True)
+        font.setStyleStrategy(QtGui.QFont.StyleStrategy.PreferDefault)
+        self.forget_btn.setFont(font)
+        self.forget_btn.setCheckable(False)
+        self.forget_btn.setObjectName("forget_btn")
+        self.gridLayout.addWidget(self.forget_btn, 2, 2, 1, 1)
         self.newTk_btn = QtWidgets.QPushButton(parent=self.centralwidget)
+        self.newTk_btn.setEnabled(False)
         self.newTk_btn.setObjectName("newTk_btn")
-        self.gridLayout.addWidget(self.newTk_btn, 2, 2, 1, 1)
+        self.gridLayout.addWidget(self.newTk_btn, 3, 0, 1, 3)
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QtWidgets.QMenuBar(parent=MainWindow)
-        self.menubar.setGeometry(QtCore.QRect(0, 0, 249, 26))
+        self.menubar.setGeometry(QtCore.QRect(0, 0, 335, 26))
         self.menubar.setObjectName("menubar")
         MainWindow.setMenuBar(self.menubar)
         self.statusbar = QtWidgets.QStatusBar(parent=MainWindow)
@@ -78,6 +62,7 @@ class Ui_MainWindow(object):
         self.label.setText(_translate("MainWindow", "username"))
         self.label_2.setText(_translate("MainWindow", "password"))
         self.login_btn.setText(_translate("MainWindow", "Đăng nhập"))
+        self.forget_btn.setText(_translate("MainWindow", "Quên mật khẩu"))
         self.newTk_btn.setText(_translate("MainWindow", "Tôi chưa có tài khoản"))
 
 

@@ -4,13 +4,16 @@ from view.login.dangnhap import Ui_MainWindow
 from view.login.dangky_handle import dangky
 from view.tai_khoan.tai_khoan_foradmin_handle import ql_taikhoan
 from view.tai_khoan.tai_khoan_handle import tai_khoan
+from view.login.quen_pass_handle import quen_pass
 import sqlite3
 
 class dangnhap(Ui_MainWindow, QtWidgets.QMainWindow):
+    reset_pass = None
     def __init__(self, mainwindow):
         super().__init__()
         self.setupUi(self)
         self.dk = dangky()
+        
 
         # kết nối db
         self.conn = sqlite3.connect("db/hotel7-3.db")
@@ -20,8 +23,13 @@ class dangnhap(Ui_MainWindow, QtWidgets.QMainWindow):
         self.login_btn.clicked.connect(lambda: self.chonTK(mainwindow))
         self.newTk_btn.clicked.connect(lambda: self.dk.show())
 
+        # các chức năng khác
+        self.forget_btn.clicked.connect(self.reset_pass_fn)
         self.show()
-
+    
+    def reset_pass_fn(self):
+        self.reset_pass = quen_pass()
+        self.reset_pass.show()
     def chonTK(self, mainwindow):
         # lấy dữ liệu để xác định loại tài khoản
         data = self.cursor.execute("select * from user where username=? and password=?", (self.username.text(), self.password.text()))

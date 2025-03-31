@@ -37,6 +37,7 @@ class MainWindow(QtWidgets.QMainWindow,Ui_MainWindow):
         self.dv_page = ql_dichvu_ui(self)
         self.phong_gia_page = phong_giaphong_ui(self)
         self.checkin_page = Checkin()
+        self.hoadon_page = hoadon()
         self.tk_page = None
         self.thongke_page = StatisticsMainWindow()
         
@@ -48,6 +49,8 @@ class MainWindow(QtWidgets.QMainWindow,Ui_MainWindow):
 
         self.ui.stackedWidget.addWidget(self.dv_page)
         self.ui.stackedWidget.addWidget(self.phong_gia_page)
+        self.ui.stackedWidget.addWidget(self.hoadon_page)
+        
         self.ui.stackedWidget.addWidget(self.thongke_page)
         
 
@@ -60,6 +63,8 @@ class MainWindow(QtWidgets.QMainWindow,Ui_MainWindow):
         self.ui.dichVuBtn.clicked.connect(lambda: self.ui.stackedWidget.setCurrentWidget(self.dv_page))
         self.ui.phongGiaBtn.clicked.connect(lambda: self.ui.stackedWidget.setCurrentWidget(self.phong_gia_page))
         self.ui.taiKhoanBtn.clicked.connect(lambda: self.ui.stackedWidget.setCurrentWidget(self.tk_page))
+        self.ui.checkinBtn.clicked.connect(lambda: self.ui.stackedWidget.setCurrentWidget(self.checkin_page))
+        self.ui.hoadon_btn.clicked.connect(lambda: self.ui.stackedWidget.setCurrentWidget(self.hoadon_page))
         self.ui.thongKeBtn.clicked.connect(lambda: self.ui.stackedWidget.setCurrentWidget(self.thongke_page))
         self.ui.dangXuatBtn.clicked.connect(self.DangNhap)
 
