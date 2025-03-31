@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1130</width>
+    <width>1131</width>
     <height>839</height>
    </rect>
   </property>
@@ -124,7 +124,7 @@
              </item>
              <item>
               <layout class="QVBoxLayout" name="verticalLayout_2">
-               <item>
+               <item alignment="Qt::AlignLeft">
                 <widget class="QLabel" name="occupied_rooms">
                  <property name="font">
                   <font>
@@ -141,7 +141,7 @@
                  </property>
                 </widget>
                </item>
-               <item>
+               <item alignment="Qt::AlignLeft">
                 <widget class="QLabel" name="label_2">
                  <property name="font">
                   <font>
@@ -188,7 +188,7 @@
              </item>
              <item>
               <layout class="QVBoxLayout" name="verticalLayout_4">
-               <item>
+               <item alignment="Qt::AlignLeft">
                 <widget class="QLabel" name="available_rooms">
                  <property name="font">
                   <font>
@@ -205,7 +205,7 @@
                  </property>
                 </widget>
                </item>
-               <item>
+               <item alignment="Qt::AlignLeft">
                 <widget class="QLabel" name="label_8">
                  <property name="font">
                   <font>
@@ -252,7 +252,7 @@
              </item>
              <item>
               <layout class="QVBoxLayout" name="verticalLayout_3">
-               <item>
+               <item alignment="Qt::AlignLeft">
                 <widget class="QLabel" name="staffs">
                  <property name="maximumSize">
                   <size>
@@ -275,7 +275,7 @@
                  </property>
                 </widget>
                </item>
-               <item>
+               <item alignment="Qt::AlignLeft">
                 <widget class="QLabel" name="label_6">
                  <property name="maximumSize">
                   <size>
@@ -380,13 +380,6 @@
             </widget>
            </item>
            <item>
-            <widget class="QPushButton" name="StaDayInMonthBtn">
-             <property name="text">
-              <string>Thống Kê Từng Ngày Trong Tháng</string>
-             </property>
-            </widget>
-           </item>
-           <item>
             <widget class="QPushButton" name="StaDayToDayBtn">
              <property name="text">
               <string>Thống Kê Từ Ngày Đến Ngày</string>
@@ -399,6 +392,9 @@
        </item>
        <item>
         <widget class="QStackedWidget" name="stackedWidget_2">
+         <property name="currentIndex">
+          <number>2</number>
+         </property>
          <widget class="QWidget" name="thongKeTheoNamPage">
           <layout class="QVBoxLayout" name="verticalLayout_10">
            <item>
@@ -408,7 +404,7 @@
                <item>
                 <widget class="QLabel" name="label_3">
                  <property name="text">
-                  <string>TextLabel</string>
+                  <string>Từ năm</string>
                  </property>
                  <property name="alignment">
                   <set>Qt::AlignCenter</set>
@@ -416,7 +412,7 @@
                 </widget>
                </item>
                <item>
-                <widget class="QLineEdit" name="lineEdit">
+                <widget class="QLineEdit" name="startYearTXT">
                  <property name="minimumSize">
                   <size>
                    <width>0</width>
@@ -437,7 +433,7 @@
                <item>
                 <widget class="QLabel" name="label_4">
                  <property name="text">
-                  <string>TextLabel</string>
+                  <string>Đến năm</string>
                  </property>
                  <property name="alignment">
                   <set>Qt::AlignCenter</set>
@@ -445,7 +441,7 @@
                 </widget>
                </item>
                <item>
-                <widget class="QLineEdit" name="lineEdit_2">
+                <widget class="QLineEdit" name="endYearTXT">
                  <property name="maximumSize">
                   <size>
                    <width>100</width>
@@ -455,23 +451,23 @@
                 </widget>
                </item>
                <item>
-                <widget class="QPushButton" name="pushButton">
+                <widget class="QPushButton" name="statistisBtn">
                  <property name="text">
-                  <string>PushButton</string>
+                  <string>Thống Kê</string>
                  </property>
                 </widget>
                </item>
                <item>
-                <widget class="QPushButton" name="pushButton_2">
+                <widget class="QPushButton" name="refreshBtn">
                  <property name="text">
-                  <string>PushButton</string>
+                  <string>Làm Mới</string>
                  </property>
                 </widget>
                </item>
                <item>
-                <widget class="QPushButton" name="pushButton_3">
+                <widget class="QPushButton" name="exportExcelBtn">
                  <property name="text">
-                  <string>PushButton</string>
+                  <string>Xuất excel</string>
                  </property>
                 </widget>
                </item>
@@ -493,15 +489,136 @@
             </spacer>
            </item>
            <item>
-            <layout class="QVBoxLayout" name="verticalLayout_11"/>
+            <layout class="QVBoxLayout" name="yearScreenChart"/>
            </item>
            <item>
-            <widget class="QTableView" name="tableView"/>
+            <widget class="QTableView" name="tableYearStatisticView"/>
            </item>
           </layout>
          </widget>
-         <widget class="QWidget" name="thongKeTheoTNTTPage"/>
-         <widget class="QWidget" name="thongKeTheoTTTNPage"/>
+         <widget class="QWidget" name="thongKeTheoTNTTPage">
+          <layout class="QVBoxLayout" name="verticalLayout_12">
+           <item>
+            <layout class="QVBoxLayout" name="verticalLayout_11">
+             <item>
+              <layout class="QHBoxLayout" name="horizontalLayout_8">
+               <item alignment="Qt::AlignRight">
+                <widget class="QLabel" name="label_7">
+                 <property name="text">
+                  <string>Chọn năm thống kê</string>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QSpinBox" name="yearOfMonths">
+                 <property name="alignment">
+                  <set>Qt::AlignCenter</set>
+                 </property>
+                 <property name="suffix">
+                  <string/>
+                 </property>
+                 <property name="minimum">
+                  <number>0</number>
+                 </property>
+                 <property name="maximum">
+                  <number>10000</number>
+                 </property>
+                </widget>
+               </item>
+               <item alignment="Qt::AlignLeft">
+                <widget class="QPushButton" name="exportExcelBtn_2">
+                 <property name="text">
+                  <string>Xuất excel</string>
+                 </property>
+                </widget>
+               </item>
+              </layout>
+             </item>
+            </layout>
+           </item>
+           <item>
+            <spacer name="verticalSpacer_3">
+             <property name="orientation">
+              <enum>Qt::Vertical</enum>
+             </property>
+             <property name="sizeHint" stdset="0">
+              <size>
+               <width>20</width>
+               <height>40</height>
+              </size>
+             </property>
+            </spacer>
+           </item>
+           <item>
+            <layout class="QVBoxLayout" name="monthScreenChart"/>
+           </item>
+           <item>
+            <widget class="QTableView" name="tableMonthStatisticView"/>
+           </item>
+          </layout>
+         </widget>
+         <widget class="QWidget" name="thongKeTheoTTTNPage">
+          <layout class="QVBoxLayout" name="verticalLayout_14">
+           <item>
+            <layout class="QVBoxLayout" name="verticalLayout_13">
+             <item>
+              <layout class="QHBoxLayout" name="horizontalLayout_9">
+               <item>
+                <widget class="QLabel" name="label_10">
+                 <property name="text">
+                  <string>Từ Ngày</string>
+                 </property>
+                 <property name="alignment">
+                  <set>Qt::AlignCenter</set>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QDateEdit" name="dateStartTXT"/>
+               </item>
+               <item>
+                <widget class="QLabel" name="label_11">
+                 <property name="text">
+                  <string>Đến ngày</string>
+                 </property>
+                 <property name="alignment">
+                  <set>Qt::AlignCenter</set>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QDateEdit" name="dateEndTXT"/>
+               </item>
+               <item>
+                <widget class="QPushButton" name="statisticDateBtn">
+                 <property name="text">
+                  <string>Thống kê</string>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QPushButton" name="refreshDateBtn">
+                 <property name="text">
+                  <string>Làm mới</string>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QPushButton" name="exportExcelBtn_3">
+                 <property name="text">
+                  <string>Xuất excel</string>
+                 </property>
+                </widget>
+               </item>
+              </layout>
+             </item>
+            </layout>
+           </item>
+           <item>
+            <widget class="QTableView" name="tableDateStatisticView"/>
+           </item>
+          </layout>
+         </widget>
          <widget class="QWidget" name="thongKeDayToDayPage"/>
         </widget>
        </item>

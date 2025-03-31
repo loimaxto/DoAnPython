@@ -30,6 +30,7 @@ class MainWindow(QtWidgets.QMainWindow,Ui_MainWindow):
         self.ui.setupUi(self)
 
         # đăng nhập
+
         self.tk = dangnhap(self)
         
         # khai báo trang mới
