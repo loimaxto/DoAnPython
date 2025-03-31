@@ -80,7 +80,8 @@ CREATE TABLE hoa_don (
 INSERT INTO hoa_don (hd_id, tong_tien, thoi_gian, nv_id, thanh_toan_status) VALUES (1, 400000, '2024-10-28', 2, 1);
 INSERT INTO hoa_don (hd_id, tong_tien, thoi_gian, nv_id, thanh_toan_status) VALUES (2, 600000, '2024-11-03', 2, 1);
 INSERT INTO hoa_don (hd_id, tong_tien, thoi_gian, nv_id, thanh_toan_status) VALUES (3, 1000000, '2024-11-16', 3, 1);
-
+INSERT INTO hoa_don (hd_id, tong_tien, thoi_gian, nv_id, thanh_toan_status) VALUES (4, 1000000, '2025-03-29', 3, 1);
+INSERT INTO hoa_don (hd_id, tong_tien, thoi_gian, nv_id, thanh_toan_status) VALUES (5, 1000000, '2025-03-31', 3, 1);
 -- Table: khach_hang
 DROP TABLE IF EXISTS khach_hang;
 CREATE TABLE khach_hang (kh_id INTEGER PRIMARY KEY, ten TEXT, sdt TEXT, image TEXT);
