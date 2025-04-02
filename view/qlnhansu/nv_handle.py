@@ -19,7 +19,7 @@ class StaffManagementWindow(QtWidgets.QWidget, Ui_StaffManagement):
         super().__init__()
         self.setupUi(self)
         self.dao_staff = NhanVienDAO()
-
+        self.dto_nv = None  # Initialize dto_nv to None
         self.par = mainwindow
         
         self.model = QtGui.QStandardItemModel(0, 6)  # rows, columns
@@ -76,8 +76,22 @@ class StaffManagementWindow(QtWidgets.QWidget, Ui_StaffManagement):
         new_address = self.adressLineEdit.text()
         new_position = self.positionLineEdit.text()
         new_email = self.emailLineEdit.text()
-        if not new_name:
+        
+        # Check if all fields are filled
+        if not new_name or not new_phone or not new_email or not new_address or not new_position:
             QMessageBox.information(self, "Cảnh báo", "Hãy điền đầy đủ thông tin nhân viên!")
+            return
+        # Check if name is filled
+        if self.dao_staff.check_staff_exists(sdt=new_phone, email=new_email):
+            QMessageBox.warning(self, "Cảnh báo", "Số điện thoại hoặc email đã tồn tại!")
+            return
+        # Check if phone number is valid
+        if not new_phone.isdigit() or len(new_phone) != 10:
+            QMessageBox.warning(self, "Cảnh báo", "Số điện thoại không hợp lệ!")
+            return
+        # Check if email is valid
+        if "@" not in new_email or "." not in new_email.split("@")[-1]:
+            QMessageBox.warning(self, "Cảnh báo", "Email không hợp lệ!")
             return
 
         try:
@@ -128,11 +142,33 @@ class StaffManagementWindow(QtWidgets.QWidget, Ui_StaffManagement):
             return
 
         try:   
-            self.dto_nv.ten_nv = self.nameLineEdit.text()
-            self.dto_nv.sdt = self.phoneLineEdit.text()
-            self.dto_nv.email = self.emailLineEdit.text()
-            self.dto_nv.chuc_vu = self.positionLineEdit.text()
-            self.dto_nv.dia_chi = self.adressLineEdit.text()
+            new_name = self.nameLineEdit.text()
+            new_phone = self.phoneLineEdit.text()
+            new_email = self.emailLineEdit.text()
+            new_address = self.adressLineEdit.text()
+            new_position = self.positionLineEdit.text()
+            self.dto_nv.ten_nv = new_name
+            self.dto_nv.sdt = new_phone
+            self.dto_nv.email = new_email
+            self.dto_nv.chuc_vu = new_position
+            self.dto_nv.dia_chi = new_address
+
+            # Check if all fields are filled
+            if not new_name or not new_phone or not new_email or not new_address or not new_position:
+                QMessageBox.information(self, "Cảnh báo", "Hãy điền đầy đủ thông tin nhân viên!")
+                return
+            # Check if phone number or email already exists
+            if self.dao_staff.check_staff_exists(sdt=new_phone, email=new_email):
+                QMessageBox.warning(self, "Cảnh báo", "Số điện thoại hoặc email đã tồn tại!")
+                return
+            # Check if phone number is valid
+            if not new_phone.isdigit() or len(new_phone) != 10:
+                QMessageBox.warning(self, "Cảnh báo", "Số điện thoại không hợp lệ!")
+                return
+            # Check if email is valid
+            if "@" not in new_email or "." not in new_email.split("@")[-1]:
+                QMessageBox.warning(self, "Cảnh báo", "Email không hợp lệ!")
+                return
             self.dao_staff.update_nhan_vien(self.dto_nv)
         except Exception as e:
             QMessageBox.critical(self, "Lỗi", f"Không thể cập nhật thông tin nhân viên: {e}")
@@ -165,6 +201,7 @@ class StaffManagementWindow(QtWidgets.QWidget, Ui_StaffManagement):
                 QMessageBox.critical(self,  "Lỗi", "Không thể xóa nhân viên: ID không hợp lệ!")
         else:
             QMessageBox.information(self, "Cảnh báo", "Hãy chọn một nhân viên trước khi xóa!")
+        self.load_fake_data()
 
     def clear_fields(self):
         self.nameLineEdit.clear()

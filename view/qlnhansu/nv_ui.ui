@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Customer Management</string>
+   <string>Staff Management</string>
   </property>
   <layout class="QHBoxLayout" name="mainLayout">
    <item>

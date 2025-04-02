@@ -19,6 +19,7 @@ from view.phong_va_giaphong.phong_giaphong_handle import phong_giaphong_ui
 from view.login.dangnhap_handle import dangnhap
 from view.check_in.checkin_handle import Checkin
 from view.hoadon.hoadon_handle import hoadon
+from view.statistics.statistics_handle import StatisticsMainWindow
 
 class MainWindow(QtWidgets.QMainWindow,Ui_MainWindow):
     acc = 0 # acc = 0 nếu chưa login, =1 nếu login tk thường, =2 nếu là admin
@@ -29,6 +30,7 @@ class MainWindow(QtWidgets.QMainWindow,Ui_MainWindow):
         self.ui.setupUi(self)
 
         # đăng nhập
+
         self.tk = dangnhap(self)
         
         # khai báo trang mới
@@ -40,7 +42,7 @@ class MainWindow(QtWidgets.QMainWindow,Ui_MainWindow):
         self.checkin_page = Checkin()
         self.hoadon_page = hoadon()
         self.tk_page = None
-        
+        self.thongke_page = StatisticsMainWindow()
         # thêm trang mới vào menumenu
         self.ui.stackedWidget.addWidget(self.dp_page)
         self.ui.stackedWidget.addWidget(self.kh_page)
@@ -50,7 +52,7 @@ class MainWindow(QtWidgets.QMainWindow,Ui_MainWindow):
         self.ui.stackedWidget.addWidget(self.dv_page)
         self.ui.stackedWidget.addWidget(self.phong_gia_page)
         self.ui.stackedWidget.addWidget(self.hoadon_page)
-        
+        self.ui.stackedWidget.addWidget(self.thongke_page)
         self.ui.stackedWidget.setCurrentWidget(self.kh_page)
         
         # lập trình chuyển trang
@@ -62,6 +64,7 @@ class MainWindow(QtWidgets.QMainWindow,Ui_MainWindow):
         self.ui.taiKhoanBtn.clicked.connect(lambda: self.ui.stackedWidget.setCurrentWidget(self.tk_page))
         self.ui.checkinBtn.clicked.connect(lambda: self.ui.stackedWidget.setCurrentWidget(self.checkin_page))
         self.ui.hoadon_btn.clicked.connect(lambda: self.ui.stackedWidget.setCurrentWidget(self.hoadon_page))
+        self.ui.thongKeBtn.clicked.connect(lambda: self.ui.stackedWidget.setCurrentWidget(self.thongke_page))
         self.ui.dangXuatBtn.clicked.connect(self.DangNhap)
 
     
