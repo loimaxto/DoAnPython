@@ -14,7 +14,7 @@ class phong_giaphong_ui(QWidget, Ui_Form):
         
         # khởi tạo trang con
         self.phong = ql_phong(mainwindow)
-        self.giaphong = gia_phong(mainwindow)
+        self.giaphong = gia_phong(mainwindow, self.phong)
     
         # thêm trang con vào giao diện
         self.phong_giaphong.addWidget(self.phong)

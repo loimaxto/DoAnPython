@@ -9,11 +9,12 @@ import sqlite3
 
 
 class gia_phong(QtWidgets.QWidget, Ui_Form):
-    def __init__(self, mainwindow):
+    def __init__(self, mainwindow, phong_page):
         super().__init__()
         self.setupUi(self)
 
         self.par = mainwindow
+        self.phong_page = phong_page
 
         # sơ chế lại sương sương
         self.dis_pla.horizontalHeader().setSectionResizeMode(QtWidgets.QHeaderView.ResizeMode.Stretch)
@@ -42,16 +43,13 @@ class gia_phong(QtWidgets.QWidget, Ui_Form):
             self.dis_pla.insertRow(row_index)
             for column_index, item_data in enumerate(row_data):
                 self.dis_pla.setItem(row_index, column_index, QTableWidgetItem(str(item_data)))
-        
-        print(data)
-        print("Da hien thi")
+        self.phong_page.setUpInput()
     def insert_item(self):
         # giới hạn quyền
         if self.par.acc == 1:
             self.par.gioi_han_quyen()
             return
         # dữ liệu đầu vào
-        id = self.in_id.text()
         name = self.in_name.text()
         gio = self.in_hour.text()
         ngay = self.in_day.text()
@@ -61,9 +59,7 @@ class gia_phong(QtWidgets.QWidget, Ui_Form):
             self.cursor.execute("insert into gia_phong (ten_loai, gia_gio, gia_ngay, gia_dem) \
                                 values(?, ?, ?, ?)", (name, gio, ngay, dem))
             self.conn.commit()
-            print("Da them")
         except:
-            print("khong the them")
             msg = QMessageBox()
             msg.setIcon(QMessageBox.Icon.Critical)
             msg.setWindowTitle("Lỗi")

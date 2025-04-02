@@ -13,50 +13,11 @@ class Ui_Form(object):
     def setupUi(self, Form):
         Form.setObjectName("Form")
         Form.resize(680, 540)
-        Form.setStyleSheet("""
-            QWidget {
-                background-color: #f5f5f5;
-                font-family: Arial, sans-serif;
-            }
-            QLabel {
-                color: #333;
-            }
-            QLineEdit {
-                border: 1px solid #ccc;
-                border-radius: 5px;
-                padding: 5px;
-                background-color: #fff;
-            }
-            QPushButton {
-                background-color: #007bff;
-                color: #fff;
-                border: none;
-                border-radius: 5px;
-                padding: 5px 10px;
-            }
-            QPushButton:hover {
-                background-color: #0056b3;
-            }
-            QTableWidget {
-                border: 1px solid #ccc;
-                background-color: #fff;
-            }
-            QHeaderView::section {
-                background-color: #007bff;
-                color: #fff;
-                padding: 5px;
-                border: none;
-            }
-        """)
         self.horizontalLayout_3 = QtWidgets.QHBoxLayout(Form)
-        self.horizontalLayout_3.setContentsMargins(10, 10, 10, 10)
-        self.horizontalLayout_3.setSpacing(10)
         self.horizontalLayout_3.setObjectName("horizontalLayout_3")
         self.verticalLayout = QtWidgets.QVBoxLayout()
-        self.verticalLayout.setSpacing(15)
         self.verticalLayout.setObjectName("verticalLayout")
         self.horizontalLayout = QtWidgets.QHBoxLayout()
-        self.horizontalLayout.setSpacing(10)
         self.horizontalLayout.setObjectName("horizontalLayout")
         self.label = QtWidgets.QLabel(parent=Form)
         font = QtGui.QFont()
@@ -78,7 +39,6 @@ class Ui_Form(object):
         self.horizontalLayout.addWidget(self.sea_btn)
         self.verticalLayout.addLayout(self.horizontalLayout)
         self.formLayout = QtWidgets.QFormLayout()
-        self.formLayout.setHorizontalSpacing(15)
         self.formLayout.setObjectName("formLayout")
         self.label_2 = QtWidgets.QLabel(parent=Form)
         self.label_2.setObjectName("label_2")
@@ -103,12 +63,11 @@ class Ui_Form(object):
         self.label_4.setAlignment(QtCore.Qt.AlignmentFlag.AlignLeading|QtCore.Qt.AlignmentFlag.AlignLeft|QtCore.Qt.AlignmentFlag.AlignVCenter)
         self.label_4.setObjectName("label_4")
         self.formLayout.setWidget(3, QtWidgets.QFormLayout.ItemRole.LabelRole, self.label_4)
-        self.in_price_id = QtWidgets.QLineEdit(parent=Form)
-        self.in_price_id.setObjectName("in_price_id")
-        self.formLayout.setWidget(3, QtWidgets.QFormLayout.ItemRole.FieldRole, self.in_price_id)
+        self.inp_loai = QtWidgets.QComboBox(parent=Form)
+        self.inp_loai.setObjectName("inp_loai")
+        self.formLayout.setWidget(3, QtWidgets.QFormLayout.ItemRole.FieldRole, self.inp_loai)
         self.verticalLayout.addLayout(self.formLayout)
         self.horizontalLayout_2 = QtWidgets.QHBoxLayout()
-        self.horizontalLayout_2.setSpacing(10)
         self.horizontalLayout_2.setObjectName("horizontalLayout_2")
         self.ins_btn = QtWidgets.QPushButton(parent=Form)
         font = QtGui.QFont()
@@ -136,26 +95,9 @@ class Ui_Form(object):
         self.horizontalLayout_2.addWidget(self.sho_btn)
         self.verticalLayout.addLayout(self.horizontalLayout_2)
         self.dis_pla = QtWidgets.QTableWidget(parent=Form)
-        self.dis_pla.setColumnCount(9)
+        self.dis_pla.setColumnCount(10)
         self.dis_pla.setObjectName("dis_pla")
         self.dis_pla.setRowCount(0)
-        self.dis_pla.setStyleSheet("""
-            QTableWidget {
-                gridline-color: #ccc;
-            }
-            QTableWidget::item {
-                padding: 5px;
-            }
-        """)
-        self.dis_pla.horizontalHeader().setStretchLastSection(True)
-        self.dis_pla.horizontalHeader().setDefaultAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
-        self.dis_pla.setAlternatingRowColors(True)
-        self.dis_pla.setStyleSheet("""
-            QTableWidget::item:selected {
-                background-color: #d9edf7;
-                color: #333;
-            }
-        """)
         item = QtWidgets.QTableWidgetItem()
         self.dis_pla.setHorizontalHeaderItem(0, item)
         item = QtWidgets.QTableWidgetItem()
@@ -174,6 +116,8 @@ class Ui_Form(object):
         self.dis_pla.setHorizontalHeaderItem(7, item)
         item = QtWidgets.QTableWidgetItem()
         self.dis_pla.setHorizontalHeaderItem(8, item)
+        item = QtWidgets.QTableWidgetItem()
+        self.dis_pla.setHorizontalHeaderItem(9, item)
         self.verticalLayout.addWidget(self.dis_pla)
         self.horizontalLayout_3.addLayout(self.verticalLayout)
 
@@ -188,7 +132,7 @@ class Ui_Form(object):
         self.label_2.setText(_translate("Form", "ID"))
         self.label_5.setText(_translate("Form", "Số giường"))
         self.label_3.setText(_translate("Form", "Tên"))
-        self.label_4.setText(_translate("Form", "ID giá"))
+        self.label_4.setText(_translate("Form", "Loại phòng"))
         self.ins_btn.setText(_translate("Form", "Thêm"))
         self.del_btn.setText(_translate("Form", "Xóa"))
         self.edi_btn.setText(_translate("Form", "Sửa"))
@@ -198,18 +142,20 @@ class Ui_Form(object):
         item = self.dis_pla.horizontalHeaderItem(1)
         item.setText(_translate("Form", "Tên phòng"))
         item = self.dis_pla.horizontalHeaderItem(2)
-        item.setText(_translate("Form", "Số giường"))
+        item.setText(_translate("Form", "Loại phòng"))
         item = self.dis_pla.horizontalHeaderItem(3)
-        item.setText(_translate("Form", "Tình trạng"))
+        item.setText(_translate("Form", "Số giường"))
         item = self.dis_pla.horizontalHeaderItem(4)
-        item.setText(_translate("Form", "ID giá phòng"))
+        item.setText(_translate("Form", "Tình trạng"))
         item = self.dis_pla.horizontalHeaderItem(5)
-        item.setText(_translate("Form", "Loại giá"))
+        item.setText(_translate("Form", "ID giá phòng"))
         item = self.dis_pla.horizontalHeaderItem(6)
-        item.setText(_translate("Form", "Giá giờ"))
+        item.setText(_translate("Form", "Loại giá"))
         item = self.dis_pla.horizontalHeaderItem(7)
-        item.setText(_translate("Form", "Giá ngày"))
+        item.setText(_translate("Form", "Giá giờ"))
         item = self.dis_pla.horizontalHeaderItem(8)
+        item.setText(_translate("Form", "Giá ngày"))
+        item = self.dis_pla.horizontalHeaderItem(9)
         item.setText(_translate("Form", "Giá đêm"))
 
 
