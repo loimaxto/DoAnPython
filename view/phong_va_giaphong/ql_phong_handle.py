@@ -34,7 +34,7 @@ class ql_phong(QtWidgets.QWidget, Ui_Form):
 
 
     def show_all(self):
-        self.cursor.execute("select id, ten_phong, so_giuong, tinh_trang_dat_phong, id_gia, ten_loai, gia_gio, gia_ngay, gia_dem\
+        self.cursor.execute("select id, ten_phong, so_giuong, tinh_trang_dat_phong, loai, id_gia, ten_loai, gia_gio, gia_ngay, gia_dem\
                             from phong join gia_phong on id_gia=gia_id\
                             where tinh_trang_su_dung=1")
         data = self.cursor.fetchall()
