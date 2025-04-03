@@ -67,6 +67,9 @@ class ql_taikhoan(Ui_Form, QtWidgets.QWidget):
     def delete_acc(self):
         try:
             id = self.select_row()
+            if id==None:
+                msg = QtWidgets.QMessageBox();msg.setWindowTitle("Cảnh báo");msg.setText("Hãy chọn tài khoản muốn xóa!");msg.setIcon(QtWidgets.QMessageBox.Icon.Warning);msg.exec()
+                return
             self.cur.execute("delete from user where user_id=?", (id, ))
             self.conn.commit()
             self.show_all()
@@ -152,13 +155,13 @@ class ql_taikhoan(Ui_Form, QtWidgets.QWidget):
         username = self.inp_username.text()
         password = self.inp_password.text()
         id_nv = self.inp_id_nv.text()
-        print(username, password, id_nv)
+        
 
         # kiểm tra dữ liệu
         if username=="" or password=="":
             msg = QtWidgets.QMessageBox()
             msg.setWindowTitle("Thiếu thông tin")
-            msg.setText("Hãy kiểm tra tên đăng nhập, mật khẩu và mã nhân viênviên.\
+            msg.setText("Hãy kiểm tra tên đăng nhập, mật khẩu và mã nhân viên.\
                         \n Đảm bảo điền đúng, đầy đủ và thử lại!")
             msg.setIcon(QtWidgets.QMessageBox.Icon.Warning)
             msg.exec()
