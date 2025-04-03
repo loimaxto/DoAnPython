@@ -1,3 +1,7 @@
+import sys
+import os
+project_path = os.path.abspath(os.path.join(os.path.dirname(__file__), "../../"))
+from view.css import *
 from PyQt6 import QtCore, QtGui, QtWidgets
 from PyQt6.QtWidgets import QWidget, QMessageBox, QTableWidgetItem
 import sqlite3
@@ -15,6 +19,7 @@ class ql_phong(QtWidgets.QWidget, Ui_Form):
         # sơ chế giao diện
         self.dis_pla.horizontalHeader().setSectionResizeMode(QtWidgets.QHeaderView.ResizeMode.Stretch)
         self.dis_pla.verticalHeader().setVisible(False)
+        css(self)
 
 
         # kết nối db
@@ -37,7 +42,6 @@ class ql_phong(QtWidgets.QWidget, Ui_Form):
         self.inp_loai.clear()
         data = self.cur.execute("select gia_id, ten_loai from gia_phong")
         data = data.fetchall()
-        print(data)
         for i in range(0, data.__len__()):
             self.inp_loai.addItem(data[i][1], data[i][0])
     def show_all(self):
@@ -71,7 +75,10 @@ class ql_phong(QtWidgets.QWidget, Ui_Form):
         id_gia = self.cur.execute("select gia_id from gia_phong where ten_loai=?", (loai, ))
         id_gia = id_gia.fetchone()
         id_gia = id_gia[0]
-
+        # kiểm tra dữ liệu
+        if id=="" or name=="" or sogiuong=="" or loai=="" or id_gia=="":
+            msg = QMessageBox();msg.setWindowTitle("Không thể thêm dữ liệu");msg.setText("Vui lòng điền đủ thông tin phòng!");msg.setIcon(QMessageBox.Icon.Warning);msg.exec()
+            return
 
         try:
             self.cur.execute("insert into phong (id, ten_phong, loai, so_giuong, tinh_trang_dat_phong, tinh_trang_su_dung, id_gia) \
@@ -90,6 +97,10 @@ class ql_phong(QtWidgets.QWidget, Ui_Form):
             self.par.gioi_han_quyen()
             return
         id = self.select_row()
+
+        if id==None:
+            msg = QMessageBox();msg.setWindowTitle("Cảnh báo");msg.setText("Hãy chọn phòng muốn xóa");msg.setIcon(QMessageBox.Icon.Warning);msg.exec()
+            return
 
         try:
             self.cur.execute("delete from phong where id=?", (id,))

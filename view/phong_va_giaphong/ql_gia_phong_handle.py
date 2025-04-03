@@ -54,7 +54,10 @@ class gia_phong(QtWidgets.QWidget, Ui_Form):
         gio = self.in_hour.text()
         ngay = self.in_day.text()
         dem = self.in_night.text()
-
+        # kiểm tra
+        if name=="" or gio=="" or ngay=="" or dem=="":
+            msg = QMessageBox();msg.setWindowTitle("Cảnh báo");msg.setText("Vui lòng điền đủ thông tin giá phòng!");msg.setIcon(QMessageBox.Icon.Warning);msg.exec()
+            return
         try:
             self.cursor.execute("insert into gia_phong (ten_loai, gia_gio, gia_ngay, gia_dem) \
                                 values(?, ?, ?, ?)", (name, gio, ngay, dem))
@@ -72,13 +75,13 @@ class gia_phong(QtWidgets.QWidget, Ui_Form):
             self.par.gioi_han_quyen()
             return
         id = self.select_row()
-
+        if id==None:
+            msg = QMessageBox();msg.setWindowTitle("Cảnh báo");msg.setText("Hãy chọn giá phòng cần xóa!");msg.setIcon(QMessageBox.Icon.Warning);msg.exec()
+            return
         try:
             self.cursor.execute("delete from gia_phong where gia_id=?", (id,))
             self.conn.commit()
-            print("da xoa")
         except:
-            print("xoa khong thanh cong")
             msg = QMessageBox()
             msg.setIcon(QMessageBox.Icon.Critical)
             msg.setWindowTitle("Lỗi")
@@ -142,7 +145,6 @@ class gia_phong(QtWidgets.QWidget, Ui_Form):
         if row<0:
             return
         data = self.dis_pla.item(row, 0).text()
-        print(data)
         return data    
 
 
