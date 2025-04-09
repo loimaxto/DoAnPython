@@ -20,6 +20,12 @@ class ql_phong(QtWidgets.QWidget, Ui_Form):
         self.dis_pla.horizontalHeader().setSectionResizeMode(QtWidgets.QHeaderView.ResizeMode.Stretch)
         self.dis_pla.verticalHeader().setVisible(False)
         css(self)
+        self.ins_btn.setIcon(QtGui.QIcon("view/icon/add-post.png"))
+        self.del_btn.setIcon(QtGui.QIcon("view/icon/delete.png"))
+        self.edi_btn.setIcon(QtGui.QIcon("view/icon/edit.png"))
+        self.sho_btn.setIcon(QtGui.QIcon("view/icon/list.png"))
+        self.sea_btn.setIcon(QtGui.QIcon("view/icon/search.png"))
+        self.in_sea.setPlaceholderText("Nhập nội dung")
 
 
         # kết nối db

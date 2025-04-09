@@ -28,6 +28,12 @@ class ql_dichvu_ui(QtWidgets.QWidget, Ui_Form):
         self.dis_pla.setSelectionMode(QtWidgets.QTableView.SelectionMode.SingleSelection)
         self.dis_pla.setSelectionBehavior(QtWidgets.QTableView.SelectionBehavior.SelectRows)
         css(self)
+        self.ins_btn.setIcon(QtGui.QIcon("view/icon/add-post.png"))
+        self.del_btn.setIcon(QtGui.QIcon("view/icon/delete.png"))
+        self.edi_btn.setIcon(QtGui.QIcon("view/icon/edit.png"))
+        self.sho_btn.setIcon(QtGui.QIcon("view/icon/list.png"))
+        self.sea_btn.setIcon(QtGui.QIcon("view/icon/search.png"))
+        self.in_sea.setPlaceholderText("Nhập nội dung")
 
         # kết nối db
         self.conn = sqlite3.connect("db/hotel7-3.db")
