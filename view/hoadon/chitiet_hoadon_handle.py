@@ -18,6 +18,34 @@ class chitiet_hoadon(Ui_MainWindow, QtWidgets.QMainWindow):
         self.dis_pla.setSelectionBehavior(QtWidgets.QTableView.SelectionBehavior.SelectRows)
     
     def show_all(self, id):
+        # lấy dữ liệu hóa đơn
+        data = self.cur.execute("select * from \
+                                hoa_don left join nhan_vien on hoa_don.nv_id=nhan_vien.nv_id \
+                                left join dat_phong on hd_id=booking_id \
+                                left join khach_hang on dat_phong.kh_id=khach_hang.kh_id \
+                                left join phong on dat_phong.phong_id=phong.id\
+                                where hd_id=?", (id, ))
+        data = data.fetchone()
+        print(data)
+        #hiển thị ra gui
+        # thông tin hóa đơnđơn
+        self.in4_hoadon.setText(f"{data[0]} - {data[2]}")
+        self.thanhtien.setText(f"{data[1]}VND")
+        if data[4]==0:
+            self.tinhtrangthanhtoan.setText("Chưa thanh toán")
+        else:
+            self.tinhtrangthanhtoan.setText("Đã thanh toán")
+        # thông tin nhân viên
+        self.in4_nhanvien.setText(f"{data[5]} - {data[6]} - {data[8]} - {data[10]}")
+        # thông tin khách hàng
+        self.in4_khachhang.setText(f"{data[20]} - {data[21]}")
+        # thông tin phòng
+        self.ngaydatphong.setText(f"{data[12]}"); self.ngaytraphong.setText(f"{data[13]}")
+        self.phicoc.setText(f"{data[14]}VND"); self.tienphong.setText(f"{data[17]}VND")
+        self.maphong.setText(f"{data[23]}"); self.tenphong.setText(f"{data[24]}")
+        self.sogiuong.setText(f"{data[25]}"); self.loaiphong.setText(f"{data[29]}")
+
+        # lấy dữ liệu các dịch vụ
         data = self.cur.execute("select * from chi_tiet_dv\
                                 where hd_id=?", (id, ))
         data = data.fetchall()
