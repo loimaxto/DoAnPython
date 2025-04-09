@@ -20,6 +20,12 @@ class ql_taikhoan(Ui_Form, QtWidgets.QWidget):
         self.dis_pla.setSelectionMode(QtWidgets.QTableView.SelectionMode.SingleSelection)
         self.dis_pla.setSelectionBehavior(QtWidgets.QTableView.SelectionBehavior.SelectRows)
         self.show_all()
+        self.them_btn.setIcon(QtGui.QIcon("view/icon/add-post.png"))
+        self.xoa_btn.setIcon(QtGui.QIcon("view/icon/delete.png"))
+        self.sua_btn.setIcon(QtGui.QIcon("view/icon/edit.png"))
+        self.hienthi_btn.setIcon(QtGui.QIcon("view/icon/list.png"))
+        self.sea_btn.setIcon(QtGui.QIcon("view/icon/search.png"))
+        self.inp_sea.setPlaceholderText("Nhập nội dung")
 
         # sự kiện
         self.hienthi_btn.clicked.connect(self.show_all)
