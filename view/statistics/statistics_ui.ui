@@ -208,7 +208,7 @@
                   </font>
                  </property>
                  <property name="text">
-                  <string>OCCUPIED ROOMS</string>
+                  <string>PHÒNG BẬN</string>
                  </property>
                  <property name="alignment">
                   <set>Qt::AlignCenter</set>
@@ -285,7 +285,7 @@
                   </font>
                  </property>
                  <property name="text">
-                  <string>AVAILABLE ROOMS</string>
+                  <string>PHÒNG TRỐNG</string>
                  </property>
                  <property name="alignment">
                   <set>Qt::AlignCenter</set>
@@ -380,7 +380,7 @@
                   </font>
                  </property>
                  <property name="text">
-                  <string>STAFFS</string>
+                  <string>NHÂN VIÊN</string>
                  </property>
                  <property name="alignment">
                   <set>Qt::AlignCenter</set>
