@@ -2,11 +2,12 @@ import torch
 import torch.optim as optim
 from torchvision import datasets, transforms
 from torch.utils.data import DataLoader
+
 from modelsCNN import FaceRecognitionCNN
 import torch.nn as nn
 from Load_Data import Prepare_Data
 # Khởi tạo mô hình
-id_customer = 5
+id_customer = 33
 class Train_Models:
     def __init__(self):
         self.load_data = Prepare_Data()

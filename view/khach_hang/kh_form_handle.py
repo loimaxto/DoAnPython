@@ -1,5 +1,5 @@
 from PyQt6 import QtCore, QtGui, QtWidgets
-from PyQt6.QtWidgets import QWidget
+from PyQt6.QtWidgets import QWidget,QMessageBox
 import os
 import sys
 project_path = os.path.abspath(os.path.join(os.path.dirname(__file__), "../../")) 
@@ -25,13 +25,28 @@ class kh_form_handle(QWidget,Ui_khform):
         self.find_face.closeEvent()
         self.stackedWidget.setCurrentWidget(self.customer)
     def star_getImage(self):
-        self.find_face  = FaceRecognitionWidget()
-        self.stackedWidget.addWidget(self.find_face)
-        self.a = self.find_face.setup_ui()
-        self.find_face.set_customer_id(4)
-        #self.find_face.setup_ui()
-        self.find_face.back_btn.clicked.connect(lambda: self.back_customer())
-        self.stackedWidget.setCurrentWidget(self.find_face)
+        print (self.customer.selected_customer)
+        
+        if self.customer.selected_customer is None:
+            self.show_not_selected_warning()
+        else:
+            self.find_face  = FaceRecognitionWidget()
+            self.stackedWidget.addWidget(self.find_face)
+            self.a = self.find_face.setup_ui()
+            self.find_face.set_customer_id(self.customer.selected_customer.kh_id)
+            #self.find_face.setup_ui()
+            self.find_face.back_btn.clicked.connect(lambda: self.back_customer())
+            self.stackedWidget.setCurrentWidget(self.find_face)
+        
+        
+    def show_not_selected_warning(self):
+        """Hiển thị thông báo khi chưa chọn khách hàng"""
+        QMessageBox.warning(
+            self, 
+            "Chưa chọn khách hàng",
+            "Vui lòng chọn một khách hàng bằng cách nhấn vào radio button trước khi thực hiện thao tác này!",
+            QMessageBox.StandardButton.Ok
+        )
 if __name__ == "__main__":
     
     app = QtWidgets.QApplication(sys.argv)

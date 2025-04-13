@@ -10,60 +10,149 @@ from PyQt6.QtWidgets import (
     QMessageBox,
 )
 from view.khach_hang.kh_ui import Ui_CustomerManagement # Assuming you saved the UI as kh_ui.py
-
+from PyQt6.QtCore import Qt
 
 from dto.dto import KhachHangDTO
 from dao.khach_hang_dao import KhachHangDAO
+from view.khach_hang.radiobutton import RadioButtonDelegate
+
 class CustomerManagementWindow(QtWidgets.QWidget, Ui_CustomerManagement):
     def __init__(self, mainwindow):
         super().__init__()
         self.setupUi(self)
         self.dao_customer = KhachHangDAO()
-
         self.par = mainwindow
         
-        self.model = QtGui.QStandardItemModel(0, 4)  # rows, columns
-        self.model.setHorizontalHeaderLabels(["ID", "Họ và tên", "Số điện thoại", "Hình ảnh"])
+        # Thêm cột radio button (cột đầu tiên)
+        self.model = QtGui.QStandardItemModel(0, 5)  # rows, columns (radio + ID + name + phone + image)
+        self.model.setHorizontalHeaderLabels(["Chọn", "ID", "Họ và tên", "Số điện thoại", "Hình ảnh"])
         self.customerTableView.setModel(self.model)
+        
+        # Thiết lập delegate cho cột radio button
+        self.customerTableView.setItemDelegateForColumn(0, RadioButtonDelegate(self.customerTableView))
+        
         # Resize columns
-        self.customerTableView.horizontalHeader().setSectionResizeMode(QtWidgets.QHeaderView.ResizeMode.Stretch)
+        self.customerTableView.setColumnWidth(0, 50)  # Cột radio button
+        self.customerTableView.horizontalHeader().setSectionResizeMode(1, QtWidgets.QHeaderView.ResizeMode.ResizeToContents)  # ID
+        self.customerTableView.horizontalHeader().setSectionResizeMode(2, QtWidgets.QHeaderView.ResizeMode.Stretch)  # Tên
+        self.customerTableView.horizontalHeader().setSectionResizeMode(3, QtWidgets.QHeaderView.ResizeMode.ResizeToContents)  # SĐT
+        self.customerTableView.horizontalHeader().setSectionResizeMode(4, QtWidgets.QHeaderView.ResizeMode.ResizeToContents)  # Hình ảnh
+        
         self.customerTableView.verticalHeader().setVisible(False) 
         self.customerTableView.setSelectionMode(QtWidgets.QTableView.SelectionMode.SingleSelection)
         self.customerTableView.setSelectionBehavior(QtWidgets.QTableView.SelectionBehavior.SelectRows)
         self.customerTableView.selectionModel().selectionChanged.connect(self.row_selected_action)
-
-        # Load fake data
+        self.selected_customer = None
+        # Load data
         self.load_fake_data()
-
-       
-        # Connect buttons to functions
+        self.model.itemChanged.connect(self.handle_selection_change)
+        # Kết nối các nút
         self.addButton.clicked.connect(self.add_customer)
         self.updateButton.clicked.connect(self.update_customer)
         self.deleteButton.clicked.connect(self.delete_customer)
         self.clearButton.clicked.connect(self.clear_fields)
-        #self.imageButton.clicked.connect(self.select_image)
         self.searchButton.clicked.connect(self.search_customers)
         self.btn_confirm_update.clicked.connect(self.update_confirmed)
         self.btn_confirm_update.setVisible(False)
         
         self.is_update_state = 0
+        self.selected_customer_id = None
+
     def load_fake_data(self, search_term=None):
-        customer_data = self.dao_customer.get_all_khach_hang()
-        table_data = [(kh.kh_id, kh.ten, kh.sdt, kh.image) for kh in customer_data]
-        
+        """Tải dữ liệu khách hàng từ database"""
+        customers = self.dao_customer.get_all_khach_hang()
         self.model.setRowCount(0)
-        for row in table_data:
-            if search_term:
-                if search_term.lower() not in row[1].lower() and search_term not in row[2]:
-                    continue
-            items = []
-            for item in row:
-                item_obj = QtGui.QStandardItem(str(item))
-                item_obj.setTextAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
-                item_obj.setFlags(item_obj.flags() & ~QtCore.Qt.ItemFlag.ItemIsEditable)
-                items.append(item_obj)
-            self.model.appendRow(items)
+        
+        for row, customer in enumerate(customers):
+            # Cột radio button
+            radio_item = QtGui.QStandardItem()
+            radio_item.setCheckable(True)
+            radio_item.setEditable(False)
+            radio_item.setData(Qt.CheckState.Unchecked, Qt.ItemDataRole.CheckStateRole)
+            self.model.setItem(row, 0, radio_item)
             
+            # Các cột thông tin
+            self.model.setItem(row, 1, QtGui.QStandardItem(str(customer.kh_id)))
+            self.model.setItem(row, 2, QtGui.QStandardItem(customer.ten))
+            self.model.setItem(row, 3, QtGui.QStandardItem(customer.sdt))
+            self.model.setItem(row, 4, QtGui.QStandardItem(customer.image))
+            
+            # Căn giữa nội dung các cột
+            for col in range(1, 5):
+                self.model.item(row, col).setTextAlignment(Qt.AlignmentFlag.AlignCenter)
+    def handle_selection_change(self, item):
+        """Xử lý khi radio button được chọn/bỏ chọn với cơ chế ổn định"""
+        
+        # Chỉ xử lý cho cột radio button (cột 0)
+        if item.column() != 0 or not item.isCheckable():
+            return
+        
+        # Sử dụng blockSignals để tránh lặp vô hạn
+        self.model.blockSignals(True)
+        try:
+            current_state = item.checkState()
+            
+            if current_state == Qt.CheckState.Checked:
+                # Xử lý khi được chọn
+                row = item.row()
+                self.selected_customer = KhachHangDTO(
+                    kh_id=self.model.item(row, 1).text(),
+                    ten=self.model.item(row, 2).text(),
+                    sdt=self.model.item(row, 3).text(),
+                    image=self.model.item(row, 4).text()
+                )
+                
+                # Cập nhật giao diện
+                self.update_form_with_selected_customer()
+                
+                # Bỏ chọn các radio khác
+                self.unselect_other_radios(row)
+                
+                print(f"Đã chọn khách hàng: {self.selected_customer.ten}")
+            else:
+                # Xử lý khi bỏ chọn
+                if self.selected_customer and self.selected_customer.kh_id == self.model.item(item.row(), 1).text():
+                    self.selected_customer = None
+                    self.clear_form()
+                    print("Đã bỏ chọn khách hàng")
+        finally:
+            self.model.blockSignals(False)
+
+    def unselect_other_radios(self, selected_row):
+        """Bỏ chọn tất cả radio button khác một cách an toàn"""
+        for row in range(self.model.rowCount()):
+            if row != selected_row:
+                item = self.model.item(row, 0)
+                if item.checkState() == Qt.CheckState.Checked:
+                    item.setCheckState(Qt.CheckState.Unchecked)
+
+    def update_form_with_selected_customer(self):
+        """Cập nhật form với thông tin khách hàng được chọn"""
+        if self.selected_customer:
+            self.nameLineEdit.setText(self.selected_customer.ten)
+            self.phoneLineEdit.setText(self.selected_customer.sdt)
+            self.label_imagePath.setText(self.selected_customer.image)
+
+    def clear_form(self):
+        """Xóa thông tin trên form"""
+        self.nameLineEdit.clear()
+        self.phoneLineEdit.clear()
+        self.label_imagePath.clear()
+    def on_radio_changed(self, state, row):
+        if state == Qt.CheckState.Checked:
+            # Bỏ chọn tất cả các radio button khác
+            for i in range(self.model.rowCount()):
+                if i != row:
+                    self.model.item(i, 0).setData(Qt.CheckState.Unchecked, Qt.ItemDataRole.CheckStateRole)
+            
+            # Lưu ID khách hàng được chọn
+            self.selected_customer_id = self.model.item(row, 1).text()
+            
+            # Hiển thị thông tin khách hàng lên form
+            self.nameLineEdit.setText(self.model.item(row, 2).text())
+            self.phoneLineEdit.setText(self.model.item(row, 3).text())
+            self.label_imagePath.setText(self.model.item(row, 4).text())
+    
        
     def add_customer(self):
         # giới hạn quyền
@@ -93,19 +182,19 @@ class CustomerManagementWindow(QtWidgets.QWidget, Ui_CustomerManagement):
         QMessageBox.information(self, "Thêm khách hàng", "Thông tin khách hàng đã được lưu thành công!")
         self.clear_fields()
         self.load_fake_data()
-        
     def row_selected_action(self):
         if self.is_update_state:
             selected_indexes = self.customerTableView.selectionModel().selectedIndexes()
             if selected_indexes:
                 row = selected_indexes[0].row()
-                self.nameLineEdit.setText(self.model.item(row, 1).text())
-                self.phoneLineEdit.setText(self.model.item(row, 2).text())
+                self.nameLineEdit.setText(self.model.item(row, 2).text())
+                self.phoneLineEdit.setText(self.model.item(row, 3).text())
                 self.dto_kh = KhachHangDTO(
-                    self.model.item(row, 0).text(),
                     self.model.item(row, 1).text(),
                     self.model.item(row, 2).text(),
-                    self.model.item(row, 3).text())
+                    self.model.item(row, 3).text(),
+                    self.model.item(row, 4).text())
+            
     def update_customer(self):
         # giới hạn quyền
         if self.par.acc == 1:

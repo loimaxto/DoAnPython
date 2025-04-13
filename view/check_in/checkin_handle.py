@@ -8,6 +8,7 @@ from PyQt6.QtWidgets import (QTableWidgetItem, QMessageBox, QRadioButton,
                             QHBoxLayout)
 from view.check_in.checkin_ui import Ui_Checkin
 import sqlite3
+from recogni_face.useModels import FaceRecognitionWidget
 query_full_khach_hang = "SELECT * FROM khach_hang "
 query_full_room = "SELECT * FROM phong "
 class Checkin(QtWidgets.QWidget, Ui_Checkin):
@@ -137,11 +138,23 @@ class Checkin(QtWidgets.QWidget, Ui_Checkin):
         customer_phone = self.view_customer.item(selected_row, 3).text()  # Cột Số điện thoại (index 3)
         
         # Hiển thị thông tin khách hàng được chọn
-        QMessageBox.information(self, "Thông tin", 
-                            f"Đã chọn khách hàng:\nID: {customer_id}\nTên: {customer_name}\nSĐT: {customer_phone}")
-        
+        self.recognition_face = FaceRecognitionWidget(customer_id)
+        self.verticalLayout_2.addWidget(self.recognition_face)
+        self.recognition_face.show()
         # TODO: Thêm logic check-in ở đây
+        self.view_customer.hide()
+        self.view_room.hide()
         # Ví dụ: self.process_checkin(customer_id)
+        self.checkin_button.hide()
+        self.recognition_face.btn_back.clicked.connect(self.backward)
+    def backward(self):
+        self.recognition_face.hide()
+        self.verticalLayout_2.removeWidget(self.recognition_face)
+        
+        self.recognition_face.closeEvent()
+        self.view_customer.show()
+        self.view_room.show()
+        self.checkin_button.show()
 
 if __name__ == "__main__":
     import sys

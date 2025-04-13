@@ -97,7 +97,7 @@ class FaceRecognitionWidget(QWidget):
         for (x, y, w, h) in faces:
             cv2.rectangle(frame, (x-2, y-2), (x+w+2, y+h+2), (0, 255, 0), 2)  # Màu xanh khi đang chụp
             self.capture_count += 1
-            if self.capture_count%15==0:
+            if self.capture_count%10==0:
                 # Chụp và lưu ảnh khuôn mặt
                 face_img = frame[y:y+h, x:x+w]
                 face_img = cv2.resize(face_img, (100, 100))
@@ -113,7 +113,7 @@ class FaceRecognitionWidget(QWidget):
                 print(self.count)
                 self.status_label.setText(f"Đang thu thập ảnh!")
                 
-            if self.count>=20:
+            if self.count>=30:
                 self.stop_capture()
                 self.capture_completed.emit()  # Phát signal khi hoàn thành
                 
@@ -160,7 +160,7 @@ class FaceRecognitionWidget(QWidget):
         if hasattr(self, 'camera') and self.camera.isOpened():
             self.camera.release()
         
-        self.camera_active = False
+        
 
 
 
