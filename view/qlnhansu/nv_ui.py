@@ -13,25 +13,126 @@ class Ui_StaffManagement(object):
     def setupUi(self, StaffManagement):
         StaffManagement.setObjectName("StaffManagement")
         StaffManagement.resize(992, 664)
+        StaffManagement.setStyleSheet(
+        """
+        QWidget {
+        font-family: Segoe UI, sans-serif;
+        font-size: 14px;
+        color: white;
+        background-color: #1e1e1e;
+        }
+
+        /* QLabel styling */
+        QLabel {
+        color: #dddddd;
+        font-weight: bold;
+        padding: 4px 0px;
+        }
+
+        /* QLineEdit styling */
+        QLineEdit {
+        border: 1px solid #555;
+        border-radius: 6px;
+        padding: 6px 8px;
+        background-color: #2a2a2a;
+        color: white;
+        selection-background-color: #007acc;
+        }
+        QLineEdit:focus {
+        border: 1px solid #007acc;
+        }
+
+        /* QPushButton styling */
+        QPushButton {
+        background-color: #2d89ef;
+        color: white;
+        padding: 8px 14px;
+        border-radius: 6px;
+        border: none;
+        }
+        QPushButton:hover {
+        background-color: #1b6fc2;
+        }
+        QPushButton:pressed {
+        background-color: #155a9c;
+        }
+
+        /* QTableView styling */
+        QTableView {
+        border: none;
+        background-color: #2e2e2e;
+        color: white;
+        gridline-color: #444;
+        selection-background-color: #007acc;
+        selection-color: white;
+        alternate-background-color: #292929;
+        }
+        QHeaderView::section {
+        background-color: #3a3a3a;
+        color: white;
+        padding: 6px;
+        border: 1px solid #444;
+        font-weight: bold;
+        }
+        QTableView QTableCornerButton::section {
+        background-color: #3a3a3a;
+        border: 1px solid #444;
+        }""")
         self.mainLayout = QtWidgets.QHBoxLayout(StaffManagement)
         self.mainLayout.setObjectName("mainLayout")
         self.verticalLayout_3 = QtWidgets.QVBoxLayout()
         self.verticalLayout_3.setObjectName("verticalLayout_3")
         self.searchLayout = QtWidgets.QHBoxLayout()
         self.searchLayout.setObjectName("searchLayout")
+        spacerItem = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Policy.Expanding, QtWidgets.QSizePolicy.Policy.Minimum)
+        self.searchLayout.addItem(spacerItem)
         self.searchLabel = QtWidgets.QLabel(parent=StaffManagement)
+        font = QtGui.QFont()
+        font.setPointSize(11)
+        font.setBold(True)
+        font.setWeight(75)
+        self.searchLabel.setFont(font)
         self.searchLabel.setObjectName("searchLabel")
         self.searchLayout.addWidget(self.searchLabel)
         self.searchLineEdit = QtWidgets.QLineEdit(parent=StaffManagement)
         self.searchLineEdit.setObjectName("searchLineEdit")
         self.searchLayout.addWidget(self.searchLineEdit)
         self.searchButton = QtWidgets.QPushButton(parent=StaffManagement)
+        font = QtGui.QFont()
+        font.setPointSize(-1)
+        self.searchButton.setFont(font)
+        self.searchButton.setStyleSheet("QPushButton {\n"
+"                background-color: #3498db;  /* Blue background */\n"
+"                color: white;  /* White text */\n"
+"                border: none;\n"
+"                padding: 5px 10px;\n"
+"                font-size: 10px;\n"
+"            }\n"
+"            QPushButton:hover {\n"
+"                background-color: #2980b9; /* Darker blue on hover */\n"
+"                 border: 2px solid white;\n"
+"            }\n"
+"            QPushButton:pressed {\n"
+"                background-color: #1f618d; /* Even darker blue on press */\n"
+"            }")
+        self.searchButton.setText("")
+        icon = QtGui.QIcon()
+        icon.addPixmap(QtGui.QPixmap("D:\\DoAnPython\\view\\qlnhansu\\../../image/search.png"), QtGui.QIcon.Mode.Normal, QtGui.QIcon.State.Off)
+        self.searchButton.setIcon(icon)
+        self.searchButton.setIconSize(QtCore.QSize(30, 30))
         self.searchButton.setObjectName("searchButton")
         self.searchLayout.addWidget(self.searchButton)
+        spacerItem1 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Policy.Expanding, QtWidgets.QSizePolicy.Policy.Minimum)
+        self.searchLayout.addItem(spacerItem1)
         self.verticalLayout_3.addLayout(self.searchLayout)
         self.formLayout = QtWidgets.QFormLayout()
         self.formLayout.setObjectName("formLayout")
         self.label_2 = QtWidgets.QLabel(parent=StaffManagement)
+        font = QtGui.QFont()
+        font.setPointSize(11)
+        font.setBold(True)
+        font.setWeight(75)
+        self.label_2.setFont(font)
         self.label_2.setObjectName("label_2")
         self.formLayout.setWidget(0, QtWidgets.QFormLayout.ItemRole.LabelRole, self.label_2)
         self.nameLineEdit = QtWidgets.QLineEdit(parent=StaffManagement)
@@ -39,6 +140,11 @@ class Ui_StaffManagement(object):
         self.nameLineEdit.setObjectName("nameLineEdit")
         self.formLayout.setWidget(0, QtWidgets.QFormLayout.ItemRole.FieldRole, self.nameLineEdit)
         self.label_3 = QtWidgets.QLabel(parent=StaffManagement)
+        font = QtGui.QFont()
+        font.setPointSize(11)
+        font.setBold(True)
+        font.setWeight(75)
+        self.label_3.setFont(font)
         self.label_3.setObjectName("label_3")
         self.formLayout.setWidget(1, QtWidgets.QFormLayout.ItemRole.LabelRole, self.label_3)
         self.phoneLineEdit = QtWidgets.QLineEdit(parent=StaffManagement)
@@ -46,6 +152,11 @@ class Ui_StaffManagement(object):
         self.phoneLineEdit.setObjectName("phoneLineEdit")
         self.formLayout.setWidget(1, QtWidgets.QFormLayout.ItemRole.FieldRole, self.phoneLineEdit)
         self.label_5 = QtWidgets.QLabel(parent=StaffManagement)
+        font = QtGui.QFont()
+        font.setPointSize(11)
+        font.setBold(True)
+        font.setWeight(75)
+        self.label_5.setFont(font)
         self.label_5.setObjectName("label_5")
         self.formLayout.setWidget(2, QtWidgets.QFormLayout.ItemRole.LabelRole, self.label_5)
         self.emailLineEdit = QtWidgets.QLineEdit(parent=StaffManagement)
@@ -54,6 +165,11 @@ class Ui_StaffManagement(object):
         self.emailLineEdit.setObjectName("emailLineEdit")
         self.formLayout.setWidget(2, QtWidgets.QFormLayout.ItemRole.FieldRole, self.emailLineEdit)
         self.label_4 = QtWidgets.QLabel(parent=StaffManagement)
+        font = QtGui.QFont()
+        font.setPointSize(11)
+        font.setBold(True)
+        font.setWeight(75)
+        self.label_4.setFont(font)
         self.label_4.setObjectName("label_4")
         self.formLayout.setWidget(3, QtWidgets.QFormLayout.ItemRole.LabelRole, self.label_4)
         self.adressLineEdit = QtWidgets.QLineEdit(parent=StaffManagement)
@@ -61,6 +177,11 @@ class Ui_StaffManagement(object):
         self.adressLineEdit.setObjectName("adressLineEdit")
         self.formLayout.setWidget(3, QtWidgets.QFormLayout.ItemRole.FieldRole, self.adressLineEdit)
         self.Position = QtWidgets.QLabel(parent=StaffManagement)
+        font = QtGui.QFont()
+        font.setPointSize(11)
+        font.setBold(True)
+        font.setWeight(75)
+        self.Position.setFont(font)
         self.Position.setObjectName("Position")
         self.formLayout.setWidget(4, QtWidgets.QFormLayout.ItemRole.LabelRole, self.Position)
         self.positionLineEdit = QtWidgets.QLineEdit(parent=StaffManagement)
@@ -71,20 +192,180 @@ class Ui_StaffManagement(object):
         self.horizontalLayout = QtWidgets.QHBoxLayout()
         self.horizontalLayout.setObjectName("horizontalLayout")
         self.addButton = QtWidgets.QPushButton(parent=StaffManagement)
+        font = QtGui.QFont()
+        font.setPointSize(-1)
+        self.addButton.setFont(font)
+        self.addButton.setStyleSheet("QPushButton {\n"
+"                background-color: white;  /* Blue background */\n"
+"                color: black;  /* White text */\n"
+"                border: none;\n"
+"                padding: 10px 20px;\n"
+"                font-size: 20px;\n"
+"                \n"
+"            }\n"
+"            QPushButton:hover {\n"
+"                border: 3px solid  #3498db ; /* Darker blue on hover */\n"
+"                background-color: #f5f5f5 ;\n"
+"            }\n"
+"            QPushButton:pressed {\n"
+"                background-color:#f5f5f5; /* Even darker blue on press */\n"
+"            }")
+        icon1 = QtGui.QIcon()
+        icon1.addPixmap(QtGui.QPixmap("D:\\DoAnPython\\view\\qlnhansu\\../../image/plus.png"), QtGui.QIcon.Mode.Normal, QtGui.QIcon.State.Off)
+        self.addButton.setIcon(icon1)
+        self.addButton.setIconSize(QtCore.QSize(30, 30))
         self.addButton.setObjectName("addButton")
         self.horizontalLayout.addWidget(self.addButton)
         self.deleteButton = QtWidgets.QPushButton(parent=StaffManagement)
+        font = QtGui.QFont()
+        font.setPointSize(-1)
+        self.deleteButton.setFont(font)
+        self.deleteButton.setStyleSheet("QPushButton {\n"
+"                background-color: white;  /* Blue background */\n"
+"                color: black;  /* White text */\n"
+"                border: none;\n"
+"                padding: 10px 20px;\n"
+"                font-size: 20px;\n"
+"                \n"
+"            }\n"
+"            QPushButton:hover {\n"
+"               border: 3px solid  #3498db ; /* Darker blue on hover */\n"
+"                background-color: #f5f5f5 ;\n"
+"            }\n"
+"            QPushButton:pressed {\n"
+"                background-color: #f5f5f5 ; /* Even darker blue on press */\n"
+"            }")
+        icon2 = QtGui.QIcon()
+        icon2.addPixmap(QtGui.QPixmap("D:\\DoAnPython\\view\\qlnhansu\\../../image/delete.png"), QtGui.QIcon.Mode.Normal, QtGui.QIcon.State.Off)
+        self.deleteButton.setIcon(icon2)
+        self.deleteButton.setIconSize(QtCore.QSize(30, 30))
         self.deleteButton.setObjectName("deleteButton")
         self.horizontalLayout.addWidget(self.deleteButton)
         self.updateButton = QtWidgets.QPushButton(parent=StaffManagement)
+        font = QtGui.QFont()
+        font.setPointSize(-1)
+        self.updateButton.setFont(font)
+        self.updateButton.setStyleSheet("QPushButton {\n"
+"                background-color: white;  /* Blue background */\n"
+"                color: black;  /* White text */\n"
+"                border: none;\n"
+"                padding: 10px 15px;\n"
+"                font-size: 20px;\n"
+"                \n"
+"            }\n"
+"            QPushButton:hover {\n"
+"                 border: 3px solid  #3498db ; /* Darker blue on hover */\n"
+"                background-color: #f5f5f5 ;\n"
+"            }\n"
+"            QPushButton:pressed {\n"
+"                background-color: #f5f5f5 ; /* Even darker blue on press */\n"
+"            }")
+        icon3 = QtGui.QIcon()
+        icon3.addPixmap(QtGui.QPixmap("D:\\DoAnPython\\view\\qlnhansu\\../../image/pen.png"), QtGui.QIcon.Mode.Normal, QtGui.QIcon.State.Off)
+        self.updateButton.setIcon(icon3)
+        self.updateButton.setIconSize(QtCore.QSize(30, 30))
         self.updateButton.setObjectName("updateButton")
         self.horizontalLayout.addWidget(self.updateButton)
         self.clearButton = QtWidgets.QPushButton(parent=StaffManagement)
+        font = QtGui.QFont()
+        font.setPointSize(-1)
+        self.clearButton.setFont(font)
+        self.clearButton.setStyleSheet("QPushButton {\n"
+"                background-color: white;  /* Blue background */\n"
+"                color: black;  /* White text */\n"
+"                border: none;\n"
+"                padding: 10px 5px;\n"
+"                font-size: 20px;\n"
+"                \n"
+"            }\n"
+"            QPushButton:hover {\n"
+"                border: 3px solid  #3498db ; /* Darker blue on hover */\n"
+"                background-color: #f5f5f5 ;\n"
+"            }\n"
+"            QPushButton:pressed {\n"
+"                background-color: #f5f5f5; /* Even darker blue on press */\n"
+"            }")
+        icon4 = QtGui.QIcon()
+        icon4.addPixmap(QtGui.QPixmap("D:\\DoAnPython\\view\\qlnhansu\\../../image/loading-arrow.png"), QtGui.QIcon.Mode.Normal, QtGui.QIcon.State.Off)
+        self.clearButton.setIcon(icon4)
+        self.clearButton.setIconSize(QtCore.QSize(30, 30))
         self.clearButton.setObjectName("clearButton")
         self.horizontalLayout.addWidget(self.clearButton)
         self.btn_confirm_update = QtWidgets.QPushButton(parent=StaffManagement)
+        font = QtGui.QFont()
+        font.setPointSize(-1)
+        self.btn_confirm_update.setFont(font)
+        self.btn_confirm_update.setStyleSheet("QPushButton {\n"
+"                background-color: white;  /* Blue background */\n"
+"                color: black;  /* White text */\n"
+"                border: none;\n"
+"                padding: 10px 0;\n"
+"                font-size: 20px;\n"
+"                \n"
+"            }\n"
+"            QPushButton:hover {\n"
+"                 border: 3px solid  #3498db ; /* Darker blue on hover */\n"
+"                background-color: #f5f5f5 ;\n"
+"            }\n"
+"            QPushButton:pressed {\n"
+"                background-color: #f5f5f5; /* Even darker blue on press */\n"
+"            }")
+        icon5 = QtGui.QIcon()
+        icon5.addPixmap(QtGui.QPixmap("D:\\DoAnPython\\view\\qlnhansu\\../../image/save.png"), QtGui.QIcon.Mode.Normal, QtGui.QIcon.State.Off)
+        self.btn_confirm_update.setIcon(icon5)
+        self.btn_confirm_update.setIconSize(QtCore.QSize(30, 30))
         self.btn_confirm_update.setObjectName("btn_confirm_update")
         self.horizontalLayout.addWidget(self.btn_confirm_update)
+        self.importExcelBtn = QtWidgets.QPushButton(parent=StaffManagement)
+        font = QtGui.QFont()
+        font.setPointSize(-1)
+        self.importExcelBtn.setFont(font)
+        self.importExcelBtn.setStyleSheet("QPushButton {\n"
+"                background-color: white;  /* Blue background */\n"
+"                color: black;  /* White text */\n"
+"                border: none;\n"
+"                padding: 10px 0;\n"
+"                font-size: 20px;\n"
+"                \n"
+"            }\n"
+"            QPushButton:hover {\n"
+"                 border: 3px solid  #3498db ; /* Darker blue on hover */\n"
+"                background-color: #f5f5f5 ;\n"
+"            }\n"
+"            QPushButton:pressed {\n"
+"                background-color: #f5f5f5; /* Even darker blue on press */\n"
+"            }")
+        icon6 = QtGui.QIcon()
+        icon6.addPixmap(QtGui.QPixmap("D:\\DoAnPython\\view\\qlnhansu\\../../image/sheet.png"), QtGui.QIcon.Mode.Normal, QtGui.QIcon.State.Off)
+        self.importExcelBtn.setIcon(icon6)
+        self.importExcelBtn.setIconSize(QtCore.QSize(30, 30))
+        self.importExcelBtn.setObjectName("importExcelBtn")
+        self.horizontalLayout.addWidget(self.importExcelBtn)
+        self.exportExcelBtn = QtWidgets.QPushButton(parent=StaffManagement)
+        font = QtGui.QFont()
+        font.setPointSize(-1)
+        self.exportExcelBtn.setFont(font)
+        self.exportExcelBtn.setStyleSheet("QPushButton {\n"
+"                background-color: white;  /* Blue background */\n"
+"                color: black;  /* White text */\n"
+"                border: none;\n"
+"                padding: 10px 0;\n"
+"                font-size: 20px;\n"
+"                \n"
+"            }\n"
+"            QPushButton:hover {\n"
+"                 border: 3px solid  #3498db ; /* Darker blue on hover */\n"
+"                background-color: #f5f5f5 ;\n"
+"            }\n"
+"            QPushButton:pressed {\n"
+"                background-color: #f5f5f5; /* Even darker blue on press */\n"
+"            }")
+        icon7 = QtGui.QIcon()
+        icon7.addPixmap(QtGui.QPixmap("D:\\DoAnPython\\view\\qlnhansu\\../../image/excel-file.png"), QtGui.QIcon.Mode.Normal, QtGui.QIcon.State.Off)
+        self.exportExcelBtn.setIcon(icon7)
+        self.exportExcelBtn.setIconSize(QtCore.QSize(30, 30))
+        self.exportExcelBtn.setObjectName("exportExcelBtn")
+        self.horizontalLayout.addWidget(self.exportExcelBtn)
         self.verticalLayout_3.addLayout(self.horizontalLayout)
         self.staffTableView = QtWidgets.QTableView(parent=StaffManagement)
         self.staffTableView.setSizeIncrement(QtCore.QSize(1, 0))
@@ -98,15 +379,16 @@ class Ui_StaffManagement(object):
     def retranslateUi(self, StaffManagement):
         _translate = QtCore.QCoreApplication.translate
         StaffManagement.setWindowTitle(_translate("StaffManagement", "Staff Management"))
-        self.searchLabel.setText(_translate("StaffManagement", "Tìm kiếm"))
-        self.searchButton.setText(_translate("StaffManagement", "Tìm"))
-        self.label_2.setText(_translate("StaffManagement", "Họ và tên"))
-        self.label_3.setText(_translate("StaffManagement", "Số điện thoại"))
+        self.searchLabel.setText(_translate("StaffManagement", "Tìm Kiếm"))
+        self.label_2.setText(_translate("StaffManagement", "Họ Và Tên:"))
+        self.label_3.setText(_translate("StaffManagement", "Số Điện Thoại"))
         self.label_5.setText(_translate("StaffManagement", "Email:"))
-        self.label_4.setText(_translate("StaffManagement", "Địa chỉ"))
-        self.Position.setText(_translate("StaffManagement", "Chức vụ"))
+        self.label_4.setText(_translate("StaffManagement", "Địa Chỉ:"))
+        self.Position.setText(_translate("StaffManagement", "Chức Vụ:"))
         self.addButton.setText(_translate("StaffManagement", "Thêm"))
         self.deleteButton.setText(_translate("StaffManagement", "Xóa"))
         self.updateButton.setText(_translate("StaffManagement", "Sửa"))
         self.clearButton.setText(_translate("StaffManagement", "Làm mới"))
-        self.btn_confirm_update.setText(_translate("StaffManagement", "Xác nhận sửa"))
+        self.btn_confirm_update.setText(_translate("StaffManagement", "Xác Nhận Sửa"))
+        self.importExcelBtn.setText(_translate("StaffManagement", "Nhập Excel"))
+        self.exportExcelBtn.setText(_translate("StaffManagement", "Xuất Excel"))

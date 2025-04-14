@@ -4,11 +4,19 @@ project_path = os.path.abspath(os.path.join(os.path.dirname(__file__), "../../")
 sys.path.append(project_path)
 print(project_path)
 import random
+import pandas as pd
 from PyQt6 import QtWidgets, QtCore, QtGui
+from PyQt6.QtCore import Qt
+from PyQt6.QtGui import QStandardItemModel,QStandardItem
 from PyQt6.QtWidgets import (
-    
     QMessageBox,
+    QFileDialog,
+    QTableWidgetItem,
 )
+import sqlite3
+import os
+import platform
+import subprocess
 from view.qlnhansu.nv_ui import Ui_StaffManagement # Assuming you saved the UI as kh_ui.py
 
 
@@ -44,7 +52,10 @@ class StaffManagementWindow(QtWidgets.QWidget, Ui_StaffManagement):
         self.searchButton.clicked.connect(self.search_staffs)
         self.btn_confirm_update.clicked.connect(self.update_confirmed)
         self.btn_confirm_update.setVisible(False)
-        
+        self.exportExcelBtn.clicked.connect(lambda: self.exportExcel(self.staffTableView))
+        self.importExcelBtn.clicked.connect(self.importExcel)
+
+
         self.is_update_state = 0
     def load_fake_data(self, search_term=None):
         staff_data = self.dao_staff.get_all_nhan_vien()
@@ -206,11 +217,180 @@ class StaffManagementWindow(QtWidgets.QWidget, Ui_StaffManagement):
     def clear_fields(self):
         self.nameLineEdit.clear()
         self.phoneLineEdit.clear()
+        self.emailLineEdit.clear()
+        self.adressLineEdit.clear()
+        self.positionLineEdit.clear()
 
     def search_staffs(self):
         search_term = self.searchLineEdit.text()
         self.load_fake_data(search_term)
-    
+
+    def importExcel(self):
+        try:
+            # Open file dialog to select Excel file
+            file_path, _ = QFileDialog.getOpenFileName(
+                self, "Open Excel File", "", "Excel Files (*.xlsx *.xls);;All Files (*)"
+            )
+            if not file_path:
+                return
+
+            # Read Excel file
+            try:
+                df = pd.read_excel(file_path, header=None, dtype={2: str})
+                expected_columns = ["_id", "hoten","sodienthoai", "email" , "diachi", "chucvu"]
+                df.columns = expected_columns
+                df.drop(columns=["_id"], inplace=True)
+            except Exception as e:
+                raise ValueError(f"Failed to read Excel file: {str(e)}")
+
+            # Clean and validate data
+            df["hoten"] = df["hoten"].astype(str).str.strip()
+            df["sodienthoai"] = ("0"+df["sodienthoai"]).astype(str).str.strip()
+            df["email"] = df["email"].astype(str).str.strip().str.lower()
+            df["diachi"] = df["diachi"].astype(str).str.strip()
+            df["chucvu"] = df["chucvu"].astype(str).str.strip()
+
+            # Basic validation
+            for index, row in df.iterrows():
+                if not row["hoten"]:
+                    raise ValueError(f"Row {index + 1}: Missing 'hoten'.")
+                if not row["sodienthoai"] or not row["sodienthoai"].isdigit():
+                    raise ValueError(f"Row {index + 1}: Invalid 'sodienthoai' ({row['sodienthoai']}).")
+                if not row["email"] or "@" not in row["email"]:
+                    raise ValueError(f"Row {index + 1}: Invalid 'email' ({row['email']}).")
+
+            # Get existing data from DB
+            try:
+                existing_sdt = set(self.dao_staff.get_all_sodienthoai() or [])
+                existing_email = set(self.dao_staff.get_all_email() or [])
+            except Exception as e:
+                raise ValueError(f"Failed to fetch existing data from database: {str(e)}")
+
+            # Auto-increment ID
+            try:
+                last_id = self.dao_staff.get_last_id() or 0
+                new_id = last_id + 1
+            except Exception as e:
+                raise ValueError(f"Failed to get last ID: {str(e)}")
+
+            inserted = 0
+            skipped = 0
+            dupes = []
+
+            # Process each row
+            for _, row in df.iterrows():
+                sdt = row["sodienthoai"]
+                email = row["email"]
+
+                # Check for duplicates
+                if sdt in existing_sdt or email in existing_email:
+                    skipped += 1
+                    dupes.append((sdt, email))
+                    continue
+
+                # Insert new record
+                try:
+                    dto = NhanVienDTO(new_id, row["hoten"], email, sdt, row["diachi"], row["chucvu"])
+                    self.dao_staff.insert_nhan_vien(dto)
+                    inserted += 1
+                    existing_sdt.add(sdt)
+                    existing_email.add(email)
+                    new_id += 1
+                except Exception as e:
+                    raise ValueError(f"Failed to insert record for {row['hoten']}: {str(e)}")
+
+            # Display duplicates
+            if dupes:
+                print("⚠️ Các dòng bị bỏ qua do trùng:")
+                for sdt, email in dupes:
+                    print(f" - {sdt} | {email}")
+
+            # Show success message
+            QMessageBox.information(
+                self,
+                "✅ Thành công",
+                f"Đã nhập {inserted} nhân viên mới từ Excel.\nBỏ qua {skipped} dòng do trùng SĐT hoặc Email."
+            )
+
+            # Refresh UI (assuming this is what you meant)
+            self.load_fake_data()  # Replace with your actual method to refresh UI
+
+        except ValueError as ve:
+            QMessageBox.critical(self, "❌ Lỗi", str(ve))
+        except Exception as e:
+            QMessageBox.critical(self, "❌ Lỗi", f"Lỗi khi nhập dữ liệu từ Excel:\n{str(e)}")
+
+
+    def exportExcel(self, table_view):
+        # Open file dialog
+        file_path, _ = QFileDialog.getSaveFileName(
+            self, "Save Excel File", "", "Excel Files (*.xlsx);;All Files (*)"
+        )
+
+        if not file_path:
+            return  # User canceled the save dialog
+
+        # Ensure file has a .xlsx extension
+        if not file_path.endswith(".xlsx"):
+            file_path += ".xlsx"
+
+        # Get the model from QTableView
+        model = table_view.model()
+        if not model:
+            print("❌ No model found in QTableView!")
+            return
+
+        # Extract data from the model
+        rows = model.rowCount()
+        cols = model.columnCount()
+
+        # Get column headers
+        headers = [model.headerData(col, Qt.Orientation.Horizontal) for col in range(cols)]
+
+        # Get table data
+        data = []
+        for row in range(rows):
+            row_data = []
+            for col in range(cols):
+                index = model.index(row, col)
+                value = model.data(index)
+                row_data.append(value if value is not None else "")  # Handle empty cells
+            data.append(row_data)
+
+        # Convert to DataFrame
+        df = pd.DataFrame(data, columns=headers)
+
+        # Try to export to Excel
+        try:
+            with pd.ExcelWriter(file_path, engine='xlsxwriter') as writer:
+                df.to_excel(writer, index=False, sheet_name='Sheet1')
+                workbook  = writer.book
+                worksheet = writer.sheets['Sheet1']
+
+                for i, col in enumerate(df.columns):
+                    column_len = df[col].astype(str).map(len).max()
+                    column_len = max(column_len, len(col)) + 2  # Add extra space
+                    worksheet.set_column(i, i, column_len)
+            print(f"✅ Exported table data to {file_path} successfully!")
+            # Ask the user if they want to open the file
+            reply = QMessageBox.question(
+                self,
+                "Open File?",
+                "Xuất Excel thành công!\nBạn có muốn mở file vừa tạo không?",
+                QMessageBox.StandardButton.Yes | QMessageBox.StandardButton.No
+            )
+
+            if reply == QMessageBox.StandardButton.Yes:
+                if platform.system() == "Windows":
+                    os.startfile(file_path)
+                elif platform.system() == "Darwin":  # macOS
+                    subprocess.run(["open", file_path])
+                else:  # Linux
+                    subprocess.run(["xdg-open", file_path])
+
+        except Exception as e:
+            print(f"❌ Error exporting to Excel: {e}")
+
 if __name__ == "__main__":
     app = QtWidgets.QApplication(sys.argv)
     window = StaffManagementWindow()

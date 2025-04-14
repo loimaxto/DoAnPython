@@ -13,15 +13,38 @@
   <property name="windowTitle">
    <string>Staff Management</string>
   </property>
+  <property name="styleSheet">
+   <string notr="true"/>
+  </property>
   <layout class="QHBoxLayout" name="mainLayout">
    <item>
     <layout class="QVBoxLayout" name="verticalLayout_3">
      <item>
       <layout class="QHBoxLayout" name="searchLayout">
        <item>
+        <spacer name="horizontalSpacer_2">
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>40</width>
+           <height>20</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+       <item>
         <widget class="QLabel" name="searchLabel">
+         <property name="font">
+          <font>
+           <pointsize>11</pointsize>
+           <weight>75</weight>
+           <bold>true</bold>
+          </font>
+         </property>
          <property name="text">
-          <string>Tìm kiếm</string>
+          <string>Tìm Kiếm</string>
          </property>
         </widget>
        </item>
@@ -30,10 +53,54 @@
        </item>
        <item>
         <widget class="QPushButton" name="searchButton">
+         <property name="font">
+          <font>
+           <pointsize>-1</pointsize>
+          </font>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">QPushButton {
+                background-color: #3498db;  /* Blue background */
+                color: white;  /* White text */
+                border: none;
+                padding: 5px 10px;
+                font-size: 10px;
+            }
+            QPushButton:hover {
+                background-color: #2980b9; /* Darker blue on hover */
+				 border: 2px solid white;
+            }
+            QPushButton:pressed {
+                background-color: #1f618d; /* Even darker blue on press */
+            }</string>
+         </property>
          <property name="text">
-          <string>Tìm</string>
+          <string/>
+         </property>
+         <property name="icon">
+          <iconset>
+           <normaloff>../../image/search.png</normaloff>../../image/search.png</iconset>
+         </property>
+         <property name="iconSize">
+          <size>
+           <width>30</width>
+           <height>30</height>
+          </size>
          </property>
         </widget>
+       </item>
+       <item>
+        <spacer name="horizontalSpacer">
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>40</width>
+           <height>20</height>
+          </size>
+         </property>
+        </spacer>
        </item>
       </layout>
      </item>
@@ -41,8 +108,15 @@
       <layout class="QFormLayout" name="formLayout">
        <item row="0" column="0">
         <widget class="QLabel" name="label_2">
+         <property name="font">
+          <font>
+           <pointsize>11</pointsize>
+           <weight>75</weight>
+           <bold>true</bold>
+          </font>
+         </property>
          <property name="text">
-          <string>Họ và tên</string>
+          <string>Họ Và Tên:</string>
          </property>
         </widget>
        </item>
@@ -58,8 +132,15 @@
        </item>
        <item row="1" column="0">
         <widget class="QLabel" name="label_3">
+         <property name="font">
+          <font>
+           <pointsize>11</pointsize>
+           <weight>75</weight>
+           <bold>true</bold>
+          </font>
+         </property>
          <property name="text">
-          <string>Số điện thoại</string>
+          <string>Số Điện Thoại</string>
          </property>
         </widget>
        </item>
@@ -75,6 +156,13 @@
        </item>
        <item row="2" column="0">
         <widget class="QLabel" name="label_5">
+         <property name="font">
+          <font>
+           <pointsize>11</pointsize>
+           <weight>75</weight>
+           <bold>true</bold>
+          </font>
+         </property>
          <property name="text">
           <string>Email:</string>
          </property>
@@ -98,8 +186,15 @@
        </item>
        <item row="3" column="0">
         <widget class="QLabel" name="label_4">
+         <property name="font">
+          <font>
+           <pointsize>11</pointsize>
+           <weight>75</weight>
+           <bold>true</bold>
+          </font>
+         </property>
          <property name="text">
-          <string>Địa chỉ</string>
+          <string>Địa Chỉ:</string>
          </property>
         </widget>
        </item>
@@ -115,8 +210,15 @@
        </item>
        <item row="4" column="0">
         <widget class="QLabel" name="Position">
+         <property name="font">
+          <font>
+           <pointsize>11</pointsize>
+           <weight>75</weight>
+           <bold>true</bold>
+          </font>
+         </property>
          <property name="text">
-          <string>Chức vụ</string>
+          <string>Chức Vụ:</string>
          </property>
         </widget>
        </item>
@@ -136,36 +238,274 @@
       <layout class="QHBoxLayout" name="horizontalLayout">
        <item>
         <widget class="QPushButton" name="addButton">
+         <property name="font">
+          <font>
+           <pointsize>-1</pointsize>
+          </font>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">QPushButton {
+                background-color: white;  /* Blue background */
+                color: black;  /* White text */
+                border: none;
+                padding: 10px 20px;
+                font-size: 20px;
+                
+            }
+            QPushButton:hover {
+                border: 3px solid  #3498db ; /* Darker blue on hover */
+				background-color: #f5f5f5 ;
+            }
+            QPushButton:pressed {
+                background-color:#f5f5f5; /* Even darker blue on press */
+            }</string>
+         </property>
          <property name="text">
           <string>Thêm</string>
+         </property>
+         <property name="icon">
+          <iconset>
+           <normaloff>../../image/plus.png</normaloff>../../image/plus.png</iconset>
+         </property>
+         <property name="iconSize">
+          <size>
+           <width>30</width>
+           <height>30</height>
+          </size>
          </property>
         </widget>
        </item>
        <item>
         <widget class="QPushButton" name="deleteButton">
+         <property name="font">
+          <font>
+           <pointsize>-1</pointsize>
+          </font>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">QPushButton {
+                background-color: white;  /* Blue background */
+                color: black;  /* White text */
+                border: none;
+                padding: 10px 20px;
+                font-size: 20px;
+                
+            }
+            QPushButton:hover {
+               border: 3px solid  #3498db ; /* Darker blue on hover */
+				background-color: #f5f5f5 ;
+            }
+            QPushButton:pressed {
+                background-color: #f5f5f5 ; /* Even darker blue on press */
+            }</string>
+         </property>
          <property name="text">
           <string>Xóa</string>
+         </property>
+         <property name="icon">
+          <iconset>
+           <normaloff>../../image/delete.png</normaloff>../../image/delete.png</iconset>
+         </property>
+         <property name="iconSize">
+          <size>
+           <width>30</width>
+           <height>30</height>
+          </size>
          </property>
         </widget>
        </item>
        <item>
         <widget class="QPushButton" name="updateButton">
+         <property name="font">
+          <font>
+           <pointsize>-1</pointsize>
+          </font>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">QPushButton {
+                background-color: white;  /* Blue background */
+                color: black;  /* White text */
+                border: none;
+                padding: 10px 15px;
+                font-size: 20px;
+                
+            }
+            QPushButton:hover {
+                 border: 3px solid  #3498db ; /* Darker blue on hover */
+				background-color: #f5f5f5 ;
+            }
+            QPushButton:pressed {
+                background-color: #f5f5f5 ; /* Even darker blue on press */
+            }</string>
+         </property>
          <property name="text">
           <string>Sửa</string>
+         </property>
+         <property name="icon">
+          <iconset>
+           <normaloff>../../image/pen.png</normaloff>../../image/pen.png</iconset>
+         </property>
+         <property name="iconSize">
+          <size>
+           <width>30</width>
+           <height>30</height>
+          </size>
          </property>
         </widget>
        </item>
        <item>
         <widget class="QPushButton" name="clearButton">
+         <property name="font">
+          <font>
+           <pointsize>-1</pointsize>
+          </font>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">QPushButton {
+                background-color: white;  /* Blue background */
+                color: black;  /* White text */
+                border: none;
+                padding: 10px 5px;
+                font-size: 20px;
+                
+            }
+            QPushButton:hover {
+                border: 3px solid  #3498db ; /* Darker blue on hover */
+				background-color: #f5f5f5 ;
+            }
+            QPushButton:pressed {
+                background-color: #f5f5f5; /* Even darker blue on press */
+            }</string>
+         </property>
          <property name="text">
           <string>Làm mới</string>
+         </property>
+         <property name="icon">
+          <iconset>
+           <normaloff>../../image/loading-arrow.png</normaloff>../../image/loading-arrow.png</iconset>
+         </property>
+         <property name="iconSize">
+          <size>
+           <width>30</width>
+           <height>30</height>
+          </size>
          </property>
         </widget>
        </item>
        <item>
         <widget class="QPushButton" name="btn_confirm_update">
+         <property name="font">
+          <font>
+           <pointsize>-1</pointsize>
+          </font>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">QPushButton {
+                background-color: white;  /* Blue background */
+                color: black;  /* White text */
+                border: none;
+                padding: 10px 0;
+                font-size: 20px;
+                
+            }
+            QPushButton:hover {
+                 border: 3px solid  #3498db ; /* Darker blue on hover */
+				background-color: #f5f5f5 ;
+            }
+            QPushButton:pressed {
+                background-color: #f5f5f5; /* Even darker blue on press */
+            }</string>
+         </property>
          <property name="text">
-          <string>Xác nhận sửa</string>
+          <string>Xác Nhận</string>
+         </property>
+         <property name="icon">
+          <iconset>
+           <normaloff>../../image/save.png</normaloff>../../image/save.png</iconset>
+         </property>
+         <property name="iconSize">
+          <size>
+           <width>30</width>
+           <height>30</height>
+          </size>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="importExcelBtn">
+         <property name="font">
+          <font>
+           <pointsize>-1</pointsize>
+          </font>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">QPushButton {
+                background-color: white;  /* Blue background */
+                color: black;  /* White text */
+                border: none;
+                padding: 10px 0;
+                font-size: 20px;
+                
+            }
+            QPushButton:hover {
+                 border: 3px solid  #3498db ; /* Darker blue on hover */
+				background-color: #f5f5f5 ;
+            }
+            QPushButton:pressed {
+                background-color: #f5f5f5; /* Even darker blue on press */
+            }</string>
+         </property>
+         <property name="text">
+          <string>Nhập Excel</string>
+         </property>
+         <property name="icon">
+          <iconset>
+           <normaloff>../../image/sheet.png</normaloff>../../image/sheet.png</iconset>
+         </property>
+         <property name="iconSize">
+          <size>
+           <width>30</width>
+           <height>30</height>
+          </size>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="exportExcelBtn">
+         <property name="font">
+          <font>
+           <pointsize>-1</pointsize>
+          </font>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">QPushButton {
+                background-color: white;  /* Blue background */
+                color: black;  /* White text */
+                border: none;
+                padding: 10px 0;
+                font-size: 20px;
+                
+            }
+            QPushButton:hover {
+                 border: 3px solid  #3498db ; /* Darker blue on hover */
+				background-color: #f5f5f5 ;
+            }
+            QPushButton:pressed {
+                background-color: #f5f5f5; /* Even darker blue on press */
+            }</string>
+         </property>
+         <property name="text">
+          <string>Xuất Excel</string>
+         </property>
+         <property name="icon">
+          <iconset>
+           <normaloff>../../image/excel-file.png</normaloff>../../image/excel-file.png</iconset>
+         </property>
+         <property name="iconSize">
+          <size>
+           <width>30</width>
+           <height>30</height>
+          </size>
          </property>
         </widget>
        </item>

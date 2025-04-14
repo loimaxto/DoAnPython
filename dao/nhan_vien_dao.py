@@ -71,6 +71,24 @@ class NhanVienDAO:
         if result and isinstance(result, list) and len(result) > 0 and len(result[0]) > 0:
             return result[0][0] > 0
         return False
+    
+    def get_all_sodienthoai(self):
+        query = "SELECT TRIM(sdt) FROM nhan_vien"
+        rows = self.db.execute_query(query)
+        return [str(row[0]).strip() for row in rows if row[0]]  # Ensure no None values
+
+    def get_all_email(self):
+        query = "SELECT TRIM(LOWER(email)) FROM nhan_vien"
+        rows = self.db.execute_query(query)
+        return [str(row[0]).strip().lower() for row in rows if row[0]]
+
+
+    def get_last_id(self):
+        query = "SELECT MAX(nv_id) FROM nhan_vien"
+        rows = self.db.execute_query(query)
+        return rows[0][0] if rows and rows[0][0] is not None else 0
+
+
 # Example usage (in a separate main.py or similar):
 if __name__ == "__main__":
     dao = NhanVienDAO()

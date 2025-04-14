@@ -1,6 +1,9 @@
 import sys
 from PyQt6 import QtWidgets, QtGui, QtCore
-from PyQt6.QtWidgets import QFileDialog
+from PyQt6.QtWidgets import (
+    QFileDialog,
+    QMessageBox,
+)
 from PyQt6.QtCore import Qt
 from view.statistics.statistics_ui import Ui_StatisticsMainWindow
 from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg
@@ -12,7 +15,9 @@ from dao.statistics_dao import ThongKeDAO
 from dao.phong_dao import PhongDAO
 import pandas as pd
 from dto.dto import ThongKeTheoThangDTO, ThongKeDoanhThuDTO, ThongKeTheoTungNgayTrongThangDTO
-
+import os
+import platform
+import subprocess
 import datetime
 import locale
 class StatisticsMainWindow(QtWidgets.QWidget, Ui_StatisticsMainWindow):
@@ -330,8 +335,32 @@ class StatisticsMainWindow(QtWidgets.QWidget, Ui_StatisticsMainWindow):
 
         # Try to export to Excel
         try:
-            df.to_excel(file_path, index=False, engine='xlsxwriter')
+            with pd.ExcelWriter(file_path, engine='xlsxwriter') as writer:
+                df.to_excel(writer, index=False, sheet_name='Sheet1')
+                workbook  = writer.book
+                worksheet = writer.sheets['Sheet1']
+
+                for i, col in enumerate(df.columns):
+                    column_len = df[col].astype(str).map(len).max()
+                    column_len = max(column_len, len(col)) + 2  # Add extra space
+                    worksheet.set_column(i, i, column_len)
             print(f"✅ Exported table data to {file_path} successfully!")
+            # Ask the user if they want to open the file
+            reply = QMessageBox.question(
+                self,
+                "Open File?",
+                "Xuất Excel thành công!\nBạn có muốn mở file vừa tạo không?",
+                QMessageBox.StandardButton.Yes | QMessageBox.StandardButton.No
+            )
+
+            if reply == QMessageBox.StandardButton.Yes:
+                if platform.system() == "Windows":
+                    os.startfile(file_path)
+                elif platform.system() == "Darwin":  # macOS
+                    subprocess.run(["open", file_path])
+                else:  # Linux
+                    subprocess.run(["xdg-open", file_path])
+
         except Exception as e:
             print(f"❌ Error exporting to Excel: {e}")
 
