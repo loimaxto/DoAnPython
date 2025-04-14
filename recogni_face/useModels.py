@@ -60,7 +60,7 @@ class FaceRecognitionWidget(QWidget):
         self.capture_btn.setEnabled(True)
     def init_model(self):
         model_path = f"recogni_face/trainner/face_{self.id_customer}.pth"
-        self.model = FaceRecognitionCNN(len(self.class_names))
+        self.model = FaceRecognitionCNN(3)
         self.model.load_state_dict(torch.load(model_path))
         self.model.eval()
         self.face_cascade = cv2.CascadeClassifier(

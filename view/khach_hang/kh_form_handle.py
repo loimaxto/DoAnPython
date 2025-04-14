@@ -8,10 +8,10 @@ from view.khach_hang.kh_form_ui import Ui_khform
 from recogni_face.models import FaceRecognitionWidget
 from view.khach_hang.kh_handle import CustomerManagementWindow
 class kh_form_handle(QWidget,Ui_khform):
-    def __init__(self):
+    def __init__(self,mainwindow):
         super().__init__()
         self.setupUi(self)
-        self.customer = CustomerManagementWindow(self)
+        self.customer = CustomerManagementWindow(mainwindow)
         
         self.stackedWidget.addWidget(self.customer)
         

@@ -45,7 +45,7 @@ class CustomerManagementWindow(QtWidgets.QWidget, Ui_CustomerManagement):
         self.selected_customer = None
         # Load data
         self.load_fake_data()
-        self.model.itemChanged.connect(self.handle_selection_change)
+        
         # Kết nối các nút
         self.addButton.clicked.connect(self.add_customer)
         self.updateButton.clicked.connect(self.update_customer)
@@ -62,7 +62,7 @@ class CustomerManagementWindow(QtWidgets.QWidget, Ui_CustomerManagement):
         """Tải dữ liệu khách hàng từ database"""
         customers = self.dao_customer.get_all_khach_hang()
         self.model.setRowCount(0)
-        
+        self.model.itemChanged.connect(self.handle_selection_change)
         for row, customer in enumerate(customers):
             # Cột radio button
             radio_item = QtGui.QStandardItem()
@@ -163,18 +163,18 @@ class CustomerManagementWindow(QtWidgets.QWidget, Ui_CustomerManagement):
         new_id = self.dao_customer.get_khach_hang_next_id()
         new_name = self.nameLineEdit.text()
         new_phone = self.phoneLineEdit.text()
-        new_image = self.label_imagePath.text()
-        if not new_name or not new_image:
+        new_image = self.label_imagePath.text() or "không có ảnh"
+        if not new_name or not new_phone:
             QMessageBox.information(self, "Cảnh báo", "Vui lòng điền đầy đủ thông tin khách hàng!")
             return
 
-        stored_file = self.store_image(new_image, new_id)
-        if not stored_file:
-            QMessageBox.critical(self,  "Lỗi", "Không thể lưu hình ảnh")
-            return
+        #stored_file = self.store_image(new_image, new_id)
+        #if not stored_file:
+        #    QMessageBox.critical(self,  "Lỗi", "Không thể lưu hình ảnh")
+        #    return
 
         try:
-            obj_kh = KhachHangDTO(kh_id=None, ten=new_name, sdt=new_phone, image=stored_file)
+            obj_kh = KhachHangDTO(kh_id=None, ten=new_name, sdt=new_phone)
             self.dao_customer.insert_khach_hang(obj_kh)
         except Exception as e:
             QMessageBox.critical(self,  "Lỗi", f"Không thể lưu thông tin khách hàng: {e}")
