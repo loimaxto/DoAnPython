@@ -1,4 +1,4 @@
-# Form implementation generated from reading ui file 'view\qlnhansu\nv_ui.ui'
+# Form implementation generated from reading ui file 'D:\DoAnPython\view\qlnhansu\nv_ui.ui'
 #
 # Created by: PyQt6 UI code generator 6.8.1
 #
@@ -13,41 +13,6 @@ class Ui_StaffManagement(object):
     def setupUi(self, StaffManagement):
         StaffManagement.setObjectName("StaffManagement")
         StaffManagement.resize(992, 664)
-        StaffManagement.setStyleSheet("""
-            QWidget {
-                background-color: #f5f5f5;
-                font-family: Arial, sans-serif;
-            }
-            QLabel {
-                color: #333;
-            }
-            QLineEdit {
-                border: 1px solid #ccc;
-                border-radius: 5px;
-                padding: 5px;
-                background-color: #fff;
-            }
-            QPushButton {
-                background-color: #007bff;
-                color: #fff;
-                border: none;
-                border-radius: 5px;
-                padding: 5px 10px;
-            }
-            QPushButton:hover {
-                background-color: #0056b3;
-            }
-            QTableView {
-                border: 1px solid #ccc;
-                background-color: #fff;
-            }
-            QHeaderView::section {
-                background-color: #007bff;
-                color: #fff;
-                padding: 5px;
-                border: none;
-            }
-        """)
         self.mainLayout = QtWidgets.QHBoxLayout(StaffManagement)
         self.mainLayout.setObjectName("mainLayout")
         self.verticalLayout_3 = QtWidgets.QVBoxLayout()
@@ -124,18 +89,6 @@ class Ui_StaffManagement(object):
         self.staffTableView = QtWidgets.QTableView(parent=StaffManagement)
         self.staffTableView.setSizeIncrement(QtCore.QSize(1, 0))
         self.staffTableView.setObjectName("staffTableView")
-        self.staffTableView.setStyleSheet("""
-            QTableView {
-                gridline-color: #ccc;
-            }
-            QTableView::item {
-                padding: 5px;
-            }
-            QTableView::item:selected {
-                background-color: #d9edf7;
-                color: #333;
-            }
-        """)
         self.verticalLayout_3.addWidget(self.staffTableView)
         self.mainLayout.addLayout(self.verticalLayout_3)
 
@@ -144,7 +97,7 @@ class Ui_StaffManagement(object):
 
     def retranslateUi(self, StaffManagement):
         _translate = QtCore.QCoreApplication.translate
-        StaffManagement.setWindowTitle(_translate("StaffManagement", "Customer Management"))
+        StaffManagement.setWindowTitle(_translate("StaffManagement", "Staff Management"))
         self.searchLabel.setText(_translate("StaffManagement", "Tìm kiếm"))
         self.searchButton.setText(_translate("StaffManagement", "Tìm"))
         self.label_2.setText(_translate("StaffManagement", "Họ và tên"))
@@ -157,13 +110,3 @@ class Ui_StaffManagement(object):
         self.updateButton.setText(_translate("StaffManagement", "Sửa"))
         self.clearButton.setText(_translate("StaffManagement", "Làm mới"))
         self.btn_confirm_update.setText(_translate("StaffManagement", "Xác nhận sửa"))
-
-
-if __name__ == "__main__":
-    import sys
-    app = QtWidgets.QApplication(sys.argv)
-    StaffManagement = QtWidgets.QWidget()
-    ui = Ui_StaffManagement()
-    ui.setupUi(StaffManagement)
-    StaffManagement.show()
-    sys.exit(app.exec())

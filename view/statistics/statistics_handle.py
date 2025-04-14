@@ -348,38 +348,57 @@ class show_chart(FigureCanvasQTAgg):
         dates = [today - datetime.timedelta(days=i) for i in range(6, -1, -1)]
 
         data_doanh_thu = self.dao_thong_ke.getDoanhThu7NgayGanNhat()      
-        # doanh_thu = self.dao_hoa_don.get_doanh_thu_8_ngay_gan_nhat() or [1000000, 500000, 2000000, 1500000, 6000000, 2700000, 1500000, 900000]
         doanh_thu = [(item.doanh_thu) for item in data_doanh_thu]
-        # Convert dates to string format
+
         date_labels = [date.strftime("%Y-%m-%d") for date in dates]
+        x = np.arange(len(date_labels))
+        width = 0.2
 
-        x = np.arange(len(date_labels))  # X-axis positions
-        width = 0.2  # Bar width
-
-        # Plot Bars
-       
+        # Plot bars
         rects = self.ax.bar(x, doanh_thu, width, label="Doanh thu", color="#1e90ff")
-        
 
-        # Add labels on top of bars
-        
+        # Tooltip annotation
+        annot = self.ax.annotate("", xy=(0,0), xytext=(15,15), textcoords="offset points",
+                                 bbox=dict(boxstyle="round", fc="w"),
+                                 arrowprops=dict(arrowstyle="->"))
+        annot.set_visible(False)
 
-        # Title and Labels
+        def update_annot(bar):
+            x = bar.get_x() + bar.get_width() / 2
+            y = bar.get_height()
+            annot.xy = (x, y)
+            text = f"{y:,.0f} VND"
+            annot.set_text(text)
+            annot.get_bbox_patch().set_alpha(0.9)
+
+        def hover(event):
+            vis = annot.get_visible()
+            if event.inaxes == self.ax:
+                for bar in rects:
+                    contains, _ = bar.contains(event)
+                    if contains:
+                        update_annot(bar)
+                        annot.set_visible(True)
+                        self.fig.canvas.draw_idle()
+                        return
+            if vis:
+                annot.set_visible(False)
+                self.fig.canvas.draw_idle()
+
+        self.fig.canvas.mpl_connect("motion_notify_event", hover)
+
+        # Set chart titles and labels
         self.fig.suptitle("Thống kê doanh thu 7 ngày gần nhất", fontsize=15)
-        self.ax.set_ylabel("Giá trị (Triệu VNĐ)")
+        self.ax.set_ylabel("Giá trị (VNĐ)")
         self.ax.set_xlabel("Ngày")
 
-        # Set X-axis labels
-        # self.ax.set_xticks(x)
-        # self.ax.set_xticklabels(date_labels, rotation=30, ha="right")
-
-        step = max(1, len(x) // 10)  # Hiển thị khoảng 10 nhãn, điều chỉnh tùy dữ liệu
+        step = max(1, len(x) // 10)
         self.ax.set_xticks(x[::step])
         self.ax.set_xticklabels(date_labels[::step], rotation=0, ha="right")
 
-        # Grid and Legend
         self.ax.grid(True, linestyle="--", alpha=0.6)
         self.ax.legend()
+
 
 class show_year_chart(FigureCanvasQTAgg):
     def __init__(self ,yearStart ,yearEnd):
@@ -406,7 +425,35 @@ class show_year_chart(FigureCanvasQTAgg):
        
         rects = self.ax.bar(x, doanh_thu, width, label="Doanh thu", color="#1e90ff")
         
+        # Tooltip annotation
+        annot = self.ax.annotate("", xy=(0,0), xytext=(15,15), textcoords="offset points",
+                                 bbox=dict(boxstyle="round", fc="w"),
+                                 arrowprops=dict(arrowstyle="->"))
+        annot.set_visible(False)
 
+        def update_annot(bar):
+            x = bar.get_x() + bar.get_width() / 2
+            y = bar.get_height()
+            annot.xy = (x, y)
+            text = f"{y:,.0f} VND"
+            annot.set_text(text)
+            annot.get_bbox_patch().set_alpha(0.9)
+
+        def hover(event):
+            vis = annot.get_visible()
+            if event.inaxes == self.ax:
+                for bar in rects:
+                    contains, _ = bar.contains(event)
+                    if contains:
+                        update_annot(bar)
+                        annot.set_visible(True)
+                        self.fig.canvas.draw_idle()
+                        return
+            if vis:
+                annot.set_visible(False)
+                self.fig.canvas.draw_idle()
+
+        self.fig.canvas.mpl_connect("motion_notify_event", hover)
         # Add labels on top of bars
         
 
@@ -449,7 +496,35 @@ class show_month_chart(FigureCanvasQTAgg):
         rects = self.ax.bar(x, doanh_thu, width, label="Doanh thu", color="#1e90ff")
         
 
-        # Add labels on top of bars
+        # Tooltip annotation
+        annot = self.ax.annotate("", xy=(0,0), xytext=(15,15), textcoords="offset points",
+                                 bbox=dict(boxstyle="round", fc="w"),
+                                 arrowprops=dict(arrowstyle="->"))
+        annot.set_visible(False)
+
+        def update_annot(bar):
+            x = bar.get_x() + bar.get_width() / 2
+            y = bar.get_height()
+            annot.xy = (x, y)
+            text = f"{y:,.0f} VND"
+            annot.set_text(text)
+            annot.get_bbox_patch().set_alpha(0.9)
+
+        def hover(event):
+            vis = annot.get_visible()
+            if event.inaxes == self.ax:
+                for bar in rects:
+                    contains, _ = bar.contains(event)
+                    if contains:
+                        update_annot(bar)
+                        annot.set_visible(True)
+                        self.fig.canvas.draw_idle()
+                        return
+            if vis:
+                annot.set_visible(False)
+                self.fig.canvas.draw_idle()
+
+        self.fig.canvas.mpl_connect("motion_notify_event", hover)
         
 
         # Title and Labels
