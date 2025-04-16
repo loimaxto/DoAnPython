@@ -345,11 +345,12 @@ class Ui_StatisticsMainWindow(object):
 "                font-weight: bold;\n"
 "            }\n"
 "QPushButton:hover {\n"
-"               border: 1px solid #2980b9;\n"
-"               background-color: white; \n"
+"               color: white;\n"
+"               background-color: #3498db; \n"
 "}\n"
 "QPushButton:pressed {\n"
-"               background-color: white; \n"
+"               color: white;\n"
+"               background-color: #3498db; \n"
 "}")
         self.statistisBtn.setObjectName("statistisBtn")
         self.horizontalLayout_7.addWidget(self.statistisBtn)
@@ -369,11 +370,12 @@ class Ui_StatisticsMainWindow(object):
 "                font-weight: bold;\n"
 "            }\n"
 "QPushButton:hover {\n"
-"               border: 1px solid #2980b9;\n"
-"               background-color: white; \n"
+"               color: white;\n"
+"               background-color: #3498db; \n"
 "}\n"
 "QPushButton:pressed {\n"
-"               background-color: white; \n"
+"               color: white;\n"
+"               background-color: #3498db; \n"
 "}")
         self.refreshBtn.setObjectName("refreshBtn")
         self.horizontalLayout_7.addWidget(self.refreshBtn)
@@ -393,11 +395,12 @@ class Ui_StatisticsMainWindow(object):
 "                font-weight: bold;\n"
 "            }\n"
 "QPushButton:hover {\n"
-"               border: 1px solid #2980b9;\n"
-"               background-color: white; \n"
+"               color: white;\n"
+"               background-color: #3498db; \n"
 "}\n"
 "QPushButton:pressed {\n"
-"               background-color: white; \n"
+"               color: white;\n"
+"               background-color: #3498db; \n"
 "}")
         self.exportExcelBtn.setObjectName("exportExcelBtn")
         self.horizontalLayout_7.addWidget(self.exportExcelBtn)
@@ -454,11 +457,12 @@ class Ui_StatisticsMainWindow(object):
 "                font-weight: bold;\n"
 "            }\n"
 "QPushButton:hover {\n"
-"               border: 1px solid #2980b9;\n"
-"               background-color: white; \n"
+"               color: white;\n"
+"               background-color: #3498db; \n"
 "}\n"
 "QPushButton:pressed {\n"
-"               background-color: white; \n"
+"               color: white;\n"
+"               background-color: #3498db; \n"
 "}")
         self.exportExcelBtn_2.setObjectName("exportExcelBtn_2")
         self.horizontalLayout_8.addWidget(self.exportExcelBtn_2, 0, QtCore.Qt.AlignmentFlag.AlignLeft)
@@ -519,11 +523,12 @@ class Ui_StatisticsMainWindow(object):
 "                font-weight: bold;\n"
 "            }\n"
 "QPushButton:hover {\n"
-"               border: 1px solid #2980b9;\n"
-"               background-color: white; \n"
+"               color: white;\n"
+"               background-color: #3498db; \n"
 "}\n"
 "QPushButton:pressed {\n"
-"               background-color: white; \n"
+"               color: white;\n"
+"               background-color: #3498db; \n"
 "}")
         self.statisticDateBtn.setObjectName("statisticDateBtn")
         self.horizontalLayout_9.addWidget(self.statisticDateBtn)
@@ -543,11 +548,12 @@ class Ui_StatisticsMainWindow(object):
 "                font-weight: bold;\n"
 "            }\n"
 "QPushButton:hover {\n"
-"               border: 1px solid #2980b9;\n"
-"               background-color: white; \n"
+"               color: white;\n"
+"               background-color: #3498db; \n"
 "}\n"
 "QPushButton:pressed {\n"
-"               background-color: white; \n"
+"               color: white;\n"
+"               background-color: #3498db; \n"
 "}")
         self.refreshDateBtn.setObjectName("refreshDateBtn")
         self.horizontalLayout_9.addWidget(self.refreshDateBtn)
@@ -567,11 +573,12 @@ class Ui_StatisticsMainWindow(object):
 "                font-weight: bold;\n"
 "            }\n"
 "QPushButton:hover {\n"
-"               border: 1px solid #2980b9;\n"
-"               background-color: white; \n"
+"               color: white;\n"
+"               background-color: #3498db; \n"
 "}\n"
 "QPushButton:pressed {\n"
-"               background-color: white; \n"
+"               color: white;\n"
+"               background-color: #3498db; \n"
 "}")
         self.exportExcelBtn_3.setObjectName("exportExcelBtn_3")
         self.horizontalLayout_9.addWidget(self.exportExcelBtn_3)
@@ -595,7 +602,7 @@ class Ui_StatisticsMainWindow(object):
         self.verticalLayout.addWidget(self.stackedWidget)
 
         self.retranslateUi(StatisticsMainWindow)
-        self.stackedWidget.setCurrentIndex(0)
+        self.stackedWidget.setCurrentIndex(1)
         self.stackedWidget_2.setCurrentIndex(0)
         QtCore.QMetaObject.connectSlotsByName(StatisticsMainWindow)
 
