@@ -12,6 +12,11 @@ from PyQt6.QtWidgets import (
     QMessageBox,
     QFileDialog,
     QTableWidgetItem,
+    QDialog, 
+    QVBoxLayout, 
+    QLabel, 
+    QPushButton, 
+    QHBoxLayout
 )
 import sqlite3
 import os
@@ -225,70 +230,96 @@ class StaffManagementWindow(QtWidgets.QWidget, Ui_StaffManagement):
         search_term = self.searchLineEdit.text()
         self.load_fake_data(search_term)
 
-    def importExcel(self):
+    def downloadTemplate(self):
         try:
-            # Open file dialog to select Excel file
+            save_path, _ = QFileDialog.getSaveFileName(
+                self, "Lưu file mẫu", "hotel_file_template.xlsx", "Excel Files (*.xlsx);;All Files (*)"
+            )
+            if not save_path:
+                return
+
+            # Dữ liệu mẫu
+            columns = ["_id", "hoten", "sodienthoai", "email", "diachi", "chucvu"]
+            sample_data = [
+                [None, "Nguyễn Văn A", "912345678", "email@example.com", "123 Đường A", "Nhân viên"]
+            ]
+            df = pd.DataFrame(sample_data, columns=columns)
+
+            # Ghi ra file Excel
+            df.to_excel(save_path, index=False)
+            QMessageBox.information(self, "✅ Thành công", "Đã tạo file mẫu thành công.")
+        except Exception as e:
+            QMessageBox.critical(self, "❌ Lỗi", f"Không thể tạo file mẫu: {str(e)}")
+
+    def importExcel(self):
+        # Hiển thị câu hỏi trước
+        dialog = ExcelChoiceDialog(self)
+        result = dialog.exec()
+
+        if result == 2:
+            self.downloadTemplate()
+            return
+
+        elif result == 1:
+            # tiếp tục xử lý import
+            ...
+        else:
+            return  # hủy
+        # ======= TIẾP TỤC XỬ LÝ NHẬP EXCEL =======
+        try:
+
             file_path, _ = QFileDialog.getOpenFileName(
-                self, "Open Excel File", "", "Excel Files (*.xlsx *.xls);;All Files (*)"
+                self, "Chọn file Excel", "", "Excel Files (*.xlsx *.xls);;All Files (*)"
             )
             if not file_path:
                 return
 
-            # Read Excel file
+            # Đọc file
             try:
                 df = pd.read_excel(file_path, header=None, dtype={2: str})
-                expected_columns = ["_id", "hoten","sodienthoai", "email" , "diachi", "chucvu"]
+                expected_columns = ["_id", "hoten", "sodienthoai", "email", "diachi", "chucvu"]
                 df.columns = expected_columns
                 df.drop(columns=["_id"], inplace=True)
             except Exception as e:
-                raise ValueError(f"Failed to read Excel file: {str(e)}")
+                raise ValueError(f"Không thể đọc file Excel: {str(e)}")
 
-            # Clean and validate data
+            # Làm sạch dữ liệu
             df["hoten"] = df["hoten"].astype(str).str.strip()
-            df["sodienthoai"] = ("0"+df["sodienthoai"]).astype(str).str.strip()
+            df["sodienthoai"] = ("0" + df["sodienthoai"]).astype(str).str.strip()
             df["email"] = df["email"].astype(str).str.strip().str.lower()
             df["diachi"] = df["diachi"].astype(str).str.strip()
             df["chucvu"] = df["chucvu"].astype(str).str.strip()
 
-            # Basic validation
+            # Kiểm tra dữ liệu
             for index, row in df.iterrows():
                 if not row["hoten"]:
-                    raise ValueError(f"Row {index + 1}: Missing 'hoten'.")
+                    raise ValueError(f"Dòng {index + 1}: Thiếu họ tên.")
                 if not row["sodienthoai"] or not row["sodienthoai"].isdigit():
-                    raise ValueError(f"Row {index + 1}: Invalid 'sodienthoai' ({row['sodienthoai']}).")
+                    raise ValueError(f"Dòng {index + 1}: SĐT không hợp lệ ({row['sodienthoai']}).")
                 if not row["email"] or "@" not in row["email"]:
-                    raise ValueError(f"Row {index + 1}: Invalid 'email' ({row['email']}).")
+                    raise ValueError(f"Dòng {index + 1}: Email không hợp lệ ({row['email']}).")
 
-            # Get existing data from DB
-            try:
-                existing_sdt = set(self.dao_staff.get_all_sodienthoai() or [])
-                existing_email = set(self.dao_staff.get_all_email() or [])
-            except Exception as e:
-                raise ValueError(f"Failed to fetch existing data from database: {str(e)}")
+            # Lấy dữ liệu sẵn có trong DB
+            existing_sdt = set(self.dao_staff.get_all_sodienthoai() or [])
+            existing_email = set(self.dao_staff.get_all_email() or [])
+            last_id = self.dao_staff.get_last_id() or 0
+            new_id = last_id + 1
 
-            # Auto-increment ID
-            try:
-                last_id = self.dao_staff.get_last_id() or 0
-                new_id = last_id + 1
-            except Exception as e:
-                raise ValueError(f"Failed to get last ID: {str(e)}")
-
-            inserted = 0
-            skipped = 0
+            inserted, skipped = 0, 0
             dupes = []
 
-            # Process each row
+
             for _, row in df.iterrows():
                 sdt = row["sodienthoai"]
                 email = row["email"]
 
-                # Check for duplicates
+
                 if sdt in existing_sdt or email in existing_email:
                     skipped += 1
                     dupes.append((sdt, email))
                     continue
 
-                # Insert new record
+
                 try:
                     dto = NhanVienDTO(new_id, row["hoten"], email, sdt, row["diachi"], row["chucvu"])
                     self.dao_staff.insert_nhan_vien(dto)
@@ -297,23 +328,23 @@ class StaffManagementWindow(QtWidgets.QWidget, Ui_StaffManagement):
                     existing_email.add(email)
                     new_id += 1
                 except Exception as e:
-                    raise ValueError(f"Failed to insert record for {row['hoten']}: {str(e)}")
+                    raise ValueError(f"Lỗi khi thêm {row['hoten']}: {str(e)}")
 
-            # Display duplicates
+            # Thông báo kết quả
             if dupes:
                 print("⚠️ Các dòng bị bỏ qua do trùng:")
                 for sdt, email in dupes:
                     print(f" - {sdt} | {email}")
 
-            # Show success message
+
             QMessageBox.information(
                 self,
                 "✅ Thành công",
-                f"Đã nhập {inserted} nhân viên mới từ Excel.\nBỏ qua {skipped} dòng do trùng SĐT hoặc Email."
+                f"Đã nhập {inserted} nhân viên mới từ Excel.\n"
+                f"Bỏ qua {skipped} dòng do trùng SĐT hoặc Email."
             )
 
-            # Refresh UI (assuming this is what you meant)
-            self.load_fake_data()  # Replace with your actual method to refresh UI
+            self.load_fake_data()  # Cập nhật UI
 
         except ValueError as ve:
             QMessageBox.critical(self, "❌ Lỗi", str(ve))
@@ -390,6 +421,39 @@ class StaffManagementWindow(QtWidgets.QWidget, Ui_StaffManagement):
 
         except Exception as e:
             print(f"❌ Error exporting to Excel: {e}")
+class ExcelChoiceDialog(QDialog):
+    def __init__(self, parent=None):
+        super().__init__(parent)
+        self.setWindowTitle("❓ Bạn đã có file Excel?")
+        self.setMinimumWidth(400)
+
+        layout = QVBoxLayout()
+
+        label = QLabel("Bạn muốn sử dụng file Excel đã có sẵn, hay tải mẫu để điền dữ liệu?")
+        label.setWordWrap(True)
+        layout.addWidget(label)
+
+        # Nút lựa chọn
+        button_layout = QHBoxLayout()
+        self.btn_import = QPushButton("📥 Nhập file Excel")
+        self.btn_template = QPushButton("⬇️ Tải file mẫu")
+        self.btn_cancel = QPushButton("❌ Hủy")
+
+        # Căn giữa
+        button_layout.addStretch()
+        button_layout.addWidget(self.btn_import)
+        button_layout.addWidget(self.btn_template)
+        button_layout.addWidget(self.btn_cancel)
+        button_layout.addStretch()
+
+        layout.addLayout(button_layout)
+        self.setLayout(layout)
+
+        # Liên kết nút
+        self.btn_import.clicked.connect(lambda: self.done(1))
+        self.btn_template.clicked.connect(lambda: self.done(2))
+        self.btn_cancel.clicked.connect(lambda: self.done(0))
+
 
 if __name__ == "__main__":
     app = QtWidgets.QApplication(sys.argv)
