@@ -158,6 +158,10 @@ class StaffManagementWindow(QtWidgets.QWidget, Ui_StaffManagement):
             return
 
         try:   
+            if self.is_update_state:
+                selected_indexes = self.staffTableView.selectionModel().selectedIndexes()
+            if selected_indexes:
+                id = selected_indexes[0].row()
             new_name = self.nameLineEdit.text()
             new_phone = self.phoneLineEdit.text()
             new_email = self.emailLineEdit.text()
@@ -168,15 +172,14 @@ class StaffManagementWindow(QtWidgets.QWidget, Ui_StaffManagement):
             self.dto_nv.email = new_email
             self.dto_nv.chuc_vu = new_position
             self.dto_nv.dia_chi = new_address
-
             # Check if all fields are filled
             if not new_name or not new_phone or not new_email or not new_address or not new_position:
                 QMessageBox.information(self, "Cảnh báo", "Hãy điền đầy đủ thông tin nhân viên!")
                 return
             # Check if phone number or email already exists
-            if self.dao_staff.check_staff_exists(sdt=new_phone, email=new_email):
-                QMessageBox.warning(self, "Cảnh báo", "Số điện thoại hoặc email đã tồn tại!")
-                return
+            if self.dao_staff.is_duplicate_staff(id+1,sdt=new_phone, email=new_email):
+                QMessageBox.warning(self, "Cảnh báo","Số điện thoại hoặc email đã tồn tại!")
+                return  # or raise error / show warning
             # Check if phone number is valid
             if not new_phone.isdigit() or len(new_phone) != 10:
                 QMessageBox.warning(self, "Cảnh báo", "Số điện thoại không hợp lệ!")

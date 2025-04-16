@@ -66,11 +66,33 @@ class NhanVienDAO:
     def check_staff_exists(self, sdt = None , email = None) -> bool:
         if sdt is None and email is None:
             return False  # If both are None, no staff can exist with these values.
-        query = "SELECT COUNT(*) FROM nhan_vien WHERE (sdt = ? OR email = ?)"
-        result = self.db.execute_query(query, (sdt if sdt else '', email if email else '',))
+        query = """
+                SELECT COUNT(*)
+                FROM nhan_vien
+                WHERE (sdt = ? OR email = ?) AND nv_id != ?
+                """
+        result = self.db.execute_query(query, (sdt if sdt else '', email if email else '',id if id else ''))
         if result and isinstance(result, list) and len(result) > 0 and len(result[0]) > 0:
             return result[0][0] > 0
         return False
+
+    def is_duplicate_staff(self,  current_id,sdt=None, email=None) -> bool:
+        if sdt:
+            query = "SELECT COUNT(*) FROM nhan_vien WHERE sdt = ? AND nv_id != ?"
+            result = self.db.execute_query(query, (sdt, current_id))
+            if result and result[0][0] > 0:
+                return True
+
+        if email:
+            query = "SELECT COUNT(*) FROM nhan_vien WHERE email = ? AND nv_id != ?"
+            result = self.db.execute_query(query, (email, current_id))
+            if result and result[0][0] > 0:
+                return True
+
+        return False
+
+
+
     
     def get_all_sodienthoai(self):
         query = "SELECT TRIM(sdt) FROM nhan_vien"

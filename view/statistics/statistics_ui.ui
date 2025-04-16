@@ -108,7 +108,7 @@
    <item>
     <widget class="QStackedWidget" name="stackedWidget">
      <property name="currentIndex">
-      <number>0</number>
+      <number>1</number>
      </property>
      <widget class="QWidget" name="overViewPage">
       <layout class="QVBoxLayout" name="verticalLayout_6">
@@ -680,11 +680,12 @@
 				font-weight: bold;
             }
 QPushButton:hover {
-			   border: 1px solid #2980b9;
-               background-color: white; 
+			   color: white;
+               background-color: #3498db; 
 }
 QPushButton:pressed {
-               background-color: white; 
+			   color: white;
+               background-color: #3498db; 
 }</string>
                  </property>
                  <property name="text">
@@ -712,11 +713,12 @@ QPushButton:pressed {
 				font-weight: bold;
             }
 QPushButton:hover {
-			   border: 1px solid #2980b9;
-               background-color: white; 
+			   color: white;
+               background-color: #3498db; 
 }
 QPushButton:pressed {
-               background-color: white; 
+			   color: white;
+               background-color: #3498db; 
 }</string>
                  </property>
                  <property name="text">
@@ -744,11 +746,12 @@ QPushButton:pressed {
 				font-weight: bold;
             }
 QPushButton:hover {
-			   border: 1px solid #2980b9;
-               background-color: white; 
+			   color: white;
+               background-color: #3498db; 
 }
 QPushButton:pressed {
-               background-color: white; 
+			   color: white;
+               background-color: #3498db; 
 }</string>
                  </property>
                  <property name="text">
@@ -862,11 +865,12 @@ QPushButton:pressed {
 				font-weight: bold;
             }
 QPushButton:hover {
-			   border: 1px solid #2980b9;
-               background-color: white; 
+			   color: white;
+               background-color: #3498db; 
 }
 QPushButton:pressed {
-               background-color: white; 
+			   color: white;
+               background-color: #3498db; 
 }</string>
                  </property>
                  <property name="text">
@@ -983,11 +987,12 @@ QPushButton:pressed {
 				font-weight: bold;
             }
 QPushButton:hover {
-			   border: 1px solid #2980b9;
-               background-color: white; 
+			   color: white;
+               background-color: #3498db; 
 }
 QPushButton:pressed {
-               background-color: white; 
+			   color: white;
+               background-color: #3498db; 
 }</string>
                  </property>
                  <property name="text">
@@ -1015,11 +1020,12 @@ QPushButton:pressed {
 				font-weight: bold;
             }
 QPushButton:hover {
-			   border: 1px solid #2980b9;
-               background-color: white; 
+			   color: white;
+               background-color: #3498db; 
 }
 QPushButton:pressed {
-               background-color: white; 
+			   color: white;
+               background-color: #3498db; 
 }</string>
                  </property>
                  <property name="text">
@@ -1047,11 +1053,12 @@ QPushButton:pressed {
 				font-weight: bold;
             }
 QPushButton:hover {
-			   border: 1px solid #2980b9;
-               background-color: white; 
+			   color: white;
+               background-color: #3498db; 
 }
 QPushButton:pressed {
-               background-color: white; 
+			   color: white;
+               background-color: #3498db; 
 }</string>
                  </property>
                  <property name="text">
