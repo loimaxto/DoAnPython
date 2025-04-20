@@ -21,10 +21,10 @@ class chitiet_hoadon(Ui_MainWindow, QtWidgets.QMainWindow):
         # lấy dữ liệu hóa đơn
         data = self.cur.execute("select * from \
                                 hoa_don left join nhan_vien on hoa_don.nv_id=nhan_vien.nv_id \
-                                left join dat_phong on hd_id=booking_id \
+                                left join dat_phong on hoa_don.hd_id=dat_phong.hd_id \
                                 left join khach_hang on dat_phong.kh_id=khach_hang.kh_id \
                                 left join phong on dat_phong.phong_id=phong.id\
-                                where hd_id=?", (id, ))
+                                where hoa_don.hd_id=?", (id, ))
         data = data.fetchone()
         print(data)
         #hiển thị ra gui
@@ -38,12 +38,12 @@ class chitiet_hoadon(Ui_MainWindow, QtWidgets.QMainWindow):
         # thông tin nhân viên
         self.in4_nhanvien.setText(f"{data[5]} - {data[6]} - {data[8]} - {data[10]}")
         # thông tin khách hàng
-        self.in4_khachhang.setText(f"{data[20]} - {data[21]}")
+        self.in4_khachhang.setText(f"{data[21]} - {data[22]}")
         # thông tin phòng
         self.ngaydatphong.setText(f"{data[12]}"); self.ngaytraphong.setText(f"{data[13]}")
         self.phicoc.setText(f"{data[14]}VND"); self.tienphong.setText(f"{data[17]}VND")
-        self.maphong.setText(f"{data[23]}"); self.tenphong.setText(f"{data[24]}")
-        self.sogiuong.setText(f"{data[25]}"); self.loaiphong.setText(f"{data[29]}")
+        self.maphong.setText(f"{data[24]}"); self.tenphong.setText(f"{data[25]}")
+        self.sogiuong.setText(f"{data[26]}"); self.loaiphong.setText(f"{data[30]}")
 
         # lấy dữ liệu các dịch vụ
         data = self.cur.execute("select * from chi_tiet_dv\

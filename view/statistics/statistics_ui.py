@@ -12,7 +12,7 @@ from PyQt6 import QtCore, QtGui, QtWidgets
 class Ui_StatisticsMainWindow(object):
     def setupUi(self, StatisticsMainWindow):
         StatisticsMainWindow.setObjectName("StatisticsMainWindow")
-        StatisticsMainWindow.resize(1131, 839)
+        StatisticsMainWindow.resize(1143, 839)
         font = QtGui.QFont()
         font.setPointSize(11)
         StatisticsMainWindow.setFont(font)
@@ -103,6 +103,11 @@ class Ui_StatisticsMainWindow(object):
         font.setBold(True)
         font.setWeight(75)
         self.occupied_rooms.setFont(font)
+        self.occupied_rooms.setStyleSheet("QLabel{\n"
+"    font-weight : bold;\n"
+"    font-size: 4rem;\n"
+"    color:white ;\n"
+"}")
         self.occupied_rooms.setAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
         self.occupied_rooms.setObjectName("occupied_rooms")
         self.verticalLayout_2.addWidget(self.occupied_rooms, 0, QtCore.Qt.AlignmentFlag.AlignHCenter)
@@ -137,6 +142,11 @@ class Ui_StatisticsMainWindow(object):
         font.setBold(True)
         font.setWeight(75)
         self.available_rooms.setFont(font)
+        self.available_rooms.setStyleSheet("QLabel{\n"
+"    font-weight : bold;\n"
+"    font-size: 4rem;\n"
+"    color:white ;\n"
+"}")
         self.available_rooms.setAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
         self.available_rooms.setObjectName("available_rooms")
         self.verticalLayout_4.addWidget(self.available_rooms, 0, QtCore.Qt.AlignmentFlag.AlignHCenter)
@@ -157,7 +167,7 @@ class Ui_StatisticsMainWindow(object):
         self.horizontalLayout_5.setObjectName("horizontalLayout_5")
         self.label_5 = QtWidgets.QLabel(parent=self.overViewPage)
         self.label_5.setMinimumSize(QtCore.QSize(100, 100))
-        self.label_5.setMaximumSize(QtCore.QSize(120, 100))
+        self.label_5.setMaximumSize(QtCore.QSize(130, 100))
         self.label_5.setText("")
         self.label_5.setPixmap(QtGui.QPixmap("D:\\DoAnPython\\view\\statistics\\../../image/383-3830000_roadmap-clipart.png"))
         self.label_5.setScaledContents(True)
@@ -173,6 +183,11 @@ class Ui_StatisticsMainWindow(object):
         font.setBold(True)
         font.setWeight(75)
         self.staffs.setFont(font)
+        self.staffs.setStyleSheet("QLabel{\n"
+"    font-weight : bold;\n"
+"    font-size: 4rem;\n"
+"    color:white ;\n"
+"}")
         self.staffs.setAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
         self.staffs.setObjectName("staffs")
         self.verticalLayout_3.addWidget(self.staffs, 0, QtCore.Qt.AlignmentFlag.AlignHCenter)
@@ -203,6 +218,9 @@ class Ui_StatisticsMainWindow(object):
         self.tableOverView.setMinimumSize(QtCore.QSize(1085, 250))
         self.tableOverView.setMaximumSize(QtCore.QSize(16777215, 250))
         self.tableOverView.setBaseSize(QtCore.QSize(1085, 250))
+        self.tableOverView.setStyleSheet("QTableView {\n"
+"        font-size: 14px;\n"
+"        }")
         self.tableOverView.setObjectName("tableOverView")
         self.verticalLayout_5.addWidget(self.tableOverView)
         self.verticalLayout_6.addLayout(self.verticalLayout_5)
@@ -313,40 +331,77 @@ class Ui_StatisticsMainWindow(object):
         self.horizontalLayout_7.addWidget(self.endYearTXT)
         self.statistisBtn = QtWidgets.QPushButton(parent=self.thongKeTheoNamPage)
         font = QtGui.QFont()
-        font.setPointSize(11)
-        font.setBold(False)
-        font.setWeight(50)
+        font.setPointSize(-1)
+        font.setBold(True)
+        font.setWeight(75)
         self.statistisBtn.setFont(font)
-        self.statistisBtn.setStyleSheet("            QPushButton:hover {\n"
-"                border: 3px solid #2980b9; /* Darker blue on hover */\n"
+        self.statistisBtn.setStyleSheet("QPushButton {\n"
+"                background-color: #f5f5f5; \n"
+"                color: black;\n"
+"                border: none;\n"
+"                padding: 5px 5px;\n"
+"                font-size: 14px;\n"
+"                border-radius : 5px;\n"
+"                font-weight: bold;\n"
 "            }\n"
-"            QPushButton:pressed {\n"
-"                border: 3px solid #1f618d; /* Even darker blue on press */\n"
-"            }")
+"QPushButton:hover {\n"
+"               color: white;\n"
+"               background-color: #3498db; \n"
+"}\n"
+"QPushButton:pressed {\n"
+"               color: white;\n"
+"               background-color: #3498db; \n"
+"}")
         self.statistisBtn.setObjectName("statistisBtn")
         self.horizontalLayout_7.addWidget(self.statistisBtn)
         self.refreshBtn = QtWidgets.QPushButton(parent=self.thongKeTheoNamPage)
         font = QtGui.QFont()
-        font.setPointSize(11)
+        font.setPointSize(-1)
+        font.setBold(True)
+        font.setWeight(75)
         self.refreshBtn.setFont(font)
-        self.refreshBtn.setStyleSheet("QPushButton:hover {\n"
-"                border: 3px solid #2980b9; /* Darker blue on hover */\n"
+        self.refreshBtn.setStyleSheet("QPushButton {\n"
+"                background-color: #f5f5f5; \n"
+"                color: black;\n"
+"                border: none;\n"
+"                padding: 5px 5px;\n"
+"                font-size: 14px;\n"
+"                border-radius : 5px;\n"
+"                font-weight: bold;\n"
 "            }\n"
-"            QPushButton:pressed {\n"
-"                border: 3px solid #1f618d; /* Even darker blue on press */\n"
-"            }")
+"QPushButton:hover {\n"
+"               color: white;\n"
+"               background-color: #3498db; \n"
+"}\n"
+"QPushButton:pressed {\n"
+"               color: white;\n"
+"               background-color: #3498db; \n"
+"}")
         self.refreshBtn.setObjectName("refreshBtn")
         self.horizontalLayout_7.addWidget(self.refreshBtn)
         self.exportExcelBtn = QtWidgets.QPushButton(parent=self.thongKeTheoNamPage)
         font = QtGui.QFont()
-        font.setPointSize(11)
+        font.setPointSize(-1)
+        font.setBold(True)
+        font.setWeight(75)
         self.exportExcelBtn.setFont(font)
-        self.exportExcelBtn.setStyleSheet("QPushButton:hover {\n"
-"                border: 3px solid #2980b9; /* Darker blue on hover */\n"
+        self.exportExcelBtn.setStyleSheet("QPushButton {\n"
+"                background-color: #f5f5f5; \n"
+"                color: black;\n"
+"                border: none;\n"
+"                padding: 5px 5px;\n"
+"                font-size: 14px;\n"
+"                border-radius : 5px;\n"
+"                font-weight: bold;\n"
 "            }\n"
-"            QPushButton:pressed {\n"
-"                border: 3px solid #1f618d; /* Even darker blue on press */\n"
-"            }")
+"QPushButton:hover {\n"
+"               color: white;\n"
+"               background-color: #3498db; \n"
+"}\n"
+"QPushButton:pressed {\n"
+"               color: white;\n"
+"               background-color: #3498db; \n"
+"}")
         self.exportExcelBtn.setObjectName("exportExcelBtn")
         self.horizontalLayout_7.addWidget(self.exportExcelBtn)
         spacerItem9 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Policy.Expanding, QtWidgets.QSizePolicy.Policy.Minimum)
@@ -361,6 +416,10 @@ class Ui_StatisticsMainWindow(object):
         self.tableYearStatisticView = QtWidgets.QTableView(parent=self.thongKeTheoNamPage)
         self.tableYearStatisticView.setMinimumSize(QtCore.QSize(1077, 250))
         self.tableYearStatisticView.setMaximumSize(QtCore.QSize(16777215, 250))
+        self.tableYearStatisticView.setStyleSheet("QTableView {\n"
+"        font-size: 14px;\n"
+"        }\n"
+"   ")
         self.tableYearStatisticView.setObjectName("tableYearStatisticView")
         self.verticalLayout_10.addWidget(self.tableYearStatisticView)
         self.stackedWidget_2.addWidget(self.thongKeTheoNamPage)
@@ -384,14 +443,27 @@ class Ui_StatisticsMainWindow(object):
         self.horizontalLayout_8.addWidget(self.yearOfMonths)
         self.exportExcelBtn_2 = QtWidgets.QPushButton(parent=self.thongKeTheoTNTTPage)
         font = QtGui.QFont()
-        font.setPointSize(11)
+        font.setPointSize(-1)
+        font.setBold(True)
+        font.setWeight(75)
         self.exportExcelBtn_2.setFont(font)
-        self.exportExcelBtn_2.setStyleSheet("QPushButton:hover {\n"
-"                border: 3px solid #2980b9; /* Darker blue on hover */\n"
+        self.exportExcelBtn_2.setStyleSheet("QPushButton {\n"
+"                background-color: #f5f5f5; \n"
+"                color: black;\n"
+"                border: none;\n"
+"                padding: 5px 5px;\n"
+"                font-size: 14px;\n"
+"                border-radius : 5px;\n"
+"                font-weight: bold;\n"
 "            }\n"
-"            QPushButton:pressed {\n"
-"                border: 3px solid #1f618d; /* Even darker blue on press */\n"
-"            }")
+"QPushButton:hover {\n"
+"               color: white;\n"
+"               background-color: #3498db; \n"
+"}\n"
+"QPushButton:pressed {\n"
+"               color: white;\n"
+"               background-color: #3498db; \n"
+"}")
         self.exportExcelBtn_2.setObjectName("exportExcelBtn_2")
         self.horizontalLayout_8.addWidget(self.exportExcelBtn_2, 0, QtCore.Qt.AlignmentFlag.AlignLeft)
         self.verticalLayout_11.addLayout(self.horizontalLayout_8)
@@ -404,6 +476,10 @@ class Ui_StatisticsMainWindow(object):
         self.tableMonthStatisticView = QtWidgets.QTableView(parent=self.thongKeTheoTNTTPage)
         self.tableMonthStatisticView.setMinimumSize(QtCore.QSize(1077, 250))
         self.tableMonthStatisticView.setMaximumSize(QtCore.QSize(16777215, 250))
+        self.tableMonthStatisticView.setStyleSheet("QTableView {\n"
+"        font-size: 14px;\n"
+"        }\n"
+"   ")
         self.tableMonthStatisticView.setObjectName("tableMonthStatisticView")
         self.verticalLayout_12.addWidget(self.tableMonthStatisticView)
         self.stackedWidget_2.addWidget(self.thongKeTheoTNTTPage)
@@ -433,38 +509,77 @@ class Ui_StatisticsMainWindow(object):
         self.horizontalLayout_9.addWidget(self.dateEndTXT)
         self.statisticDateBtn = QtWidgets.QPushButton(parent=self.thongKeTheoTTTNPage)
         font = QtGui.QFont()
-        font.setPointSize(11)
+        font.setPointSize(-1)
+        font.setBold(True)
+        font.setWeight(75)
         self.statisticDateBtn.setFont(font)
-        self.statisticDateBtn.setStyleSheet("QPushButton:hover {\n"
-"                border: 3px solid #2980b9; /* Darker blue on hover */\n"
+        self.statisticDateBtn.setStyleSheet("QPushButton {\n"
+"                background-color: #f5f5f5; \n"
+"                color: black;\n"
+"                border: none;\n"
+"                padding: 5px 5px;\n"
+"                font-size: 14px;\n"
+"                border-radius : 5px;\n"
+"                font-weight: bold;\n"
 "            }\n"
-"            QPushButton:pressed {\n"
-"                border: 3px solid #1f618d; /* Even darker blue on press */\n"
-"            }")
+"QPushButton:hover {\n"
+"               color: white;\n"
+"               background-color: #3498db; \n"
+"}\n"
+"QPushButton:pressed {\n"
+"               color: white;\n"
+"               background-color: #3498db; \n"
+"}")
         self.statisticDateBtn.setObjectName("statisticDateBtn")
         self.horizontalLayout_9.addWidget(self.statisticDateBtn)
         self.refreshDateBtn = QtWidgets.QPushButton(parent=self.thongKeTheoTTTNPage)
         font = QtGui.QFont()
-        font.setPointSize(11)
+        font.setPointSize(-1)
+        font.setBold(True)
+        font.setWeight(75)
         self.refreshDateBtn.setFont(font)
-        self.refreshDateBtn.setStyleSheet("QPushButton:hover {\n"
-"                border: 3px solid #2980b9; /* Darker blue on hover */\n"
+        self.refreshDateBtn.setStyleSheet("QPushButton {\n"
+"                background-color: #f5f5f5; \n"
+"                color: black;\n"
+"                border: none;\n"
+"                padding: 5px 5px;\n"
+"                font-size: 14px;\n"
+"                border-radius : 5px;\n"
+"                font-weight: bold;\n"
 "            }\n"
-"            QPushButton:pressed {\n"
-"                border: 3px solid #1f618d; /* Even darker blue on press */\n"
-"            }")
+"QPushButton:hover {\n"
+"               color: white;\n"
+"               background-color: #3498db; \n"
+"}\n"
+"QPushButton:pressed {\n"
+"               color: white;\n"
+"               background-color: #3498db; \n"
+"}")
         self.refreshDateBtn.setObjectName("refreshDateBtn")
         self.horizontalLayout_9.addWidget(self.refreshDateBtn)
         self.exportExcelBtn_3 = QtWidgets.QPushButton(parent=self.thongKeTheoTTTNPage)
         font = QtGui.QFont()
-        font.setPointSize(11)
+        font.setPointSize(-1)
+        font.setBold(True)
+        font.setWeight(75)
         self.exportExcelBtn_3.setFont(font)
-        self.exportExcelBtn_3.setStyleSheet("QPushButton:hover {\n"
-"                border: 3px solid #2980b9; /* Darker blue on hover */\n"
+        self.exportExcelBtn_3.setStyleSheet("QPushButton {\n"
+"                background-color: #f5f5f5; \n"
+"                color: black;\n"
+"                border: none;\n"
+"                padding: 5px 5px;\n"
+"                font-size: 14px;\n"
+"                border-radius : 5px;\n"
+"                font-weight: bold;\n"
 "            }\n"
-"            QPushButton:pressed {\n"
-"                border: 3px solid #1f618d; /* Even darker blue on press */\n"
-"            }")
+"QPushButton:hover {\n"
+"               color: white;\n"
+"               background-color: #3498db; \n"
+"}\n"
+"QPushButton:pressed {\n"
+"               color: white;\n"
+"               background-color: #3498db; \n"
+"}")
         self.exportExcelBtn_3.setObjectName("exportExcelBtn_3")
         self.horizontalLayout_9.addWidget(self.exportExcelBtn_3)
         spacerItem13 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Policy.Expanding, QtWidgets.QSizePolicy.Policy.Minimum)
@@ -472,6 +587,10 @@ class Ui_StatisticsMainWindow(object):
         self.verticalLayout_13.addLayout(self.horizontalLayout_9)
         self.verticalLayout_14.addLayout(self.verticalLayout_13)
         self.tableDateStatisticView = QtWidgets.QTableView(parent=self.thongKeTheoTTTNPage)
+        self.tableDateStatisticView.setStyleSheet("QTableView {\n"
+"        font-size: 14px;\n"
+"        }\n"
+"   ")
         self.tableDateStatisticView.setObjectName("tableDateStatisticView")
         self.verticalLayout_14.addWidget(self.tableDateStatisticView)
         self.stackedWidget_2.addWidget(self.thongKeTheoTTTNPage)
@@ -493,11 +612,11 @@ class Ui_StatisticsMainWindow(object):
         self.TongQuanBtn.setText(_translate("StatisticsMainWindow", "Tổng Quan"))
         self.DoanhThuBtn.setText(_translate("StatisticsMainWindow", "Doanh Thu"))
         self.occupied_rooms.setText(_translate("StatisticsMainWindow", "10"))
-        self.label_2.setText(_translate("StatisticsMainWindow", "OCCUPIED ROOMS"))
+        self.label_2.setText(_translate("StatisticsMainWindow", "PHÒNG BẬN"))
         self.available_rooms.setText(_translate("StatisticsMainWindow", "20"))
-        self.label_8.setText(_translate("StatisticsMainWindow", "AVAILABLE ROOMS"))
+        self.label_8.setText(_translate("StatisticsMainWindow", "PHÒNG TRỐNG"))
         self.staffs.setText(_translate("StatisticsMainWindow", "10"))
-        self.label_6.setText(_translate("StatisticsMainWindow", "STAFFS"))
+        self.label_6.setText(_translate("StatisticsMainWindow", "NHÂN VIÊN"))
         self.StaYearBtn.setText(_translate("StatisticsMainWindow", "Thống Kê Theo Năm"))
         self.StaMonthBtn.setText(_translate("StatisticsMainWindow", "Thống Kê Theo Từng Tháng Trong Năm"))
         self.StaDayToDayBtn.setText(_translate("StatisticsMainWindow", "Thống Kê Từ Ngày Đến Ngày"))
