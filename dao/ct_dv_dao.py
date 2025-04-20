@@ -12,11 +12,11 @@ class ChiTietDVDAO:
 
     def insert_chi_tiet_dv(self, chi_tiet_dv):
         query = "INSERT INTO chi_tiet_dv (hd_id, dv_id, so_luong, gia_luc_dat, tong) VALUES (?, ?, ?, ?, ?)"
-        return self.db.execute_query(query, (chi_tiet_dv.hd_id, chi_tiet_dv.dv_id, chi_tiet_dv.so_luong, chi_tiet_dv.gia_luc_dat, chi_tiet_dv.tong)) is not None
+        return self.db.execute_query(query, (chi_tiet_dv.hd_id, chi_tiet_dv.dv_id, chi_tiet_dv.so_luong, chi_tiet_dv.gia_luc_dat, chi_tiet_dv.so_luong * chi_tiet_dv.gia_luc_dat)) is not None
 
     def update_chi_tiet_dv(self, chi_tiet_dv):
         query = "UPDATE chi_tiet_dv SET so_luong = ?, gia_luc_dat = ?, tong = ? WHERE hd_id = ? AND dv_id = ?"
-        return self.db.execute_query(query, (chi_tiet_dv.so_luong, chi_tiet_dv.gia_luc_dat, chi_tiet_dv.tong, chi_tiet_dv.hd_id, chi_tiet_dv.dv_id)) is not None
+        return self.db.execute_query(query, (chi_tiet_dv.so_luong, chi_tiet_dv.gia_luc_dat, chi_tiet_dv.so_luong * chi_tiet_dv.gia_luc_dat, chi_tiet_dv.hd_id, chi_tiet_dv.dv_id)) is not None
 
     def delete_chi_tiet_dv(self, hd_id, dv_id):
         query = "DELETE FROM chi_tiet_dv WHERE hd_id = ? AND dv_id = ?"
