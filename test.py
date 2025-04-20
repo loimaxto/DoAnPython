@@ -1,86 +1,97 @@
-import sys
-import cv2
-from PyQt6.QtCore import Qt, QTimer
-from PyQt6.QtGui import QImage, QPixmap
-from PyQt6.QtWidgets import QApplication, QLabel, QMainWindow, QPushButton, QVBoxLayout, QWidget
+from PyQt6.QtWidgets import (QApplication, QWidget, QVBoxLayout, QHBoxLayout,
+                              QPushButton, QLabel)
+from PyQt6.QtCore import QPropertyAnimation, QEasingCurve, QPoint,Qt
 
 
-class CameraApp(QMainWindow):
+
+class VerticalPageSlider(QWidget):
     def __init__(self):
         super().__init__()
-        
-        self.setWindowTitle("PyQt6 Camera App")
-        self.setGeometry(100, 100, 800, 600)
-        
-        # Tạo widget trung tâm và layout
-        central_widget = QWidget()
-        self.setCentralWidget(central_widget)
-        layout = QVBoxLayout(central_widget)
-        
-        # Tạo label để hiển thị hình ảnh từ camera
-        self.image_label = QLabel()
-        self.image_label.setAlignment(Qt.AlignmentFlag.AlignCenter)
-        layout.addWidget(self.image_label)
-        
-        # Tạo nút để bật/tắt camera
-        self.toggle_button = QPushButton("Bật Camera")
-        self.toggle_button.clicked.connect(self.toggle_camera)
-        layout.addWidget(self.toggle_button)
-        
-        # Khởi tạo camera
-        self.camera = None
-        self.camera_active = False
-        
-        # Timer để cập nhật hình ảnh từ camera
-        self.timer = QTimer()
-        self.timer.timeout.connect(self.update_frame)
+        self.current_index = 0
+        self.pages = []
+        self.animation = None
+        self.setup_ui()
     
-    def toggle_camera(self):
-        if not self.camera_active:
-            # Mở camera
-            self.camera = cv2.VideoCapture(0)  # 0 là camera mặc định
-            
-            if not self.camera.isOpened():
-                print("Không thể mở camera")
-                return
-            
-            self.camera_active = True
-            self.toggle_button.setText("Tắt Camera")
-            self.timer.start(30)  # Cập nhật mỗi 30ms
-        else:
-            # Tắt camera
-            self.camera_active = False
-            self.toggle_button.setText("Bật Camera")
-            self.timer.stop()
-            self.camera.release()
-            self.image_label.clear()
+    def setup_ui(self):
+        layout = QVBoxLayout(self)
+        
+        # Tạo các trang
+        colors = ["lightblue", "lightgreen", "lightyellow"]
+        for i in range(3):
+            page = QLabel(f"Page {i+1}")
+            page.setAlignment(Qt.AlignCenter)
+            page.setStyleSheet(f"background-color: {colors[i]}; font-size: 24px;")
+            page.setFixedSize(400, 300)
+            layout.addWidget(page)
+            self.pages.append(page)
+            if i != 0:
+                page.hide()
+        
+        # Tạo nút điều khiển
+        button_layout = QHBoxLayout()
+        prev_btn = QPushButton("Previous")
+        next_btn = QPushButton("Next")
+        button_layout.addWidget(prev_btn)
+        button_layout.addWidget(next_btn)
+        layout.addLayout(button_layout)
+        
+        # Kết nối tín hiệu
+        prev_btn.clicked.connect(self.show_previous_page)
+        next_btn.clicked.connect(self.show_next_page)
     
-    def update_frame(self):
-        ret, frame = self.camera.read()
-        if ret:
-            # Chuyển đổi frame từ OpenCV sang QImage
-            frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
-            h, w, ch = frame.shape
-            bytes_per_line = ch * w
-            q_img = QImage(frame.data, w, h, bytes_per_line, QImage.Format.Format_RGB888)
-            
-            # Hiển thị hình ảnh lên QLabel
-            self.image_label.setPixmap(QPixmap.fromImage(q_img).scaled(
-                self.image_label.width(), 
-                self.image_label.height(),
-                Qt.AspectRatioMode.KeepAspectRatio
-            ))
+    def show_next_page(self):
+        if self.current_index < len(self.pages) - 1:
+            self.show_page(self.current_index + 1)
     
-    def closeEvent(self, event):
-        # Đảm bảo camera được giải phóng khi đóng ứng dụng
-        if self.camera_active:
-            self.timer.stop()
-            self.camera.release()
-        event.accept()
+    def show_previous_page(self):
+        if self.current_index > 0:
+            self.show_page(self.current_index - 1)
+    
+    def show_page(self, new_index):
+        if new_index == self.current_index or (
+            self.animation and self.animation.state() == QPropertyAnimation.Running
+        ):
+            return
+        
+        current_page = self.pages[self.current_index]
+        next_page = self.pages[new_index]
+        
+        next_page.show()
+        next_page.raise_()
+        
+        direction = 1 if new_index > self.current_index else -1
+        
+        # Thiết lập vị trí ban đầu
+        next_page.move(0, direction * self.height())
+        
+        # Tạo animation
+        self.animation = QPropertyAnimation(next_page, b"pos")
+        self.animation.setDuration(300)
+        self.animation.setEasingCurve(QEasingCurve.OutQuad)
+        self.animation.setStartValue(QPoint(0, direction * self.height()))
+        self.animation.setEndValue(QPoint(0, 0))
+        
+        current_animation = QPropertyAnimation(current_page, b"pos")
+        current_animation.setDuration(300)
+        current_animation.setEasingCurve(QEasingCurve.OutQuad)
+        current_animation.setStartValue(QPoint(0, 0))
+        current_animation.setEndValue(QPoint(0, -direction * self.height()))
+        
+        def on_animation_finished():
+            current_page.hide()
+            current_page.move(0, 0)
+            self.current_index = new_index
+            self.animation = None
+        
+        self.animation.finished.connect(on_animation_finished)
+        
+        self.animation.start()
+        current_animation.start(QPropertyAnimation.DeleteWhenStopped)
 
 
 if __name__ == "__main__":
-    app = QApplication(sys.argv)
-    window = CameraApp()
+    app = QApplication([])
+    window = VerticalPageSlider()
+    window.resize(400, 300)
     window.show()
-    sys.exit(app.exec())
+    app.exec()
