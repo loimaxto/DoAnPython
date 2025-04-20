@@ -66,6 +66,15 @@ class PhongDTO:
         self.current_hoadon_id=current_hoadon_id
     def __repr__(self):
         return f"PhongDTO(id={self.id}, ten_phong='{self.ten_phong}', so_giuong={self.so_giuong}, id_gia={self.id_gia}, tinh_trang_dat_phong={self.tinh_trang_dat_phong}, tinh_trang_su_dung={self.tinh_trang_su_dung}, hoadon_id={ self.current_hoadon_id})"
+class GiaPhongDTO:
+    def __init__(self,id,ten_loai,gia_gio,gia_ngay,gia_dem):
+        self.id = id
+        self.ten_loai = ten_loai
+        self.gia_gio = gia_gio
+        self.gia_ngay = gia_ngay
+        self.gia_dem = gia_dem
+    def __repr__(self):
+        return f"GiaPhongDTO(id={self.id},ten_loai={self.ten_loai},gia_gio={self.gia_gio},gia_ngay={self.gia_ngay},gia_dem={self.gia_dem})"
 class ChiTietDVDTO:
     def __init__(self, hd_id=None, dv_id=None, so_luong=None, gia_luc_dat=None, tong=None, ten_dv=None, gia_dv=None):
         self.hd_id = hd_id
