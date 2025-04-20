@@ -26,8 +26,13 @@ class PhongDAO:
         if result and isinstance(result, list) and len(result) > 0 and len(result[0]) > 0:
             return result[0][0]
         return 0
-
-
+    def get_phong_by_name(self,name):
+        query = "SELECT id, ten_phong, so_giuong, id_gia, tinh_trang_dat_phong, tinh_trang_su_dung FROM phong WHERE ten_phong LIKE ?"
+        rows = self.db.execute_query(query,("%"+name+"%",))
+        if rows:
+            return [PhongDTO(id=row[0], ten_phong=row[1], so_giuong=row[2], id_gia=row[3], tinh_trang_dat_phong=row[4], tinh_trang_su_dung=row[5]) for row in rows]
+        else:
+            return []
 
     def get_all_phong(self):
         query = "SELECT id, ten_phong, so_giuong, id_gia, tinh_trang_dat_phong, tinh_trang_su_dung FROM phong"
@@ -51,7 +56,14 @@ class PhongDAO:
             return PhongDTO(id=row[0], ten_phong=row[1], so_giuong=row[2], id_gia=row[3], tinh_trang_dat_phong=row[4], tinh_trang_su_dung=row[5],current_hoadon_id=row[6])
         else:
             return None
-
+    def get_phong_by_id2(self, id):
+        query = "SELECT id, ten_phong, so_giuong, id_gia, tinh_trang_dat_phong, tinh_trang_su_dung FROM phong WHERE id = ?"
+        row = self.db.execute_query(query, (id,))
+        if row:
+            row = row[0]  # Unpack the single result list.
+            return PhongDTO(id=row[0], ten_phong=row[1], so_giuong=row[2], id_gia=row[3], tinh_trang_dat_phong=row[4], tinh_trang_su_dung=row[5])
+        else:
+            return None
     def get_phong_next_id(self):
         query = "SELECT COALESCE(MAX(id), 0) + 1 FROM phong;"
         rs = self.db.execute_query(query)
