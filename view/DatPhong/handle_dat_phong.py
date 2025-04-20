@@ -21,6 +21,7 @@ from dao.phong_dao import PhongDAO
 from dao.dich_vu_dao import DichVuDAO
 from dao.ct_dv_dao import ChiTietDVDAO
 from dao.hoadon_dao import HoaDonDAO
+from dao.datphong_dao import DatPhongDAO
 class DatPhongWindow(QtWidgets.QWidget, Ui_DatPhong_UI):
     def __init__(self):
         super().__init__()
@@ -29,6 +30,7 @@ class DatPhongWindow(QtWidgets.QWidget, Ui_DatPhong_UI):
         self.dao_customer = KhachHangDAO()
         self.dao_hoaDon = HoaDonDAO()
         self.dao_ct_dv = ChiTietDVDAO()
+        self.dao_datphong = DatPhongDAO()
         self.nv_id = 1
         
         self.listDvHdWidget = ListDichVuHoaDon(self)
@@ -49,7 +51,26 @@ class DatPhongWindow(QtWidgets.QWidget, Ui_DatPhong_UI):
         self.tableView.horizontalHeader().setSectionResizeMode(QtWidgets.QHeaderView.ResizeMode.Stretch)
         self.tableView.verticalHeader().setVisible(False)
         self.load_table_data()
+        
+        self.btnUpdateDatPhong.clicked.connect(self.insert_datPhongIdForCurrentHoaDon)
 
+    def insert_datPhongIdForCurrentHoaDon(self):
+        phieuDatPhongId = self.textEditIdPhieuDatPhong.toPlainText()
+        # nếu phong hiện tại đã có hóa đơn thì cập nhật mã phiếu đặt phòng
+        if self.current_hoadon_dto != None :
+            phieuDatPhongDTO = self.dao_datphong.get_phieuDatPhongById(phieuDatPhongId)
+            if phieuDatPhongDTO == None:
+                QMessageBox.information(self, "", "Không tìm thấy mã phiếu đặt phòng này !")
+                return
+            else:
+                self.current_hoadon_dto.dat_phong_id = phieuDatPhongId
+                self.dao_hoaDon.update_hoa_don(self.current_hoadon_dto)
+                self.lbCustomerName.setText(phieuDatPhongDTO.ten_kh)
+                return
+        else:
+            QMessageBox.information(self, "", "Chọn phòng đang sử dụng để thêm phiếu đặt phòng !")
+            return
+        
     def convertStatus(self, numb):
         if numb == 0:
             return "Trống"
@@ -79,7 +100,8 @@ class DatPhongWindow(QtWidgets.QWidget, Ui_DatPhong_UI):
     def resetHoaDon(self):
         self.current_hoadon_dto = None
         self.labelTableName.setText("Chưa chọn phòng !")
-    
+        self.listDvHdWidget.reset_ct_dv_layout()
+
     def handle_datphong(self, row_data):
         # print(row_data)
         # [101, 'Phòng 101', 'Phòng Đơn', 'Đang sử dụng']
@@ -101,18 +123,24 @@ class DatPhongWindow(QtWidgets.QWidget, Ui_DatPhong_UI):
         self.load_table_data()
         print("dat phong thanh cong",row_data)
     def handle_delete(self, row_data):
-        print("delete")
         self.dao_phong.update_tinh_trang_dat_phong(row_data[0], 0,None) 
         self.load_table_data()
         self.resetHoaDon()
     def handle_view(self, row_data):
         self.current_phong_dto = self.dao_phong.get_phong_by_id(row_data[0])
+        self.current_hoadon_dto = self.dao_hoaDon.get_hoa_don_by_id(self.current_phong_dto.current_hoadon_id)
         self.labelTableName.setText(self.current_phong_dto.ten_phong)
-        
+        # neu co phieu dat phong trong hoa đơn thì thực hiện
+        if self.current_hoadon_dto != None :
+            datphongDto = self.dao_datphong.get_phieuDatPhongById(str(self.current_hoadon_dto.dat_phong_id))
+            if datphongDto != None:
+                self.lbCustomerName.setText(datphongDto.ten_kh)
+                return
+        else:
+            print("chua co phieu dat phong")
+            self.lbCustomerName.setText("Chưa thêm phiếu đặt phòng")
         self.current_hoadon_dto =self.dao_hoaDon.get_hoa_don_by_id(self.current_phong_dto.current_hoadon_id)
         self.render_dv_hoadon()
-        print(self.current_phong_dto)
-        print(self.current_hoadon_dto)
         
 class CellButtonWidget(QWidget):
     """Custom widget that contains three buttons in a table cell, with row data."""
@@ -193,11 +221,10 @@ class SearchWindow(QWidget):
         self.popup.show()
 
     def handle_item_click(self, item): # Modified here
-        print(item.dv_dto)
         picked_dv=self.DatPhongWindow.dao_ct_dv.get_chi_tiet_dv_by_hd_id(self.DatPhongWindow.current_hoadon_dto.hd_id)
         for ct_dv in picked_dv:
             if ct_dv.dv_id == item.dv_dto.dv_id:
-                QMessageBox.information(self, "", "Dich vu nay da duoc chon !")
+                QMessageBox.information(self, "", "Dịch vụ đã được chọn !")
                 return
         dto_ct_dv = ChiTietDVDTO(
             hd_id=self.DatPhongWindow.current_hoadon_dto.hd_id,
@@ -206,7 +233,6 @@ class SearchWindow(QWidget):
             ten_dv=item.dv_dto.ten,
             gia_luc_dat=item.dv_dto.gia
         )
-        print(dto_ct_dv)
         self.DatPhongWindow.dao_ct_dv.insert_chi_tiet_dv(dto_ct_dv)
         self.DatPhongWindow.render_dv_hoadon()
         self.popup.close()
@@ -214,7 +240,6 @@ class SearchWindow(QWidget):
 class ItemDichVuHoaDon(QWidget):
     def __init__(self, ct_dv_dto = ChiTietDVDTO(), parent=None):
         super().__init__(parent)
-        print("ct dv",ct_dv_dto)
         self.ct_dv_dto = ct_dv_dto
         self.name = ct_dv_dto.ten_dv
         self.quantity = ct_dv_dto.so_luong
@@ -262,7 +287,6 @@ class ItemDichVuHoaDon(QWidget):
             self.quantity_input.setText(str(self.quantity))
             self.ct_dv_dao.update_chi_tiet_dv(self.ct_dv_dto)
         else:
-            print(self.ct_dv_dto)
             self.ct_dv_dao.delete_chi_tiet_dv(self.ct_dv_dto.hd_id, self.ct_dv_dto.dv_id)
             self.datPhongWindow.render_dv_hoadon()
             
@@ -302,17 +326,18 @@ class ListDichVuHoaDon(QWidget):
     def update_ct_dv(self):
         self.hoa_don_dto = self.datPhongWindow.current_hoadon_dto
         self.items = self.ct_dv_dao.get_chi_tiet_dv_by_hd_id(self.hoa_don_dto.hd_id)
-
+        self.reset_ct_dv_layout()
+        
+        # Add items to the layout
+        for ct_dv_dto in self.items:
+            self.items_layout.addWidget(ItemDichVuHoaDon(ct_dv_dto,self.datPhongWindow))
+    def reset_ct_dv_layout(self):
         # Clear the layout
         while self.items_layout.count():
             item = self.items_layout.takeAt(0)
             widget = item.widget()
             if widget is not None:
                 widget.deleteLater()
-
-        # Add items to the layout
-        for ct_dv_dto in self.items:
-            self.items_layout.addWidget(ItemDichVuHoaDon(ct_dv_dto,self.datPhongWindow))
 
     def add_ct_dv(self,ct_dv_dto = ChiTietDVDTO()):
         # Add a new item to the list

@@ -42,7 +42,7 @@ class NhanVienDTO:
     def __str__(self):
         return f"KhachHang(nv_id={self.nv_id}, ten_nv='{self.ten_nv}', email='{self.email}', sdt='{self.sdt}', dia_chi='{self.dia_chi}', chuc_vu='{self.chuc_vu}')"
 class DatPhongDTO:
-    def __init__(self, booking_id=None, ngay_bd=None, ngay_kt=None, phi_dat_coc=None, note=None, phong_id=None, tien_luc_dat=None, kh_id=None):
+    def __init__(self, booking_id=None, ngay_bd=None, ngay_kt=None, phi_dat_coc=None, note=None, phong_id=None, tien_luc_dat=None, kh_id=None, ten_kh = None):
         self.booking_id = booking_id
         self.ngay_bd = ngay_bd
         self.ngay_kt = ngay_kt
@@ -51,9 +51,10 @@ class DatPhongDTO:
         self.phong_id = phong_id
         self.tien_luc_dat = tien_luc_dat
         self.kh_id = kh_id
+        self.ten_kh = ten_kh
 
     def __repr__(self):
-        return f"DatPhongDTO(booking_id={self.booking_id}, ngay_bd='{self.ngay_bd}', ngay_kt='{self.ngay_kt}', phi_dat_coc={self.phi_dat_coc}, note='{self.note}', phong_id={self.phong_id}, tien_luc_dat={self.tien_luc_dat}, kh_id={self.kh_id})"
+        return f"DatPhongDTO(booking_id={self.booking_id}, ngay_bd='{self.ngay_bd}', ngay_kt='{self.ngay_kt}', phi_dat_coc={self.phi_dat_coc}, note='{self.note}', phong_id={self.phong_id}, tien_luc_dat={self.tien_luc_dat}, kh_id={self.kh_id}), kh_ten={self.ten_kh})"
 
 class PhongDTO:
     def __init__(self, id=None, ten_phong=None, so_giuong=None, id_gia=None, tinh_trang_dat_phong=0, tinh_trang_su_dung=None,current_hoadon_id=None):
@@ -87,7 +88,7 @@ class HoaDonDTO:
         self.thanh_toan_status = thanh_toan_status
         self.dat_phong_id = dat_phong_id
     def __repr__(self):
-        return f"HoaDonDTO(hd_id={self.hd_id}, tong_tien={self.tong_tien}, thoi_gian='{self.thoi_gian}', nv_id={self.nv_id}, thanh_toan_status={self.thanh_toan_status})"
+        return f"HoaDonDTO(hd_id={self.hd_id}, tong_tien={self.tong_tien}, thoi_gian='{self.thoi_gian}', nv_id={self.nv_id}, thanh_toan_status={self.thanh_toan_status}), dat_phong_id={self.dat_phong_id})"
 
 # DTO THONG KE
 class ThongKeDoanhThuDTO:

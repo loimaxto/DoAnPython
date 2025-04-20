@@ -58,27 +58,63 @@
         <widget class="QLabel" name="label_3">
          <property name="geometry">
           <rect>
-           <x>20</x>
-           <y>0</y>
-           <width>603</width>
+           <x>10</x>
+           <y>10</y>
+           <width>121</width>
            <height>16</height>
           </rect>
          </property>
          <property name="text">
-          <string>TextLabel</string>
+          <string>Nhập mã đặt phòng</string>
          </property>
         </widget>
-        <widget class="QLabel" name="label_2">
+        <widget class="QTextEdit" name="textEditIdPhieuDatPhong">
          <property name="geometry">
           <rect>
-           <x>80</x>
+           <x>130</x>
            <y>0</y>
-           <width>603</width>
+           <width>161</width>
+           <height>31</height>
+          </rect>
+         </property>
+        </widget>
+        <widget class="QPushButton" name="btnUpdateDatPhong">
+         <property name="geometry">
+          <rect>
+           <x>310</x>
+           <y>0</y>
+           <width>93</width>
+           <height>28</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string>Thêm phiếu</string>
+         </property>
+        </widget>
+        <widget class="QLabel" name="label_4">
+         <property name="geometry">
+          <rect>
+           <x>20</x>
+           <y>50</y>
+           <width>71</width>
            <height>16</height>
           </rect>
          </property>
          <property name="text">
-          <string>TextLabel</string>
+          <string>Tên khách</string>
+         </property>
+        </widget>
+        <widget class="QLabel" name="lbCustomerName">
+         <property name="geometry">
+          <rect>
+           <x>130</x>
+           <y>50</y>
+           <width>71</width>
+           <height>16</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string>Tên khách</string>
          </property>
         </widget>
        </widget>
