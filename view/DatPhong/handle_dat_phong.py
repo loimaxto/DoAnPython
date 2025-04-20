@@ -53,7 +53,12 @@ class DatPhongWindow(QtWidgets.QWidget, Ui_DatPhong_UI):
         self.load_table_data()
         
         self.btnUpdateDatPhong.clicked.connect(self.insert_datPhongIdForCurrentHoaDon)
-
+        self.btnCompletePayment.clicked.connect(self.completePaymentActionEvent)
+    
+    def completePaymentActionEvent(self):
+        print("thanh toán")
+        print(self.current_hoadon_dto)
+        
     def insert_datPhongIdForCurrentHoaDon(self):
         phieuDatPhongId = self.textEditIdPhieuDatPhong.toPlainText()
         # nếu phong hiện tại đã có hóa đơn thì cập nhật mã phiếu đặt phòng
