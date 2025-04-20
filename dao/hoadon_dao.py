@@ -19,11 +19,11 @@ class HoaDonDAO:
             return []
 
     def get_hoa_don_by_id(self, hd_id):
-        query = "SELECT hd_id, tong_tien, thoi_gian, nv_id, thanh_toan_status FROM hoa_don WHERE hd_id = ?"
+        query = "SELECT hd_id, tong_tien, thoi_gian, nv_id, thanh_toan_status,dat_phong_id FROM hoa_don WHERE hd_id = ?"
         row = self.db.execute_query(query, (hd_id,))
         if row:
             row = row[0]
-            return HoaDonDTO(hd_id=row[0], tong_tien=row[1], thoi_gian=row[2], nv_id=row[3], thanh_toan_status=row[4])
+            return HoaDonDTO(hd_id=row[0], tong_tien=row[1], thoi_gian=row[2], nv_id=row[3], thanh_toan_status=row[4],dat_phong_id=row[5])
         else:
             return None
 
@@ -43,8 +43,8 @@ class HoaDonDAO:
             return None
         
     def update_hoa_don(self, hoa_don):
-        query = "UPDATE hoa_don SET tong_tien = ?, thoi_gian = ?, nv_id = ?, thanh_toan_status = ? WHERE hd_id = ?"
-        return self.db.execute_query(query, (hoa_don.tong_tien, hoa_don.thoi_gian, hoa_don.nv_id, hoa_don.thanh_toan_status, hoa_don.hd_id)) is not None
+        query = "UPDATE hoa_don SET tong_tien = ?, thoi_gian = ?, nv_id = ?, thanh_toan_status = ?,dat_phong_id = ? WHERE hd_id = ?"
+        return self.db.execute_query(query, (hoa_don.tong_tien, hoa_don.thoi_gian, hoa_don.nv_id, hoa_don.thanh_toan_status,hoa_don.dat_phong_id, hoa_don.hd_id)) is not None
 
     def delete_hoa_don(self, hd_id):
         query = "DELETE FROM hoa_don WHERE hd_id = ?"

@@ -13,41 +13,6 @@ class Ui_DatPhong_UI(object):
     def setupUi(self, DatPhong_UI):
         DatPhong_UI.setObjectName("DatPhong_UI")
         DatPhong_UI.resize(1134, 689)
-        DatPhong_UI.setStyleSheet("""
-            QWidget {
-                background-color: #f5f5f5;
-                font-family: Arial, sans-serif;
-            }
-            QLabel {
-                color: #333;
-            }
-            QLineEdit {
-                border: 1px solid #ccc;
-                border-radius: 5px;
-                padding: 5px;
-                background-color: #fff;
-            }
-            QPushButton {
-                background-color: #007bff;
-                color: #fff;
-                border: none;
-                border-radius: 5px;
-                padding: 5px 10px;
-            }
-            QPushButton:hover {
-                background-color: #0056b3;
-            }
-            QTableView {
-                border: 1px solid #ccc;
-                background-color: #fff;
-            }
-            QHeaderView::section {
-                background-color: #007bff;
-                color: #fff;
-                padding: 5px;
-                border: none;
-            }
-        """)
         self.horizontalLayout_2 = QtWidgets.QHBoxLayout(DatPhong_UI)
         self.horizontalLayout_2.setObjectName("horizontalLayout_2")
         self.left = QtWidgets.QWidget(parent=DatPhong_UI)
@@ -66,11 +31,21 @@ class Ui_DatPhong_UI(object):
         self.header.setMinimumSize(QtCore.QSize(0, 120))
         self.header.setObjectName("header")
         self.label_3 = QtWidgets.QLabel(parent=self.header)
-        self.label_3.setGeometry(QtCore.QRect(20, 0, 603, 16))
+        self.label_3.setGeometry(QtCore.QRect(10, 10, 121, 16))
         self.label_3.setObjectName("label_3")
-        self.label_2 = QtWidgets.QLabel(parent=self.header)
-        self.label_2.setGeometry(QtCore.QRect(80, 0, 603, 16))
-        self.label_2.setObjectName("label_2")
+        self.textEditIdPhieuDatPhong = QtWidgets.QTextEdit(parent=self.header)
+        self.textEditIdPhieuDatPhong.setGeometry(QtCore.QRect(130, 0, 161, 31))
+        self.textEditIdPhieuDatPhong.setObjectName("textEditIdPhieuDatPhong")
+        self.btnUpdateDatPhong = QtWidgets.QPushButton(parent=self.header)
+        self.btnUpdateDatPhong.setGeometry(QtCore.QRect(310, 0, 93, 28))
+        self.btnUpdateDatPhong.setObjectName("btnUpdateDatPhong")
+        self.label_4 = QtWidgets.QLabel(parent=self.header)
+        self.label_4.setGeometry(QtCore.QRect(20, 50, 91, 16))
+        self.label_4.setStyleSheet("font: 75 10pt \"MS Shell Dlg 2\";")
+        self.label_4.setObjectName("label_4")
+        self.lbCustomerName = QtWidgets.QLabel(parent=self.header)
+        self.lbCustomerName.setGeometry(QtCore.QRect(130, 50, 251, 16))
+        self.lbCustomerName.setObjectName("lbCustomerName")
         self.verticalLayout.addWidget(self.header)
         self.tableView = QtWidgets.QTableView(parent=self.left)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Policy.Expanding, QtWidgets.QSizePolicy.Policy.Expanding)
@@ -121,8 +96,10 @@ class Ui_DatPhong_UI(object):
     def retranslateUi(self, DatPhong_UI):
         _translate = QtCore.QCoreApplication.translate
         DatPhong_UI.setWindowTitle(_translate("DatPhong_UI", "Form"))
-        self.label_3.setText(_translate("DatPhong_UI", "TextLabel"))
-        self.label_2.setText(_translate("DatPhong_UI", "TextLabel"))
+        self.label_3.setText(_translate("DatPhong_UI", "Nhập mã đặt phòng"))
+        self.btnUpdateDatPhong.setText(_translate("DatPhong_UI", "Thêm phiếu"))
+        self.label_4.setText(_translate("DatPhong_UI", "Tên khách"))
+        self.lbCustomerName.setText(_translate("DatPhong_UI", "Chưa có khách"))
         self.labelTableName.setText(_translate("DatPhong_UI", "ten ban"))
         self.btnCompletePayment.setText(_translate("DatPhong_UI", "Thanh toán"))
         self.btnSave.setText(_translate("DatPhong_UI", "Lưu"))
