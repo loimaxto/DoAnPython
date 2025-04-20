@@ -129,18 +129,18 @@ class DatPhongWindow(QtWidgets.QWidget, Ui_DatPhong_UI):
     def handle_view(self, row_data):
         self.current_phong_dto = self.dao_phong.get_phong_by_id(row_data[0])
         self.current_hoadon_dto = self.dao_hoaDon.get_hoa_don_by_id(self.current_phong_dto.current_hoadon_id)
+        self.render_dv_hoadon()
         self.labelTableName.setText(self.current_phong_dto.ten_phong)
         # neu co phieu dat phong trong hoa đơn thì thực hiện
-        if self.current_hoadon_dto != None :
+        if self.current_hoadon_dto.dat_phong_id != None :
             datphongDto = self.dao_datphong.get_phieuDatPhongById(str(self.current_hoadon_dto.dat_phong_id))
             if datphongDto != None:
                 self.lbCustomerName.setText(datphongDto.ten_kh)
-                return
         else:
             print("chua co phieu dat phong")
             self.lbCustomerName.setText("Chưa thêm phiếu đặt phòng")
-        self.current_hoadon_dto =self.dao_hoaDon.get_hoa_don_by_id(self.current_phong_dto.current_hoadon_id)
-        self.render_dv_hoadon()
+            return
+        
         
 class CellButtonWidget(QWidget):
     """Custom widget that contains three buttons in a table cell, with row data."""

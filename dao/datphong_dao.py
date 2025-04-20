@@ -18,6 +18,9 @@ class DatPhongDAO:
         return self.db.execute_query(query, (chi_tiet_dv.hd_id, chi_tiet_dv.dv_id, chi_tiet_dv.so_luong, chi_tiet_dv.gia_luc_dat, chi_tiet_dv.so_luong * chi_tiet_dv.gia_luc_dat)) is not None
    
     def get_phieuDatPhongById(self, booking_id):
+        if booking_id == None:
+            return 
+        print("phiếu đặt phòng dao id: ",booking_id)
         query = "Select \
                 booking_id,\
                 ngay_bd,\
@@ -34,7 +37,7 @@ class DatPhongDAO:
             row = row[0]
             return DatPhongDTO(booking_id=row[0], ngay_bd=row[1], ngay_kt=row[2], phi_dat_coc=row[3], note=row[4], phong_id=row[5], tien_luc_dat=row[6], kh_id=row[7],ten_kh=row[8])
         else:
-            print("doao dat phong khong thay")
+            print("phiếu đặt phòng dao: khong tim thấy phieu dat phòng")
             return None
 if __name__ == "__main__":
     dv_dao = DatPhongDAO()

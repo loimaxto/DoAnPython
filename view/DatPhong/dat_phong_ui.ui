@@ -96,9 +96,12 @@
           <rect>
            <x>20</x>
            <y>50</y>
-           <width>71</width>
+           <width>91</width>
            <height>16</height>
           </rect>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">font: 75 10pt &quot;MS Shell Dlg 2&quot;;</string>
          </property>
          <property name="text">
           <string>Tên khách</string>
@@ -109,12 +112,12 @@
           <rect>
            <x>130</x>
            <y>50</y>
-           <width>71</width>
+           <width>251</width>
            <height>16</height>
           </rect>
          </property>
          <property name="text">
-          <string>Tên khách</string>
+          <string>Chưa có khách</string>
          </property>
         </widget>
        </widget>
