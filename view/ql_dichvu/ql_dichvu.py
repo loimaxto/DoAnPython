@@ -7,7 +7,11 @@
 
 
 from PyQt6 import QtCore, QtGui, QtWidgets
-
+import sys
+import os
+project_path = os.path.abspath(os.path.join(os.path.dirname(__file__), "../../")) 
+sys.path.append(project_path)
+from view.style_css import stylecss
 
 class Ui_Form(object):
     def setupUi(self, Form):
@@ -92,7 +96,8 @@ class Ui_Form(object):
         self.dis_pla.setHorizontalHeaderItem(2, item)
         self.verticalLayout.addWidget(self.dis_pla)
         self.horizontalLayout_3.addLayout(self.verticalLayout)
-
+        default_style =  stylecss(Form)
+        default_style.set_default()
         self.retranslateUi(Form)
         QtCore.QMetaObject.connectSlotsByName(Form)
 

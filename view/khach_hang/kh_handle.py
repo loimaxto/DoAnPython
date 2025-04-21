@@ -7,7 +7,7 @@ import random
 from PyQt6 import QtWidgets, QtCore, QtGui
 from PyQt6.QtWidgets import (
     
-    QMessageBox,
+    QMessageBox,QRadioButton,QWidget,QHBoxLayout
 )
 from view.khach_hang.kh_ui import Ui_CustomerManagement # Assuming you saved the UI as kh_ui.py
 from PyQt6.QtCore import Qt
@@ -62,24 +62,29 @@ class CustomerManagementWindow(QtWidgets.QWidget, Ui_CustomerManagement):
         """Tải dữ liệu khách hàng từ database"""
         customers = self.dao_customer.get_all_khach_hang()
         self.model.setRowCount(0)
-        self.model.itemChanged.connect(self.handle_selection_change)
-        for row, customer in enumerate(customers):
-            # Cột radio button
+        
+        # Tạo QButtonGroup để quản lý các radio button
+        for row_index, row_data in enumerate(customers):
+            # Tạo item cho cột radio button (cột 0)
             radio_item = QtGui.QStandardItem()
             radio_item.setCheckable(True)
             radio_item.setEditable(False)
+            radio_item.setSelectable(False)
             radio_item.setData(Qt.CheckState.Unchecked, Qt.ItemDataRole.CheckStateRole)
-            self.model.setItem(row, 0, radio_item)
+            self.model.setItem(row_index, 0, radio_item)
             
             # Các cột thông tin
-            self.model.setItem(row, 1, QtGui.QStandardItem(str(customer.kh_id)))
-            self.model.setItem(row, 2, QtGui.QStandardItem(customer.ten))
-            self.model.setItem(row, 3, QtGui.QStandardItem(customer.sdt))
-            self.model.setItem(row, 4, QtGui.QStandardItem(customer.image))
+            self.model.setItem(row_index, 1, QtGui.QStandardItem(str(row_data.kh_id)))
+            self.model.setItem(row_index, 2, QtGui.QStandardItem(row_data.ten))
+            self.model.setItem(row_index, 3, QtGui.QStandardItem(row_data.sdt))
+            self.model.setItem(row_index, 4, QtGui.QStandardItem(row_data.image))
             
             # Căn giữa nội dung các cột
             for col in range(1, 5):
-                self.model.item(row, col).setTextAlignment(Qt.AlignmentFlag.AlignCenter)
+                self.model.item(row_index, col).setTextAlignment(Qt.AlignmentFlag.AlignCenter)
+        
+        # Kết nối sự kiện thay đổi dữ liệu
+        self.model.itemChanged.connect(self.handle_selection_change)
     def handle_selection_change(self, item):
         """Xử lý khi radio button được chọn/bỏ chọn với cơ chế ổn định"""
         

@@ -14,10 +14,7 @@ class kh_form_handle(QWidget,Ui_khform):
         self.customer = CustomerManagementWindow(mainwindow)
         
         self.stackedWidget.addWidget(self.customer)
-        
-       
         self.stackedWidget.setCurrentWidget(self.customer)
-        
         self.customer.imageButton.clicked.connect(lambda:self.star_getImage())
         
     def back_customer(self):

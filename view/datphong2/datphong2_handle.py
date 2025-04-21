@@ -13,7 +13,7 @@ from PyQt6.QtWidgets import (
     QPushButton,QHBoxLayout, QWidget,QSizePolicy,
     QWidget, QVBoxLayout, QLineEdit,QListWidgetItem,
     QListWidget, QMessageBox, QLabel,QScrollArea,QRadioButton,
-    QTableWidgetItem
+    QTableWidgetItem,QTableWidget
 )
 from dao.gia_phong_dao import GiaPhongDAO,GiaPhongDTO
 from dao.dat_phong_dao import DatPhongDAO,DatPhongDTO
@@ -31,13 +31,12 @@ class DatPhong2(QtWidgets.QWidget,Ui_datphong2):
         self.tableviewcustomer.verticalHeader().setVisible(False)
         self.tableviewroom.horizontalHeader().setSectionResizeMode(QtWidgets.QHeaderView.ResizeMode.Stretch)
         self.tableviewroom.verticalHeader().setVisible(False)
-    
+        
         #hiển thị lịch khi bấm vào
         self.start_date.setCalendarPopup(True)
         self.end_date.setCalendarPopup(True)
-        
-        
-        
+        # Thiết lập chỉ đọc
+        self.tableviewcustomer.setEditTriggers(QTableWidget.EditTrigger.NoEditTriggers)
         self.table_khachhang = KhachHangDAO()
         self.table_phong = PhongDAO()
         self.table_datphong = DatPhongDAO()
@@ -59,6 +58,15 @@ class DatPhong2(QtWidgets.QWidget,Ui_datphong2):
         # cập nhật lại thời gian khi thay đổi lịch
         self.start_date.dateTimeChanged.connect(lambda :self.setupdate("start"))
         self.end_date.dateTimeChanged.connect(lambda :self.setupdate("end"))
+    def resetForm(self):
+        self.settienlucdat(0)
+        self.settienuoctinh(0)
+        self.start_date.setDateTime(QtCore.QDateTime.currentDateTime())
+        self.end_date.setDateTime(QtCore.QDateTime.currentDateTime())
+        
+        
+        self.set_default()
+        
     def showlayout_roomcustomer(self,choose):
         if(choose=='phòng'):
             self.btn_khachhang.hide()
@@ -289,7 +297,6 @@ class DatPhong2(QtWidgets.QWidget,Ui_datphong2):
         self.listView.show()
         
         self.settienuoctinh(total_cash)
-        
     def getratio(self):
         return int(self.comboBox.currentText().split("%")[0])
     def gettienlucdat(self):
@@ -365,11 +372,12 @@ class DatPhong2(QtWidgets.QWidget,Ui_datphong2):
             return
         reply = QMessageBox.question(
             self,
-            'Xác nhận hành động',
+            'Xác nhận',
             f'Bạn có chắc chắn muốn lưu dữ liệu khách hàng?',
             QMessageBox.StandardButton.Yes | QMessageBox.StandardButton.No,
             QMessageBox.StandardButton.No
         )
+        
         
         if reply == QMessageBox.StandardButton.No:
             return
@@ -379,17 +387,20 @@ class DatPhong2(QtWidgets.QWidget,Ui_datphong2):
         #print(self.start_date.dateTime(),self.end_date.dateTime())
         try:
             note = self.note.toPlainText()
-            ngay_bd = self.start_date.date()
-            ngay_kt = self.end_date.date()
+            ngay_bd = self.start_date.date().toString()
+            ngay_kt = self.end_date.date().toString()
             phi_dat_coc = self.getphidatcoc()
             tien_luc_dat = self.gettienlucdat()
-            self.table_datphong.insert_dat_phong(DatPhongDTO(ngay_bd=ngay_bd,
-                                                            ngay_kt=ngay_kt,
-                                                            phi_dat_coc=phi_dat_coc,
-                                                            note=note,
-                                                            tien_luc_dat=tien_luc_dat,
-                                                            phong_id=id_room,
-                                                            kh_id=id_customer))
+            datphongtemp = DatPhongDTO(ngay_bd=ngay_bd,
+                        ngay_kt=ngay_kt,
+                        phi_dat_coc=phi_dat_coc,
+                        note=note,
+                        tien_luc_dat=tien_luc_dat,
+                        phong_id=id_room,
+                        kh_id=id_customer)
+            print(datphongtemp)
+            self.table_datphong.insert_dat_phong(dat_phong=datphongtemp)
+            self.resetForm()
         except Exception as e:
             print(str(e))
             QMessageBox.critical(self,"lỗi",f"lỗi khi thêm datphong{str(e)}")
