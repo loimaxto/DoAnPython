@@ -34,7 +34,7 @@ class MainWindow(QtWidgets.QMainWindow,Ui_MainWindow):
         self.tk = dangnhap(self)
         
         # khai báo trang mới
-        self.kh_page = kh_form_handle()
+        self.kh_page = kh_form_handle(self)
         self.dp_page = DatPhongWindow()
         self.nv_page = StaffManagementWindow(self)
         self.dv_page = ql_dichvu_ui(self)

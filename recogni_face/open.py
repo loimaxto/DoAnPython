@@ -2,16 +2,17 @@ import torch
 import torch.optim as optim
 from torchvision import datasets, transforms
 from torch.utils.data import DataLoader
+
 from modelsCNN import FaceRecognitionCNN
 import torch.nn as nn
 from Load_Data import Prepare_Data
 # Khởi tạo mô hình
-id_customer = 5
+id_customer = 37
 class Train_Models:
     def __init__(self):
         self.load_data = Prepare_Data()
         self.load_data.Data_Loader(f"recogni_face/dataset/{id_customer}")
-        self.model = FaceRecognitionCNN(2)
+        self.model = FaceRecognitionCNN(3)
     def Evaluate(self):
 
         # Định nghĩa hàm mất mát và optimizer

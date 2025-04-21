@@ -132,7 +132,8 @@ class Ui_CustomerManagement(object):
         self.customerTableView.setObjectName("customerTableView")
         self.customerTableView.setStyleSheet("""
             QTableView {
-                gridline-color: #ccc;
+                gridline-color: white;
+                background-color:black;
             }
             QTableView::item {
                 padding: 5px;
@@ -141,6 +142,21 @@ class Ui_CustomerManagement(object):
                 background-color: #d9edf7;
                 color: #333;
             }
+    QRadioButton {
+        margin-left: 10px;
+        border-radius:50%;
+    }
+    QRadioButton::indicator {
+        width: 16px;
+        height: 16px;
+    }
+    QHeaderView::section {
+        background-color: #4CAF50;
+        color: white;
+        padding: 5px;
+        border: none;
+    }
+
         """)
         self.verticalLayout_3.addWidget(self.customerTableView)
         self.mainLayout.addLayout(self.verticalLayout_3)

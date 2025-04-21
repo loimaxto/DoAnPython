@@ -385,7 +385,7 @@ class show_chart(FigureCanvasQTAgg):
 
         date_labels = [date.strftime("%d-%m") for date in dates]
         x = np.arange(len(date_labels))
-        width = 0.2
+        width = 0.5
 
         # Vẽ 3 cột sát nhau
         rects_von = self.ax.bar(x - width, von_list, width, label="Vốn", color="#f4a261")

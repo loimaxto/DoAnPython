@@ -42,7 +42,7 @@ class NhanVienDTO:
     def __str__(self):
         return f"KhachHang(nv_id={self.nv_id}, ten_nv='{self.ten_nv}', email='{self.email}', sdt='{self.sdt}', dia_chi='{self.dia_chi}', chuc_vu='{self.chuc_vu}')"
 class DatPhongDTO:
-    def __init__(self, booking_id=None, ngay_bd=None, ngay_kt=None, phi_dat_coc=None, note=None, phong_id=None, tien_luc_dat=None, kh_id=None):
+    def __init__(self, booking_id=None, ngay_bd=None, ngay_kt=None, phi_dat_coc=None, note=None, phong_id=None, tien_luc_dat=None, kh_id=None, ten_kh = None):
         self.booking_id = booking_id
         self.ngay_bd = ngay_bd
         self.ngay_kt = ngay_kt
@@ -51,9 +51,10 @@ class DatPhongDTO:
         self.phong_id = phong_id
         self.tien_luc_dat = tien_luc_dat
         self.kh_id = kh_id
+        self.ten_kh = ten_kh
 
     def __repr__(self):
-        return f"DatPhongDTO(booking_id={self.booking_id}, ngay_bd='{self.ngay_bd}', ngay_kt='{self.ngay_kt}', phi_dat_coc={self.phi_dat_coc}, note='{self.note}', phong_id={self.phong_id}, tien_luc_dat={self.tien_luc_dat}, kh_id={self.kh_id})"
+        return f"DatPhongDTO(booking_id={self.booking_id}, ngay_bd='{self.ngay_bd}', ngay_kt='{self.ngay_kt}', phi_dat_coc={self.phi_dat_coc}, note='{self.note}', phong_id={self.phong_id}, tien_luc_dat={self.tien_luc_dat}, kh_id={self.kh_id}), kh_ten={self.ten_kh})"
 
 class PhongDTO:
     def __init__(self, id=None, ten_phong=None, so_giuong=None, id_gia=None, tinh_trang_dat_phong=0, tinh_trang_su_dung=None,current_hoadon_id=None):
@@ -66,6 +67,15 @@ class PhongDTO:
         self.current_hoadon_id=current_hoadon_id
     def __repr__(self):
         return f"PhongDTO(id={self.id}, ten_phong='{self.ten_phong}', so_giuong={self.so_giuong}, id_gia={self.id_gia}, tinh_trang_dat_phong={self.tinh_trang_dat_phong}, tinh_trang_su_dung={self.tinh_trang_su_dung}, hoadon_id={ self.current_hoadon_id})"
+class GiaPhongDTO:
+    def __init__(self,id,ten_loai,gia_gio,gia_ngay,gia_dem):
+        self.id = id
+        self.ten_loai = ten_loai
+        self.gia_gio = gia_gio
+        self.gia_ngay = gia_ngay
+        self.gia_dem = gia_dem
+    def __repr__(self):
+        return f"GiaPhongDTO(id={self.id},ten_loai={self.ten_loai},gia_gio={self.gia_gio},gia_ngay={self.gia_ngay},gia_dem={self.gia_dem})"
 class ChiTietDVDTO:
     def __init__(self, hd_id=None, dv_id=None, so_luong=None, gia_luc_dat=None, tong=None, ten_dv=None, gia_dv=None):
         self.hd_id = hd_id
@@ -87,7 +97,7 @@ class HoaDonDTO:
         self.thanh_toan_status = thanh_toan_status
         self.dat_phong_id = dat_phong_id
     def __repr__(self):
-        return f"HoaDonDTO(hd_id={self.hd_id}, tong_tien={self.tong_tien}, thoi_gian='{self.thoi_gian}', nv_id={self.nv_id}, thanh_toan_status={self.thanh_toan_status})"
+        return f"HoaDonDTO(hd_id={self.hd_id}, tong_tien={self.tong_tien}, thoi_gian='{self.thoi_gian}', nv_id={self.nv_id}, thanh_toan_status={self.thanh_toan_status}), dat_phong_id={self.dat_phong_id})"
 
 # DTO THONG KE
 class ThongKeDoanhThuDTO:
