@@ -376,57 +376,46 @@ class show_chart(FigureCanvasQTAgg):
         today = datetime.date.today()
         dates = [today - datetime.timedelta(days=i) for i in range(6, -1, -1)]
 
-        data_doanh_thu = self.dao_thong_ke.getDoanhThu7NgayGanNhat()      
-        doanh_thu = [(item.doanh_thu) for item in data_doanh_thu]
+        von = 100000
+        data_doanh_thu = self.dao_thong_ke.getDoanhThu7NgayGanNhat()
+        
+        doanh_thu = [item.doanh_thu for item in data_doanh_thu]
+        von_list = [von if dt > 0 else 0 for dt in doanh_thu]
+        loi_nhuan = [(dt - von if dt > 0 else 0) for dt in doanh_thu]
 
-        date_labels = [date.strftime("%Y-%m-%d") for date in dates]
+        date_labels = [date.strftime("%d-%m") for date in dates]
         x = np.arange(len(date_labels))
         width = 0.2
 
-        # Plot bars
-        rects = self.ax.bar(x, doanh_thu, width, label="Doanh thu", color="#1e90ff")
+        # Vẽ 3 cột sát nhau
+        rects_von = self.ax.bar(x - width, von_list, width, label="Vốn", color="#f4a261")
+        rects_doanh_thu = self.ax.bar(x, doanh_thu, width, label="Doanh thu", color="#48cae4")
+        rects_loi_nhuan = self.ax.bar(x + width, loi_nhuan, width, label="Lợi nhuận", color="#b185db")
 
-        # Tooltip annotation
-        annot = self.ax.annotate("", xy=(0,0), xytext=(15,15), textcoords="offset points",
-                                 bbox=dict(boxstyle="round", fc="w"),
-                                 arrowprops=dict(arrowstyle="->"))
-        annot.set_visible(False)
+        # Thêm số trên cột
+        def autolabel(rects):
+            for rect in rects:
+                height = rect.get_height()
+                if height != 0:
+                    self.ax.annotate(f'{height:,.0f}',
+                                     xy=(rect.get_x() + rect.get_width() / 2, height),
+                                     xytext=(0, 3),
+                                     textcoords="offset points",
+                                     ha='center', va='bottom', fontsize=8)
+        
+        autolabel(rects_von)
+        autolabel(rects_doanh_thu)
+        autolabel(rects_loi_nhuan)
 
-        def update_annot(bar):
-            x = bar.get_x() + bar.get_width() / 2
-            y = bar.get_height()
-            annot.xy = (x, y)
-            text = f"{y:,.0f} VND"
-            annot.set_text(text)
-            annot.get_bbox_patch().set_alpha(0.9)
-
-        def hover(event):
-            vis = annot.get_visible()
-            if event.inaxes == self.ax:
-                for bar in rects:
-                    contains, _ = bar.contains(event)
-                    if contains:
-                        update_annot(bar)
-                        annot.set_visible(True)
-                        self.fig.canvas.draw_idle()
-                        return
-            if vis:
-                annot.set_visible(False)
-                self.fig.canvas.draw_idle()
-
-        self.fig.canvas.mpl_connect("motion_notify_event", hover)
-
-        # Set chart titles and labels
+        # Thiết lập biểu đồ
         self.fig.suptitle("Thống kê doanh thu 7 ngày gần nhất", fontsize=15)
         self.ax.set_ylabel("Giá trị (VNĐ)")
         self.ax.set_xlabel("Ngày")
-
-        step = max(1, len(x) // 10)
-        self.ax.set_xticks(x[::step])
-        self.ax.set_xticklabels(date_labels[::step], rotation=0, ha="right")
-
+        self.ax.set_xticks(x)
+        self.ax.set_xticklabels(date_labels)
         self.ax.grid(True, linestyle="--", alpha=0.6)
         self.ax.legend()
+
 
 
 class show_year_chart(FigureCanvasQTAgg):
@@ -441,18 +430,39 @@ class show_year_chart(FigureCanvasQTAgg):
         
         years = [year for year in range(yearStart, yearEnd + 1)]
 
-
-        data_doanh_thu = self.dao_thong_ke.getDoanhThuTheoNam(year_start=yearStart, year_end=yearEnd)      
-        # doanh_thu = self.dao_hoa_don.get_doanh_thu_8_ngay_gan_nhat() or [1000000, 500000, 2000000, 1500000, 6000000, 2700000, 1500000, 900000]
-        doanh_thu = [(item.doanh_thu) for item in data_doanh_thu]
+        von = 100000
+        data_doanh_thu = self.dao_thong_ke.getDoanhThuTheoNam(year_start=yearStart, year_end=yearEnd)
+        
+        doanh_thu = [item.doanh_thu for item in data_doanh_thu]
+        von_list = [von if dt > 0 else 0 for dt in doanh_thu]
+        loi_nhuan = [(dt - von if dt > 0 else 0) for dt in doanh_thu]
+        # data_doanh_thu = self.dao_thong_ke.getDoanhThuTheoNam(year_start=yearStart, year_end=yearEnd)      
+        # # doanh_thu = self.dao_hoa_don.get_doanh_thu_8_ngay_gan_nhat() or [1000000, 500000, 2000000, 1500000, 6000000, 2700000, 1500000, 900000]
+        # doanh_thu = [(item.doanh_thu) for item in data_doanh_thu]
         
 
         x = np.arange(len(years))  # X-axis positions
         width = 0.2  # Bar width
 
-        # Plot Bars
-       
-        rects = self.ax.bar(x, doanh_thu, width, label="Doanh thu", color="#1e90ff")
+        # Vẽ 3 cột sát nhau
+        rects_von = self.ax.bar(x - width, von_list, width, label="Vốn", color="#f4a261")
+        rects_doanh_thu = self.ax.bar(x, doanh_thu, width, label="Doanh thu", color="#48cae4")
+        rects_loi_nhuan = self.ax.bar(x + width, loi_nhuan, width, label="Lợi nhuận", color="#b185db")
+
+        # Thêm số trên cột
+        def autolabel(rects):
+            for rect in rects:
+                height = rect.get_height()
+                if height != 0:
+                    self.ax.annotate(f'{height:,.0f}',
+                                     xy=(rect.get_x() + rect.get_width() / 2, height),
+                                     xytext=(0, 3),
+                                     textcoords="offset points",
+                                     ha='center', va='bottom', fontsize=8)
+        
+        autolabel(rects_von)
+        autolabel(rects_doanh_thu)
+        autolabel(rects_loi_nhuan)
         
         # Tooltip annotation
         annot = self.ax.annotate("", xy=(0,0), xytext=(15,15), textcoords="offset points",
@@ -512,9 +522,14 @@ class show_month_chart(FigureCanvasQTAgg):
 
         months = [month for month in range(1, 13)]
         
-        data_doanh_thu = self.dao_thong_ke.getDoanhThuTheoThang(nam=year)      
+        # data_doanh_thu = self.dao_thong_ke.getDoanhThuTheoThang(nam=year)      
+        # doanh_thu = [(item.doanh_thu) for item in data_doanh_thu]
+        von = 100000
+        data_doanh_thu = self.dao_thong_ke.getDoanhThuTheoThang(nam=year)
         
-        doanh_thu = [(item.doanh_thu) for item in data_doanh_thu]
+        doanh_thu = [item.doanh_thu for item in data_doanh_thu]
+        von_list = [von if dt > 0 else 0 for dt in doanh_thu]
+        loi_nhuan = [(dt - von if dt > 0 else 0) for dt in doanh_thu]
         
 
         x = np.arange(len(months))  # X-axis positions
@@ -522,8 +537,26 @@ class show_month_chart(FigureCanvasQTAgg):
 
         # Plot Bars
        
-        rects = self.ax.bar(x, doanh_thu, width, label="Doanh thu", color="#1e90ff")
+        # rects = self.ax.bar(x, doanh_thu, width, label="Doanh thu", color="#1e90ff")
+        # Vẽ 3 cột sát nhau
+        rects_von = self.ax.bar(x - width, von_list, width, label="Vốn", color="#f4a261")
+        rects_doanh_thu = self.ax.bar(x, doanh_thu, width, label="Doanh thu", color="#48cae4")
+        rects_loi_nhuan = self.ax.bar(x + width, loi_nhuan, width, label="Lợi nhuận", color="#b185db")
+
+        # Thêm số trên cột
+        def autolabel(rects):
+            for rect in rects:
+                height = rect.get_height()
+                if height != 0:
+                    self.ax.annotate(f'{height:,.0f}',
+                                     xy=(rect.get_x() + rect.get_width() / 2, height),
+                                     xytext=(0, 3),
+                                     textcoords="offset points",
+                                     ha='center', va='bottom', fontsize=8)
         
+        autolabel(rects_von)
+        autolabel(rects_doanh_thu)
+        autolabel(rects_loi_nhuan)
 
         # Tooltip annotation
         annot = self.ax.annotate("", xy=(0,0), xytext=(15,15), textcoords="offset points",
