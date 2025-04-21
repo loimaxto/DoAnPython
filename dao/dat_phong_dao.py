@@ -59,11 +59,10 @@ class DatPhongDAO:
         return rs[0][0]
 
     def insert_dat_phong(self, dat_phong):
-        query = """
-        INSERT INTO dat_phong 
-        (ngay_bd, ngay_kt, phi_dat_coc, note, phong_id, tien_luc_dat, kh_id) 
-        VALUES (?, ?, ?, ?, ?, ?, ?)
-        """
+        query = "INSERT INTO dat_phong \
+        (ngay_bd, ngay_kt, phi_dat_coc, note, phong_id, tien_luc_dat, kh_id) \
+        VALUES (?, ?, ?, ?, ?, ?, ?)\
+        "
         params = (
             dat_phong.ngay_bd,
             dat_phong.ngay_kt,

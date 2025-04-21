@@ -20,7 +20,7 @@ from view.login.dangnhap_handle import dangnhap
 from view.check_in.checkin_handle import Checkin
 from view.hoadon.hoadon_handle import hoadon
 from view.statistics.statistics_handle import StatisticsMainWindow
-
+from view.datphong2.datphong2_handle import DatPhong2
 class MainWindow(QtWidgets.QMainWindow,Ui_MainWindow):
     acc = 0 # acc = 0 nếu chưa login, =1 nếu login tk thường, =2 nếu là admin
     def __init__(self):
@@ -35,7 +35,7 @@ class MainWindow(QtWidgets.QMainWindow,Ui_MainWindow):
         
         # khai báo trang mới
         self.kh_page = kh_form_handle(self)
-        self.dp_page = DatPhongWindow()
+        self.dp_page = DatPhong2()
         self.nv_page = StaffManagementWindow(self)
         self.dv_page = ql_dichvu_ui(self)
         self.phong_gia_page = phong_giaphong_ui(self)
