@@ -22,6 +22,7 @@ import sqlite3
 import os
 import platform
 import subprocess
+import view.css
 from view.qlnhansu.nv_ui import Ui_StaffManagement # Assuming you saved the UI as kh_ui.py
 
 
