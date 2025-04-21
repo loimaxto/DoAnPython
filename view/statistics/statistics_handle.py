@@ -456,7 +456,21 @@ class show_year_chart(FigureCanvasQTAgg):
         def hover(event):
             vis = annot.get_visible()
             if event.inaxes == self.ax:
-                for bar in rects:
+                for bar in rects_doanh_thu:
+                    contains, _ = bar.contains(event)
+                    if contains:
+                        update_annot(bar)
+                        annot.set_visible(True)
+                        self.fig.canvas.draw_idle()
+                        return
+                for bar in rects_von:
+                    contains, _ = bar.contains(event)
+                    if contains:
+                        update_annot(bar)
+                        annot.set_visible(True)
+                        self.fig.canvas.draw_idle()
+                        return
+                for bar in rects_loi_nhuan:
                     contains, _ = bar.contains(event)
                     if contains:
                         update_annot(bar)
@@ -537,7 +551,21 @@ class show_month_chart(FigureCanvasQTAgg):
         def hover(event):
             vis = annot.get_visible()
             if event.inaxes == self.ax:
-                for bar in rects:
+                for bar in rects_doanh_thu:
+                    contains, _ = bar.contains(event)
+                    if contains:
+                        update_annot(bar)
+                        annot.set_visible(True)
+                        self.fig.canvas.draw_idle()
+                        return
+                for bar in rects_von:
+                    contains, _ = bar.contains(event)
+                    if contains:
+                        update_annot(bar)
+                        annot.set_visible(True)
+                        self.fig.canvas.draw_idle()
+                        return
+                for bar in rects_loi_nhuan:
                     contains, _ = bar.contains(event)
                     if contains:
                         update_annot(bar)
