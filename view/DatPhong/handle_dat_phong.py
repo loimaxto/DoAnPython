@@ -22,6 +22,7 @@ from dao.dich_vu_dao import DichVuDAO
 from dao.ct_dv_dao import ChiTietDVDAO
 from dao.hoadon_dao import HoaDonDAO
 from dao.datphong_dao import DatPhongDAO
+from view.hoadon.chitiet_hoadon_handle import chitiet_hoadon
 class DatPhongWindow(QtWidgets.QWidget, Ui_DatPhong_UI):
     def __init__(self):
         super().__init__()
@@ -32,6 +33,7 @@ class DatPhongWindow(QtWidgets.QWidget, Ui_DatPhong_UI):
         self.dao_ct_dv = ChiTietDVDAO()
         self.dao_datphong = DatPhongDAO()
         self.nv_id = 1
+        self.cthd = chitiet_hoadon()
         
         self.listDvHdWidget = ListDichVuHoaDon(self)
         self.searchWindowWidget = SearchWindow(self)
@@ -54,10 +56,14 @@ class DatPhongWindow(QtWidgets.QWidget, Ui_DatPhong_UI):
         
         self.btnUpdateDatPhong.clicked.connect(self.insert_datPhongIdForCurrentHoaDon)
         self.btnCompletePayment.clicked.connect(self.completePaymentActionEvent)
-    
+
     def completePaymentActionEvent(self):
+        # xuất chi tiết hóa đơn
+        self.cthd.show_all(1)# thử nghiệm
+
         print("thanh toán")
         print(self.current_hoadon_dto)
+        self.cthd.show()
         
     def insert_datPhongIdForCurrentHoaDon(self):
         phieuDatPhongId = self.textEditIdPhieuDatPhong.toPlainText()

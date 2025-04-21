@@ -1,6 +1,7 @@
 from PyQt6 import QtCore, QtGui, QtWidgets
 from view.hoadon.chitiet_hoadon import Ui_MainWindow
 import sqlite3
+from view.css import css
 
 class chitiet_hoadon(Ui_MainWindow, QtWidgets.QMainWindow):
     def __init__(self):
@@ -16,6 +17,8 @@ class chitiet_hoadon(Ui_MainWindow, QtWidgets.QMainWindow):
         self.dis_pla.verticalHeader().setVisible(False)
         self.dis_pla.setSelectionMode(QtWidgets.QTableView.SelectionMode.SingleSelection)
         self.dis_pla.setSelectionBehavior(QtWidgets.QTableView.SelectionBehavior.SelectRows)
+        # css(self)
+
     
     def show_all(self, id):
         # lấy dữ liệu hóa đơn
