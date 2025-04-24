@@ -59,10 +59,10 @@ class DatPhongWindow(QtWidgets.QWidget, Ui_DatPhong_UI):
 
     def completePaymentActionEvent(self):
         # xuất chi tiết hóa đơn
-        self.cthd.show_all(1)# thử nghiệm
+        self.cthd.show_all(self.current_hoadon_dto.hd_id)# thử nghiệm
 
         print("thanh toán")
-        print(self.current_hoadon_dto)
+        print("Hoa don dang chon: ", self.current_hoadon_dto.hd_id)
         self.cthd.show()
         
     def insert_datPhongIdForCurrentHoaDon(self):
