@@ -1,97 +1,120 @@
-from PyQt6.QtWidgets import (QApplication, QWidget, QVBoxLayout, QHBoxLayout,
-                              QPushButton, QLabel)
-from PyQt6.QtCore import QPropertyAnimation, QEasingCurve, QPoint,Qt
+import sys
+from PyQt6.QtWidgets import (QApplication, QWidget, QVBoxLayout, 
+                            QScrollArea, QGridLayout, QLabel)
+from PyQt6.QtGui import QPixmap, QImage
+from PyQt6.QtCore import Qt
+import os
+import random
 
-
-
-class VerticalPageSlider(QWidget):
-    def __init__(self):
-        super().__init__()
-        self.current_index = 0
-        self.pages = []
-        self.animation = None
-        self.setup_ui()
+class FaceGalleryWidget(QWidget):
+    def __init__(self, image_folder=None, parent=None):
+        super().__init__(parent)
+        self.setWindowTitle("Thư viện khuôn mặt")
+        self.setMinimumSize(800, 600)
+        
+        # Tạo layout chính
+        self.main_layout = QVBoxLayout(self)
+        
+        # Tạo scroll area để xem nhiều ảnh
+        self.scroll_area = QScrollArea()
+        self.scroll_area.setWidgetResizable(True)
+        
+        # Widget chứa các ảnh
+        self.container = QWidget()
+        self.grid_layout = QGridLayout(self.container)
+        self.grid_layout.setSpacing(10)
+        
+        # Thêm các ảnh demo (hoặc từ thư mục)
+        self.load_images(image_folder)
+        
+        self.scroll_area.setWidget(self.container)
+        self.main_layout.addWidget(self.scroll_area)
+        
+    def load_images(self, image_folder=None):
+        """Tải ảnh từ thư mục hoặc tạo ảnh demo"""
+        # Xóa các widget cũ nếu có
+        for i in reversed(range(self.grid_layout.count())): 
+            self.grid_layout.itemAt(i).widget().setParent(None)
+        
+        # Tạo 30 ảnh demo nếu không có thư mục ảnh
+        if image_folder is None or not os.path.exists(image_folder):
+            self.create_demo_faces()
+        else:
+            self.load_from_folder(image_folder)
     
-    def setup_ui(self):
-        layout = QVBoxLayout(self)
-        
-        # Tạo các trang
-        colors = ["lightblue", "lightgreen", "lightyellow"]
-        for i in range(3):
-            page = QLabel(f"Page {i+1}")
-            page.setAlignment(Qt.AlignCenter)
-            page.setStyleSheet(f"background-color: {colors[i]}; font-size: 24px;")
-            page.setFixedSize(400, 300)
-            layout.addWidget(page)
-            self.pages.append(page)
-            if i != 0:
-                page.hide()
-        
-        # Tạo nút điều khiển
-        button_layout = QHBoxLayout()
-        prev_btn = QPushButton("Previous")
-        next_btn = QPushButton("Next")
-        button_layout.addWidget(prev_btn)
-        button_layout.addWidget(next_btn)
-        layout.addLayout(button_layout)
-        
-        # Kết nối tín hiệu
-        prev_btn.clicked.connect(self.show_previous_page)
-        next_btn.clicked.connect(self.show_next_page)
+    def create_demo_faces(self):
+        """Tạo 30 ảnh khuôn mặt demo màu ngẫu nhiên"""
+        for i in range(30):
+            # Tạo ảnh màu ngẫu nhiên (thay bằng ảnh thực tế)
+            color = (random.randint(0, 255), random.randint(0, 255), random.randint(0, 255))
+            image = QImage(100, 100, QImage.Format.Format_RGB32)
+            image.fill(Qt.GlobalColor(color[0], color[1], color[2]))
+            
+            pixmap = QPixmap.fromImage(image)
+            label = QLabel()
+            label.setPixmap(pixmap.scaled(100, 100, Qt.AspectRatioMode.KeepAspectRatio))
+            label.setAlignment(Qt.AlignmentFlag.AlignCenter)
+            label.setStyleSheet("border: 1px solid gray;")
+            
+            # Thêm nhãn ID
+            id_label = QLabel(f"Face {i+1}")
+            id_label.setAlignment(Qt.AlignmentFlag.AlignCenter)
+            
+            # Tạo widget chứa ảnh và nhãn
+            face_widget = QWidget()
+            face_layout = QVBoxLayout(face_widget)
+            face_layout.addWidget(label)
+            face_layout.addWidget(id_label)
+            
+            # Thêm vào grid layout (5 cột)
+            row = i // 5
+            col = i % 5
+            self.grid_layout.addWidget(face_widget, row, col)
     
-    def show_next_page(self):
-        if self.current_index < len(self.pages) - 1:
-            self.show_page(self.current_index + 1)
-    
-    def show_previous_page(self):
-        if self.current_index > 0:
-            self.show_page(self.current_index - 1)
-    
-    def show_page(self, new_index):
-        if new_index == self.current_index or (
-            self.animation and self.animation.state() == QPropertyAnimation.Running
-        ):
-            return
+    def load_from_folder(self, folder_path):
+        """Tải ảnh từ thư mục"""
+        image_files = [f for f in os.listdir(folder_path) 
+                     if f.lower().endswith(('.png', '.jpg', '.jpeg'))]
         
-        current_page = self.pages[self.current_index]
-        next_page = self.pages[new_index]
-        
-        next_page.show()
-        next_page.raise_()
-        
-        direction = 1 if new_index > self.current_index else -1
-        
-        # Thiết lập vị trí ban đầu
-        next_page.move(0, direction * self.height())
-        
-        # Tạo animation
-        self.animation = QPropertyAnimation(next_page, b"pos")
-        self.animation.setDuration(300)
-        self.animation.setEasingCurve(QEasingCurve.OutQuad)
-        self.animation.setStartValue(QPoint(0, direction * self.height()))
-        self.animation.setEndValue(QPoint(0, 0))
-        
-        current_animation = QPropertyAnimation(current_page, b"pos")
-        current_animation.setDuration(300)
-        current_animation.setEasingCurve(QEasingCurve.OutQuad)
-        current_animation.setStartValue(QPoint(0, 0))
-        current_animation.setEndValue(QPoint(0, -direction * self.height()))
-        
-        def on_animation_finished():
-            current_page.hide()
-            current_page.move(0, 0)
-            self.current_index = new_index
-            self.animation = None
-        
-        self.animation.finished.connect(on_animation_finished)
-        
-        self.animation.start()
-        current_animation.start(QPropertyAnimation.DeleteWhenStopped)
-
+        for i, filename in enumerate(image_files[:30]):  # Giới hạn 30 ảnh
+            try:
+                image_path = os.path.join(folder_path, filename)
+                pixmap = QPixmap(image_path)
+                
+                if pixmap.isNull():
+                    continue
+                
+                label = QLabel()
+                label.setPixmap(pixmap.scaled(100, 100, Qt.AspectRatioMode.KeepAspectRatio))
+                label.setAlignment(Qt.AlignmentFlag.AlignCenter)
+                label.setStyleSheet("border: 1px solid gray;")
+                
+                # Thêm nhãn tên file
+                id_label = QLabel(os.path.splitext(filename)[0])
+                id_label.setAlignment(Qt.AlignmentFlag.AlignCenter)
+                
+                # Tạo widget chứa ảnh và nhãn
+                face_widget = QWidget()
+                face_layout = QVBoxLayout(face_widget)
+                face_layout.addWidget(label)
+                face_layout.addWidget(id_label)
+                
+                # Thêm vào grid layout (5 cột)
+                row = i // 5
+                col = i % 5
+                self.grid_layout.addWidget(face_widget, row, col)
+                
+            except Exception as e:
+                print(f"Không thể tải ảnh {filename}: {e}")
 
 if __name__ == "__main__":
-    app = QApplication([])
-    window = VerticalPageSlider()
-    window.resize(400, 300)
-    window.show()
-    app.exec()
+    app = QApplication(sys.argv)
+    
+    # Tạo widget với ảnh demo
+    gallery = FaceGalleryWidget("recogni_face/dataset/1")
+    
+    # Hoặc tải ảnh từ thư mục (bỏ comment dòng dưới)
+    # gallery = FaceGalleryWidget("đường_dẫn_đến_thư_mục_ảnh")
+    
+    gallery.show()
+    sys.exit(app.exec())

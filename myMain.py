@@ -41,7 +41,6 @@ class MainWindow(QtWidgets.QMainWindow,Ui_MainWindow):
         self.phong_gia_page = phong_giaphong_ui(self)
         self.checkin_page = Checkin()
         self.hoadon_page = hoadon()
-        self.tk_page = None
         self.thongke_page = StatisticsMainWindow()
         # thêm trang mới vào menumenu
         self.ui.stackedWidget.addWidget(self.dp_page)

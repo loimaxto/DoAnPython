@@ -1,5 +1,5 @@
 class KhachHangDTO:
-    def __init__(self, kh_id=None, ten=None, sdt=None, image=None):
+    def __init__(self, kh_id=None, ten=None, sdt=None, image="None"):
         self.kh_id = kh_id
         self.ten = ten
         self.sdt = sdt

@@ -1,10 +1,14 @@
 import torch
 import torch.optim as optim
+import sys
+import os
+project_path = os.path.abspath(os.path.join(os.path.dirname(__file__), "../../")) 
+sys.path.append(project_path)
 from torchvision import datasets, transforms
 from torch.utils.data import DataLoader
-from modelsCNN import FaceRecognitionCNN
+from recogni_face.modelsCNN import FaceRecognitionCNN
 import torch.nn as nn
-from load import CustomImageDataset
+from recogni_face.load import CustomImageDataset
 class Prepare_Data:
     def __init__(self):
         self.transform = transforms.Compose([

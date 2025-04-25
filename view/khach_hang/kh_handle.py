@@ -28,6 +28,7 @@ class CustomerManagementWindow(QtWidgets.QWidget, Ui_CustomerManagement):
         self.model.setHorizontalHeaderLabels(["Chọn", "ID", "Họ và tên", "Số điện thoại", "Hình ảnh"])
         self.customerTableView.setModel(self.model)
         
+        
         # Thiết lập delegate cho cột radio button
         self.customerTableView.setItemDelegateForColumn(0, RadioButtonDelegate(self.customerTableView))
         
@@ -57,13 +58,53 @@ class CustomerManagementWindow(QtWidgets.QWidget, Ui_CustomerManagement):
         
         self.is_update_state = 0
         self.selected_customer_id = None
-
+        self.model.itemChanged.connect(self.handle_item_changed)
+    #click path hiện hình ảnh
+    
+    def handle_item_changed(self, item):
+        """Xử lý khi trạng thái của item thay đổi"""
+        # Chỉ xử lý cho cột radio button (cột 0)
+        if item.column() == 0 and item.isCheckable():
+            row = item.row()
+            
+            # Nếu radio button được chọn
+            if item.checkState() == Qt.CheckState.Checked:
+                # Lưu thông tin khách hàng được chọn
+                self.selected_customer = KhachHangDTO(
+                    kh_id=self.model.item(row, 1).text(),
+                    ten=self.model.item(row, 2).text(),
+                    sdt=self.model.item(row, 3).text(),
+                    image=self.model.item(row, 4).text()
+                )
+                print(self.selected_customer)
+                # Cập nhật form
+                self.update_form_with_selected_customer()
+                
+                # Bỏ chọn tất cả các radio button khác
+                self.unselect_other_radios(row)
+            else:
+                # Nếu bỏ chọn radio button
+                if self.selected_customer and self.selected_customer.kh_id == self.model.item(row, 1).text():
+                    self.selected_customer = None
+                    self.clear_form()
+    
+    def unselect_other_radios(self, selected_row):
+        """Bỏ chọn tất cả radio button ngoại trừ hàng được chỉ định"""
+        for row in range(self.model.rowCount()):
+            if row != selected_row:
+                item = self.model.item(row, 0)
+                if item.checkState() == Qt.CheckState.Checked:
+                    item.setCheckState(Qt.CheckState.Unchecked)
+    
     def load_fake_data(self, search_term=None):
         """Tải dữ liệu khách hàng từ database"""
-        customers = self.dao_customer.get_all_khach_hang()
+        self.selected_customer = None
+        if search_term:
+            customers = [self.dao_customer.get_khach_hang_by_id(search_term)]
+        else:    
+            customers = self.dao_customer.get_all_khach_hang()
         self.model.setRowCount(0)
         
-        # Tạo QButtonGroup để quản lý các radio button
         for row_index, row_data in enumerate(customers):
             # Tạo item cho cột radio button (cột 0)
             radio_item = QtGui.QStandardItem()
@@ -82,54 +123,6 @@ class CustomerManagementWindow(QtWidgets.QWidget, Ui_CustomerManagement):
             # Căn giữa nội dung các cột
             for col in range(1, 5):
                 self.model.item(row_index, col).setTextAlignment(Qt.AlignmentFlag.AlignCenter)
-        
-        # Kết nối sự kiện thay đổi dữ liệu
-        self.model.itemChanged.connect(self.handle_selection_change)
-    def handle_selection_change(self, item):
-        """Xử lý khi radio button được chọn/bỏ chọn với cơ chế ổn định"""
-        
-        # Chỉ xử lý cho cột radio button (cột 0)
-        if item.column() != 0 or not item.isCheckable():
-            return
-        
-        # Sử dụng blockSignals để tránh lặp vô hạn
-        self.model.blockSignals(True)
-        try:
-            current_state = item.checkState()
-            
-            if current_state == Qt.CheckState.Checked:
-                # Xử lý khi được chọn
-                row = item.row()
-                self.selected_customer = KhachHangDTO(
-                    kh_id=self.model.item(row, 1).text(),
-                    ten=self.model.item(row, 2).text(),
-                    sdt=self.model.item(row, 3).text(),
-                    image=self.model.item(row, 4).text()
-                )
-                
-                # Cập nhật giao diện
-                self.update_form_with_selected_customer()
-                
-                # Bỏ chọn các radio khác
-                self.unselect_other_radios(row)
-                
-                print(f"Đã chọn khách hàng: {self.selected_customer.ten}")
-            else:
-                # Xử lý khi bỏ chọn
-                if self.selected_customer and self.selected_customer.kh_id == self.model.item(item.row(), 1).text():
-                    self.selected_customer = None
-                    self.clear_form()
-                    print("Đã bỏ chọn khách hàng")
-        finally:
-            self.model.blockSignals(False)
-
-    def unselect_other_radios(self, selected_row):
-        """Bỏ chọn tất cả radio button khác một cách an toàn"""
-        for row in range(self.model.rowCount()):
-            if row != selected_row:
-                item = self.model.item(row, 0)
-                if item.checkState() == Qt.CheckState.Checked:
-                    item.setCheckState(Qt.CheckState.Unchecked)
 
     def update_form_with_selected_customer(self):
         """Cập nhật form với thông tin khách hàng được chọn"""
@@ -161,26 +154,30 @@ class CustomerManagementWindow(QtWidgets.QWidget, Ui_CustomerManagement):
        
     def add_customer(self):
         # giới hạn quyền
-        if self.par.acc == 1:
-            self.par.gioi_han_quyen()
+        try:
+            if self.par.acc == 1:
+                self.par.gioi_han_quyen()
+                return
+            # Add fake customer data
+            new_id = self.dao_customer.get_khach_hang_next_id()
+            new_name = self.nameLineEdit.text()
+            new_phone = self.phoneLineEdit.text()
+            new_image = self.label_imagePath.text() or "None"
+            if not new_name or not new_phone:
+                QMessageBox.information(self, "Cảnh báo", "Vui lòng điền đầy đủ thông tin khách hàng!")
+                return
+        except Exception as e:
+            QMessageBox.critical(self,"cảnh báo",f"lỗi: {e}")
             return
-        # Add fake customer data
-        new_id = self.dao_customer.get_khach_hang_next_id()
-        new_name = self.nameLineEdit.text()
-        new_phone = self.phoneLineEdit.text()
-        new_image = self.label_imagePath.text() or "không có ảnh"
-        if not new_name or not new_phone:
-            QMessageBox.information(self, "Cảnh báo", "Vui lòng điền đầy đủ thông tin khách hàng!")
-            return
-
         #stored_file = self.store_image(new_image, new_id)
         #if not stored_file:
         #    QMessageBox.critical(self,  "Lỗi", "Không thể lưu hình ảnh")
         #    return
 
         try:
-            obj_kh = KhachHangDTO(kh_id=None, ten=new_name, sdt=new_phone)
+            obj_kh = KhachHangDTO(kh_id=None, ten=new_name, sdt=new_phone,image="None")
             self.dao_customer.insert_khach_hang(obj_kh)
+            
         except Exception as e:
             QMessageBox.critical(self,  "Lỗi", f"Không thể lưu thông tin khách hàng: {e}")
             return
@@ -201,39 +198,45 @@ class CustomerManagementWindow(QtWidgets.QWidget, Ui_CustomerManagement):
                     self.model.item(row, 4).text())
             
     def update_customer(self):
-        # giới hạn quyền
-        if self.par.acc == 1:
-            self.par.gioi_han_quyen()
-            return
-        self.is_update_state = 1 - self.is_update_state
-        palette = self.btn_confirm_update.palette()
-        if self.is_update_state == 1:
-            self.btn_confirm_update.setVisible(True)
-            palette.setColor(QtGui.QPalette.ColorRole.Button, QtGui.QColor("blue"))
-            selected_indexes = self.customerTableView.selectionModel().selectedIndexes()
-            self.imageButton.setVisible(False)
-            self.label_imagePath.setText("Không sửa ảnh")
-            
-                # self.model.setItem(row, 3, QtGui.QStandardItem(self.imagePathLabel.text()))
-        else:
-            self.exit_update_state()
+        try:    # giới hạn quyền
+            if self.par.acc == 1:
+                self.par.gioi_han_quyen()
+                return
+            self.is_update_state = 1 - self.is_update_state
+            palette = self.btn_confirm_update.palette()
+            if self.is_update_state == 1:
+                self.btn_confirm_update.setVisible(True)
+                palette.setColor(QtGui.QPalette.ColorRole.Button, QtGui.QColor("blue"))
+                selected_indexes = self.customerTableView.selectionModel().selectedIndexes()
+                self.imageButton.setVisible(False)
+                self.label_imagePath.setText("Không sửa ảnh")
                 
-    def update_confirmed(self):
-        if not self.dto_kh:
-            QMessageBox.warning(self, "Cảnh báo", "Hãy chọn một khách hàng để cập nhập thông tin")
-            return
-
-        try:   
-            self.dto_kh.ten = self.nameLineEdit.text()
-            self.dto_kh.sdt = self.phoneLineEdit.text()
-            self.dao_customer.update_khach_hang(self.dto_kh)
+                    # self.model.setItem(row, 3, QtGui.QStandardItem(self.imagePathLabel.text()))
+            else:
+                self.exit_update_state()
         except Exception as e:
-            QMessageBox.critical(self, "Lỗi", f"Không thể cập nhật thông tin khách hàng: {e}")
-            return
+            QMessageBox(self,"cảnh báo",f"lỗi: {e}")
+            return 
+    def update_confirmed(self):
+        try:
+            if not self.dto_kh:
+                QMessageBox.warning(self, "Cảnh báo", "Hãy chọn một khách hàng để cập nhập thông tin")
+                return
 
-        self.exit_update_state()
-        self.load_fake_data()
-        
+            try:   
+                self.dto_kh.kh_id = 1
+                self.dto_kh.ten = self.nameLineEdit.text()
+                self.dto_kh.sdt = self.phoneLineEdit.text()
+                self.dao_customer.update_khach_hang(self.dto_kh)
+            except Exception as e:
+                QMessageBox.critical(self, "Lỗi", f"Không thể cập nhật thông tin khách hàng: {e}")
+                return
+
+            self.exit_update_state()
+            self.load_fake_data()
+        except Exception as e:
+            QMessageBox(self,"cảnh báo",f"lỗi: {e}")
+            return 
     def exit_update_state(self):
         self.btn_confirm_update.setVisible(False)
         self.imageButton.setVisible(True)
@@ -246,14 +249,24 @@ class CustomerManagementWindow(QtWidgets.QWidget, Ui_CustomerManagement):
         if self.par.acc == 1:
             self.par.gioi_han_quyen()
             return
-        selected_indexes = self.customerTableView.selectionModel().selectedIndexes()
-        if selected_indexes and selected_indexes[0].row() >= 0:
-            deleted_id = self.model.itemFromIndex(selected_indexes[0]).text()
+        selected_indexes = self.selected_customer
+        if selected_indexes:
+            reply = QMessageBox.question(
+            self,
+            'Xác nhận',
+            f'Bạn có chắc chắn muốn xóa dữ liệu khách hàng?',
+            QMessageBox.StandardButton.Yes | QMessageBox.StandardButton.No,
+            QMessageBox.StandardButton.No
+            )
+            if reply == QMessageBox.StandardButton.No:
+                return
+            deleted_id = selected_indexes.kh_id
             if deleted_id:
                 try:
                     self.dao_customer.delete_khach_hang(int(deleted_id))
                     self.load_fake_data()
-                    QMessageBox.information(self, "Xóa thành công", f"Xóa khách hàng: {self.model.itemFromIndex(selected_indexes[1]).text()}")
+                    self.clear_fields()
+                    QMessageBox.information(self, "Xóa thành công", f"Xóa khách hàng: {selected_indexes.ten}")
                 except Exception as e:
                     QMessageBox.critical(self,  "Lỗi", f"Không thể xóa khách hàng: {e}")
             else:
@@ -264,7 +277,7 @@ class CustomerManagementWindow(QtWidgets.QWidget, Ui_CustomerManagement):
     def clear_fields(self):
         self.nameLineEdit.clear()
         self.phoneLineEdit.clear()
-        self.label_imagePath.setText("Không có ảnh")
+        self.label_imagePath.setText("None")
 
     def select_image(self):
         file_dialog = QtWidgets.QFileDialog()
@@ -273,8 +286,22 @@ class CustomerManagementWindow(QtWidgets.QWidget, Ui_CustomerManagement):
             self.label_imagePath.setText(file_path)
 
     def search_customers(self):
-        search_term = self.searchLineEdit.text()
-        self.load_fake_data(search_term)
+        
+        search_term = self.searchLineEdit.text().strip()
+        if search_term!="":    
+            try:
+                if search_term.isdigit():
+                    print(search_term,type(search_term))
+                    self.load_fake_data(int(search_term))
+                else:
+                    QMessageBox.critical(self,  "ID không hợp lệ", "ID phải là số")
+                    return
+            except Exception as e:
+                self.load_fake_data()
+                QMessageBox.critical(self,  "ID không hợp lệ", "Hiện tại không tồn tại khách hàng này")
+                return
+        else:
+            self.load_fake_data()
     def store_image(self,selected_path,customer_id):
         if selected_path:
             file_name = "customer_" + str(customer_id)
