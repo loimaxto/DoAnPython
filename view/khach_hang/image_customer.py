@@ -12,9 +12,14 @@ class FaceGalleryWidget(QWidget):
         self.setWindowTitle("Thư viện khuôn mặt")
         self.setMinimumSize(800, 600)
         self.back_btn1 = QPushButton("Quay lại!")
+        temp = QLabel()
+        temp.setText(f"#{id_customer}: {name_customer}")
+        temp.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        temp.setStyleSheet("border: 1px solid gray;font-size:30px;")
         # Tạo layout chính
-        self.main_layout = QVBoxLayout(self)
         
+        self.main_layout = QVBoxLayout(self)
+        self.main_layout.addWidget(temp)
         # Tạo scroll area để xem nhiều ảnh
         self.scroll_area = QScrollArea()
         self.scroll_area.setWidgetResizable(True)

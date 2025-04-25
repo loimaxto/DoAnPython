@@ -48,7 +48,7 @@ class kh_form_handle(QWidget,Ui_khform):
                         QMessageBox.warning(self, "Lỗi", "ID khách hàng không hợp lệ")
                         return
                         
-                    self.imageFace = FaceGalleryWidget(id_customer=customer_id)
+                    self.imageFace = FaceGalleryWidget(id_customer=customer_id,name_customer=name_customer)
                     self.stackedWidget.addWidget(self.imageFace)
                     self.stackedWidget.setCurrentWidget(self.imageFace)
                     # Sửa kết nối signal để tránh gọi ngay lập tức
