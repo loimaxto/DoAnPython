@@ -37,6 +37,8 @@ class DatPhong2(QtWidgets.QWidget,Ui_datphong2):
         self.end_date.setCalendarPopup(True)
         # Thiết lập chỉ đọc
         self.tableviewcustomer.setEditTriggers(QTableWidget.EditTrigger.NoEditTriggers)
+        self.tableviewroom.setEditTriggers(QTableWidget.EditTrigger.NoEditTriggers)
+        #tạo dói tượng trước khi xử lí
         self.table_khachhang = KhachHangDAO()
         self.table_phong = PhongDAO()
         self.table_datphong = DatPhongDAO()
@@ -63,10 +65,14 @@ class DatPhong2(QtWidgets.QWidget,Ui_datphong2):
         self.settienuoctinh(0)
         self.start_date.setDateTime(QtCore.QDateTime.currentDateTime())
         self.end_date.setDateTime(QtCore.QDateTime.currentDateTime())
-        
-        
+        self.khachhangs = self.table_khachhang.get_all_khach_hang()
+        self.phongs = self.table_phong.get_all_phong()
+        self.show_customer()
+        self.show_room()
         self.set_default()
-        
+        self.note.clear()
+        self.show_phong.setText("Chưa Chọn")
+        self.show_khachhang.setText("Chưa chọn")
     def showlayout_roomcustomer(self,choose):
         if(choose=='phòng'):
             self.btn_khachhang.hide()
@@ -142,6 +148,7 @@ class DatPhong2(QtWidgets.QWidget,Ui_datphong2):
             self.tableviewcustomer.setColumnCount(5)
             self.tableviewcustomer.setHorizontalHeaderLabels(["Chọn","ID","Họ tên"
                                                               ,"Số Điện Thoại","Image"])
+            self.tableviewcustomer.setRowCount(0)
             for row_index,row_data in enumerate(self.khachhangs):
                 self.tableviewcustomer.insertRow(row_index)
                 radio_temp = QRadioButton()
@@ -232,6 +239,7 @@ class DatPhong2(QtWidgets.QWidget,Ui_datphong2):
             self.tableviewroom.setHorizontalHeaderLabels(["Chọn","ID","Tên Phòng"
                                                               ,"Số Giường","Giá Phòng",
                                                               "Tình Trạng Phòng","Tình Trạng SD"])
+            self.tableviewroom.setRowCount(0)
             table_giaphong = GiaPhongDAO()
             
             for row_index,row_data in enumerate(self.phongs):
@@ -401,6 +409,7 @@ class DatPhong2(QtWidgets.QWidget,Ui_datphong2):
             print(datphongtemp)
             self.table_datphong.insert_dat_phong(dat_phong=datphongtemp)
             self.resetForm()
+            self.on_success("Bạn đã đặt phòng thành công!")
         except Exception as e:
             print(str(e))
             QMessageBox.critical(self,"lỗi",f"lỗi khi thêm datphong{str(e)}")
@@ -411,9 +420,16 @@ class DatPhong2(QtWidgets.QWidget,Ui_datphong2):
             self.on_radio_room_clicked(checkID,GiaPhongDTO(gia_ngay=self.__gia.get("ngày"),
                                                 gia_dem=self.__gia.get("đêm"),
                                                 gia_gio=self.__gia.get("giờ")))
+            
         else:
             QMessageBox.critical(self,"lỗi",f"bạn phải chọn phòng trước khi chọn thời gian")
             return
+    def on_success(self,content):
+        QMessageBox.information(
+            self,  # parent window
+            "Thành công",  # tiêu đề
+            f"{content}"  # nội dung
+        )
 if __name__ == "__main__":
     import sys
     app = QtWidgets.QApplication(sys.argv)
