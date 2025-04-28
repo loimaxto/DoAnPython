@@ -47,6 +47,7 @@ class Ui_Form(object):
         self.in_id.setObjectName("in_id")
         self.formLayout.setWidget(0, QtWidgets.QFormLayout.ItemRole.FieldRole, self.in_id)
         self.label_5 = QtWidgets.QLabel(parent=Form)
+        self.label_5.setAutoFillBackground(True)
         self.label_5.setObjectName("label_5")
         self.formLayout.setWidget(1, QtWidgets.QFormLayout.ItemRole.LabelRole, self.label_5)
         self.in_sg = QtWidgets.QLineEdit(parent=Form)
