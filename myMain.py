@@ -19,6 +19,7 @@ from view.phong_va_giaphong.phong_giaphong_handle import phong_giaphong_ui
 from view.login.dangnhap_handle import dangnhap
 from view.check_in.checkin_handle import Checkin
 from view.hoadon.hoadon_handle import hoadon
+from view.DatPhong.handle_dat_phong import DatPhongWindow
 from view.statistics.statistics_handle import StatisticsMainWindow
 from view.datphong2.datphong2_handle import DatPhong2
 class MainWindow(QtWidgets.QMainWindow,Ui_MainWindow):
@@ -37,6 +38,8 @@ class MainWindow(QtWidgets.QMainWindow,Ui_MainWindow):
         self.kh_page = kh_form_handle(self)
         self.phongSuDung_page = DatPhongWindow()
         self.dp_page = DatPhong2()
+        self.dp_page = DatPhongWindow()
+        self.dp2_page = DatPhong2()
         self.nv_page = StaffManagementWindow(self)
         self.dv_page = ql_dichvu_ui(self)
         self.phong_gia_page = phong_giaphong_ui(self)
@@ -49,7 +52,7 @@ class MainWindow(QtWidgets.QMainWindow,Ui_MainWindow):
         self.ui.stackedWidget.addWidget(self.kh_page)
         self.ui.stackedWidget.addWidget(self.nv_page)
         self.ui.stackedWidget.addWidget(self.checkin_page)
-
+        self.ui.stackedWidget.addWidget(self.dp2_page)
         self.ui.stackedWidget.addWidget(self.dv_page)
         self.ui.stackedWidget.addWidget(self.phong_gia_page)
         self.ui.stackedWidget.addWidget(self.hoadon_page)
@@ -57,6 +60,7 @@ class MainWindow(QtWidgets.QMainWindow,Ui_MainWindow):
         self.ui.stackedWidget.setCurrentWidget(self.kh_page)
         
         # lập trình chuyển trang
+        self.ui.datphongg2_btn.clicked.connect(lambda: self.ui.stackedWidget.setCurrentWidget(self.dp2_page))
         self.ui.nhanVienBtn.clicked.connect(lambda: self.ui.stackedWidget.setCurrentWidget(self.nv_page))
         self.ui.khachHangBtn.clicked.connect(lambda: self.ui.stackedWidget.setCurrentWidget(self.kh_page))
         self.ui.datPhongBtn.clicked.connect(lambda: self.ui.stackedWidget.setCurrentWidget(self.dp_page))
