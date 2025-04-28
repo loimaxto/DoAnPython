@@ -22,6 +22,8 @@ from dao.dich_vu_dao import DichVuDAO
 from dao.ct_dv_dao import ChiTietDVDAO
 from dao.hoadon_dao import HoaDonDAO
 from dao.datphong_dao import DatPhongDAO
+from dao.dat_phong_dao import DatPhongDAO as PhieuDatPhong
+
 from view.hoadon.chitiet_hoadon_handle import chitiet_hoadon
 class DatPhongWindow(QtWidgets.QWidget, Ui_DatPhong_UI):
     def __init__(self):
@@ -32,6 +34,7 @@ class DatPhongWindow(QtWidgets.QWidget, Ui_DatPhong_UI):
         self.dao_hoaDon = HoaDonDAO()
         self.dao_ct_dv = ChiTietDVDAO()
         self.dao_datphong = DatPhongDAO()
+        self.dao_phieuDatPhong = PhieuDatPhong()
         self.nv_id = 1
         self.cthd = chitiet_hoadon()
         
@@ -70,6 +73,7 @@ class DatPhongWindow(QtWidgets.QWidget, Ui_DatPhong_UI):
         # nếu phong hiện tại đã có hóa đơn thì cập nhật mã phiếu đặt phòng
         if self.current_hoadon_dto != None :
             phieuDatPhongDTO = self.dao_datphong.get_phieuDatPhongById(phieuDatPhongId)
+            self.dao_datphong.update_hoaDonId_for_phieuDatPhong(self.current_hoadon_dto.hd_id, phieuDatPhongId)
             if phieuDatPhongDTO == None:
                 QMessageBox.information(self, "", "Không tìm thấy mã phiếu đặt phòng này !")
                 return

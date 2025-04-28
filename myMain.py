@@ -35,6 +35,7 @@ class MainWindow(QtWidgets.QMainWindow,Ui_MainWindow):
         
         # khai báo trang mới
         self.kh_page = kh_form_handle(self)
+        self.phongSuDung_page = DatPhongWindow()
         self.dp_page = DatPhong2()
         self.nv_page = StaffManagementWindow(self)
         self.dv_page = ql_dichvu_ui(self)
@@ -43,6 +44,7 @@ class MainWindow(QtWidgets.QMainWindow,Ui_MainWindow):
         self.hoadon_page = hoadon()
         self.thongke_page = StatisticsMainWindow()
         # thêm trang mới vào menumenu
+        self.ui.stackedWidget.addWidget(self.phongSuDung_page)
         self.ui.stackedWidget.addWidget(self.dp_page)
         self.ui.stackedWidget.addWidget(self.kh_page)
         self.ui.stackedWidget.addWidget(self.nv_page)
@@ -65,7 +67,8 @@ class MainWindow(QtWidgets.QMainWindow,Ui_MainWindow):
         self.ui.hoadon_btn.clicked.connect(lambda: self.ui.stackedWidget.setCurrentWidget(self.hoadon_page))
         self.ui.thongKeBtn.clicked.connect(lambda: self.ui.stackedWidget.setCurrentWidget(self.thongke_page))
         self.ui.dangXuatBtn.clicked.connect(self.DangNhap)
-
+        self.ui.phongSuDungBtn.clicked.connect(lambda: self.ui.stackedWidget.setCurrentWidget(self.phongSuDung_page))
+        
     
     
     # hàm chuyển cửa sổ
