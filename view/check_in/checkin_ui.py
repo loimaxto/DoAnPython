@@ -8,7 +8,11 @@
 
 from PyQt6 import QtCore, QtGui, QtWidgets
 from PyQt6.QtWidgets import QButtonGroup
-
+import sys
+import os
+project_path = os.path.abspath(os.path.join(os.path.dirname(__file__), "../../")) 
+sys.path.append(project_path)
+from view.style_css import stylecss
 class Ui_Checkin(object):
     def setupUi(self, Form):
         Form.setObjectName("Form")
@@ -151,6 +155,8 @@ class Ui_Checkin(object):
         self.verticalLayout_3.addWidget(self.checkin_button)
         self.radio_group = QButtonGroup(self)
         self.radio_group.setExclusive(True)
+        defaultcss = stylecss(Form)
+        defaultcss.set_default()
         self.retranslateUi(Form)
         QtCore.QMetaObject.connectSlotsByName(Form)
 

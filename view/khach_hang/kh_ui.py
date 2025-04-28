@@ -7,7 +7,7 @@
 
 
 from PyQt6 import QtCore, QtGui, QtWidgets
-
+from PyQt6.QtWidgets import QButtonGroup
 
 class Ui_CustomerManagement(object):
     def setupUi(self, CustomerManagement):
@@ -160,7 +160,8 @@ class Ui_CustomerManagement(object):
         """)
         self.verticalLayout_3.addWidget(self.customerTableView)
         self.mainLayout.addLayout(self.verticalLayout_3)
-
+        self.radio_group_customer = QButtonGroup(self)
+        self.radio_group_customer.setExclusive(True)
         self.retranslateUi(CustomerManagement)
         QtCore.QMetaObject.connectSlotsByName(CustomerManagement)
 
@@ -175,8 +176,8 @@ class Ui_CustomerManagement(object):
         self.imageButton.setText(_translate("CustomerManagement", "Chọn hình"))
         self.btn_confirm_update.setText(_translate("CustomerManagement", "Xác nhận sửa"))
         self.addButton.setText(_translate("CustomerManagement", "Thêm"))
-        self.updateButton.setText(_translate("CustomerManagement", "Xóa"))
-        self.deleteButton.setText(_translate("CustomerManagement", "Sửa"))
+        self.updateButton.setText(_translate("CustomerManagement", "sửa"))
+        self.deleteButton.setText(_translate("CustomerManagement", "xóa"))
         self.clearButton.setText(_translate("CustomerManagement", "Làm mới"))
 
 

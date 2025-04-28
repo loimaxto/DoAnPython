@@ -41,8 +41,11 @@ class KhachHangDAO:
 
 
     def update_khach_hang(self, khach_hang):
-        query = "UPDATE khach_hang SET ten = ?, sdt = ?, image = ? WHERE kh_id = ?"
-        return self.db.execute_query(query, (khach_hang.ten, khach_hang.sdt, khach_hang.image, khach_hang.kh_id)) is not None
+        query = "UPDATE khach_hang SET ten = ?, sdt = ? WHERE kh_id = ?"
+        return self.db.execute_query(query, (khach_hang.ten, khach_hang.sdt, khach_hang.kh_id)) is not None
+    def update_khach_hang_image(self, id):
+        query = "UPDATE khach_hang SET image=? WHERE kh_id = ?"
+        return self.db.execute_query(query, (f"face_{id}.pth",id)) is not None
 
     def delete_khach_hang(self, kh_id):
         query = "DELETE FROM khach_hang WHERE kh_id = ?"
@@ -55,6 +58,7 @@ class KhachHangDAO:
             return [KhachHangDTO(kh_id=row[0], ten=row[1], sdt=row[2], image=row[3]) for row in rows]
         else:
             return []
+    
 
 # Example usage (in a separate main.py or similar):
 if __name__ == "__main__":

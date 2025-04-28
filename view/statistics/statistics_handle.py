@@ -64,8 +64,8 @@ class StatisticsMainWindow(QtWidgets.QWidget, Ui_StatisticsMainWindow):
         self.statisticDateBtn.clicked.connect(lambda: self.load_data_table_theo_ngay(self.dateStartTXT.text(), self.dateEndTXT.text()))
         self.refreshDateBtn.clicked.connect(self.refresh_date_data)
 
-        self.modelTongQuan = QtGui.QStandardItemModel(0, 2)  # rows, columns
-        self.modelTongQuan.setHorizontalHeaderLabels(["Thời gian", "Doanh thu"])
+        self.modelTongQuan = QtGui.QStandardItemModel(0, 4)  # rows, columns
+        self.modelTongQuan.setHorizontalHeaderLabels(["Thời gian","Vốn","Doanh thu","Lợi nhuận"])
         self.tableOverView.setModel(self.modelTongQuan)
         # Resize columns
         self.tableOverView.horizontalHeader().setSectionResizeMode(QtWidgets.QHeaderView.ResizeMode.Stretch)
@@ -74,8 +74,8 @@ class StatisticsMainWindow(QtWidgets.QWidget, Ui_StatisticsMainWindow):
         self.tableOverView.setSelectionBehavior(QtWidgets.QTableView.SelectionBehavior.SelectRows)
         
         # trang thong ke doanh thu
-        self.modelYearStatistics = QtGui.QStandardItemModel(0, 2)  # rows, columns
-        self.modelYearStatistics.setHorizontalHeaderLabels(["Năm", "Doanh thu"])
+        self.modelYearStatistics = QtGui.QStandardItemModel(0, 4)  # rows, columns
+        self.modelYearStatistics.setHorizontalHeaderLabels(["Năm", "Vốn","Doanh thu","Lợi nhuận"])
         self.tableYearStatisticView.setModel(self.modelYearStatistics)
         # Resize columns
         self.tableYearStatisticView.horizontalHeader().setSectionResizeMode(QtWidgets.QHeaderView.ResizeMode.Stretch)
@@ -84,8 +84,8 @@ class StatisticsMainWindow(QtWidgets.QWidget, Ui_StatisticsMainWindow):
         self.tableYearStatisticView.setSelectionBehavior(QtWidgets.QTableView.SelectionBehavior.SelectRows)
 
         
-        self.modelMonthStatistics = QtGui.QStandardItemModel(0, 2)  # rows, columns
-        self.modelMonthStatistics.setHorizontalHeaderLabels(["Tháng", "Doanh thu"])
+        self.modelMonthStatistics = QtGui.QStandardItemModel(0, 4)  # rows, columns
+        self.modelMonthStatistics.setHorizontalHeaderLabels(["Tháng","Vốn","Doanh thu","Lợi nhuận"])
         self.tableMonthStatisticView.setModel(self.modelMonthStatistics)
         # Resize columns
         self.tableMonthStatisticView.horizontalHeader().setSectionResizeMode(QtWidgets.QHeaderView.ResizeMode.Stretch)
@@ -93,8 +93,8 @@ class StatisticsMainWindow(QtWidgets.QWidget, Ui_StatisticsMainWindow):
         self.tableMonthStatisticView.setSelectionMode(QtWidgets.QTableView.SelectionMode.SingleSelection)
         self.tableMonthStatisticView.setSelectionBehavior(QtWidgets.QTableView.SelectionBehavior.SelectRows)
 
-        self.modelDateStatistics = QtGui.QStandardItemModel(0, 2)  # rows, columns
-        self.modelDateStatistics.setHorizontalHeaderLabels(["Tháng", "Doanh thu"])
+        self.modelDateStatistics = QtGui.QStandardItemModel(0, 4)  # rows, columns
+        self.modelDateStatistics.setHorizontalHeaderLabels(["Tháng", "Vốn","Doanh thu","Lợi nhuận"])
         self.tableDateStatisticView.setModel(self.modelDateStatistics)
         # Resize columns
         self.tableDateStatisticView.horizontalHeader().setSectionResizeMode(QtWidgets.QHeaderView.ResizeMode.Stretch)
@@ -116,8 +116,9 @@ class StatisticsMainWindow(QtWidgets.QWidget, Ui_StatisticsMainWindow):
         if not info_data:
             print("Lỗi: Không có dữ liệu để hiển thị trong bảng.")
             return
-
-        table_data = [(item.date,locale.currency(item.doanh_thu, grouping=True)) for item in info_data]
+        
+        # thêm giá trị vốn và lợi nhuận vào sau
+        table_data = [(item.date,locale.currency((100000 if item.doanh_thu > 0 else 0),grouping=True),locale.currency(item.doanh_thu, grouping=True),locale.currency((item.doanh_thu-(100000 if item.doanh_thu > 0 else 0)),grouping=True)) for item in info_data]
         
         self.modelTongQuan.setRowCount(0)
         for row in table_data:
@@ -138,7 +139,7 @@ class StatisticsMainWindow(QtWidgets.QWidget, Ui_StatisticsMainWindow):
             print("Lỗi: Không có dữ liệu để hiển thị trong bảng.")
             return
 
-        table_data = [(item.date,locale.currency(item.doanh_thu, grouping=True)) for item in info_data]
+        table_data = [(item.date,locale.currency((100000 if item.doanh_thu > 0 else 0),grouping=True),locale.currency(item.doanh_thu, grouping=True),locale.currency((item.doanh_thu-(100000 if item.doanh_thu > 0 else 0)),grouping=True)) for item in info_data]
         
         self.modelYearStatistics.setRowCount(0)
         for row in table_data:
@@ -156,7 +157,7 @@ class StatisticsMainWindow(QtWidgets.QWidget, Ui_StatisticsMainWindow):
             print("Lỗi: Không có dữ liệu để hiển thị trong bảng.")
             return
 
-        table_data = [(item.thang,locale.currency(item.doanh_thu, grouping=True)) for item in info_data]
+        table_data = [(item.thang,locale.currency((100000 if item.doanh_thu > 0 else 0),grouping=True),locale.currency(item.doanh_thu, grouping=True),locale.currency((item.doanh_thu-(100000 if item.doanh_thu > 0 else 0)),grouping=True)) for item in info_data]
         
         self.modelMonthStatistics.setRowCount(0)
         for row in table_data:
@@ -173,7 +174,7 @@ class StatisticsMainWindow(QtWidgets.QWidget, Ui_StatisticsMainWindow):
         if not info_data:
             return
 
-        table_data = [(item.ngay,locale.currency(item.doanh_thu, grouping=True)) for item in info_data]
+        table_data = [(item.ngay,locale.currency((100000 if item.doanh_thu > 0 else 0),grouping=True),locale.currency(item.doanh_thu, grouping=True),locale.currency((item.doanh_thu-(100000 if item.doanh_thu > 0 else 0)),grouping=True)) for item in info_data]
         
         self.modelDateStatistics.setRowCount(0)
         for row in table_data:
@@ -376,57 +377,33 @@ class show_chart(FigureCanvasQTAgg):
         today = datetime.date.today()
         dates = [today - datetime.timedelta(days=i) for i in range(6, -1, -1)]
 
-        data_doanh_thu = self.dao_thong_ke.getDoanhThu7NgayGanNhat()      
-        doanh_thu = [(item.doanh_thu) for item in data_doanh_thu]
+        von = 100000
+        data_doanh_thu = self.dao_thong_ke.getDoanhThu7NgayGanNhat()
+        
+        doanh_thu = [item.doanh_thu for item in data_doanh_thu]
+        von_list = [von if dt > 0 else 0 for dt in doanh_thu]
+        loi_nhuan = [(dt - von if dt > 0 else 0) for dt in doanh_thu]
 
-        date_labels = [date.strftime("%Y-%m-%d") for date in dates]
+        date_labels = [date.strftime("%d-%m") for date in dates]
         x = np.arange(len(date_labels))
         width = 0.2
 
-        # Plot bars
-        rects = self.ax.bar(x, doanh_thu, width, label="Doanh thu", color="#1e90ff")
+        # Vẽ 3 cột sát nhau
+        rects_von = self.ax.bar(x - width, von_list, width, label="Vốn", color="#f4a261")
+        rects_doanh_thu = self.ax.bar(x, doanh_thu, width, label="Doanh thu", color="#48cae4")
+        rects_loi_nhuan = self.ax.bar(x + width, loi_nhuan, width, label="Lợi nhuận", color="#b185db")
 
-        # Tooltip annotation
-        annot = self.ax.annotate("", xy=(0,0), xytext=(15,15), textcoords="offset points",
-                                 bbox=dict(boxstyle="round", fc="w"),
-                                 arrowprops=dict(arrowstyle="->"))
-        annot.set_visible(False)
+        
 
-        def update_annot(bar):
-            x = bar.get_x() + bar.get_width() / 2
-            y = bar.get_height()
-            annot.xy = (x, y)
-            text = f"{y:,.0f} VND"
-            annot.set_text(text)
-            annot.get_bbox_patch().set_alpha(0.9)
-
-        def hover(event):
-            vis = annot.get_visible()
-            if event.inaxes == self.ax:
-                for bar in rects:
-                    contains, _ = bar.contains(event)
-                    if contains:
-                        update_annot(bar)
-                        annot.set_visible(True)
-                        self.fig.canvas.draw_idle()
-                        return
-            if vis:
-                annot.set_visible(False)
-                self.fig.canvas.draw_idle()
-
-        self.fig.canvas.mpl_connect("motion_notify_event", hover)
-
-        # Set chart titles and labels
+        # Thiết lập biểu đồ
         self.fig.suptitle("Thống kê doanh thu 7 ngày gần nhất", fontsize=15)
         self.ax.set_ylabel("Giá trị (VNĐ)")
         self.ax.set_xlabel("Ngày")
-
-        step = max(1, len(x) // 10)
-        self.ax.set_xticks(x[::step])
-        self.ax.set_xticklabels(date_labels[::step], rotation=0, ha="right")
-
+        self.ax.set_xticks(x)
+        self.ax.set_xticklabels(date_labels)
         self.ax.grid(True, linestyle="--", alpha=0.6)
         self.ax.legend()
+
 
 
 class show_year_chart(FigureCanvasQTAgg):
@@ -441,18 +418,26 @@ class show_year_chart(FigureCanvasQTAgg):
         
         years = [year for year in range(yearStart, yearEnd + 1)]
 
-
-        data_doanh_thu = self.dao_thong_ke.getDoanhThuTheoNam(year_start=yearStart, year_end=yearEnd)      
-        # doanh_thu = self.dao_hoa_don.get_doanh_thu_8_ngay_gan_nhat() or [1000000, 500000, 2000000, 1500000, 6000000, 2700000, 1500000, 900000]
-        doanh_thu = [(item.doanh_thu) for item in data_doanh_thu]
+        von = 100000
+        data_doanh_thu = self.dao_thong_ke.getDoanhThuTheoNam(year_start=yearStart, year_end=yearEnd)
+        
+        doanh_thu = [item.doanh_thu for item in data_doanh_thu]
+        von_list = [von if dt > 0 else 0 for dt in doanh_thu]
+        loi_nhuan = [(dt - von if dt > 0 else 0) for dt in doanh_thu]
+        # data_doanh_thu = self.dao_thong_ke.getDoanhThuTheoNam(year_start=yearStart, year_end=yearEnd)      
+        # # doanh_thu = self.dao_hoa_don.get_doanh_thu_8_ngay_gan_nhat() or [1000000, 500000, 2000000, 1500000, 6000000, 2700000, 1500000, 900000]
+        # doanh_thu = [(item.doanh_thu) for item in data_doanh_thu]
         
 
         x = np.arange(len(years))  # X-axis positions
         width = 0.2  # Bar width
 
-        # Plot Bars
-       
-        rects = self.ax.bar(x, doanh_thu, width, label="Doanh thu", color="#1e90ff")
+        # Vẽ 3 cột sát nhau
+        rects_von = self.ax.bar(x - width, von_list, width, label="Vốn", color="#f4a261")
+        rects_doanh_thu = self.ax.bar(x, doanh_thu, width, label="Doanh thu", color="#48cae4")
+        rects_loi_nhuan = self.ax.bar(x + width, loi_nhuan, width, label="Lợi nhuận", color="#b185db")
+
+        
         
         # Tooltip annotation
         annot = self.ax.annotate("", xy=(0,0), xytext=(15,15), textcoords="offset points",
@@ -471,7 +456,21 @@ class show_year_chart(FigureCanvasQTAgg):
         def hover(event):
             vis = annot.get_visible()
             if event.inaxes == self.ax:
-                for bar in rects:
+                for bar in rects_doanh_thu:
+                    contains, _ = bar.contains(event)
+                    if contains:
+                        update_annot(bar)
+                        annot.set_visible(True)
+                        self.fig.canvas.draw_idle()
+                        return
+                for bar in rects_von:
+                    contains, _ = bar.contains(event)
+                    if contains:
+                        update_annot(bar)
+                        annot.set_visible(True)
+                        self.fig.canvas.draw_idle()
+                        return
+                for bar in rects_loi_nhuan:
                     contains, _ = bar.contains(event)
                     if contains:
                         update_annot(bar)
@@ -512,9 +511,14 @@ class show_month_chart(FigureCanvasQTAgg):
 
         months = [month for month in range(1, 13)]
         
-        data_doanh_thu = self.dao_thong_ke.getDoanhThuTheoThang(nam=year)      
+        # data_doanh_thu = self.dao_thong_ke.getDoanhThuTheoThang(nam=year)      
+        # doanh_thu = [(item.doanh_thu) for item in data_doanh_thu]
+        von = 100000
+        data_doanh_thu = self.dao_thong_ke.getDoanhThuTheoThang(nam=year)
         
-        doanh_thu = [(item.doanh_thu) for item in data_doanh_thu]
+        doanh_thu = [item.doanh_thu for item in data_doanh_thu]
+        von_list = [von if dt > 0 else 0 for dt in doanh_thu]
+        loi_nhuan = [(dt - von if dt > 0 else 0) for dt in doanh_thu]
         
 
         x = np.arange(len(months))  # X-axis positions
@@ -522,7 +526,12 @@ class show_month_chart(FigureCanvasQTAgg):
 
         # Plot Bars
        
-        rects = self.ax.bar(x, doanh_thu, width, label="Doanh thu", color="#1e90ff")
+        # rects = self.ax.bar(x, doanh_thu, width, label="Doanh thu", color="#1e90ff")
+        # Vẽ 3 cột sát nhau
+        rects_von = self.ax.bar(x - width, von_list, width, label="Vốn", color="#f4a261")
+        rects_doanh_thu = self.ax.bar(x, doanh_thu, width, label="Doanh thu", color="#48cae4")
+        rects_loi_nhuan = self.ax.bar(x + width, loi_nhuan, width, label="Lợi nhuận", color="#b185db")
+
         
 
         # Tooltip annotation
@@ -542,7 +551,21 @@ class show_month_chart(FigureCanvasQTAgg):
         def hover(event):
             vis = annot.get_visible()
             if event.inaxes == self.ax:
-                for bar in rects:
+                for bar in rects_doanh_thu:
+                    contains, _ = bar.contains(event)
+                    if contains:
+                        update_annot(bar)
+                        annot.set_visible(True)
+                        self.fig.canvas.draw_idle()
+                        return
+                for bar in rects_von:
+                    contains, _ = bar.contains(event)
+                    if contains:
+                        update_annot(bar)
+                        annot.set_visible(True)
+                        self.fig.canvas.draw_idle()
+                        return
+                for bar in rects_loi_nhuan:
                     contains, _ = bar.contains(event)
                     if contains:
                         update_annot(bar)

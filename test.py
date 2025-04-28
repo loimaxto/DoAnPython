@@ -1,86 +1,120 @@
 import sys
-import cv2
-from PyQt6.QtCore import Qt, QTimer
-from PyQt6.QtGui import QImage, QPixmap
-from PyQt6.QtWidgets import QApplication, QLabel, QMainWindow, QPushButton, QVBoxLayout, QWidget
+from PyQt6.QtWidgets import (QApplication, QWidget, QVBoxLayout, 
+                            QScrollArea, QGridLayout, QLabel)
+from PyQt6.QtGui import QPixmap, QImage
+from PyQt6.QtCore import Qt
+import os
+import random
 
-
-class CameraApp(QMainWindow):
-    def __init__(self):
-        super().__init__()
+class FaceGalleryWidget(QWidget):
+    def __init__(self, image_folder=None, parent=None):
+        super().__init__(parent)
+        self.setWindowTitle("Thư viện khuôn mặt")
+        self.setMinimumSize(800, 600)
         
-        self.setWindowTitle("PyQt6 Camera App")
-        self.setGeometry(100, 100, 800, 600)
+        # Tạo layout chính
+        self.main_layout = QVBoxLayout(self)
         
-        # Tạo widget trung tâm và layout
-        central_widget = QWidget()
-        self.setCentralWidget(central_widget)
-        layout = QVBoxLayout(central_widget)
+        # Tạo scroll area để xem nhiều ảnh
+        self.scroll_area = QScrollArea()
+        self.scroll_area.setWidgetResizable(True)
         
-        # Tạo label để hiển thị hình ảnh từ camera
-        self.image_label = QLabel()
-        self.image_label.setAlignment(Qt.AlignmentFlag.AlignCenter)
-        layout.addWidget(self.image_label)
+        # Widget chứa các ảnh
+        self.container = QWidget()
+        self.grid_layout = QGridLayout(self.container)
+        self.grid_layout.setSpacing(10)
         
-        # Tạo nút để bật/tắt camera
-        self.toggle_button = QPushButton("Bật Camera")
-        self.toggle_button.clicked.connect(self.toggle_camera)
-        layout.addWidget(self.toggle_button)
+        # Thêm các ảnh demo (hoặc từ thư mục)
+        self.load_images(image_folder)
         
-        # Khởi tạo camera
-        self.camera = None
-        self.camera_active = False
+        self.scroll_area.setWidget(self.container)
+        self.main_layout.addWidget(self.scroll_area)
         
-        # Timer để cập nhật hình ảnh từ camera
-        self.timer = QTimer()
-        self.timer.timeout.connect(self.update_frame)
-    
-    def toggle_camera(self):
-        if not self.camera_active:
-            # Mở camera
-            self.camera = cv2.VideoCapture(0)  # 0 là camera mặc định
-            
-            if not self.camera.isOpened():
-                print("Không thể mở camera")
-                return
-            
-            self.camera_active = True
-            self.toggle_button.setText("Tắt Camera")
-            self.timer.start(30)  # Cập nhật mỗi 30ms
+    def load_images(self, image_folder=None):
+        """Tải ảnh từ thư mục hoặc tạo ảnh demo"""
+        # Xóa các widget cũ nếu có
+        for i in reversed(range(self.grid_layout.count())): 
+            self.grid_layout.itemAt(i).widget().setParent(None)
+        
+        # Tạo 30 ảnh demo nếu không có thư mục ảnh
+        if image_folder is None or not os.path.exists(image_folder):
+            self.create_demo_faces()
         else:
-            # Tắt camera
-            self.camera_active = False
-            self.toggle_button.setText("Bật Camera")
-            self.timer.stop()
-            self.camera.release()
-            self.image_label.clear()
+            self.load_from_folder(image_folder)
     
-    def update_frame(self):
-        ret, frame = self.camera.read()
-        if ret:
-            # Chuyển đổi frame từ OpenCV sang QImage
-            frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
-            h, w, ch = frame.shape
-            bytes_per_line = ch * w
-            q_img = QImage(frame.data, w, h, bytes_per_line, QImage.Format.Format_RGB888)
+    def create_demo_faces(self):
+        """Tạo 30 ảnh khuôn mặt demo màu ngẫu nhiên"""
+        for i in range(30):
+            # Tạo ảnh màu ngẫu nhiên (thay bằng ảnh thực tế)
+            color = (random.randint(0, 255), random.randint(0, 255), random.randint(0, 255))
+            image = QImage(100, 100, QImage.Format.Format_RGB32)
+            image.fill(Qt.GlobalColor(color[0], color[1], color[2]))
             
-            # Hiển thị hình ảnh lên QLabel
-            self.image_label.setPixmap(QPixmap.fromImage(q_img).scaled(
-                self.image_label.width(), 
-                self.image_label.height(),
-                Qt.AspectRatioMode.KeepAspectRatio
-            ))
+            pixmap = QPixmap.fromImage(image)
+            label = QLabel()
+            label.setPixmap(pixmap.scaled(100, 100, Qt.AspectRatioMode.KeepAspectRatio))
+            label.setAlignment(Qt.AlignmentFlag.AlignCenter)
+            label.setStyleSheet("border: 1px solid gray;")
+            
+            # Thêm nhãn ID
+            id_label = QLabel(f"Face {i+1}")
+            id_label.setAlignment(Qt.AlignmentFlag.AlignCenter)
+            
+            # Tạo widget chứa ảnh và nhãn
+            face_widget = QWidget()
+            face_layout = QVBoxLayout(face_widget)
+            face_layout.addWidget(label)
+            face_layout.addWidget(id_label)
+            
+            # Thêm vào grid layout (5 cột)
+            row = i // 5
+            col = i % 5
+            self.grid_layout.addWidget(face_widget, row, col)
     
-    def closeEvent(self, event):
-        # Đảm bảo camera được giải phóng khi đóng ứng dụng
-        if self.camera_active:
-            self.timer.stop()
-            self.camera.release()
-        event.accept()
-
+    def load_from_folder(self, folder_path):
+        """Tải ảnh từ thư mục"""
+        image_files = [f for f in os.listdir(folder_path) 
+                     if f.lower().endswith(('.png', '.jpg', '.jpeg'))]
+        
+        for i, filename in enumerate(image_files[:30]):  # Giới hạn 30 ảnh
+            try:
+                image_path = os.path.join(folder_path, filename)
+                pixmap = QPixmap(image_path)
+                
+                if pixmap.isNull():
+                    continue
+                
+                label = QLabel()
+                label.setPixmap(pixmap.scaled(100, 100, Qt.AspectRatioMode.KeepAspectRatio))
+                label.setAlignment(Qt.AlignmentFlag.AlignCenter)
+                label.setStyleSheet("border: 1px solid gray;")
+                
+                # Thêm nhãn tên file
+                id_label = QLabel(os.path.splitext(filename)[0])
+                id_label.setAlignment(Qt.AlignmentFlag.AlignCenter)
+                
+                # Tạo widget chứa ảnh và nhãn
+                face_widget = QWidget()
+                face_layout = QVBoxLayout(face_widget)
+                face_layout.addWidget(label)
+                face_layout.addWidget(id_label)
+                
+                # Thêm vào grid layout (5 cột)
+                row = i // 5
+                col = i % 5
+                self.grid_layout.addWidget(face_widget, row, col)
+                
+            except Exception as e:
+                print(f"Không thể tải ảnh {filename}: {e}")
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)
-    window = CameraApp()
-    window.show()
+    
+    # Tạo widget với ảnh demo
+    gallery = FaceGalleryWidget("recogni_face/dataset/1")
+    
+    # Hoặc tải ảnh từ thư mục (bỏ comment dòng dưới)
+    # gallery = FaceGalleryWidget("đường_dẫn_đến_thư_mục_ảnh")
+    
+    gallery.show()
     sys.exit(app.exec())

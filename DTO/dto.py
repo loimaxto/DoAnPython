@@ -1,5 +1,5 @@
 class KhachHangDTO:
-    def __init__(self, kh_id=None, ten=None, sdt=None, image=None):
+    def __init__(self, kh_id=None, ten=None, sdt=None, image="None"):
         self.kh_id = kh_id
         self.ten = ten
         self.sdt = sdt
@@ -68,7 +68,7 @@ class PhongDTO:
     def __repr__(self):
         return f"PhongDTO(id={self.id}, ten_phong='{self.ten_phong}', so_giuong={self.so_giuong}, id_gia={self.id_gia}, tinh_trang_dat_phong={self.tinh_trang_dat_phong}, tinh_trang_su_dung={self.tinh_trang_su_dung}, hoadon_id={ self.current_hoadon_id})"
 class GiaPhongDTO:
-    def __init__(self,id,ten_loai,gia_gio,gia_ngay,gia_dem):
+    def __init__(self,id=None,ten_loai=None,gia_gio=None,gia_ngay=None,gia_dem=None):
         self.id = id
         self.ten_loai = ten_loai
         self.gia_gio = gia_gio
