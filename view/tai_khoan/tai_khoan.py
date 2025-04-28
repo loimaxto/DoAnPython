@@ -1,4 +1,4 @@
-# Form implementation generated from reading ui file 'tai_khoan.ui'
+# Form implementation generated from reading ui file 'C:\Code\DoAnPython\view\tai_khoan\tai_khoan.ui'
 #
 # Created by: PyQt6 UI code generator 6.8.1
 #
@@ -13,41 +13,6 @@ class Ui_Form(object):
     def setupUi(self, Form):
         Form.setObjectName("Form")
         Form.resize(680, 540)
-        Form.setStyleSheet("""
-            QWidget {
-                background-color: #f5f5f5;
-                font-family: Arial, sans-serif;
-            }
-            QLabel {
-                color: #333;
-            }
-            QLineEdit {
-                border: 1px solid #ccc;
-                border-radius: 5px;
-                padding: 5px;
-                background-color: #fff;
-            }
-            QPushButton {
-                background-color: #007bff;
-                color: #fff;
-                border: none;
-                border-radius: 5px;
-                padding: 5px 10px;
-            }
-            QPushButton:hover {
-                background-color: #0056b3;
-            }
-            QTableWidget {
-                border: 1px solid #ccc;
-                background-color: #fff;
-            }
-            QHeaderView::section {
-                background-color: #007bff;
-                color: #fff;
-                padding: 5px;
-                border: none;
-            }
-        """)
         self.layoutWidget = QtWidgets.QWidget(parent=Form)
         self.layoutWidget.setGeometry(QtCore.QRect(330, 90, 291, 128))
         self.layoutWidget.setObjectName("layoutWidget")
@@ -131,13 +96,3 @@ class Ui_Form(object):
         self.user_name.setText(_translate("Form", "***"))
         self.label_2.setText(_translate("Form", "username"))
         self.label.setText(_translate("Form", "userID"))
-
-
-if __name__ == "__main__":
-    import sys
-    app = QtWidgets.QApplication(sys.argv)
-    Form = QtWidgets.QWidget()
-    ui = Ui_Form()
-    ui.setupUi(Form)
-    Form.show()
-    sys.exit(app.exec())
