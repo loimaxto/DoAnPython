@@ -1,4 +1,4 @@
-# Form implementation generated from reading ui file 'view\phong_va_giaphong\ql_phong.ui'
+# Form implementation generated from reading ui file 'C:\Code\DoAnPython\view\phong_va_giaphong\ql_phong.ui'
 #
 # Created by: PyQt6 UI code generator 6.8.1
 #
@@ -158,13 +158,3 @@ class Ui_Form(object):
         item.setText(_translate("Form", "Giá ngày"))
         item = self.dis_pla.horizontalHeaderItem(9)
         item.setText(_translate("Form", "Giá đêm"))
-
-
-if __name__ == "__main__":
-    import sys
-    app = QtWidgets.QApplication(sys.argv)
-    Form = QtWidgets.QWidget()
-    ui = Ui_Form()
-    ui.setupUi(Form)
-    Form.show()
-    sys.exit(app.exec())

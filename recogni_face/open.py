@@ -1,18 +1,23 @@
 import torch
+import sys
+import os
+project_path = os.path.abspath(os.path.join(os.path.dirname(__file__), "../../")) 
+sys.path.append(project_path)
 import torch.optim as optim
 from torchvision import datasets, transforms
 from torch.utils.data import DataLoader
 
-from modelsCNN import FaceRecognitionCNN
+from recogni_face.modelsCNN import FaceRecognitionCNN
 import torch.nn as nn
-from Load_Data import Prepare_Data
+from recogni_face.Load_Data import Prepare_Data
 # Khởi tạo mô hình
 id_customer = 37
 class Train_Models:
-    def __init__(self):
+    def __init__(self,hozi):
         self.load_data = Prepare_Data()
         self.load_data.Data_Loader(f"recogni_face/dataset/{id_customer}")
         self.model = FaceRecognitionCNN(3)
+        self.hozi = hozi
     def Evaluate(self):
 
         # Định nghĩa hàm mất mát và optimizer
@@ -54,7 +59,7 @@ class Train_Models:
                 _, predicted = torch.max(outputs.data, 1)
                 total += labels.size(0)
                 correct += (predicted == labels).sum().item()
-
+        self.hozi.setText(f"Accuracy on test set: {100 * correct / total:.2f}%")
         print(f"Accuracy on test set: {100 * correct / total:.2f}%")
 
 
@@ -63,7 +68,7 @@ class Train_Models:
     def save(self,path_trainner):
         # Lưu mô hình
         torch.save(self.model.state_dict(), path_trainner)
-
-train_model = Train_Models()
-train_model.Evaluate()
-train_model.save(f"recogni_face/trainner/face_{id_customer}.pth")
+if __name__=="__main__":
+    train_model = Train_Models()
+    train_model.Evaluate()
+    train_model.save(f"recogni_face/trainner/face_{id_customer}.pth")

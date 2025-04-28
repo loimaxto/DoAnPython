@@ -1,4 +1,4 @@
-# Form implementation generated from reading ui file 'view\tai_khoan\tai_khoan_foradmin.ui'
+# Form implementation generated from reading ui file 'C:\Code\DoAnPython\view\tai_khoan\tai_khoan_foradmin.ui'
 #
 # Created by: PyQt6 UI code generator 6.8.1
 #
@@ -124,13 +124,3 @@ class Ui_Form(object):
         item.setText(_translate("Form", "Địa chỉ"))
         item = self.dis_pla.horizontalHeaderItem(8)
         item.setText(_translate("Form", "Chức vụ"))
-
-
-if __name__ == "__main__":
-    import sys
-    app = QtWidgets.QApplication(sys.argv)
-    Form = QtWidgets.QWidget()
-    ui = Ui_Form()
-    ui.setupUi(Form)
-    Form.show()
-    sys.exit(app.exec())

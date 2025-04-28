@@ -1,4 +1,4 @@
-# Form implementation generated from reading ui file 'view\ql_dichvu\ql_dichvu.ui'
+# Form implementation generated from reading ui file 'C:\Code\DoAnPython\view\ql_dichvu\ql_dichvu.ui'
 #
 # Created by: PyQt6 UI code generator 6.8.1
 #
@@ -113,13 +113,3 @@ class Ui_Form(object):
         item.setText(_translate("Form", "Tên dịch vụ"))
         item = self.dis_pla.horizontalHeaderItem(2)
         item.setText(_translate("Form", "Giá"))
-
-
-if __name__ == "__main__":
-    import sys
-    app = QtWidgets.QApplication(sys.argv)
-    Form = QtWidgets.QWidget()
-    ui = Ui_Form()
-    ui.setupUi(Form)
-    Form.show()
-    sys.exit(app.exec())

@@ -16,7 +16,10 @@ class DatPhongDAO:
     def insert_chi_tiet_dv(self, chi_tiet_dv):
         query = "INSERT INTO chi_tiet_dv (hd_id, dv_id, so_luong, gia_luc_dat, tong) VALUES (?, ?, ?, ?, ?)"
         return self.db.execute_query(query, (chi_tiet_dv.hd_id, chi_tiet_dv.dv_id, chi_tiet_dv.so_luong, chi_tiet_dv.gia_luc_dat, chi_tiet_dv.so_luong * chi_tiet_dv.gia_luc_dat)) is not None
-   
+    def update_hoaDonId_for_phieuDatPhong(self, hd_id, booking_id):
+        query = "UPDATE dat_phong SET hd_id = ? WHERE booking_id = ?"
+        return self.db.execute_query(query, (hd_id, booking_id)) is not None
+
     def get_phieuDatPhongById(self, booking_id):
         if booking_id == None:
             return 

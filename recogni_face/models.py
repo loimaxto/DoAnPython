@@ -9,11 +9,17 @@ from PyQt6.QtGui import QImage, QPixmap
 from PyQt6.QtWidgets import (QApplication, QLabel, QWidget, 
                             QVBoxLayout, QPushButton, QMessageBox)
 from PyQt6 import QtWidgets
+from dao.khach_hang_dao import KhachHangDAO
+import sys
+import os
+project_path = os.path.abspath(os.path.join(os.path.dirname(__file__), "../../")) 
+sys.path.append(project_path)
+from recogni_face.open import Train_Models
 class FaceRecognitionWidget(QWidget):
     capture_completed = pyqtSignal()  # Signal khi hoàn thành chụp ảnh
     
     def __init__(self,id_customer=0, parent=None):
-
+        self.daokhachhang = KhachHangDAO()
         super().__init__(parent)
         self.count = 0
         
@@ -44,9 +50,13 @@ class FaceRecognitionWidget(QWidget):
         
         self.layout.addWidget(self.back_btn)
         # Label hiển thị trạng thái
+        
         self.status_label = QLabel("Sẵn sàng")
         self.status_label.setAlignment(Qt.AlignmentFlag.AlignCenter)
         self.layout.addWidget(self.status_label)
+        self.status_label1 = QLabel("")
+        self.status_label1.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        self.layout.addWidget(self.status_label1)
         # Khởi tạo camera và các thành phần nhận diện
         """Khởi động lại camera"""
         self.camera_active = True
@@ -137,12 +147,16 @@ class FaceRecognitionWidget(QWidget):
         self.capture_mode = True
         self.capture_count = 0
         self.capture_btn.setEnabled(False)
-        
+        self.back_btn.setEnabled(False)
         self.status_label.setText("Bắt đầu thu thập dữ liệu...")
     
     def stop_capture(self):
         """Dừng chế độ chụp ảnh"""
         self.status_label.setText(f"Hoàn thành! Đã chụp {self.count} ảnh")
+        train_model = Train_Models(self.status_label1)
+        train_model.Evaluate()
+        train_model.save(f"recogni_face/trainner/face_{self.id_customer}.pth")
+        self.daokhachhang.update_khach_hang_image(self.id_customer)
         self.count = 0
         self.capture_mode = False
         self.capture_btn.setEnabled(True)
