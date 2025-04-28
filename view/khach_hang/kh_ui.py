@@ -1,4 +1,4 @@
-# Form implementation generated from reading ui file 'view\khach_hang\kh_ui.ui'
+# Form implementation generated from reading ui file 'C:\Code\DoAnPython\view\khach_hang\kh_ui.ui'
 #
 # Created by: PyQt6 UI code generator 6.8.1
 #
@@ -7,47 +7,12 @@
 
 
 from PyQt6 import QtCore, QtGui, QtWidgets
-from PyQt6.QtWidgets import QButtonGroup
+
 
 class Ui_CustomerManagement(object):
     def setupUi(self, CustomerManagement):
         CustomerManagement.setObjectName("CustomerManagement")
         CustomerManagement.resize(992, 384)
-        CustomerManagement.setStyleSheet("""
-            QWidget {
-                background-color: #f5f5f5;
-                font-family: Arial, sans-serif;
-            }
-            QLabel {
-                color: #333;
-            }
-            QLineEdit {
-                border: 1px solid #ccc;
-                border-radius: 5px;
-                padding: 5px;
-                background-color: #fff;
-            }
-            QPushButton {
-                background-color: #007bff;
-                color: #fff;
-                border: none;
-                border-radius: 5px;
-                padding: 5px 10px;
-            }
-            QPushButton:hover {
-                background-color: #0056b3;
-            }
-            QTableView {
-                border: 1px solid #ccc;
-                background-color: #fff;
-            }
-            QHeaderView::section {
-                background-color: #007bff;
-                color: #fff;
-                padding: 5px;
-                border: none;
-            }
-        """)
         self.mainLayout = QtWidgets.QHBoxLayout(CustomerManagement)
         self.mainLayout.setObjectName("mainLayout")
         self.verticalLayout_3 = QtWidgets.QVBoxLayout()
@@ -130,38 +95,9 @@ class Ui_CustomerManagement(object):
         self.customerTableView = QtWidgets.QTableView(parent=CustomerManagement)
         self.customerTableView.setSizeIncrement(QtCore.QSize(1, 0))
         self.customerTableView.setObjectName("customerTableView")
-        self.customerTableView.setStyleSheet("""
-            QTableView {
-                gridline-color: white;
-                background-color:black;
-            }
-            QTableView::item {
-                padding: 5px;
-            }
-            QTableView::item:selected {
-                background-color: #d9edf7;
-                color: #333;
-            }
-    QRadioButton {
-        margin-left: 10px;
-        border-radius:50%;
-    }
-    QRadioButton::indicator {
-        width: 16px;
-        height: 16px;
-    }
-    QHeaderView::section {
-        background-color: #4CAF50;
-        color: white;
-        padding: 5px;
-        border: none;
-    }
-
-        """)
         self.verticalLayout_3.addWidget(self.customerTableView)
         self.mainLayout.addLayout(self.verticalLayout_3)
-        self.radio_group_customer = QButtonGroup(self)
-        self.radio_group_customer.setExclusive(True)
+
         self.retranslateUi(CustomerManagement)
         QtCore.QMetaObject.connectSlotsByName(CustomerManagement)
 
@@ -176,16 +112,6 @@ class Ui_CustomerManagement(object):
         self.imageButton.setText(_translate("CustomerManagement", "Chọn hình"))
         self.btn_confirm_update.setText(_translate("CustomerManagement", "Xác nhận sửa"))
         self.addButton.setText(_translate("CustomerManagement", "Thêm"))
-        self.updateButton.setText(_translate("CustomerManagement", "sửa"))
-        self.deleteButton.setText(_translate("CustomerManagement", "xóa"))
+        self.updateButton.setText(_translate("CustomerManagement", "Sửa"))
+        self.deleteButton.setText(_translate("CustomerManagement", "Xóa"))
         self.clearButton.setText(_translate("CustomerManagement", "Làm mới"))
-
-
-if __name__ == "__main__":
-    import sys
-    app = QtWidgets.QApplication(sys.argv)
-    CustomerManagement = QtWidgets.QWidget()
-    ui = Ui_CustomerManagement()
-    ui.setupUi(CustomerManagement)
-    CustomerManagement.show()
-    sys.exit(app.exec())
