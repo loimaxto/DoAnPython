@@ -35,7 +35,7 @@ class DatPhongWindow(QtWidgets.QWidget, Ui_DatPhong_UI):
         self.dao_ct_dv = ChiTietDVDAO()
         self.dao_datphong = DatPhongDAO()
         self.dao_phieuDatPhong = PhieuDatPhong()
-        self.nv_id = 1
+        self.nv_id = 2
         self.cthd = chitiet_hoadon()
         
         self.listDvHdWidget = ListDichVuHoaDon(self)
@@ -62,10 +62,16 @@ class DatPhongWindow(QtWidgets.QWidget, Ui_DatPhong_UI):
 
     def completePaymentActionEvent(self):
         # xuất chi tiết hóa đơn
+        if ( self.current_hoadon_dto.hd_id == None ):
+            QMessageBox("Chưa chọn hóa đơn thanh toán !")
+            return
+            
         self.cthd.show_all(self.current_hoadon_dto.hd_id)# thử nghiệm
-
-        print("thanh toán")
-        print("Hoa don dang chon: ", self.current_hoadon_dto.hd_id)
+        tong_tien = self.listDvHdWidget.tong_tien_cac_dich_vu()
+        self.dao_hoaDon.update_tong_tien(self.current_hoadon_dto.hd_id,tong_tien)
+        print("Hd dang thanh toan: ", self.current_hoadon_dto.hd_id)
+        import time
+        time.sleep(0.5)
         self.cthd.show()
         
     def insert_datPhongIdForCurrentHoaDon(self):
@@ -123,7 +129,7 @@ class DatPhongWindow(QtWidgets.QWidget, Ui_DatPhong_UI):
         
         print("datphong -")
         print(row_data)
-        self.current_hoadon_dto =  self.dao_hoaDon.insert_hoa_don(HoaDonDTO(nv_id=self.nv_id))
+        self.current_hoadon_dto = self.dao_hoaDon.insert_hoa_don(HoaDonDTO(nv_id=self.nv_id))
         print("datphong",self.current_hoadon_dto)
        
         #update trang that dat phong va hoa don hien tai
@@ -295,11 +301,13 @@ class ItemDichVuHoaDon(QWidget):
         self.quantity += 1
         self.quantity_input.setText(str(self.quantity))
         self.ct_dv_dto.so_luong = self.quantity
+        self.ct_dv_dto.tong = self.quantity * self.ct_dv_dto.gia_luc_dat
         self.ct_dv_dao.update_chi_tiet_dv(self.ct_dv_dto)
     def decrease_quantity(self):
         if self.quantity > 1:
             self.quantity -= 1
             self.quantity_input.setText(str(self.quantity))
+            self.ct_dv_dto.tong = self.quantity * self.ct_dv_dto.gia_luc_dat
             self.ct_dv_dao.update_chi_tiet_dv(self.ct_dv_dto)
         else:
             self.ct_dv_dao.delete_chi_tiet_dv(self.ct_dv_dto.hd_id, self.ct_dv_dto.dv_id)
@@ -314,7 +322,9 @@ class ItemDichVuHoaDon(QWidget):
                 self.quantity_input.setText("1")
         except ValueError:
             self.quantity_input.setText(str(self.quantity))
-       
+    def tong_tien_dich_vu(self):
+        return self.quantity * self.ct_dv_dto.gia_luc_dat
+
 class ListDichVuHoaDon(QWidget):
     def __init__(self,parent = None):
         super().__init__()
@@ -346,6 +356,14 @@ class ListDichVuHoaDon(QWidget):
         # Add items to the layout
         for ct_dv_dto in self.items:
             self.items_layout.addWidget(ItemDichVuHoaDon(ct_dv_dto,self.datPhongWindow))
+    def tong_tien_cac_dich_vu(self):
+        tong_tien = 0
+        for i in range(self.items_layout.count()):
+            itemDichVuWidget = self.items_layout.itemAt(i).widget()
+            if itemDichVuWidget:
+               tong_tien += itemDichVuWidget.tong_tien_dich_vu() 
+        return tong_tien
+    
     def reset_ct_dv_layout(self):
         # Clear the layout
         while self.items_layout.count():

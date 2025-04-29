@@ -154,14 +154,14 @@
        <item>
         <widget class="QPushButton" name="updateButton">
          <property name="text">
-          <string>Xóa</string>
+          <string>Sửa</string>
          </property>
         </widget>
        </item>
        <item>
         <widget class="QPushButton" name="deleteButton">
          <property name="text">
-          <string>Sửa</string>
+          <string>Xóa</string>
          </property>
         </widget>
        </item>
