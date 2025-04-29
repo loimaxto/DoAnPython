@@ -33,7 +33,7 @@ class MainWindow(QtWidgets.QMainWindow,Ui_MainWindow):
         # đăng nhập
 
         self.tk = dangnhap(self)
-        
+        # print(self.tk.data)
         # khai báo trang mới
         self.kh_page = kh_form_handle(self)
         self.phongSuDung_page = DatPhongWindow()
