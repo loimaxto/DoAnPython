@@ -33,11 +33,11 @@ class MainWindow(QtWidgets.QMainWindow,Ui_MainWindow):
         # đăng nhập
 
         self.tk = dangnhap(self)
-        
+        # print(self.tk.data)
         # khai báo trang mới
         self.kh_page = kh_form_handle(self)
-        self.dp_page = DatPhongWindow()
-        self.dp2_page = DatPhong2()
+        self.phongSuDung_page = DatPhongWindow()
+        self.dp_page = DatPhong2()
         self.nv_page = StaffManagementWindow(self)
         self.dv_page = ql_dichvu_ui(self)
         self.phong_gia_page = phong_giaphong_ui(self)
@@ -45,11 +45,11 @@ class MainWindow(QtWidgets.QMainWindow,Ui_MainWindow):
         self.hoadon_page = hoadon()
         self.thongke_page = StatisticsMainWindow()
         # thêm trang mới vào menumenu
+        self.ui.stackedWidget.addWidget(self.phongSuDung_page)
         self.ui.stackedWidget.addWidget(self.dp_page)
         self.ui.stackedWidget.addWidget(self.kh_page)
         self.ui.stackedWidget.addWidget(self.nv_page)
         self.ui.stackedWidget.addWidget(self.checkin_page)
-        self.ui.stackedWidget.addWidget(self.dp2_page)
         self.ui.stackedWidget.addWidget(self.dv_page)
         self.ui.stackedWidget.addWidget(self.phong_gia_page)
         self.ui.stackedWidget.addWidget(self.hoadon_page)
@@ -57,7 +57,6 @@ class MainWindow(QtWidgets.QMainWindow,Ui_MainWindow):
         self.ui.stackedWidget.setCurrentWidget(self.kh_page)
         
         # lập trình chuyển trang
-        self.ui.datphongg2_btn.clicked.connect(lambda: self.ui.stackedWidget.setCurrentWidget(self.dp2_page))
         self.ui.nhanVienBtn.clicked.connect(lambda: self.ui.stackedWidget.setCurrentWidget(self.nv_page))
         self.ui.khachHangBtn.clicked.connect(lambda: self.ui.stackedWidget.setCurrentWidget(self.kh_page))
         self.ui.datPhongBtn.clicked.connect(lambda: self.ui.stackedWidget.setCurrentWidget(self.dp_page))
@@ -68,7 +67,9 @@ class MainWindow(QtWidgets.QMainWindow,Ui_MainWindow):
         self.ui.hoadon_btn.clicked.connect(lambda: self.ui.stackedWidget.setCurrentWidget(self.hoadon_page))
         self.ui.thongKeBtn.clicked.connect(lambda: self.ui.stackedWidget.setCurrentWidget(self.thongke_page))
         self.ui.dangXuatBtn.clicked.connect(self.DangNhap)
-
+        self.ui.phongSuDungBtn.clicked.connect(lambda: self.switch_reload_PhongSuDung() )
+          
+        
     
     
     # hàm chuyển cửa sổ
@@ -84,8 +85,11 @@ class MainWindow(QtWidgets.QMainWindow,Ui_MainWindow):
         msg.setIcon(QtWidgets.QMessageBox.Icon.Information)
         msg.exec()
         
-
-
+    def switch_reload_PhongSuDung(self):
+        
+        self.phongSuDung_page.load_table_data()
+        self.phongSuDung_page.resetHoaDon()
+        self.ui.stackedWidget.setCurrentWidget(self.phongSuDung_page)
 
         
 if __name__ == "__main__":

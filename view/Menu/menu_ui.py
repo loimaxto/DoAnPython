@@ -1,4 +1,4 @@
-# Form implementation generated from reading ui file 'view\Menu\menu_ui.ui'
+# Form implementation generated from reading ui file 'C:\Code\DoAnPython\view\Menu\menu_ui.ui'
 #
 # Created by: PyQt6 UI code generator 6.8.1
 #
@@ -81,16 +81,16 @@ class Ui_MainWindow(object):
         self.datPhongBtn.setAutoFillBackground(True)
         self.datPhongBtn.setObjectName("datPhongBtn")
         self.verticalLayout.addWidget(self.datPhongBtn)
-        self.datphongg2_btn = QtWidgets.QPushButton(parent=self.navBar)
+        self.phongSuDungBtn = QtWidgets.QPushButton(parent=self.navBar)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Policy.Minimum, QtWidgets.QSizePolicy.Policy.Preferred)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(self.datphongg2_btn.sizePolicy().hasHeightForWidth())
-        self.datphongg2_btn.setSizePolicy(sizePolicy)
-        self.datphongg2_btn.setCursor(QtGui.QCursor(QtCore.Qt.CursorShape.ArrowCursor))
-        self.datphongg2_btn.setFocusPolicy(QtCore.Qt.FocusPolicy.TabFocus)
-        self.datphongg2_btn.setObjectName("datphongg2_btn")
-        self.verticalLayout.addWidget(self.datphongg2_btn)
+        sizePolicy.setHeightForWidth(self.phongSuDungBtn.sizePolicy().hasHeightForWidth())
+        self.phongSuDungBtn.setSizePolicy(sizePolicy)
+        self.phongSuDungBtn.setCursor(QtGui.QCursor(QtCore.Qt.CursorShape.ArrowCursor))
+        self.phongSuDungBtn.setFocusPolicy(QtCore.Qt.FocusPolicy.TabFocus)
+        self.phongSuDungBtn.setObjectName("phongSuDungBtn")
+        self.verticalLayout.addWidget(self.phongSuDungBtn)
         self.hoadon_btn = QtWidgets.QPushButton(parent=self.navBar)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Policy.Minimum, QtWidgets.QSizePolicy.Policy.Preferred)
         sizePolicy.setHorizontalStretch(0)
@@ -198,8 +198,8 @@ class Ui_MainWindow(object):
         _translate = QtCore.QCoreApplication.translate
         MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow"))
         self.logoLabel.setText(_translate("MainWindow", "Quản lí khách sạn"))
-        self.datPhongBtn.setText(_translate("MainWindow", "Đặt phòng dịch vụ"))
-        self.datphongg2_btn.setText(_translate("MainWindow", "Đặt phòng"))
+        self.datPhongBtn.setText(_translate("MainWindow", "Đặt phòng"))
+        self.phongSuDungBtn.setText(_translate("MainWindow", "Phòng đang sử dụng"))
         self.hoadon_btn.setText(_translate("MainWindow", "Hóa đơn"))
         self.thongKeBtn.setText(_translate("MainWindow", "Thống kê"))
         self.khachHangBtn.setText(_translate("MainWindow", "Khách hàng"))
@@ -209,13 +209,3 @@ class Ui_MainWindow(object):
         self.taiKhoanBtn.setText(_translate("MainWindow", "Tài khoản"))
         self.checkinBtn.setText(_translate("MainWindow", "Checkin"))
         self.dangXuatBtn.setText(_translate("MainWindow", "Đăng xuất"))
-
-
-if __name__ == "__main__":
-    import sys
-    app = QtWidgets.QApplication(sys.argv)
-    MainWindow = QtWidgets.QMainWindow()
-    ui = Ui_MainWindow()
-    ui.setupUi(MainWindow)
-    MainWindow.show()
-    sys.exit(app.exec())

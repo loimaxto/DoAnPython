@@ -1,4 +1,4 @@
-# Form implementation generated from reading ui file 'view\tai_khoan\tai_khoan_foradmin.ui'
+# Form implementation generated from reading ui file 'C:\Code\DoAnPython\view\tai_khoan\tai_khoan_foradmin.ui'
 #
 # Created by: PyQt6 UI code generator 6.8.1
 #
@@ -13,41 +13,6 @@ class Ui_Form(object):
     def setupUi(self, Form):
         Form.setObjectName("Form")
         Form.resize(656, 452)
-        Form.setStyleSheet("""
-            QWidget {
-                background-color: #f5f5f5;
-                font-family: Arial, sans-serif;
-            }
-            QLabel {
-                color: #333;
-            }
-            QLineEdit {
-                border: 1px solid #ccc;
-                border-radius: 5px;
-                padding: 5px;
-                background-color: #fff;
-            }
-            QPushButton {
-                background-color: #007bff;
-                color: #fff;
-                border: none;
-                border-radius: 5px;
-                padding: 5px 10px;
-            }
-            QPushButton:hover {
-                background-color: #0056b3;
-            }
-            QTableWidget {
-                border: 1px solid #ccc;
-                background-color: #fff;
-            }
-            QHeaderView::section {
-                background-color: #007bff;
-                color: #fff;
-                padding: 5px;
-                border: none;
-            }
-        """)
         self.horizontalLayout_3 = QtWidgets.QHBoxLayout(Form)
         self.horizontalLayout_3.setObjectName("horizontalLayout_3")
         self.verticalLayout = QtWidgets.QVBoxLayout()
@@ -159,13 +124,3 @@ class Ui_Form(object):
         item.setText(_translate("Form", "Địa chỉ"))
         item = self.dis_pla.horizontalHeaderItem(8)
         item.setText(_translate("Form", "Chức vụ"))
-
-
-if __name__ == "__main__":
-    import sys
-    app = QtWidgets.QApplication(sys.argv)
-    Form = QtWidgets.QWidget()
-    ui = Ui_Form()
-    ui.setupUi(Form)
-    Form.show()
-    sys.exit(app.exec())

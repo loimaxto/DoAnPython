@@ -219,15 +219,15 @@ class CustomerManagementWindow(QtWidgets.QWidget, Ui_CustomerManagement):
             return 
     def update_confirmed(self):
         try:
-            if not self.dto_kh:
+            if not self.selected_customer:
                 QMessageBox.warning(self, "Cảnh báo", "Hãy chọn một khách hàng để cập nhập thông tin")
                 return
 
             try:   
-                self.dto_kh.kh_id = 1
-                self.dto_kh.ten = self.nameLineEdit.text()
-                self.dto_kh.sdt = self.phoneLineEdit.text()
-                self.dao_customer.update_khach_hang(self.dto_kh)
+                self.selected_customer.kh_id = 1
+                self.selected_customer.ten = self.nameLineEdit.text()
+                self.selected_customer.sdt = self.phoneLineEdit.text()
+                self.dao_customer.update_khach_hang(self.selected_customer)
             except Exception as e:
                 QMessageBox.critical(self, "Lỗi", f"Không thể cập nhật thông tin khách hàng: {e}")
                 return

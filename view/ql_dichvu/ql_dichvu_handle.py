@@ -27,7 +27,7 @@ class ql_dichvu_ui(QtWidgets.QWidget, Ui_Form):
         self.dis_pla.verticalHeader().setVisible(False)
         self.dis_pla.setSelectionMode(QtWidgets.QTableView.SelectionMode.SingleSelection)
         self.dis_pla.setSelectionBehavior(QtWidgets.QTableView.SelectionBehavior.SelectRows)
-        css(self)
+        # css(self)
         self.ins_btn.setIcon(QtGui.QIcon("view/icon/add-post.png"))
         self.del_btn.setIcon(QtGui.QIcon("view/icon/delete.png"))
         self.edi_btn.setIcon(QtGui.QIcon("view/icon/edit.png"))

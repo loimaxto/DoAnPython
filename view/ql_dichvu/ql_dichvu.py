@@ -1,4 +1,4 @@
-# Form implementation generated from reading ui file 'view\ql_dichvu\ql_dichvu.ui'
+# Form implementation generated from reading ui file 'C:\Code\DoAnPython\view\ql_dichvu\ql_dichvu.ui'
 #
 # Created by: PyQt6 UI code generator 6.8.1
 #
@@ -7,11 +7,7 @@
 
 
 from PyQt6 import QtCore, QtGui, QtWidgets
-import sys
-import os
-project_path = os.path.abspath(os.path.join(os.path.dirname(__file__), "../../")) 
-sys.path.append(project_path)
-from view.style_css import stylecss
+
 
 class Ui_Form(object):
     def setupUi(self, Form):
@@ -96,8 +92,7 @@ class Ui_Form(object):
         self.dis_pla.setHorizontalHeaderItem(2, item)
         self.verticalLayout.addWidget(self.dis_pla)
         self.horizontalLayout_3.addLayout(self.verticalLayout)
-        default_style =  stylecss(Form)
-        default_style.set_default()
+
         self.retranslateUi(Form)
         QtCore.QMetaObject.connectSlotsByName(Form)
 
@@ -118,13 +113,3 @@ class Ui_Form(object):
         item.setText(_translate("Form", "Tên dịch vụ"))
         item = self.dis_pla.horizontalHeaderItem(2)
         item.setText(_translate("Form", "Giá"))
-
-
-if __name__ == "__main__":
-    import sys
-    app = QtWidgets.QApplication(sys.argv)
-    Form = QtWidgets.QWidget()
-    ui = Ui_Form()
-    ui.setupUi(Form)
-    Form.show()
-    sys.exit(app.exec())

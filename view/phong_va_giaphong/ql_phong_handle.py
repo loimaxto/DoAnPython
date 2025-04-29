@@ -19,7 +19,7 @@ class ql_phong(QtWidgets.QWidget, Ui_Form):
         # sơ chế giao diện
         self.dis_pla.horizontalHeader().setSectionResizeMode(QtWidgets.QHeaderView.ResizeMode.Stretch)
         self.dis_pla.verticalHeader().setVisible(False)
-        css(self)
+        # css(self)
         self.ins_btn.setIcon(QtGui.QIcon("view/icon/add-post.png"))
         self.del_btn.setIcon(QtGui.QIcon("view/icon/delete.png"))
         self.edi_btn.setIcon(QtGui.QIcon("view/icon/edit.png"))
