@@ -67,7 +67,8 @@ class MainWindow(QtWidgets.QMainWindow,Ui_MainWindow):
         self.ui.hoadon_btn.clicked.connect(lambda: self.ui.stackedWidget.setCurrentWidget(self.hoadon_page))
         self.ui.thongKeBtn.clicked.connect(lambda: self.ui.stackedWidget.setCurrentWidget(self.thongke_page))
         self.ui.dangXuatBtn.clicked.connect(self.DangNhap)
-        self.ui.phongSuDungBtn.clicked.connect(lambda: self.ui.stackedWidget.setCurrentWidget(self.phongSuDung_page))
+        self.ui.phongSuDungBtn.clicked.connect(lambda: self.switch_reload_PhongSuDung() )
+          
         
     
     
@@ -84,8 +85,11 @@ class MainWindow(QtWidgets.QMainWindow,Ui_MainWindow):
         msg.setIcon(QtWidgets.QMessageBox.Icon.Information)
         msg.exec()
         
-
-
+    def switch_reload_PhongSuDung(self):
+        
+        self.phongSuDung_page.load_table_data()
+        self.phongSuDung_page.resetHoaDon()
+        self.ui.stackedWidget.setCurrentWidget(self.phongSuDung_page)
 
         
 if __name__ == "__main__":

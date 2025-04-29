@@ -34,7 +34,7 @@ class DatPhongDAO:
                 tien_luc_dat,\
                 khach_hang.kh_id ,\
                 khach_hang.ten \
-                from dat_phong, khach_hang WHERE dat_phong.hd_id = ? and khach_hang.kh_id = dat_phong.kh_id"
+                from dat_phong, khach_hang WHERE dat_phong.booking_id = ? and khach_hang.kh_id = dat_phong.kh_id"
         row = self.db.execute_query(query, (booking_id))
         if row:
             row = row[0]
