@@ -186,7 +186,11 @@ class Ui_MainWindow(object):
         self.stackedWidget.addWidget(self.default2)
         self.gridLayout.addWidget(self.stackedWidget, 0, 1, 1, 1)
         MainWindow.setCentralWidget(self.centralwidget)
-
+        self.stackedWidget.setStyleSheet("""
+                                      QStackedWidget {
+                                      border:3px red solid;
+                                         background-color:white;
+                                      }""")
         self.retranslateUi(MainWindow)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
