@@ -48,6 +48,10 @@ class dangnhap(Ui_MainWindow, QtWidgets.QMainWindow):
         else:
             mainwindow.acc = 1
             mainwindow.tk_page = tai_khoan()
+            self.data = self.cursor.execute("select * from user join nhan_vien on user.nv_id=nhan_vien.nv_id \
+                                            where user.username=? and user.password=?", (self.username.text(), self.password.text()))
+            self.data = self.data.fetchone()
+            # print("tai khoan user thuoc:", self.data)
             self.xuatInfo(mainwindow)
         
         # thêm màn hình vào main
@@ -61,7 +65,6 @@ class dangnhap(Ui_MainWindow, QtWidgets.QMainWindow):
         self.cursor.execute("select * from user join nhan_vien on user.nv_id=nhan_vien.nv_id\
                             where user.username=? and user.password=?", (self.username.text(), self.password.text()))
         data = self.cursor.fetchone()
-        print("du lieu dang nhap", data)
 
         if data==None:
             msg = QtWidgets.QMessageBox()
@@ -81,6 +84,8 @@ class dangnhap(Ui_MainWindow, QtWidgets.QMainWindow):
         mainwindow.tk_page.nv_sdt.setText(data[7])
         mainwindow.tk_page.nv_diachi.setText(data[8])
         mainwindow.tk_page.nv_chucvu.setText(data[9])
+
+        print(mainwindow.tk.data)
 
         self.hide()
 
