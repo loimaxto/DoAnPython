@@ -67,7 +67,7 @@ class kh_form_handle(QWidget,Ui_khform):
         if self.customer.selected_customer is None:
             self.show_not_selected_warning()
         else:
-            self.find_face  = FaceRecognitionWidget()
+            self.find_face  = FaceRecognitionWidget(self.customer.selected_customer.kh_id)
             self.stackedWidget.addWidget(self.find_face)
             self.a = self.find_face.setup_ui()
             self.find_face.set_customer_id(self.customer.selected_customer.kh_id)

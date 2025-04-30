@@ -189,7 +189,7 @@ class Ui_MainWindow(object):
         self.stackedWidget.setStyleSheet("""
                                       QStackedWidget {
                                       border:3px red solid;
-                                         background-color:white;
+                                         background-color:none;
                                       }""")
         self.retranslateUi(MainWindow)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)

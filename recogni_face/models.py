@@ -10,11 +10,12 @@ from PyQt6.QtWidgets import (QApplication, QLabel, QWidget,
                             QVBoxLayout, QPushButton, QMessageBox)
 from PyQt6 import QtWidgets
 from dao.khach_hang_dao import KhachHangDAO
+from recogni_face.open import Train_Models
 import sys
 import os
 project_path = os.path.abspath(os.path.join(os.path.dirname(__file__), "../../")) 
 sys.path.append(project_path)
-from recogni_face.open import Train_Models
+
 class FaceRecognitionWidget(QWidget):
     capture_completed = pyqtSignal()  # Signal khi hoàn thành chụp ảnh
     
@@ -110,7 +111,7 @@ class FaceRecognitionWidget(QWidget):
             if self.capture_count%10==0:
                 # Chụp và lưu ảnh khuôn mặt
                 face_img = frame[y:y+h, x:x+w]
-                face_img = cv2.resize(face_img, (100, 100))
+                face_img = cv2.resize(face_img, (224, 224))
                     
                 # Tạo thư mục nếu chưa tồn tại
                 save_dir = f"{self.PATH}/{self.PATH_IMAGE}/{self.id_customer}"
@@ -121,11 +122,13 @@ class FaceRecognitionWidget(QWidget):
                     
                 
                 print(self.count)
-                self.status_label.setText(f"Đang thu thập ảnh!")
+                self.status_label.setText(f"Đang thu thập ảnh {self.count}/30!")
                 
             if self.count>=30:
+                self.status_label.setText(f"Đang huấn luyện mô hình vui lòng đợi giây lát...")
                 self.stop_capture()
                 self.capture_completed.emit()  # Phát signal khi hoàn thành
+        
                 
     
     def display_image(self, frame):
@@ -149,17 +152,22 @@ class FaceRecognitionWidget(QWidget):
         self.capture_btn.setEnabled(False)
         self.back_btn.setEnabled(False)
         self.status_label.setText("Bắt đầu thu thập dữ liệu...")
+        
     
     def stop_capture(self):
         """Dừng chế độ chụp ảnh"""
         self.status_label.setText(f"Hoàn thành! Đã chụp {self.count} ảnh")
-        train_model = Train_Models(self.status_label1)
-        train_model.Evaluate()
+        
+        train_model = Train_Models(hozi=self.status_label1)
+        train_model.set_idcustomer(self.id_customer)
+        train_model.train()
         train_model.save(f"recogni_face/trainner/face_{self.id_customer}.pth")
         self.daokhachhang.update_khach_hang_image(self.id_customer)
         self.count = 0
         self.capture_mode = False
         self.capture_btn.setEnabled(True)
+        self.back_btn.setEnabled(True)
+        
         
     
     def set_customer_id(self, customer_id):

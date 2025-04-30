@@ -125,28 +125,31 @@ class Checkin(QtWidgets.QWidget, Ui_Checkin):
         except Exception as e:
             QMessageBox.critical(self, "Lỗi", f"Có lỗi xảy ra khi tìm kiếm: {str(e)}")
     def start_checkin(self):
-        # Lấy ID của radio button được chọn (-1 nếu không có radio nào được chọn)
-        selected_row = self.radio_group.checkedId()
-        
-        if selected_row == -1:
-            QMessageBox.warning(self, "Cảnh báo", "Vui lòng chọn một khách hàng")
-            return
-        
-        # Lấy dữ liệu từ dòng được chọn
-        customer_id = self.view_customer.item(selected_row, 1).text()  # Cột ID (index 1)
-        customer_name = self.view_customer.item(selected_row, 2).text()  # Cột Họ tên (index 2)
-        customer_phone = self.view_customer.item(selected_row, 3).text()  # Cột Số điện thoại (index 3)
-        
-        # Hiển thị thông tin khách hàng được chọn
-        self.recognition_face = FaceRecognitionWidget(customer_id)
-        self.verticalLayout_2.addWidget(self.recognition_face)
-        self.recognition_face.show()
-        # TODO: Thêm logic check-in ở đây
-        self.view_customer.hide()
-        self.view_room.hide()
-        # Ví dụ: self.process_checkin(customer_id)
-        self.checkin_button.hide()
-        self.recognition_face.btn_back.clicked.connect(self.backward)
+        try:
+            # Lấy ID của radio button được chọn (-1 nếu không có radio nào được chọn)
+            selected_row = self.radio_group.checkedId()
+            
+            if selected_row == -1:
+                QMessageBox.warning(self, "Cảnh báo", "Vui lòng chọn một khách hàng")
+                return
+            
+            # Lấy dữ liệu từ dòng được chọn
+            customer_id = self.view_customer.item(selected_row, 1).text()  # Cột ID (index 1)
+            customer_name = self.view_customer.item(selected_row, 2).text()  # Cột Họ tên (index 2)
+            customer_phone = self.view_customer.item(selected_row, 3).text()  # Cột Số điện thoại (index 3)
+            
+            # Hiển thị thông tin khách hàng được chọn
+            self.recognition_face = FaceRecognitionWidget(customer_id)
+            self.verticalLayout_2.addWidget(self.recognition_face)
+            self.recognition_face.show()
+            # TODO: Thêm logic check-in ở đây
+            self.view_customer.hide()
+            self.view_room.hide()
+            # Ví dụ: self.process_checkin(customer_id)
+            self.checkin_button.hide()
+            self.recognition_face.btn_back.clicked.connect(self.backward)
+        except Exception as e:
+            QMessageBox.critical(self, "Lỗi", f"Có lỗi: {str(e)}")
     def backward(self):
         self.recognition_face.hide()
         self.verticalLayout_2.removeWidget(self.recognition_face)

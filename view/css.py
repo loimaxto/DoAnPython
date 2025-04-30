@@ -1,7 +1,7 @@
 def css(page):
     page.setStyleSheet("""
             QWidget {
-                background-color: black;
+                background-color: white;
                 font-family: Arial, sans-serif;
             }
             QLabel {

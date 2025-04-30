@@ -1,11 +1,11 @@
-from PyQt6.QtWidgets import QWidget, QVBoxLayout, QLabel,QPushButton
+from PyQt6.QtWidgets import QWidget, QVBoxLayout, QLabel,QPushButton,QMessageBox
 from PyQt6.QtGui import QImage, QPixmap
 from PyQt6.QtCore import Qt, QTimer
 import sys
 import os
 project_path = os.path.abspath(os.path.join(os.path.dirname(__file__), "../../")) 
 sys.path.append(project_path)
-from recogni_face.modelsCNN import FaceRecognitionCNN
+from recogni_face.modelsCNN import FaceRecognitionCNN2
 import torch
 from torchvision import transforms
 import cv2
@@ -18,7 +18,7 @@ class FaceRecognitionWidget(QWidget):
         super().__init__(parent)
         self.id_customer = id_customer
         self.class_names = class_names
-        self.time_count = 100
+        self.time_count = 200
         self.count = 0
         self.check = False
         self.capture_mode = False
@@ -28,40 +28,51 @@ class FaceRecognitionWidget(QWidget):
         
         
     def init_ui(self):
-        self.layout = QVBoxLayout()
-        self.setLayout(self.layout)
-        self.btn_start = QPushButton("Check in thôi!")
-        self.btn_back = QPushButton("quay lại!")
-        self.image_label = QLabel()
-        self.image_label.setAlignment(Qt.AlignmentFlag.AlignCenter)
-        self.layout.addWidget(self.image_label)
-        self.layout.addWidget(self.btn_start)
-        self.layout.addWidget(self.btn_back)
-        
-        self.btn_start.clicked.connect(self.start_capture)
+        try:
+            self.layout = QVBoxLayout()
+            self.setLayout(self.layout)
+            self.btn_start = QPushButton("Check in thôi!")
+            self.btn_back = QPushButton("quay lại!")
+            self.image_label = QLabel()
+            self.image_label.setAlignment(Qt.AlignmentFlag.AlignCenter)
+            self.layout.addWidget(self.image_label)
+            self.layout.addWidget(self.btn_start)
+            self.layout.addWidget(self.btn_back)
+            
+            self.btn_start.clicked.connect(self.start_capture)
+        except Exception as e:
+            QMessageBox.critical(self, "Lỗi", f"Có lỗi: {str(e)}")
     def start_capture(self):
-        self.btn_start.setEnabled(False)
-        self.begintime = time.time()
-        # Initialize model
-        self.init_model()
-        
-        # Setup camera
-        self.cap = cv2.VideoCapture(0)
-        self.timer = QTimer()
-        
-        self.timer.timeout.connect(self.update_frame)
-        self.timer.start(30)  # Update every 30ms
-        self.btn_start.setEnabled(True)
+        try:
+            self.btn_start.setEnabled(False)
+            self.begintime = time.time()
+            # Initialize model
+            self.init_model()
+            
+            # Setup camera
+            self.cap = cv2.VideoCapture(0)
+            self.timer = QTimer()
+            
+            self.timer.timeout.connect(self.update_frame)
+            self.timer.start(30)  # Update every 30ms
+            self.btn_start.setEnabled(True)
+        except Exception as e:
+            print(e)
+            QMessageBox.critical(self, "Lỗi", f"Có lỗi xảy ra khi tìm kiếm: {str(e)}")
     def stop_capture(self):
         """Dừng chế độ chụp ảnh"""
         print("cửa đã được mở")
         self.count = 0
         self.capture_mode = False
-        self.capture_btn.setEnabled(True)
+        self.btn_start.setEnabled(True)
     def init_model(self):
         model_path = f"recogni_face/trainner/face_{self.id_customer}.pth"
-        self.model = FaceRecognitionCNN(3)
-        self.model.load_state_dict(torch.load(model_path))
+        # Khởi tạo mô hình trước
+        self.model = FaceRecognitionCNN2(2)
+        # Load checkpoint
+        checkpoint = torch.load(model_path)
+        self.model.load_state_dict(checkpoint['model_state_dict'])  # Đảm bảo đúng key
+
         self.model.eval()
         self.face_cascade = cv2.CascadeClassifier(
             cv2.data.haarcascades + 'haarcascade_frontalface_default.xml')
@@ -96,55 +107,65 @@ class FaceRecognitionWidget(QWidget):
         
     
     def process_frame(self, frame):
-        gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
-        faces = self.face_cascade.detectMultiScale(
-            gray, scaleFactor=1.3, minNeighbors=5, minSize=(30, 30))
-        
-        for (x, y, w, h) in faces:
-            face_img = frame[y:y+h, x:x+w]
-            face_img = cv2.resize(face_img, (64, 64))
-            face_img = Image.fromarray(face_img)
-            face_img = self.transform(face_img).unsqueeze(0)
+        try:
+            gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
+            faces = self.face_cascade.detectMultiScale(
+                gray, scaleFactor=1.3, minNeighbors=5, minSize=(30, 30))
             
-            with torch.no_grad():
-                outputs = self.model(face_img)
-                probabilities = torch.softmax(outputs, dim=1)
-                confidence, predicted = torch.max(probabilities, 1)
-                confidence = confidence.item()
-                predicted_label = predicted.item()
-            
-            if w*h > 50000:
-                if confidence < 0.8:
-                    label = "Unknown"
-                    self.count = 0
+            for (x, y, w, h) in faces:
+                face_img = frame[y:y+h, x:x+w]
+                face_img = cv2.resize(face_img, (224, 224))
+                face_img = Image.fromarray(face_img)
+                face_img = self.transform(face_img).unsqueeze(0)
+                
+                with torch.no_grad():
+                    outputs = self.model(face_img)
+                    probabilities = torch.softmax(outputs, dim=1)
+                    confidence, predicted = torch.max(probabilities, 1)
+                    confidence = confidence.item()
+                    predicted_label = predicted.item()
+                
+                if w*h > 50000:
+                    if confidence < 0.8:
+                        label = "Unknown"
+                        self.count = 0
+                    else:
+                        label = self.class_names[predicted_label]
+                        self.count += 1
                 else:
-                    label = self.class_names[predicted_label]
-                    self.count += 1
-            else:
-                self.count = 0
-                label = "Bring face closer"
+                    self.count = 0
+                    label = "Bring face closer"
+                
+                # Draw rectangle and label
+                cv2.rectangle(frame, (x, y), (x+w, y+h), (0, 255, 0), 2)
+                cv2.putText(frame, label, (x, y-10), 
+                        cv2.FONT_HERSHEY_SIMPLEX, 0.9, (0, 255, 0), 2)
+                time_code = self.timerun-9
+                if time_code<=0:
+                    time_code=0
+                cv2.putText(frame, f"time: {time_code:.2f}", 
+                        (x, y+h+20), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0, 255, 0), 2)
+                cv2.putText(frame, f"num lock: {self.count}", 
+                        (x, y+h+40), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0, 255, 0), 2)
+                if self.count >= self.time_count:
+                    print("đã mở cửa!")
+                    cv2.putText(frame, f"Open the door!!!!!!", 
+                        (x, y+h+20), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0, 255, 0), 2)
+                    self.check = True
+                    self.closeEvent()
+                    break
+                elif(time_code>=60):
+                    print("chưa mở cửa!")
+                    cv2.putText(frame, f"Close the door!!", 
+                        (x, y+h+20), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0, 255, 0), 2)
+                    self.check =False
+                    self.closeEvent()
+                    break
             
-            # Draw rectangle and label
-            cv2.rectangle(frame, (x, y), (x+w, y+h), (0, 255, 0), 2)
-            cv2.putText(frame, label, (x, y-10), 
-                       cv2.FONT_HERSHEY_SIMPLEX, 0.9, (0, 255, 0), 2)
-            time_code = self.timerun-9
-            if time_code<=0:
-                time_code=0
-            cv2.putText(frame, f"time: {time_code:.2f}", 
-                       (x, y+h+20), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0, 255, 0), 2)
-            if self.count >= self.time_count:
-                print("đã mở cửa!")
-                self.check = True
-                self.closeEvent()
-                break
-            elif(time_code>=60):
-                print("chưa mở cửa!")
-                self.check =False
-                self.closeEvent()
-                break
-        
-        return frame
+            return frame
+        except Exception as e:
+            print(str(e))
+            QMessageBox.critical(self, "Lỗi", f"Có lỗi: {str(e)}")
     
     def closeEvent(self):
         if hasattr(self, 'timer') and self.timer.isActive():
