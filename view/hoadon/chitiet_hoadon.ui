@@ -14,273 +14,273 @@
    <string>MainWindow</string>
   </property>
   <widget class="QWidget" name="centralwidget">
-   <layout class="QHBoxLayout" name="horizontalLayout">
+   <layout class="QVBoxLayout" name="verticalLayout_5">
     <item>
-     <layout class="QVBoxLayout" name="verticalLayout_5">
+     <layout class="QVBoxLayout" name="verticalLayout">
       <item>
-       <layout class="QVBoxLayout" name="verticalLayout">
-        <item>
-         <widget class="QLabel" name="label">
-          <property name="font">
-           <font>
-            <weight>75</weight>
-            <italic>false</italic>
-            <bold>true</bold>
-            <underline>false</underline>
-            <strikeout>false</strikeout>
-            <kerning>true</kerning>
-           </font>
-          </property>
-          <property name="text">
-           <string>Thông tin hóa đơn</string>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QLabel" name="in4_hoadon">
-          <property name="text">
-           <string>mã hóa đơn - thời gian</string>
-          </property>
-         </widget>
-        </item>
-       </layout>
+       <widget class="QLabel" name="label">
+        <property name="font">
+         <font>
+          <weight>75</weight>
+          <italic>false</italic>
+          <bold>true</bold>
+          <underline>false</underline>
+          <strikeout>false</strikeout>
+          <kerning>true</kerning>
+         </font>
+        </property>
+        <property name="text">
+         <string>Thông tin hóa đơn</string>
+        </property>
+       </widget>
       </item>
       <item>
-       <layout class="QVBoxLayout" name="verticalLayout_2">
-        <item>
-         <widget class="QLabel" name="label_4">
-          <property name="font">
-           <font>
-            <weight>75</weight>
-            <bold>true</bold>
-           </font>
-          </property>
-          <property name="text">
-           <string>Thông tin nhân viên</string>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QLabel" name="in4_nhanvien">
-          <property name="text">
-           <string>tên nhân viên - chức vụ - sdt</string>
-          </property>
-         </widget>
-        </item>
-       </layout>
+       <widget class="QLabel" name="in4_hoadon">
+        <property name="text">
+         <string>mã hóa đơn - thời gian</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </item>
+    <item>
+     <layout class="QVBoxLayout" name="verticalLayout_2">
+      <item>
+       <widget class="QLabel" name="label_4">
+        <property name="font">
+         <font>
+          <weight>75</weight>
+          <bold>true</bold>
+         </font>
+        </property>
+        <property name="text">
+         <string>Thông tin nhân viên</string>
+        </property>
+       </widget>
       </item>
       <item>
-       <layout class="QVBoxLayout" name="verticalLayout_3">
-        <item>
-         <widget class="QLabel" name="label_3">
-          <property name="font">
-           <font>
-            <weight>75</weight>
-            <bold>true</bold>
-           </font>
-          </property>
-          <property name="text">
-           <string>Thông tin khách hàng</string>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QLabel" name="in4_khachhang">
-          <property name="text">
-           <string>tên - sdt</string>
-          </property>
-         </widget>
-        </item>
-       </layout>
+       <widget class="QLabel" name="in4_nhanvien">
+        <property name="text">
+         <string>tên nhân viên - chức vụ - sdt</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </item>
+    <item>
+     <layout class="QVBoxLayout" name="verticalLayout_3">
+      <item>
+       <widget class="QLabel" name="label_3">
+        <property name="font">
+         <font>
+          <weight>75</weight>
+          <bold>true</bold>
+         </font>
+        </property>
+        <property name="text">
+         <string>Thông tin khách hàng</string>
+        </property>
+       </widget>
       </item>
       <item>
-       <layout class="QGridLayout" name="gridLayout">
-        <item row="3" column="0">
-         <widget class="QLabel" name="label_7">
-          <property name="text">
-           <string>Phí cọc:</string>
-          </property>
-         </widget>
-        </item>
-        <item row="3" column="1" colspan="2">
-         <widget class="QLabel" name="phicoc">
-          <property name="text">
-           <string>ngày đặt ghi tại đây</string>
-          </property>
-         </widget>
-        </item>
-        <item row="4" column="0">
-         <widget class="QLabel" name="label_10">
-          <property name="text">
-           <string>*Chi tiết</string>
-          </property>
-         </widget>
-        </item>
-        <item row="7" column="5">
-         <widget class="QLabel" name="loaiphong">
-          <property name="text">
-           <string>loai</string>
-          </property>
-         </widget>
-        </item>
-        <item row="7" column="3">
-         <widget class="QLabel" name="sogiuong">
-          <property name="text">
-           <string>sogiuong</string>
-          </property>
-         </widget>
-        </item>
-        <item row="7" column="1">
-         <widget class="QLabel" name="tenphong">
-          <property name="text">
-           <string>tên</string>
-          </property>
-         </widget>
-        </item>
-        <item row="7" column="4" alignment="Qt::AlignRight">
-         <widget class="QLabel" name="label_14">
-          <property name="text">
-           <string>Loại phòng:</string>
-          </property>
-         </widget>
-        </item>
-        <item row="0" column="0" colspan="2">
-         <widget class="QLabel" name="label_2">
-          <property name="font">
-           <font>
-            <weight>75</weight>
-            <bold>true</bold>
-           </font>
-          </property>
-          <property name="text">
-           <string>Thông tin đặt phòng</string>
-          </property>
-         </widget>
-        </item>
-        <item row="1" column="0" colspan="2">
-         <widget class="QLabel" name="label_5">
-          <property name="font">
-           <font>
-            <italic>true</italic>
-           </font>
-          </property>
-          <property name="text">
-           <string>*Thông tin phòng</string>
-          </property>
-         </widget>
-        </item>
-        <item row="2" column="0">
-         <widget class="QLabel" name="label_6">
-          <property name="text">
-           <string>Ngày đặt:</string>
-          </property>
-         </widget>
-        </item>
-        <item row="2" column="1" colspan="2">
-         <widget class="QLabel" name="ngaydatphong">
-          <property name="text">
-           <string>ngày đặt ghi tại đây</string>
-          </property>
-         </widget>
-        </item>
-        <item row="2" column="4" colspan="2">
-         <widget class="QLabel" name="ngaytraphong">
-          <property name="text">
-           <string>ngày trả ghi tại đây</string>
-          </property>
-         </widget>
-        </item>
-        <item row="2" column="3">
-         <widget class="QLabel" name="label_8">
-          <property name="text">
-           <string>Ngày trả:</string>
-          </property>
-         </widget>
-        </item>
-        <item row="7" column="0" alignment="Qt::AlignRight">
-         <widget class="QLabel" name="label_12">
-          <property name="text">
-           <string>Tên phòng:</string>
-          </property>
-         </widget>
-        </item>
-        <item row="3" column="3">
-         <widget class="QLabel" name="label_9">
-          <property name="text">
-           <string>Tiền phòng:</string>
-          </property>
-         </widget>
-        </item>
-        <item row="3" column="4" colspan="2">
-         <widget class="QLabel" name="tienphong">
-          <property name="text">
-           <string>ngày đặt ghi tại đây</string>
-          </property>
-         </widget>
-        </item>
-        <item row="7" column="2" alignment="Qt::AlignRight">
-         <widget class="QLabel" name="label_13">
-          <property name="text">
-           <string>Số giường:</string>
-          </property>
-         </widget>
-        </item>
-       </layout>
+       <widget class="QLabel" name="in4_khachhang">
+        <property name="text">
+         <string>tên - sdt</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </item>
+    <item>
+     <layout class="QGridLayout" name="gridLayout">
+      <item row="0" column="0" colspan="2">
+       <widget class="QLabel" name="label_2">
+        <property name="font">
+         <font>
+          <weight>75</weight>
+          <bold>true</bold>
+         </font>
+        </property>
+        <property name="text">
+         <string>Thông tin đặt phòng</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="0" colspan="2">
+       <widget class="QLabel" name="label_5">
+        <property name="font">
+         <font>
+          <italic>true</italic>
+         </font>
+        </property>
+        <property name="text">
+         <string>*Thông tin phòng</string>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="0">
+       <widget class="QLabel" name="label_6">
+        <property name="text">
+         <string>Ngày đặt:</string>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="1">
+       <widget class="QLabel" name="ngaydatphong">
+        <property name="text">
+         <string>ngày đặt ghi tại đây</string>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="2">
+       <widget class="QLabel" name="label_8">
+        <property name="text">
+         <string>Ngày trả:</string>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="3" colspan="2">
+       <widget class="QLabel" name="ngaytraphong">
+        <property name="text">
+         <string>ngày trả ghi tại đây</string>
+        </property>
+       </widget>
+      </item>
+      <item row="3" column="0">
+       <widget class="QLabel" name="label_7">
+        <property name="text">
+         <string>Phí cọc:</string>
+        </property>
+       </widget>
+      </item>
+      <item row="3" column="1">
+       <widget class="QLabel" name="phicoc">
+        <property name="text">
+         <string>ngày đặt ghi tại đây</string>
+        </property>
+       </widget>
+      </item>
+      <item row="3" column="2">
+       <widget class="QLabel" name="label_9">
+        <property name="text">
+         <string>Tiền phòng:</string>
+        </property>
+       </widget>
+      </item>
+      <item row="3" column="3" colspan="2">
+       <widget class="QLabel" name="tienphong">
+        <property name="text">
+         <string>ngày đặt ghi tại đây</string>
+        </property>
+       </widget>
+      </item>
+      <item row="4" column="0">
+       <widget class="QLabel" name="label_10">
+        <property name="text">
+         <string>*Chi tiết</string>
+        </property>
+       </widget>
+      </item>
+      <item row="5" column="0">
+       <widget class="QLabel" name="label_17">
+        <property name="text">
+         <string>Mã phòng:</string>
+        </property>
+       </widget>
+      </item>
+      <item row="5" column="1">
+       <widget class="QLabel" name="maphong">
+        <property name="text">
+         <string>mã</string>
+        </property>
+       </widget>
+      </item>
+      <item row="5" column="2">
+       <widget class="QLabel" name="label_12">
+        <property name="text">
+         <string>Tên phòng:</string>
+        </property>
+       </widget>
+      </item>
+      <item row="5" column="3">
+       <widget class="QLabel" name="tenphong">
+        <property name="text">
+         <string>tên</string>
+        </property>
+       </widget>
+      </item>
+      <item row="5" column="4">
+       <widget class="QLabel" name="label_13">
+        <property name="text">
+         <string>Số giường:</string>
+        </property>
+       </widget>
+      </item>
+      <item row="5" column="5">
+       <widget class="QLabel" name="sogiuong">
+        <property name="text">
+         <string>sogiuong</string>
+        </property>
+       </widget>
+      </item>
+      <item row="5" column="6">
+       <widget class="QLabel" name="label_14">
+        <property name="text">
+         <string>Loại phòng:</string>
+        </property>
+       </widget>
+      </item>
+      <item row="5" column="7">
+       <widget class="QLabel" name="loaiphong">
+        <property name="text">
+         <string>loai</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </item>
+    <item>
+     <layout class="QVBoxLayout" name="verticalLayout_4">
+      <item>
+       <widget class="QLabel" name="label_15">
+        <property name="font">
+         <font>
+          <weight>75</weight>
+          <bold>true</bold>
+         </font>
+        </property>
+        <property name="text">
+         <string>Các dịch vụ đã sử dụng</string>
+        </property>
+       </widget>
       </item>
       <item>
-       <layout class="QVBoxLayout" name="verticalLayout_4">
-        <item>
-         <widget class="QLabel" name="label_15">
-          <property name="font">
-           <font>
-            <weight>75</weight>
-            <bold>true</bold>
-           </font>
-          </property>
-          <property name="text">
-           <string>Các dịch vụ đã sử dụng</string>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QTableWidget" name="dis_pla">
-          <column>
-           <property name="text">
-            <string>Tên dịch vụ</string>
-           </property>
-          </column>
-          <column>
-           <property name="text">
-            <string>Số lượng</string>
-           </property>
-          </column>
-          <column>
-           <property name="text">
-            <string>Giá lúc đặt</string>
-           </property>
-          </column>
-          <column>
-           <property name="text">
-            <string>Tổng</string>
-           </property>
-          </column>
-         </widget>
-        </item>
-       </layout>
+       <widget class="QTableWidget" name="dis_pla">
+        <column>
+         <property name="text">
+          <string>Tên dịch vụ</string>
+         </property>
+        </column>
+        <column>
+         <property name="text">
+          <string>Số lượng</string>
+         </property>
+        </column>
+        <column>
+         <property name="text">
+          <string>Giá lúc đặt</string>
+         </property>
+        </column>
+        <column>
+         <property name="text">
+          <string>Tổng</string>
+         </property>
+        </column>
+       </widget>
       </item>
       <item>
        <layout class="QGridLayout" name="gridLayout_2">
-        <item row="0" column="0">
-         <widget class="QLabel" name="label_16">
-          <property name="text">
-           <string>*Tình trạng thanh toán:</string>
-          </property>
-          <property name="alignment">
-           <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-          </property>
-         </widget>
-        </item>
-        <item row="0" column="1" alignment="Qt::AlignLeft">
+        <item row="0" column="1">
          <widget class="QLabel" name="tinhtrangthanhtoan">
           <property name="text">
            <string>chưa thanh toán hoặc đã thanh toán</string>
@@ -305,7 +305,17 @@
           </property>
          </widget>
         </item>
-        <item row="1" column="1" alignment="Qt::AlignLeft">
+        <item row="0" column="0">
+         <widget class="QLabel" name="label_16">
+          <property name="text">
+           <string>*Tình trạng thanh toán:</string>
+          </property>
+          <property name="alignment">
+           <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+          </property>
+         </widget>
+        </item>
+        <item row="1" column="1">
          <widget class="QLabel" name="thanhtien">
           <property name="font">
            <font>
