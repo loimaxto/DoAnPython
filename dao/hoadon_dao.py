@@ -45,6 +45,9 @@ class HoaDonDAO:
     def update_hoa_don(self, hoa_don):
         query = "UPDATE hoa_don SET tong_tien = ?, thoi_gian = ?, nv_id = ?, thanh_toan_status = ?,dat_phong_id = ? WHERE hd_id = ?"
         return self.db.execute_query(query, (hoa_don.tong_tien, hoa_don.thoi_gian, hoa_don.nv_id, hoa_don.thanh_toan_status,hoa_don.dat_phong_id, hoa_don.hd_id)) is not None
+    def update_tong_tien(self, hd_id, tong_tien):
+        query = "UPDATE hoa_don SET tong_tien = ?,thoi_gian = datetime('now'),thanh_toan_status = 1 WHERE hd_id = ?"
+        return self.db.execute_query(query, (tong_tien, hd_id)) is not None
 
     def delete_hoa_don(self, hd_id):
         query = "DELETE FROM hoa_don WHERE hd_id = ?"

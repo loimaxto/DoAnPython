@@ -32,7 +32,7 @@ class chitiet_hoadon(Ui_MainWindow, QtWidgets.QMainWindow):
         print(data)
         #hiển thị ra gui
         # thông tin hóa đơnđơn
-        self.in4_hoadon.setText(f"{data[0]} - {data[2]}")
+        self.in4_hoadon.setText(f"Mã hóa đơn: {data[0]} - Thời gian: {data[2]}")
         self.thanhtien.setText(f"{data[1]}VND")
         if data[4]==0:
             self.tinhtrangthanhtoan.setText("Chưa thanh toán")
@@ -47,6 +47,7 @@ class chitiet_hoadon(Ui_MainWindow, QtWidgets.QMainWindow):
         self.phicoc.setText(f"{data[15]}VND"); self.tienphong.setText(f"{data[18]}VND")
         self.maphong.setText(f"{data[25]}"); self.tenphong.setText(f"{data[26]}")
         self.sogiuong.setText(f"{data[27]}"); self.loaiphong.setText(f"{data[31]}")
+
 
         # lấy dữ liệu các dịch vụ
         data = self.cur.execute("select ten_dv, so_luong, gia_luc_dat, tong \
