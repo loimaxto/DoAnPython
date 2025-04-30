@@ -39,23 +39,22 @@ class chitiet_hoadon(Ui_MainWindow, QtWidgets.QMainWindow):
         else:
             self.tinhtrangthanhtoan.setText("Đã thanh toán")
         # thông tin nhân viên
-        self.in4_nhanvien.setText(f"{data[7]}")
+        self.in4_nhanvien.setText(f"{data[5]} - {data[7]} - {data[8]} - {data[10]}")
         # thông tin khách hàng
-        self.in4_khachhang.setText(f"Tên khách hàng: {data[22]} -- Số điện thoại: {data[23]}")
+        self.in4_khachhang.setText(f"{data[21]} - {data[22]} - {data[23]}")
         # thông tin phòng
-        self.ngaydatphong.setText(f"{data[13]}"); 
-        self.ngaytraphong.setText(f"{data[14]}")
-        self.phicoc.setText(f"{data[15]} VND"); 
-        self.tienphong.setText(f"{data[17]} VND")
-        # self.maphong.setText(f"{data[24]}"); 
-        self.tenphong.setText(f"{data[26]}")
-        self.sogiuong.setText(f"{data[27]}");
-        self.loaiphong.setText(f"{data[31]}")
+        self.ngaydatphong.setText(f"{data[13]}"); self.ngaytraphong.setText(f"{data[14]}")
+        self.phicoc.setText(f"{data[15]}VND"); self.tienphong.setText(f"{data[18]}VND")
+        self.maphong.setText(f"{data[25]}"); self.tenphong.setText(f"{data[26]}")
+        self.sogiuong.setText(f"{data[27]}"); self.loaiphong.setText(f"{data[31]}")
+
 
         # lấy dữ liệu các dịch vụ
-        data = self.cur.execute("select * from chi_tiet_dv\
+        data = self.cur.execute("select ten_dv, so_luong, gia_luc_dat, tong \
+                                from chi_tiet_dv join dich_vu on chi_tiet_dv.dv_id = dich_vu.dv_id\
                                 where hd_id=?", (id, ))
         data = data.fetchall()
+        print("Cac dich vu:", data)
 
         self.dis_pla.setRowCount(0)
         for index_row, row_data in enumerate(data):

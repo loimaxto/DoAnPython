@@ -246,12 +246,7 @@
          <widget class="QTableWidget" name="dis_pla">
           <column>
            <property name="text">
-            <string>Mã hóa đơn</string>
-           </property>
-          </column>
-          <column>
-           <property name="text">
-            <string>Mã dịch vụ</string>
+            <string>Tên dịch vụ</string>
            </property>
           </column>
           <column>
