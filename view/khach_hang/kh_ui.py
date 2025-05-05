@@ -7,7 +7,11 @@
 
 
 from PyQt6 import QtCore, QtGui, QtWidgets
-
+import sys
+import os
+project_path = os.path.abspath(os.path.join(os.path.dirname(__file__), "../../")) 
+sys.path.append(project_path)
+from view.style_css import stylecss
 
 class Ui_CustomerManagement(object):
     def setupUi(self, CustomerManagement):
@@ -100,6 +104,7 @@ class Ui_CustomerManagement(object):
 
         self.retranslateUi(CustomerManagement)
         QtCore.QMetaObject.connectSlotsByName(CustomerManagement)
+        
 
     def retranslateUi(self, CustomerManagement):
         _translate = QtCore.QCoreApplication.translate

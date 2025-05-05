@@ -8,7 +8,7 @@ import torch.optim as optim
 import torch.nn as nn
 from torch.utils.data import DataLoader
 from recogni_face.Load_Data import Prepare_Data
-from recogni_face.modelsCNN import FaceRecognitionCNN2
+from recogni_face.modelsCNN import FaceRecognitionCNN,FaceRecognitionCNN2
 
 project_path = os.path.abspath(os.path.join(os.path.dirname(__file__), "../../")) 
 sys.path.append(project_path)
@@ -133,13 +133,13 @@ class Train_Models:
             return None, 0.0
 
 if __name__ == "__main__":
-    id_customer = 2
+    id_customer = 4
     train_model = Train_Models()
     train_model.set_idcustomer(id_customer)
     train_model.train()
     train_model.save(f"recogni_face/trainner/face_{id_customer}.pth")
     
-    test_image_path = "recogni_face/dataset/2/2.1.jpg"
+    test_image_path = "recogni_face/dataset/4/4.1.jpg"
     class_name, confidence = train_model.predict(test_image_path)
     if class_name is not None:
         print(f"\nKết quả dự đoán: {class_name} (Độ tin cậy: {confidence*100:.2f}%)")

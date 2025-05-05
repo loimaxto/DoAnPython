@@ -5,7 +5,7 @@ import sys
 import os
 project_path = os.path.abspath(os.path.join(os.path.dirname(__file__), "../../")) 
 sys.path.append(project_path)
-from recogni_face.modelsCNN import FaceRecognitionCNN2
+from recogni_face.modelsCNN import FaceRecognitionCNN,FaceRecognitionCNN2
 import torch
 from torchvision import transforms
 import cv2
@@ -14,7 +14,7 @@ from PIL import Image
 import time
 # hàm sẽ kiểm tra nếu khuôn mặt khớp với hệ thống thì sẽ mở cửa trong vòng 4s
 class FaceRecognitionWidget(QWidget):
-    def __init__(self, id_customer=33, class_names=["known", "unKnown"], parent=None):
+    def __init__(self, id_customer=33, class_names=["knOwn", "unKnOwn"], parent=None):
         super().__init__(parent)
         self.id_customer = id_customer
         self.class_names = class_names

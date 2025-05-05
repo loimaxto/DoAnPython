@@ -7,6 +7,30 @@ class stylecss:
         self.main.setStyleSheet(f"""
         form'{''}
 """)
+    def set_default2(self):
+        self.main.setStyleSheet("""
+    QMainWindow {
+        background-color: white;
+    }
+    QLabel {
+        color: black;
+    }
+    QLineEdit {
+        background-color:#c5bcbc ;
+        color: white;
+        border: 1px solid gray;
+    }
+    QPushButton {
+        background-color: #f0f0f0;
+        color: black;
+        border: 1px solid gray;
+    }
+    QTableView {
+        background-color: white;
+        color: black;
+        gridline-color: lightgray;
+    }
+""")
     def set_default(self):
         self.main.setStyleSheet("""
         `QWidget {
