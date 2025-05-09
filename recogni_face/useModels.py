@@ -14,7 +14,7 @@ from PIL import Image
 import time
 # hàm sẽ kiểm tra nếu khuôn mặt khớp với hệ thống thì sẽ mở cửa trong vòng 4s
 class FaceRecognitionWidget(QWidget):
-    def __init__(self, id_customer=33, class_names=["knOwn", "unKnOwn"], parent=None):
+    def __init__(self, id_customer=33, class_names=["known", "unKnown"], parent=None):
         super().__init__(parent)
         self.id_customer = id_customer
         self.class_names = class_names
@@ -67,22 +67,28 @@ class FaceRecognitionWidget(QWidget):
         self.btn_start.setEnabled(True)
     def init_model(self):
         model_path = f"recogni_face/trainner/face_{self.id_customer}.pth"
-        # Khởi tạo mô hình trước
+        
+        # Load model
         self.model = FaceRecognitionCNN2(2)
-        # Load checkpoint
         checkpoint = torch.load(model_path)
-        self.model.load_state_dict(checkpoint['model_state_dict'])  # Đảm bảo đúng key
+        self.model.load_state_dict(checkpoint['model_state_dict'])
+        
+        # Load class names từ checkpoint nếu có
+        self.class_names = checkpoint.get('classes', ["Unknown", "Known"])
 
         self.model.eval()
         self.face_cascade = cv2.CascadeClassifier(
             cv2.data.haarcascades + 'haarcascade_frontalface_default.xml')
-        
+
         self.transform = transforms.Compose([
+            transforms.RandomHorizontalFlip(p=0.5),  # Lật ảnh ngang ngẫu nhiên
+            transforms.ColorJitter(brightness=0.2, contrast=0.2, saturation=0.2, hue=0.05),  # Biến đổi màu sắc nhẹ
+            transforms.RandomRotation(degrees=10),  # Xoay nhẹ ảnh ±10 độ
             transforms.ToTensor(),
             transforms.Normalize(mean=[0.485, 0.456, 0.406], 
-                               std=[0.229, 0.224, 0.225])
+                                std=[0.229, 0.224, 0.225])
         ])
-    
+
     def update_frame(self):
         ret, frame = self.cap.read()
         
@@ -125,17 +131,25 @@ class FaceRecognitionWidget(QWidget):
                     confidence = confidence.item()
                     predicted_label = predicted.item()
                 
+                # Trong vòng lặp nhận diện
                 if w*h > 50000:
                     if confidence < 0.8:
                         label = "Unknown"
                         self.count = 0
                     else:
-                        label = self.class_names[predicted_label]
-                        self.count += 1
+                        predicted_name = self.class_names[predicted_label]
+                        print([predicted_label])
+                        if predicted_name.lower() == "unknown":
+                            label = "Unknown"
+                            self.count = 0
+                        else:
+                            label = predicted_name
+                            self.count += 1
                 else:
                     self.count = 0
                     label = "Bring face closer"
-                
+
+                print(predicted)
                 # Draw rectangle and label
                 cv2.rectangle(frame, (x, y), (x+w, y+h), (0, 255, 0), 2)
                 cv2.putText(frame, label, (x, y-10), 
@@ -150,14 +164,14 @@ class FaceRecognitionWidget(QWidget):
                 if self.count >= self.time_count:
                     print("đã mở cửa!")
                     cv2.putText(frame, f"Open the door!!!!!!", 
-                        (x, y+h+20), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0, 255, 0), 2)
+                        (x, y-30), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0, 255, 0), 2)
                     self.check = True
                     self.closeEvent()
                     break
                 elif(time_code>=60):
                     print("chưa mở cửa!")
                     cv2.putText(frame, f"Close the door!!", 
-                        (x, y+h+20), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0, 255, 0), 2)
+                        (x, y-30), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0, 255, 0), 2)
                     self.check =False
                     self.closeEvent()
                     break

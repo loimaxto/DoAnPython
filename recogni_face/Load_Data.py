@@ -14,10 +14,14 @@ class Prepare_Data:
         self.classes = ['class0', 'class1']  # 0: img_dir_class1, 1: dataset/1
         self.transform = transforms.Compose([
             transforms.Resize((224, 224)),
+            transforms.RandomHorizontalFlip(p=0.5),  # Lật ảnh ngang ngẫu nhiên
+            transforms.ColorJitter(brightness=0.2, contrast=0.2, saturation=0.2, hue=0.05),  # Biến đổi màu sắc nhẹ
+            transforms.RandomRotation(degrees=10),  # Xoay nhẹ ảnh ±10 độ
             transforms.ToTensor(),
             transforms.Normalize(mean=[0.485, 0.456, 0.406], 
-                                 std=[0.229, 0.224, 0.225])
+                                std=[0.229, 0.224, 0.225])
         ])
+
     
     def Data_Loader(self, path_image="dataset"):
         dataset = CustomImageDataset(path_image, transform=self.transform)
@@ -32,4 +36,4 @@ class Prepare_Data:
 
         self.train_loader = DataLoader(self.train_dataset, batch_size=32, shuffle=True)
         self.test_loader = DataLoader(self.test_dataset, batch_size=32, shuffle=False)
-        self.classes = ['Customer','NotCustomer']
+        self.classes = ['nocustomer','Customer']

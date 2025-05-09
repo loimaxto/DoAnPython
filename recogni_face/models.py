@@ -1,4 +1,7 @@
-
+import sys
+import os
+project_path = os.path.abspath(os.path.join(os.path.dirname(__file__), "../../")) 
+sys.path.append(project_path)
 import sys
 import cv2
 import os
@@ -11,10 +14,7 @@ from PyQt6.QtWidgets import (QApplication, QLabel, QWidget,
 from PyQt6 import QtWidgets
 from dao.khach_hang_dao import KhachHangDAO
 from recogni_face.open import Train_Models
-import sys
-import os
-project_path = os.path.abspath(os.path.join(os.path.dirname(__file__), "../../")) 
-sys.path.append(project_path)
+
 
 class FaceRecognitionWidget(QWidget):
     capture_completed = pyqtSignal()  # Signal khi hoàn thành chụp ảnh
@@ -29,7 +29,6 @@ class FaceRecognitionWidget(QWidget):
         self.PATH_IMAGE = "dataset"
         self.PATH_TRAINER = "trainner"
         self.id_customer = id_customer  # ID khách hàng mặc định
-        
         # Khởi tạo giao diện
         #self.setup_ui()
         
@@ -158,10 +157,11 @@ class FaceRecognitionWidget(QWidget):
         """Dừng chế độ chụp ảnh"""
         self.status_label.setText(f"Hoàn thành! Đã chụp {self.count} ảnh")
         
-        train_model = Train_Models(hozi=self.status_label1)
+        train_model = Train_Models( hozi=self.status_label)
         train_model.set_idcustomer(self.id_customer)
         train_model.train()
         train_model.save(f"recogni_face/trainner/face_{self.id_customer}.pth")
+        #train_model.save_model()
         self.daokhachhang.update_khach_hang_image(self.id_customer)
         self.count = 0
         self.capture_mode = False

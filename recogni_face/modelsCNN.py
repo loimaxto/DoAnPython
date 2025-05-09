@@ -86,7 +86,7 @@ class FaceRecognitionCNN2(nn.Module):
         self.conv3 = self.create_convolution(16, 32)
         self.conv4 = self.create_convolution(32, 64)
         self.conv5 = self.create_convolution(64, 64)
-
+        
         # Tính kích thước đầu vào cho FC bằng dummy input
         with torch.no_grad():
             dummy = torch.zeros(1, *input_size)
