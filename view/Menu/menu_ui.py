@@ -81,6 +81,16 @@ class Ui_MainWindow(object):
         self.datPhongBtn.setAutoFillBackground(True)
         self.datPhongBtn.setObjectName("datPhongBtn")
         self.verticalLayout.addWidget(self.datPhongBtn)
+        self.phieuDatPhongBtn = QtWidgets.QPushButton(parent=self.navBar)
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Policy.Minimum, QtWidgets.QSizePolicy.Policy.Preferred)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(self.phieuDatPhongBtn.sizePolicy().hasHeightForWidth())
+        self.phieuDatPhongBtn.setSizePolicy(sizePolicy)
+        self.phieuDatPhongBtn.setCursor(QtGui.QCursor(QtCore.Qt.CursorShape.ArrowCursor))
+        self.phieuDatPhongBtn.setFocusPolicy(QtCore.Qt.FocusPolicy.TabFocus)
+        self.phieuDatPhongBtn.setObjectName("phieuDatPhongBtn")
+        self.verticalLayout.addWidget(self.phieuDatPhongBtn)
         self.phongSuDungBtn = QtWidgets.QPushButton(parent=self.navBar)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Policy.Minimum, QtWidgets.QSizePolicy.Policy.Preferred)
         sizePolicy.setHorizontalStretch(0)
@@ -186,12 +196,7 @@ class Ui_MainWindow(object):
         self.stackedWidget.addWidget(self.default2)
         self.gridLayout.addWidget(self.stackedWidget, 0, 1, 1, 1)
         MainWindow.setCentralWidget(self.centralwidget)
-        self.stackedWidget.setStyleSheet("""
-                                      QStackedWidget {
-                                      border:3px red solid;
-                                         background-color:none;
-                                         
-                                      }""")
+
         self.retranslateUi(MainWindow)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
@@ -200,6 +205,7 @@ class Ui_MainWindow(object):
         MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow"))
         self.logoLabel.setText(_translate("MainWindow", "Quản lí khách sạn"))
         self.datPhongBtn.setText(_translate("MainWindow", "Đặt phòng"))
+        self.phieuDatPhongBtn.setText(_translate("MainWindow", "Phiếu đặt phòng"))
         self.phongSuDungBtn.setText(_translate("MainWindow", "Phòng đang sử dụng"))
         self.hoadon_btn.setText(_translate("MainWindow", "Hóa đơn"))
         self.thongKeBtn.setText(_translate("MainWindow", "Thống kê"))

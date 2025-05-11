@@ -22,6 +22,8 @@ from view.hoadon.hoadon_handle import hoadon
 from view.DatPhong.handle_dat_phong import DatPhongWindow
 from view.statistics.statistics_handle import StatisticsMainWindow
 from view.datphong2.datphong2_handle import DatPhong2
+from view.datphong2.handle_listPhieuDatPhong import ListPhieuDatPhongWindow
+
 class MainWindow(QtWidgets.QMainWindow,Ui_MainWindow):
     acc = 0 # acc = 0 nếu chưa login, =1 nếu login tk thường, =2 nếu là admin
     def __init__(self):
@@ -44,6 +46,8 @@ class MainWindow(QtWidgets.QMainWindow,Ui_MainWindow):
         self.checkin_page = Checkin()
         self.hoadon_page = hoadon()
         self.thongke_page = StatisticsMainWindow()
+        self.list_phieuDatphong_page = ListPhieuDatPhongWindow()
+        
         # thêm trang mới vào menumenu
         self.ui.stackedWidget.addWidget(self.phongSuDung_page)
         self.ui.stackedWidget.addWidget(self.dp_page)
@@ -54,6 +58,7 @@ class MainWindow(QtWidgets.QMainWindow,Ui_MainWindow):
         self.ui.stackedWidget.addWidget(self.phong_gia_page)
         self.ui.stackedWidget.addWidget(self.hoadon_page)
         self.ui.stackedWidget.addWidget(self.thongke_page)
+        self.ui.stackedWidget.addWidget(self.list_phieuDatphong_page)
         self.ui.stackedWidget.setCurrentWidget(self.kh_page)
         
         # lập trình chuyển trang
@@ -66,6 +71,7 @@ class MainWindow(QtWidgets.QMainWindow,Ui_MainWindow):
         self.ui.checkinBtn.clicked.connect(lambda: self.ui.stackedWidget.setCurrentWidget(self.checkin_page))
         self.ui.hoadon_btn.clicked.connect(lambda: self.ui.stackedWidget.setCurrentWidget(self.hoadon_page))
         self.ui.thongKeBtn.clicked.connect(lambda: self.ui.stackedWidget.setCurrentWidget(self.thongke_page))
+        self.ui.phieuDatPhongBtn.clicked.connect(lambda: self.ui.stackedWidget.setCurrentWidget(self.list_phieuDatphong_page))
         self.ui.dangXuatBtn.clicked.connect(self.DangNhap)
         self.ui.phongSuDungBtn.clicked.connect(lambda: self.switch_reload_PhongSuDung() )
           
