@@ -65,8 +65,16 @@ class PhongDTO:
         self.tinh_trang_dat_phong = tinh_trang_dat_phong
         self.tinh_trang_su_dung = tinh_trang_su_dung
         self.current_hoadon_id=current_hoadon_id
+    def __init__(self, id, ten, sogiuong, loai):
+        self.id = id
+        self.ten_phong = ten
+        self.so_giuong = sogiuong
+        self.loai = loai
     def __repr__(self):
-        return f"PhongDTO(id={self.id}, ten_phong='{self.ten_phong}', so_giuong={self.so_giuong}, id_gia={self.id_gia}, tinh_trang_dat_phong={self.tinh_trang_dat_phong}, tinh_trang_su_dung={self.tinh_trang_su_dung}, hoadon_id={ self.current_hoadon_id})"
+        try:
+            return f"PhongDTO(id={self.id}, ten_phong='{self.ten_phong}', so_giuong={self.so_giuong}, id_gia={self.id_gia}, tinh_trang_dat_phong={self.tinh_trang_dat_phong}, tinh_trang_su_dung={self.tinh_trang_su_dung}, hoadon_id={ self.current_hoadon_id})"
+        except:
+            pass
 class GiaPhongDTO:
     def __init__(self,id=None,ten_loai=None,gia_gio=None,gia_ngay=None,gia_dem=None):
         self.id = id

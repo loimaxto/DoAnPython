@@ -86,8 +86,20 @@ class PhongDAO:
         return self.db.execute_query(query, (tinh_trang_dat_phong,hoadon_id, id)) 
     def delete_phong(self, id):
         query = "DELETE FROM phong WHERE id = ?"
-        return self.db.execute_query(query, (id,)) 
-    
+        return self.db.execute_query(query, (id,))
+    def get_all_available_obj_phong(self):
+        query = "select id, ten_phong, so_giuong, loai \
+                from phong \
+                    where tinh_trang_dat_phong=0"
+        tmp = self.db.execute_query(query)
+        data = []
+        for row in tmp:
+            row_data = PhongDTO(row[0], row[1], row[2], row[3])
+            data.append(row_data)
+        print(data)
+        return data
+
+
 if __name__ == "__main__":
     dao = PhongDAO()
     print("bg")
