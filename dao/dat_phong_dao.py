@@ -54,16 +54,25 @@ class DatPhongDAO:
             return None
 
     def get_dat_phong_next_id(self):
-        query = "SELECT COALESCE(MAX(booking_id), 0) + 1 FROM dat_phong;"
-        rs = self.db.execute_query(query)
-        return rs[0][0]
+        query = "SELECT booking_id FROM dat_phong ORDER BY booking_id"
+        rows = self.db.execute_query(query)
+        existing_ids = [row[0] for row in rows]
+
+        next_id = 1
+        for booking_id in existing_ids:
+            if booking_id != next_id:
+                break
+            next_id += 1
+        return next_id
+
 
     def insert_dat_phong(self, dat_phong):
         query = "INSERT INTO dat_phong \
-        (ngay_bd, ngay_kt, phi_dat_coc, note, phong_id, tien_luc_dat, kh_id) \
-        VALUES (?, ?, ?, ?, ?, ?, ?)\
+        (booking_id,ngay_bd, ngay_kt, phi_dat_coc, note, phong_id, tien_luc_dat, kh_id) \
+        VALUES (?,?, ?, ?, ?, ?, ?, ?)\
         "
         params = (
+            self.get_dat_phong_next_id(),
             dat_phong.ngay_bd,
             dat_phong.ngay_kt,
             dat_phong.phi_dat_coc,
@@ -146,21 +155,5 @@ class DatPhongDAO:
 if __name__ == "__main__":
     dao = DatPhongDAO()
     print("Next ID:", dao.get_dat_phong_next_id())
-    
-    # Test insert
-    new_booking = DatPhongDTO(
-        ngay_bd="2023-01-01",
-        ngay_kt="2023-01-05",
-        phi_dat_coc=500000,
-        note="Phòng VIP",
-        phong_id=1,
-        tien_luc_dat=2000000,
-        kh_id=1
-    )
-    new_id = dao.insert_dat_phong(new_booking)
-    print(f"Inserted booking with ID: {new_id}")
-    
-    # Test get all
-    bookings = dao.get_all_dat_phong()
-    for booking in bookings:
-        print(booking)
+    for i in range(11,21):
+        dao.delete_dat_phong(i)

@@ -36,4 +36,4 @@ class Prepare_Data:
 
         self.train_loader = DataLoader(self.train_dataset, batch_size=32, shuffle=True)
         self.test_loader = DataLoader(self.test_dataset, batch_size=32, shuffle=False)
-        self.classes = ['nocustomer','Customer']
+        self.classes = ['Customer','noCustomer']

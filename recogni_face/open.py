@@ -68,6 +68,8 @@ class Train_Models:
                 if save_best and val_accuracy > self.best_accuracy:
                     self.best_accuracy = val_accuracy
                     torch.save(self.model.state_dict(), f"recogni_face/trainner/face_{self.id_customer}.pth")
+                    if self.hozi != None:
+                        self.hozi.setText(f"Đã lưu model tốt nhất với accuracy: {val_accuracy:.2f}%")
                     print(f"Đã lưu model tốt nhất với accuracy: {val_accuracy:.2f}%")
                 
                 epoch_time = time.time() - start_time
@@ -78,8 +80,7 @@ class Train_Models:
                     self.hozi.setText("""Đang huấn luyện mô hình của bạn...
                                         Vui lòng đợi giây lát!
                                     """)
-            if self.hozi != None:
-                self.hozi.setText("Đã hoàn thành thu thập khuôn mặt khách hàng!")
+            
             print("Kết thúc huấn luyện!")
             self.best_accuracy = val_accuracy
             #torch.save(self.model.state_dict(), f"recogni_face/trainner/face_{self.id_customer}.pth")

@@ -109,3 +109,5 @@ class HoaDonDAO:
 # Example usage (in a separate main.py or similar):
 if __name__ == "__main__":
     dao = HoaDonDAO()
+    for i in range(4,40):
+        dao.delete_hoa_don(i)

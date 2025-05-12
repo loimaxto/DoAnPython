@@ -20,7 +20,8 @@ class KhachHangDAO:
             return [KhachHangDTO(kh_id=row[0], ten=row[1], sdt=row[2], image=row[3]) for row in rows]
         else:
             return []
-
+    
+    
     def get_khach_hang_by_id(self, kh_id):
         query = "SELECT kh_id, ten, sdt, image FROM khach_hang WHERE kh_id = ?"
         row = self.db.execute_query(query, (kh_id,))
@@ -30,13 +31,22 @@ class KhachHangDAO:
         else:
             return None
     def get_khach_hang_next_id(self):
-        query = "SELECT COALESCE(MAX(kh_id), 0) + 1 FROM khach_hang;"
-        rs = self.db.execute_query(query)
-        id = rs[0][0]
-        return id
+        
+        query = "SELECT kh_id FROM khach_hang ORDER BY kh_id"
+        rows = self.db.execute_query(query)
+        existing_ids = [row[0] for row in rows]
+
+        next_id = 1
+        for booking_id in existing_ids:
+            if booking_id != next_id:
+                break
+            next_id += 1
+        return next_id
     def insert_khach_hang(self, khach_hang):
-        query = "INSERT INTO khach_hang (ten, sdt, image) VALUES (?, ?, ?)"
-        insert_row_data = self.db.execute_query(query, (khach_hang.ten, khach_hang.sdt, khach_hang.image), return_last_row=True)
+        query = "INSERT INTO khach_hang (kh_id,ten, sdt, image) VALUES (?,?, ?, ?)"
+        insert_row_data = self.db.execute_query(query, 
+                                                
+        (self.get_khach_hang_next_id(),khach_hang.ten, khach_hang.sdt, khach_hang.image), return_last_row=True)
         return insert_row_data[0] #return the last inserted ID.
 
 

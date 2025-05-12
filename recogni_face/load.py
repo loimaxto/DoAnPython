@@ -5,8 +5,8 @@ from PIL import Image
 
 class CustomImageDataset(Dataset):
     def __init__(self, img_dir_class1, transform=None):
-        self.img_dir_class1 = "recogni_face/dataset/3"
-        self.img_dir_class2 = img_dir_class1
+        self.img_dir_class1 = img_dir_class1
+        self.img_dir_class2 = "recogni_face/dataset/0"
         self.transform = transform
         
         # Lấy danh sách hình ảnh từ cả hai thư mục

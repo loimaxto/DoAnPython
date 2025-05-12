@@ -1,12 +1,12 @@
 from recogni_face.open import Train_Models
 if __name__ == "__main__":
-    id_customer = 2
+    id_customer = 3
     train_model = Train_Models()
     train_model.set_idcustomer(id_customer)
     train_model.train()
     train_model.save(f"recogni_face/trainner/face_{id_customer}.pth")
     
-    test_image_path = "recogni_face/dataset/2/2.5.jpg"
+    test_image_path = "recogni_face/dataset/3/37.2.jpg"
     
     class_name, confidence = train_model.predict(test_image_path)
     if class_name is not None:

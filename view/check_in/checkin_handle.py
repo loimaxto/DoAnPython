@@ -4,7 +4,7 @@ project_path = os.path.abspath(os.path.join(os.path.dirname(__file__), "../../")
 sys.path.append(project_path)
 from PyQt6 import QtCore, QtGui, QtWidgets
 from PyQt6.QtWidgets import (QTableWidgetItem, QMessageBox, QRadioButton, 
-                             QWidget, 
+                             QWidget, QTableWidget,
                             QHBoxLayout)
 from view.check_in.checkin_ui import Ui_Checkin
 import sqlite3
@@ -17,6 +17,10 @@ class Checkin(QtWidgets.QWidget, Ui_Checkin):
         self.setupUi(self)
         
         self.id = []
+        # chỉ đọc thông tin table
+        self.view_customer.setEditTriggers(QTableWidget.EditTrigger.NoEditTriggers)
+        self.view_room.setEditTriggers(QTableWidget.EditTrigger.NoEditTriggers)
+        
         # chỉnh sửa table đẹp hơn
         self.view_customer.horizontalHeader().setSectionResizeMode(QtWidgets.QHeaderView.ResizeMode.Stretch)
         self.view_customer.verticalHeader().setVisible(False)
@@ -89,7 +93,11 @@ class Checkin(QtWidgets.QWidget, Ui_Checkin):
         for row_index, row_data in enumerate(data):
             self.view_room.insertRow(row_index)
             for column_index, item_data in enumerate(row_data):
-                self.view_room.setItem(row_index, column_index, QTableWidgetItem(str(item_data)))
+                if column_index==4:
+                    item_data = "Bận" if item_data else "trống"
+                item = QTableWidgetItem(str(item_data))
+                item.setTextAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
+                self.view_room.setItem(row_index, column_index, item)
     def find_customer(self,id_room):
         self.show_customer(f"{query_full_khach_hang} kh\
                             JOIN dat_phong dp ON kh.kh_id=dp.kh_id\

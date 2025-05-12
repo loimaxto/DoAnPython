@@ -139,11 +139,11 @@ class FaceRecognitionWidget(QWidget):
                     else:
                         predicted_name = self.class_names[predicted_label]
                         print([predicted_label])
-                        if predicted_name.lower() == "unknown":
-                            label = "Unknown"
+                        if predicted_name.lower() == "nocustomer":
+                            label = "Invalid Face"
                             self.count = 0
                         else:
-                            label = predicted_name
+                            label = "Valid Face" if predicted_name.lower()=="customer" else "Invalid Face"
                             self.count += 1
                 else:
                     self.count = 0
@@ -186,6 +186,7 @@ class FaceRecognitionWidget(QWidget):
             self.timer.stop()
         
         if hasattr(self, 'camera') and self.cap.isOpened():
+            
             self.cap.release()
         
         
