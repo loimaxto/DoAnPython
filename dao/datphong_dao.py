@@ -42,16 +42,50 @@ class DatPhongDAO:
         else:
             print("phiếu đặt phòng dao: khong tim thấy phieu dat phòng")
             return None
+    
+    def get_all_phieu_dat_phong(self): # Corrected function name and signature
+        query = """SELECT
+                dp.booking_id,
+                dp.ngay_bd,
+                dp.ngay_kt,
+                dp.phi_dat_coc,
+                dp.note,
+                dp.phong_id,
+                dp.tien_luc_dat,
+                kh.kh_id,
+                kh.ten,
+                kh.sdt        
+            FROM
+                dat_phong dp
+            JOIN
+                khach_hang kh ON kh.kh_id = dp.kh_id
+            ORDER BY dp.booking_id desc
+        """
+        rows = self.db.execute_query(query)
+        print(rows)
+        if rows:
+            phieu_dat_phong_list = []
+            for row_data in rows: # Iterate through each row returned
+                dto = DatPhongDTO(
+                    booking_id=row_data[0], 
+                    ngay_bd=row_data[1], 
+                    ngay_kt=row_data[2], 
+                    phi_dat_coc=row_data[3], 
+                    note=row_data[4], 
+                    phong_id=row_data[5], 
+                    tien_luc_dat=row_data[6], 
+                    kh_id=row_data[7],
+                    ten_kh=row_data[8],
+                    sdt=row_data[9],              
+                )
+                phieu_dat_phong_list.append(dto)
+            return phieu_dat_phong_list 
+        else:
+            print("Phiếu đặt phòng DAO: Không tìm thấy phiếu đặt phòng nào.") 
+            return []
+        
 if __name__ == "__main__":
     dv_dao = DatPhongDAO()
+    print(dv_dao.get_all_phieu_dat_phong())
     print(dv_dao.get_phieuDatPhongById("1"))
 
-# def __init__(self, booking_id=None, ngay_bd=None, ngay_kt=None, phi_dat_coc=None, note=None, phong_id=None, tien_luc_dat=None, kh_id=None):
-#         self.booking_id = booking_id
-#         self.ngay_bd = ngay_bd
-#         self.ngay_kt = ngay_kt
-#         self.phi_dat_coc = phi_dat_coc
-#         self.note = note
-#         self.phong_id = phong_id
-#         self.tien_luc_dat = tien_luc_dat
-#         self.kh_id = kh_id
