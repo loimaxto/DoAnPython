@@ -8,6 +8,7 @@ import time
 from dto.dto import (
     PhongDTO, DichVuDTO, ChiTietDVDTO,HoaDonDTO
 )
+from dao.hoadon_dao import HoaDonDAO
 from PyQt6 import QtWidgets, QtCore, QtGui
 from PyQt6.QtWidgets import (
     QPushButton,QHBoxLayout, QWidget,QSizePolicy,
@@ -366,6 +367,12 @@ class DatPhong2(QtWidgets.QWidget,Ui_datphong2):
     def submit_datphong(self):
         index_customer = self.radio_group_customer.checkedId()
         index_room = self.radio_group_room.checkedId()
+        
+
+        tinhtrangphong = int(self.tableviewroom.item(index_room,5).text())
+        if tinhtrangphong!=0:
+            QMessageBox.warning(self,"cảnh báo",f"Phòng này đã được sử dụng!")
+            return 
         if self.start_date.dateTime()>self.end_date.dateTime():
             QMessageBox.warning(self,"cảnh báo",f"thời gian bắt đầu không được lớn hơn thời gian kết thúc")
             return
@@ -392,6 +399,7 @@ class DatPhong2(QtWidgets.QWidget,Ui_datphong2):
         id_customer = self.tableviewcustomer.item(index_customer,1).text()
         id_room = self.tableviewroom.item(index_room,1).text()
         print(id_customer)
+        
         #print(self.start_date.dateTime(),self.end_date.dateTime())
         try:
             note = self.note.toPlainText()

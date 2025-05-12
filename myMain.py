@@ -13,7 +13,7 @@ from view.DatPhong.handle_dat_phong import DatPhongWindow
 from view.Menu.menu_ui import Ui_MainWindow
 from view.ql_dichvu.ql_dichvu_handle import ql_dichvu_ui
 from view.phong_va_giaphong.ql_gia_phong_handle import gia_phong
-# from view.phong_va_giaphong.ql_phong_handle import ql_phong
+# from view.phong_va_giaphong   .ql_phong_handle import ql_phong
 from view.tai_khoan.tai_khoan_handle import tai_khoan
 from view.phong_va_giaphong.phong_giaphong_handle import phong_giaphong_ui
 from view.login.dangnhap_handle import dangnhap
