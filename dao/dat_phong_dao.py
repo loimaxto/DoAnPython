@@ -155,5 +155,5 @@ class DatPhongDAO:
 if __name__ == "__main__":
     dao = DatPhongDAO()
     print("Next ID:", dao.get_dat_phong_next_id())
-    for i in range(11,21):
+    for i in range(2,11):
         dao.delete_dat_phong(i)

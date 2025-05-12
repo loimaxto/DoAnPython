@@ -140,7 +140,10 @@ class Checkin(QtWidgets.QWidget, Ui_Checkin):
             if selected_row == -1:
                 QMessageBox.warning(self, "Cảnh báo", "Vui lòng chọn một khách hàng")
                 return
-            
+            image_path = customer_id = self.view_customer.item(selected_row, 4).text()
+            if image_path or image_path.lower() == "none":
+                QMessageBox.warning(self, "Cảnh báo", "Khách hàng này chưa được train!")
+                return
             # Lấy dữ liệu từ dòng được chọn
             customer_id = self.view_customer.item(selected_row, 1).text()  # Cột ID (index 1)
             customer_name = self.view_customer.item(selected_row, 2).text()  # Cột Họ tên (index 2)
