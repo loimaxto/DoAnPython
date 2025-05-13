@@ -29,10 +29,20 @@ class HoaDonDAO:
             return HoaDonDTO(hd_id=row[0], tong_tien=row[1], thoi_gian=row[2], nv_id=row[3], thanh_toan_status=row[4])
         else:
             return None
-    
+    def get_hoa_don_by_next_id(self):
+        query = "SELECT hd_id FROM hoa_don order by hd_id "
+        rows = self.db.execute_query(query)
+        existing_ids = [row[0] for row in rows]
+
+        next_id = 1
+        for booking_id in existing_ids:
+            if booking_id != next_id:
+                break
+            next_id += 1
+        return next_id
     def insert_hoa_don(self, hoa_don):
-        query = "INSERT INTO hoa_don (tong_tien, thoi_gian, nv_id, thanh_toan_status) VALUES (?, ?, ?,?)"
-        insert_row_data = self.db.execute_query(query, (hoa_don.tong_tien , hoa_don.thoi_gian , hoa_don.nv_id , hoa_don.thanh_toan_status), return_last_row=True)
+        query = "INSERT INTO hoa_don (hd_id,tong_tien, thoi_gian, nv_id, thanh_toan_status) VALUES (?, ?, ?,?,?)"
+        insert_row_data = self.db.execute_query(query, (self.get_hoa_don_by_next_id(),hoa_don.tong_tien , hoa_don.thoi_gian , hoa_don.nv_id , hoa_don.thanh_toan_status), return_last_row=True)
         return insert_row_data[0] #return the last inserted ID.
 
     def delete_hoa_don(self, hd_id):
