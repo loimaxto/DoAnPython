@@ -76,10 +76,7 @@ class Train_Models:
                 print(f"Epoch [{epoch+1}/{num_epochs}] - Loss: {epoch_loss:.4f} | "
                     f"Train Acc: {epoch_acc:.2f}% | Val Acc: {val_accuracy:.2f}% | "
                     f"Time: {epoch_time:.2f}s")
-                if self.hozi != None:
-                    self.hozi.setText("""Đang huấn luyện mô hình của bạn...
-                                        Vui lòng đợi giây lát!
-                                    """)
+                
             
             print("Kết thúc huấn luyện!")
             self.best_accuracy = val_accuracy

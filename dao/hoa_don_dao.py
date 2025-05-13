@@ -41,8 +41,17 @@ class HoaDonDAO:
             next_id += 1
         return next_id
     def insert_hoa_don(self, hoa_don):
-        query = "INSERT INTO hoa_don (hd_id,tong_tien, thoi_gian, nv_id, thanh_toan_status) VALUES (?, ?, ?,?,?)"
-        insert_row_data = self.db.execute_query(query, (self.get_hoa_don_by_next_id(),hoa_don.tong_tien , hoa_don.thoi_gian , hoa_don.nv_id , hoa_don.thanh_toan_status), return_last_row=True)
+        
+        query = "INSERT INTO hoa_don (hd_id,tong_tien, thoi_gian, nv_id, thanh_toan_status,dat_phong_id) VALUES (?,?, ?, ?,?,?)"
+        insert_row_data = self.db.execute_query(query,
+        (self.get_hoa_don_by_next_id(),
+         hoa_don.tong_tien , 
+         hoa_don.thoi_gian , 
+         hoa_don.nv_id , 
+         hoa_don.thanh_toan_status,
+         hoa_don.dat_phong_id
+         ), 
+         return_last_row=True)
         return insert_row_data[0] #return the last inserted ID.
 
     def delete_hoa_don(self, hd_id):
@@ -119,5 +128,5 @@ class HoaDonDAO:
 # Example usage (in a separate main.py or similar):
 if __name__ == "__main__":
     dao = HoaDonDAO()
-    for i in range(4,40):
+    for i in range(4,15):
         dao.delete_hoa_don(i)

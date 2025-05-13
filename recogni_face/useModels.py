@@ -14,7 +14,7 @@ from PIL import Image
 import time
 # hàm sẽ kiểm tra nếu khuôn mặt khớp với hệ thống thì sẽ mở cửa trong vòng 4s
 class FaceRecognitionWidget(QWidget):
-    def __init__(self, id_customer=33, class_names=["known", "unKnown"], parent=None):
+    def __init__(self, id_customer=33,room_name="Phong 0", class_names=["known", "unKnown"], parent=None):
         super().__init__(parent)
         self.id_customer = id_customer
         self.class_names = class_names
@@ -24,6 +24,7 @@ class FaceRecognitionWidget(QWidget):
         self.capture_mode = False
         # Initialize UI
         self.init_ui()
+        self.room_name = room_name
         
         
         
@@ -134,7 +135,7 @@ class FaceRecognitionWidget(QWidget):
                 # Trong vòng lặp nhận diện
                 if w*h > 50000:
                     if confidence < 0.8:
-                        label = "Unknown"
+                        label = "Invalid Face"
                         self.count = 0
                     else:
                         predicted_name = self.class_names[predicted_label]
@@ -142,16 +143,19 @@ class FaceRecognitionWidget(QWidget):
                         if predicted_name.lower() == "nocustomer":
                             label = "Invalid Face"
                             self.count = 0
+                            cv2.rectangle(frame, (x, y), (x+w, y+h), (0, 0, 255), 2)
                         else:
                             label = "Valid Face" if predicted_name.lower()=="customer" else "Invalid Face"
                             self.count += 1
+                            cv2.rectangle(frame, (x, y), (x+w, y+h), (0, 255, 0), 2)
                 else:
                     self.count = 0
                     label = "Bring face closer"
+                    cv2.rectangle(frame, (x, y), (x+w, y+h), (0, 0, 255), 2)
 
                 print(predicted)
                 # Draw rectangle and label
-                cv2.rectangle(frame, (x, y), (x+w, y+h), (0, 255, 0), 2)
+                #cv2.rectangle(frame, (x, y), (x+w, y+h), (0, 255, 0), 2)
                 cv2.putText(frame, label, (x, y-10), 
                         cv2.FONT_HERSHEY_SIMPLEX, 0.9, (0, 255, 0), 2)
                 time_code = self.timerun-9
@@ -163,15 +167,15 @@ class FaceRecognitionWidget(QWidget):
                         (x, y+h+40), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0, 255, 0), 2)
                 if self.count >= self.time_count:
                     print("đã mở cửa!")
-                    cv2.putText(frame, f"Open the door!!!!!!", 
-                        (x, y-30), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0, 255, 0), 2)
+                    cv2.putText(frame, f"Open {self.room_name}", 
+                        (x, y-50), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0, 255, 0), 2)
                     self.check = True
                     self.closeEvent()
                     break
-                elif(time_code>=60):
+                elif(time_code>=15):
                     print("chưa mở cửa!")
-                    cv2.putText(frame, f"Close the door!!", 
-                        (x, y-30), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0, 255, 0), 2)
+                    cv2.putText(frame, f"Close {self.room_name}",
+                        (x, y-50), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0, 0, 255), 2)
                     self.check =False
                     self.closeEvent()
                     break

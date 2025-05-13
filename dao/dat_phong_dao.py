@@ -69,8 +69,8 @@ class DatPhongDAO:
     def insert_dat_phong(self, dat_phong):
         try :
             query = "INSERT INTO dat_phong \
-            (booking_id,ngay_bd, ngay_kt, phi_dat_coc, note, phong_id, tien_luc_dat, kh_id) \
-            VALUES (?,?,?, ?, ?, ?, ?, ?)\
+            (booking_id,ngay_bd, ngay_kt, phi_dat_coc, note, phong_id, tien_luc_dat, kh_id,hd_id) \
+            VALUES (?,?,?,?, ?, ?, ?, ?, ?)\
             "
             hoadon = HoaDonDAO()
             params = (
@@ -82,6 +82,7 @@ class DatPhongDAO:
                 dat_phong.phong_id,
                 dat_phong.tien_luc_dat,
                 dat_phong.kh_id,
+                hoadon.get_hoa_don_by_next_id()
             )
             insert_row_data = self.db.execute_query(query, params, return_last_row=True)
             return insert_row_data[0]
@@ -159,5 +160,5 @@ class DatPhongDAO:
 if __name__ == "__main__":
     dao = DatPhongDAO()
     print("Next ID:", dao.get_dat_phong_next_id())
-    for i in range(1,2):
+    for i in range(1,8):
         dao.delete_dat_phong(i)

@@ -27,6 +27,7 @@ class DatPhong2(QtWidgets.QWidget,Ui_datphong2):
     def __init__(self):
         super().__init__()
         self.setupUi(self)
+        self.nv_id=2
         # chỉnh sửa table đẹp hơn
         self.tableviewcustomer.horizontalHeader().setSectionResizeMode(QtWidgets.QHeaderView.ResizeMode.Stretch)
         self.tableviewcustomer.verticalHeader().setVisible(False)
@@ -106,6 +107,9 @@ class DatPhong2(QtWidgets.QWidget,Ui_datphong2):
             QPushButton:hover {
                 background-color: #45a049;
             }""")
+            self.phongs = self.table_phong.get_all_phong()
+
+            self.show_room()
         else:
             self.btn_khachhang.show()
             self.name_khachhang.show()
@@ -137,6 +141,9 @@ class DatPhong2(QtWidgets.QWidget,Ui_datphong2):
             QPushButton:hover {
                 background-color: #45a049;
             }""")
+            self.khachhangs = self.table_khachhang.get_all_khach_hang()
+            self.show_customer()
+            
     def show_customer(self):
         self.tableviewcustomer.clear()
         print(self.khachhangs)
@@ -272,7 +279,7 @@ class DatPhong2(QtWidgets.QWidget,Ui_datphong2):
                 radio_temp.clicked.connect(lambda check,row=row_index,giaphong=giaphongDTO: self.on_radio_room_clicked(row,giaphong))
                 item.setTextAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
                 self.tableviewroom.setItem(row_index, 4, item)  # +1 vì cột đầu là radio
-                item = QTableWidgetItem(str(row_data.tinh_trang_dat_phong))
+                item = QTableWidgetItem(str("Bận" if row_data.tinh_trang_dat_phong else "Trống"))
                 item.setTextAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
                 self.tableviewroom.setItem(row_index, 5, item)  # +1 vì cột đầu là radio
                 item = QTableWidgetItem(str(row_data.tinh_trang_su_dung))
@@ -365,46 +372,51 @@ class DatPhong2(QtWidgets.QWidget,Ui_datphong2):
         days,nights,hours = self.__calculate_time()
         return days*self.__gia.get("ngày")+nights*self.__gia.get("đêm")+hours*self.__gia.get("giờ")
     def submit_datphong(self):
-        index_customer = self.radio_group_customer.checkedId()
-        index_room = self.radio_group_room.checkedId()
-        
+        try:
+            index_customer = self.radio_group_customer.checkedId()
+            index_room = self.radio_group_room.checkedId()
+            
 
-        tinhtrangphong = int(self.tableviewroom.item(index_room,5).text())
-        if tinhtrangphong!=0:
-            QMessageBox.warning(self,"cảnh báo",f"Phòng này đã được sử dụng!")
-            return 
-        if self.start_date.dateTime()>self.end_date.dateTime():
-            QMessageBox.warning(self,"cảnh báo",f"thời gian bắt đầu không được lớn hơn thời gian kết thúc")
-            return
-        if self.start_date.dateTime()<QtCore.QDateTime.currentDateTime():
-            QMessageBox.warning(self,"cảnh báo",f"thời gian bắt đầu phải lớn hơn thòi gian hiện tại")
-            return
-        if index_customer == -1:
-            QMessageBox.warning(self, "Cảnh báo", "Vui lòng chọn một khách hàng")
-            return
-        if index_room == -1:
-            QMessageBox.warning(self, "Cảnh báo", "Vui lòng chọn một phòng")
-            return
-        reply = QMessageBox.question(
-            self,
-            'Xác nhận',
-            f'Bạn có chắc chắn muốn lưu dữ liệu khách hàng?',
-            QMessageBox.StandardButton.Yes | QMessageBox.StandardButton.No,
-            QMessageBox.StandardButton.No
-        )
-        
-        
-        if reply == QMessageBox.StandardButton.No:
-            return
-        id_customer = self.tableviewcustomer.item(index_customer,1).text()
-        id_room = self.tableviewroom.item(index_room,1).text()
-        print(id_customer)
+            tinhtrangphong = 1 if self.tableviewroom.item(index_room,5).text().lower()=="bận" else 0
+            if tinhtrangphong!=0:
+                QMessageBox.warning(self,"cảnh báo",f"Phòng này đã được sử dụng!")
+                return 
+            if self.start_date.dateTime()>self.end_date.dateTime():
+                QMessageBox.warning(self,"cảnh báo",f"thời gian bắt đầu không được lớn hơn thời gian kết thúc")
+                return
+            if self.start_date.dateTime()<QtCore.QDateTime.currentDateTime():
+                QMessageBox.warning(self,"cảnh báo",f"thời gian bắt đầu phải lớn hơn thòi gian hiện tại")
+                return
+            if index_customer == -1:
+                QMessageBox.warning(self, "Cảnh báo", "Vui lòng chọn một khách hàng")
+                return
+            if index_room == -1:
+                QMessageBox.warning(self, "Cảnh báo", "Vui lòng chọn một phòng")
+                return
+            reply = QMessageBox.question(
+                self,
+                'Xác nhận',
+                f'Bạn có chắc chắn muốn lưu dữ liệu khách hàng?',
+                QMessageBox.StandardButton.Yes | QMessageBox.StandardButton.No,
+                QMessageBox.StandardButton.No
+            )
+            
+            if reply == QMessageBox.StandardButton.No:
+                return
+            id_customer = self.tableviewcustomer.item(index_customer,1).text()
+            id_room = self.tableviewroom.item(index_room,1).text()
+            print(id_customer)
+            from dao.hoa_don_dao import HoaDonDAO
+            from dao.ct_dv_dao import ChiTietDVDAO
+            hoadon=HoaDonDAO()
+            ctdv = ChiTietDVDAO()
+            self.table_phong.update_tinh_trang_dat_phong(id_room,1,hoadon.get_hoa_don_by_next_id())
         
         #print(self.start_date.dateTime(),self.end_date.dateTime())
-        try:
+        
             note = self.note.toPlainText()
-            ngay_bd = self.start_date.date().toString()
-            ngay_kt = self.end_date.date().toString()
+            ngay_bd = self.start_date.dateTime().toString()
+            ngay_kt = self.end_date.dateTime().toString()
             phi_dat_coc = self.getphidatcoc()
             tien_luc_dat = self.gettienlucdat()
             datphongtemp = DatPhongDTO(ngay_bd=ngay_bd,
@@ -415,9 +427,15 @@ class DatPhong2(QtWidgets.QWidget,Ui_datphong2):
                         phong_id=id_room,
                         kh_id=id_customer)
             print(datphongtemp)
+            table_ctdv= ChiTietDVDAO()
+            id_hdnext = hoadon.get_hoa_don_by_next_id()
+            id_datphong=self.table_datphong.get_dat_phong_next_id()
             self.table_datphong.insert_dat_phong(dat_phong=datphongtemp)
+            hoadon.insert_hoa_don(HoaDonDTO(hd_id=self.nv_id,dat_phong_id=id_datphong))
             self.resetForm()
             self.on_success("Bạn đã đặt phòng thành công!")
+
+            ctdv.insert_ctdv_by_hdid(id_hdnext)
         except Exception as e:
             print(str(e))
             QMessageBox.critical(self,"lỗi",f"lỗi khi thêm datphong{str(e)}")

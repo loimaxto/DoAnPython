@@ -12,7 +12,11 @@ class ChiTietDVDAO:
 
     def insert_chi_tiet_dv(self, chi_tiet_dv):
         query = "INSERT INTO chi_tiet_dv (hd_id, dv_id, so_luong, gia_luc_dat, tong) VALUES (?, ?, ?, ?, ?)"
-        return self.db.execute_query(query, (chi_tiet_dv.hd_id, chi_tiet_dv.dv_id, chi_tiet_dv.so_luong, chi_tiet_dv.gia_luc_dat, chi_tiet_dv.so_luong * chi_tiet_dv.gia_luc_dat)) is not None
+        return self.db.execute_query(query, 
+        (chi_tiet_dv.hd_id, chi_tiet_dv.dv_id, 
+         chi_tiet_dv.so_luong, 
+         chi_tiet_dv.gia_luc_dat, 
+         chi_tiet_dv.so_luong * chi_tiet_dv.gia_luc_dat)) is not None
 
     def update_chi_tiet_dv(self, chi_tiet_dv):
         query = "UPDATE chi_tiet_dv SET so_luong = ?, gia_luc_dat = ?, tong = ? WHERE hd_id = ? AND dv_id = ?"
@@ -21,6 +25,18 @@ class ChiTietDVDAO:
     def delete_chi_tiet_dv(self, hd_id, dv_id):
         query = "DELETE FROM chi_tiet_dv WHERE hd_id = ? AND dv_id = ?"
         return self.db.execute_query(query, (hd_id, dv_id)) is not None
+    def insert_ctdv_by_hdid(self,hd_id):
+        from dao.dich_vu_dao import DichVuDAO
+        hoadon = DichVuDAO()
+        table_dichvu = hoadon.get_all_DichVu()
+        
+        for i in table_dichvu:
+            query = "INSERT INTO chi_tiet_dv (hd_id, dv_id, so_luong, gia_luc_dat, tong) VALUES (?, ?, ?, ?, ?)"
+            self.db.execute_query(query, 
+            (hd_id, i.dv_id, 
+            0, 
+            i.gia, 
+            0))
 
     def get_all_chi_tiet_dv(self):
         """Gets all chi_tiet_dv data, including ten_dv and gia_dv from dich_vu."""

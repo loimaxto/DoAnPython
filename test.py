@@ -6,7 +6,8 @@ if __name__ == "__main__":
     train_model.train()
     train_model.save(f"recogni_face/trainner/face_{id_customer}.pth")
     
-    test_image_path = "recogni_face/dataset/3/37.2.jpg"
+    test_image_path = "recogni_face/dataset/0/41.2.jpg"
+    
     
     class_name, confidence = train_model.predict(test_image_path)
     if class_name is not None:

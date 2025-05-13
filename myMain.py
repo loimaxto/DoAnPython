@@ -63,7 +63,7 @@ class MainWindow(QtWidgets.QMainWindow,Ui_MainWindow):
         
         # lập trình chuyển trang
         self.ui.nhanVienBtn.clicked.connect(lambda: self.ui.stackedWidget.setCurrentWidget(self.nv_page))
-        self.ui.khachHangBtn.clicked.connect(lambda: self.ui.stackedWidget.setCurrentWidget(self.kh_page))
+        self.ui.khachHangBtn.clicked.connect(lambda : self.ui.stackedWidget.setCurrentWidget(self.kh_page))
         self.ui.datPhongBtn.clicked.connect(lambda: self.ui.stackedWidget.setCurrentWidget(self.dp_page))
         self.ui.dichVuBtn.clicked.connect(lambda: self.ui.stackedWidget.setCurrentWidget(self.dv_page))
         self.ui.phongGiaBtn.clicked.connect(lambda: self.ui.stackedWidget.setCurrentWidget(self.phong_gia_page))

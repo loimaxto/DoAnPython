@@ -9,6 +9,7 @@ from PyQt6.QtWidgets import (QTableWidgetItem, QMessageBox, QRadioButton,
 from view.check_in.checkin_ui import Ui_Checkin
 import sqlite3
 from recogni_face.useModels import FaceRecognitionWidget
+from datetime import datetime
 query_full_khach_hang = "SELECT * FROM khach_hang "
 query_full_room = "SELECT * FROM phong "
 class Checkin(QtWidgets.QWidget, Ui_Checkin):
@@ -90,6 +91,7 @@ class Checkin(QtWidgets.QWidget, Ui_Checkin):
         self.cursor.execute(query,param)
         data = self.cursor.fetchall()
         self.view_room.setRowCount(0)
+
         for row_index, row_data in enumerate(data):
             self.view_room.insertRow(row_index)
             for column_index, item_data in enumerate(row_data):
@@ -98,6 +100,7 @@ class Checkin(QtWidgets.QWidget, Ui_Checkin):
                 item = QTableWidgetItem(str(item_data))
                 item.setTextAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
                 self.view_room.setItem(row_index, column_index, item)
+                
     def find_customer(self,id_room):
         self.show_customer(f"{query_full_khach_hang} kh\
                             JOIN dat_phong dp ON kh.kh_id=dp.kh_id\
@@ -107,7 +110,8 @@ class Checkin(QtWidgets.QWidget, Ui_Checkin):
         self.show_room(f"{query_full_room} ph\
                             JOIN dat_phong dp ON ph.id=dp.phong_id\
                             JOIN khach_hang kh ON kh.kh_id=dp.kh_id\
-                            where kh.kh_id=?",(id_cus,))
+                            where kh.kh_id=? \
+                            order by dp.booking_id limit 1 ",(id_cus,))
     def room_from_name(self,name):
         self.show_room(f"{query_full_room} ph\
                             JOIN dat_phong dp ON ph.id=dp.phong_id\
@@ -136,21 +140,27 @@ class Checkin(QtWidgets.QWidget, Ui_Checkin):
         try:
             # Lấy ID của radio button được chọn (-1 nếu không có radio nào được chọn)
             selected_row = self.radio_group.checkedId()
-            
+            if self.view_room.rowCount()>1:
+                QMessageBox.warning(self, "Cảnh báo", "Bạn nên tìm kiếm khách hàng!")
+                return
             if selected_row == -1:
                 QMessageBox.warning(self, "Cảnh báo", "Vui lòng chọn một khách hàng")
                 return
+            if self.view_room.rowCount()==0:
+                QMessageBox.warning(self, "Cảnh báo", "Khách này chưa có phòng")
+                return
+            
             image_path = customer_id = self.view_customer.item(selected_row, 4).text()
-            if image_path or image_path.lower() == "none":
+            if image_path == "None":
                 QMessageBox.warning(self, "Cảnh báo", "Khách hàng này chưa được train!")
                 return
             # Lấy dữ liệu từ dòng được chọn
             customer_id = self.view_customer.item(selected_row, 1).text()  # Cột ID (index 1)
             customer_name = self.view_customer.item(selected_row, 2).text()  # Cột Họ tên (index 2)
             customer_phone = self.view_customer.item(selected_row, 3).text()  # Cột Số điện thoại (index 3)
-            
+            room_name = self.view_room.item(0,1).text()
             # Hiển thị thông tin khách hàng được chọn
-            self.recognition_face = FaceRecognitionWidget(customer_id)
+            self.recognition_face = FaceRecognitionWidget(customer_id,room_name)
             self.verticalLayout_2.addWidget(self.recognition_face)
             self.recognition_face.show()
             # TODO: Thêm logic check-in ở đây
