@@ -69,4 +69,6 @@ class ChiTietDVDAO:
         
 if __name__ == "__main__":
     dv_dao = ChiTietDVDAO()
-    print(dv_dao.get_chi_tiet_dv_by_hd_id(26))
+    for i in range(1,17):
+        for j in range(1,5):
+            dv_dao.delete_chi_tiet_dv(i,j)

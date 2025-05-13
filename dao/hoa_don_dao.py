@@ -128,5 +128,5 @@ class HoaDonDAO:
 # Example usage (in a separate main.py or similar):
 if __name__ == "__main__":
     dao = HoaDonDAO()
-    for i in range(4,15):
+    for i in range(1,10):
         dao.delete_hoa_don(i)

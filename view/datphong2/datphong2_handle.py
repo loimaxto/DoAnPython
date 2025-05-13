@@ -427,14 +427,15 @@ class DatPhong2(QtWidgets.QWidget,Ui_datphong2):
                         phong_id=id_room,
                         kh_id=id_customer)
             print(datphongtemp)
-            table_ctdv= ChiTietDVDAO()
             id_hdnext = hoadon.get_hoa_don_by_next_id()
             id_datphong=self.table_datphong.get_dat_phong_next_id()
             self.table_datphong.insert_dat_phong(dat_phong=datphongtemp)
-            hoadon.insert_hoa_don(HoaDonDTO(hd_id=self.nv_id,dat_phong_id=id_datphong))
+            hoadon.insert_hoa_don(HoaDonDTO(hd_id=self.nv_id,tong_tien=int(tien_luc_dat-phi_dat_coc),
+                                            thoi_gian=QtCore.QDateTime.currentDateTime().toString(),
+                                            nv_id=self.nv_id,thanh_toan_status=0,dat_phong_id=id_datphong))
             self.resetForm()
             self.on_success("Bạn đã đặt phòng thành công!")
-
+            
             ctdv.insert_ctdv_by_hdid(id_hdnext)
         except Exception as e:
             print(str(e))
